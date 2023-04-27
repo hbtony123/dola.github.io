@@ -1,0 +1,28 @@
+body {
+			text-align: center;
+		}
+
+		.block {
+			display: inline-block;
+			margin-left: 3%;
+			margin-right: 3%;
+			text-align: left;
+		}
+		
+		
+a:visited {
+	color: #999;
+	text-decoration: blink;
+}
+a:link {
+	text-decoration: none;
+	color: #999;
+}
+
+a:hover {
+	color: #F00;
+}		
+
+a:active {
+	color: #0F6;
+}
