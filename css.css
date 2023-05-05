@@ -13,8 +13,12 @@
 	border-bottom-style: none;
 	border-left-style: none;
 	text-align: center;
-	padding: 40%;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	color: #6C6C6C;
 	font-weight: bold;
+	clear: none;
+	width: auto;
+	margin-top: 20%;
+	margin-right: auto;
+	margin-left: auto;
   }
