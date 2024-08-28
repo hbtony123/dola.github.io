@@ -1,23 +1,44 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="首页" />
-<meta name="description" content="首页" />
-<title>首页</title>
-<link href="/template/images/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://example.com/css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 3em;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .container h1 {
+                font-size: 2em;
+            }
+        }
+        @media (max-width: 480px) {
+            .container h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!--上部-->
-<div id="top"><p class="c">2023-5-11 20:45:56  wx：hbtony</p></div>
-<!--导航块-->
-<div id="guide"> <a href="/" class="k_guidename">Dola.CN</a> &gt;&gt; index	</div>
-
-
-<!--调用列表1-->
-
-
-<div id="bottom">  <p class="c">2023-5-11 20:45:56 </p>   </div>
-
+    <div class="container">
+        <h1>你好！</h1>
+<h1>欢迎来到测试页</h1>
+        <p>858866181@qq.com</p>
+    </div>
 </body>
 </html>
