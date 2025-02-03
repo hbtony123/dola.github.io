@@ -103,11 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkCollision(x, y) {
+        const touchBuffer = 10; // 增加触摸检测的缓冲区
         fruits.forEach((fruit, index) => {
             const dx = fruit.x - x;
             const dy = fruit.y - y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < fruit.size) {
+            if (distance < fruit.size + touchBuffer) {
                 fruits.splice(index, 1);
                 createParticles(fruit.x, fruit.y, fruit.color);
                 score += 10;
@@ -130,6 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = event.clientY - rect.top;
         checkCollision(x, y);
     });
+
+    // 添加触摸事件监听器
+    canvas.addEventListener('touchmove', (event) => {
+        event.preventDefault(); // 阻止默认的触摸滚动行为
+        const rect = canvas.getBoundingClientRect();
+        const touch = event.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        checkCollision(x, y);
+    }, { passive: false });
 
     startButton.addEventListener('click', () => {
         gameInfo.style.display = 'none';
