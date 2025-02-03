@@ -1,44 +1,80 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-    <link rel="stylesheet" href="https://example.com/css/main.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页</title>
+    <title>水果切割游戏</title>
     <style>
         body, html {
-            height: 100%;
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0;
+            background-color: #f0f8ff;
         }
-        .container {
+        #gameInfo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            padding: 20px;
+            z-index: 10;
         }
-        .container h1 {
-            font-size: 3em;
+        #gameInfo h1 {
+            font-size: 2.5em;
+            color: #ff6347;
+            margin-bottom: 10px;
+        }
+        #gameInfo p, #gameInfo ul {
+            font-size: 1.2em;
             color: #333;
         }
-        @media (max-width: 768px) {
-            .container h1 {
-                font-size: 2em;
-            }
+        #gameInfo ul {
+            list-style-type: none;
+            padding: 0;
         }
-        @media (max-width: 480px) {
-            .container h1 {
-                font-size: 1.5em;
-            }
+        #gameInfo li {
+            margin: 5px 0;
+        }
+        #startButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #ff6347;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>你好！</h1>
-<h1>欢迎来到测试页</h1>
-        <p>858866181@qq.com</p>
+    <div id="gameInfo">
+        <h1>水果切割游戏</h1>
+        <p>欢迎来到水果切割游戏！在这里，你的目标是切割尽可能多的水果来获得高分。</p>
+        <h2>游戏玩法</h2>
+        <ul>
+            <li>使用鼠标或触摸屏滑动来切割水果。</li>
+            <li>每切割一个水果得分，切割多个水果可以获得连击加分。</li>
+            <li>小心炸弹，切到炸弹会扣分或结束游戏。</li>
+            <li>尽量在时间结束前获得最高分数！</li>
+            <li>858866181@qq.com</li>
+        </ul>
+        <button id="startButton">开始游戏</button>
     </div>
+    <canvas id="gameCanvas"></canvas>
+    <script src="scripts/game.js"></script>
 </body>
-</html>
+</html> 
