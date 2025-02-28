@@ -3,71 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎页面</title>
+    <title>创新空间 | 欢迎</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 全局样式 */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --text-color: #1f2937;
+            --light-text: #f9fafb;
+            --background: #ffffff;
+            --dark-background: #111827;
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
+            background-color: var(--background);
+            color: var(--text-color);
+            overflow-x: hidden;
         }
 
-        .container {
+        .dark-mode {
+            --text-color: #f9fafb;
+            --light-text: #1f2937;
+            --background: #111827;
+            --dark-background: #1f2937;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: -50px;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+
+        .shape:nth-child(5) {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        .content {
             text-align: center;
             max-width: 800px;
-            padding: 2rem;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
         }
 
         h1 {
             font-size: 4rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             opacity: 0;
-            animation: slideUp 1s ease-in-out 1s forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
         }
 
-        .contact {
-            font-size: 1.1rem;
-            padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            display: inline-block;
+        .subtitle {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            opacity: 0.9;
             opacity: 0;
-            animation: fadeIn 1s ease-in-out 2s forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease 0.3s forwards;
         }
 
-        /* 动画效果 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+        @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .primary-button {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .secondary-button:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease 0.9s forwards;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .contact-info {
+            background: rgba(31, 41, 55, 0.5);
+        }
+
+        .contact-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-info i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-color);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.2s forwards;
+        }
+
+        .scroll-indicator p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .scroll-indicator .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--text-color);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            padding-top: 10px;
+        }
+
+        .scroll-indicator .wheel {
+            width: 4px;
+            height: 8px;
+            background-color: var(--text-color);
+            border-radius: 2px;
+            animation: scroll 1.5s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(15px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        section {
+            padding: 6rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .features {
+            background-color: var(--background);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: var(--background);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .feature-card {
+            background: var(--dark-background);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        footer {
+            background-color: var(--dark-background);
+            color: var(--light-text);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-link i {
+            color: var(--light-text);
+            font-size: 1.2rem;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.6;
         }
 
         /* 响应式设计 */
@@ -75,19 +499,198 @@
             h1 {
                 font-size: 2.5rem;
             }
-            p {
-                font-size: 1rem;
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .contact-info {
+                padding: 1rem 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>欢迎来到我的世界</h1>
-        <p>这里是一个充满创意与可能性的空间。我们致力于打造独特而富有意义的体验，期待与您共同探索无限可能。</p>
-        <div class="contact">
-            联系方式：<a href="mailto:hbtony@aliyun.com" style="color: #fff; text-decoration: none;">hbtony@aliyun.com</a>
+    <button class="theme-toggle" aria-label="切换深色/浅色模式">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <div class="background-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
         </div>
-    </div>
+
+        <div class="content">
+            <div class="logo">创新空间</div>
+            <h1>探索无限可能</h1>
+            <p class="subtitle">欢迎来到我们的创意世界，这里是梦想与技术交汇的地方。我们致力于打造卓越的体验，引领未来的发展方向。</p>
+            
+            <div class="cta-container">
+                <a href="#features" class="cta-button primary-button">
+                    <i class="fas fa-rocket"></i> 了解更多
+                </a>
+                <a href="#contact" class="cta-button secondary-button">
+                    <i class="fas fa-paper-plane"></i> 联系我们
+                </a>
+            </div>
+            
+            <div class="contact-info">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:hbtony@aliyun.com">hbtony@aliyun.com</a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <p>向下滚动</p>
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <h2 class="section-title">我们的特色</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3 class="feature-title">创意设计</h3>
+                <p class="feature-description">我们提供独特而富有创意的设计方案，帮助您的品牌脱颖而出，给用户留下深刻印象。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="feature-title">技术创新</h3>
+                <p class="feature-description">采用最前沿的技术和开发方法，确保您的产品具有卓越的性能和用户体验。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="feature-title">增长策略</h3>
+                <p class="feature-description">制定有效的增长策略，帮助您的业务实现可持续发展，达到预期的目标。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">创新空间</div>
+            <p class="footer-text">感谢您的访问，期待与您合作共创美好未来。</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="微信">
+                    <i class="fab fa-weixin"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="微博">
+                    <i class="fab fa-weibo"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            
+            <p class="copyright">&copy; 2023 创新空间. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 深色/浅色模式切换
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        const themeIcon = document.querySelector('.theme-toggle i');
+
+        // 检查本地存储中的主题偏好
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // 更新图标
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察特性卡片
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html> 
