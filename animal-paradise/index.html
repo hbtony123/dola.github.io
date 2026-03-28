@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动物乐园 - 每日惊喜</title>
+  <meta name="description" content="用纯 CSS 绘制的动物世界，每天发现不一样的可爱">
+  <meta name="theme-color" content="#667eea">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23667eea'/><text x='50' y='60' font-size='50' text-anchor='middle' fill='white'>🐾</text></svg>">
+</head>
+<body>
+  <!-- 背景动画 -->
+  <div class="bg-shapes" id="bgShapes"></div>
+
+  <!-- 音乐控制按钮 -->
+  <div class="music-control" id="musicControl" onclick="toggleMusic()">
+    <span>🔇</span>
+  </div>
+
+  <!-- 安装提示 -->
+  <div class="install-pwa" id="installPWA" style="display: none;" onclick="installPWA()">
+    <span>📱 点击安装应用到手机</span>
+  </div>
+
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>🐾 动物乐园</h1>
+      <p>纯 CSS 绘制的奇妙世界 · 每日惊喜</p>
+    </header>
+
+    <!-- 信息面板 -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="icon">📅</div>
+        <div class="label">日期</div>
+        <div class="value" id="currentDate">--</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🕐</div>
+        <div class="label">时间</div>
+        <div class="value" id="currentTime">--</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🌤️</div>
+        <div class="label">天气</div>
+        <div class="value" id="weatherInfo">加载中...</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🐉</div>
+        <div class="label">今日生肖</div>
+        <div class="value" id="zodiacToday">--</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">💭</div>
+        <div class="label">每日名言</div>
+        <div class="value" id="dailyQuote" style="font-size: 0.9rem;">加载中...</div>
+      </div>
+    </div>
+
+    <!-- 主展示区 -->
+    <main class="main-card">
+      <h2 class="animal-title" id="animalName">今日主角：--</h2>
+      <div class="animal-stage" id="animalStage">
+        <!-- CSS 绘制的动物将在这里渲染 -->
+      </div>
+      <div class="animal-info" id="animalInfo">
+        <!-- 动物介绍 -->
+      </div>
+    </main>
+
+    <!-- 控制按钮 -->
+    <div class="controls">
+      <button class="btn btn-primary" onclick="showNextAnimal()">下一只动物 ➜</button>
+      <button class="btn btn-secondary" onclick="toggleAutoPlay()">⏯️ 自动播放</button>
+      <button class="btn btn-secondary" onclick="refreshAll()">🔄 刷新数据</button>
+      <button class="btn btn-secondary" onclick="shareAnimal()">📤 分享</button>
+    </div>
+  </div>
+
+  <!-- 注册 Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker 注册成功:', reg))
+          .catch(err => console.log('Service Worker 注册失败:', err));
+      });
+    }
+
+    // PWA 安装提示
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installPWA').style.display = 'block';
+    });
+
+    async function installPWA() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('用户选择:', outcome);
+      deferredPrompt = null;
+      document.getElementById('installPWA').style.display = 'none';
+    }
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>
