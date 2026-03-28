@@ -3,37 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dola</title>
+  <title>Dola - 简单而美好</title>
   <style>
-    body {
+    * {
       margin: 0;
-      padding: 2rem;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fff;
-      color: #222;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --bg: #f8f9fa;
+      --text: #212529;
+      --accent: #4a6fa5;
+      --highlight: #e6f0ff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      padding: 2rem;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 40%),
+                        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 40%);
     }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 0;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
     h1 {
-      font-size: 3rem;
-      text-align: center;
+      font-size: 3.5rem;
       margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent), #6a8cc5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    p {
-      text-align: center;
+
+    .subtitle {
+      font-size: 1.8rem;
+      opacity: 0.8;
       max-width: 600px;
       margin: 0 auto;
     }
+
+    .content {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 3rem;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, rgba(74,111,165,0.05) 0%, transparent 70%);
+      transform: rotate(30deg);
+    }
+
+    .highlight {
+      background: var(--highlight);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      margin: 2.5rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .highlight p {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #555;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .quote::before,
+    .quote::after {
+      content: '"';
+      font-size: 3rem;
+      color: var(--accent);
+      opacity: 0.3;
+      position: absolute;
+    }
+
+    .quote::before {
+      top: -20px;
+      left: -10px;
+    }
+
+    .quote::after {
+      bottom: -20px;
+      right: -10px;
+    }
+
     .footer {
       text-align: center;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #777;
+      opacity: 0.7;
+      padding-top: 3rem;
+      border-top: 1px solid #eee;
+      font-size: 0.95rem;
     }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        font-size: 1.4rem;
+      }
+      .content {
+        padding: 2rem;
+      }
+      .highlight {
+        padding: 2rem;
+      }
+    }
+
+    /* 优雅的淡入动画 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .content > * {
+      opacity: 0;
+    }
+
+    .content > *:nth-child(1) { animation-delay: 0.1s; }
+    .content > *:nth-child(2) { animation-delay: 0.2s; }
+    .content > *:nth-child(3) { animation-delay: 0.3s; }
   </style>
 </head>
 <body>
-  <h1>Dola</h1>
-  <p>科技与创意的极简表达</p>
-  <div class="footer">© 2026 Dola.cn</div>
+  <div class="container">
+    <header>
+      <h1 class="animate">Dola</h1>
+      <p class="subtitle animate">科技与创意的优雅表达</p>
+    </header>
+
+    <div class="content">
+      <p class="animate">我们相信，真正的创新源于简洁与美感的平衡。Dola 专注于呈现最本质的价值，去除所有不必要的干扰。</p>
+      
+      <div class="highlight animate">
+        <p>让技术服务于人，而非让人适应技术</p>
+      </div>
+
+      <div class="quote animate">
+        <p>在复杂的世界里，简单就是终极的复杂</p>
+      </div>
+    </div>
+
+    <div class="footer animate">
+      © 2026 Dola.cn · 保持简单 · 保持好奇
+    </div>
+  </div>
+
+  <script>
+    // 轻量级滚动动画
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.content > *').forEach(el => {
+        observer.observe(el);
+      });
+    });
+  </script>
 </body>
 </html>
