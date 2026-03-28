@@ -1,500 +1,298 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎来到未来 | Dola.cn</title>
-    <style>
-        :root {
-            --primary-color: #00f2ff;
-            --secondary-color: #0077ff;
-            --accent-color: #ff00aa;
-            --background-color: #040b1a;
-            --text-color: #ffffff;
-            --border-glow: 0 0 10px var(--primary-color);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 119, 255, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            margin-bottom: 4rem;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-            animation-delay: 0.5s;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            box-shadow: var(--border-glow);
-            transform-origin: left;
-            transform: scaleX(0);
-            animation: logoLine 1.5s ease-in-out forwards;
-            animation-delay: 1s;
-        }
-
-        .hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 70vh;
-            position: relative;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-            animation-delay: 0.8s;
-        }
-
-        h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            line-height: 1.6;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 119, 255, 0.4);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            z-index: 1;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
-            z-index: -1;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .cta-button:hover {
-            box-shadow: 0 5px 20px rgba(0, 119, 255, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .cta-button:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 5rem 0;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-            animation-delay: 1.2s;
-        }
-
-        .feature-card {
-            background: rgba(4, 11, 26, 0.7);
-            border: 1px solid rgba(0, 242, 255, 0.1);
-            border-radius: 10px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 119, 255, 0.2);
-            border-color: rgba(0, 242, 255, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .feature-description {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-            animation-delay: 1.5s;
-        }
-
-        .contact {
-            margin-bottom: 2rem;
-        }
-
-        .contact a {
-            color: var(--primary-color);
-            text-decoration: none;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .contact a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background: var(--primary-color);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        .contact a:hover {
-            color: var(--secondary-color);
-        }
-
-        .contact a:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        .copyright {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            box-shadow: 0 0 5px var(--primary-color);
-            animation: float 15s infinite linear;
-        }
-
-        .decorative-line {
-            position: absolute;
-            width: 150px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-            opacity: 0.5;
-        }
-
-        .line-1 {
-            top: 15%;
-            left: 5%;
-            width: 200px;
-            transform: rotate(-20deg);
-            animation: pulseOpacity 4s infinite alternate;
-            animation-delay: 0.5s;
-        }
-
-        .line-2 {
-            top: 60%;
-            right: 10%;
-            width: 150px;
-            transform: rotate(45deg);
-            animation: pulseOpacity 3s infinite alternate;
-            animation-delay: 1s;
-        }
-
-        .circle-decorator {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid var(--primary-color);
-            opacity: 0.2;
-            animation: expand 6s infinite alternate ease-in-out;
-        }
-
-        .circle-1 {
-            top: 20%;
-            left: 80%;
-            width: 200px;
-            height: 200px;
-            animation-delay: 0s;
-        }
-
-        .circle-2 {
-            top: 70%;
-            left: 10%;
-            width: 300px;
-            height: 300px;
-            animation-delay: 2s;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes logoLine {
-            from {
-                transform: scaleX(0);
-            }
-            to {
-                transform: scaleX(1);
-            }
-        }
-
-        @keyframes pulseOpacity {
-            from {
-                opacity: 0.1;
-            }
-            to {
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes expand {
-            from {
-                transform: scale(0.8);
-                opacity: 0.1;
-            }
-            to {
-                transform: scale(1.2);
-                opacity: 0.3;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dola - 探索无限可能</title>
+  <meta name="description" content="欢迎来到 Dola 的世界 - 科技、创意与未来的交汇点">
+  <style>
+    :root {
+      --primary: #00f5ff;
+      --secondary: #7c3aed;
+      --accent: #f472b6;
+      --bg: #0a0a0f;
+      --text: #f8fafc;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: float 15s infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .hero {
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      animation: glow 3s ease-in-out infinite;
+    }
+    
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.3)); }
+      50% { filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.5)); }
+    }
+    
+    .hero p {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+    
+    .daily-quote {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 700px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    
+    .daily-quote blockquote {
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+    
+    .daily-quote cite {
+      color: #94a3b8;
+      font-style: normal;
+      font-size: 1rem;
+    }
+    
+    .date-display {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      animation: fadeInUp 1.4s ease-out;
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--primary);
+      box-shadow: 0 10px 40px rgba(0, 245, 255, 0.1);
+    }
+    
+    .feature-card h3 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .feature-card p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    
+    .contact {
+      text-align: center;
+      margin-top: 3rem;
+      animation: fadeInUp 1.6s ease-out;
+    }
+    
+    .contact a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .contact a:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .daily-quote blockquote { font-size: 1.1rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="decorative-line line-1"></div>
-    <div class="decorative-line line-2"></div>
-    
-    <div class="circle-decorator circle-1"></div>
-    <div class="circle-decorator circle-2"></div>
-    
-    <div class="container">
-        <header>
-            <div class="logo">Dola.cn</div>
-        </header>
-        
-        <main>
-            <section class="hero">
-                <h1>探索未来的编程体验</h1>
-                <p class="subtitle">拥抱下一代智能化开发环境，让 Dola.cn 提升您的工作效率与创造力</p>
-                <a href="#features" class="cta-button">了解更多</a>
-            </section>
-            
-            <section class="features" id="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3 class="feature-title">超越极限</h3>
-                    <p class="feature-description">采用最先进的人工智能技术，让您的开发流程更加智能化、自动化，释放您的创造潜能。</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🔮</div>
-                    <h3 class="feature-title">智能预测</h3>
-                    <p class="feature-description">基于上下文的代码补全和智能建议，提前预测您的编程意图，减少重复工作。</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">闪电速度</h3>
-                    <p class="feature-description">优化的性能架构，确保即使在处理大型项目时也能保持流畅的编辑体验。</p>
-                </div>
-            </section>
-        </main>
-        
-        <footer>
-            <div class="contact">
-                联系我们：<a href="mailto:hbtony@aliyun.com">hbtony@aliyun.com</a>
-            </div>
-            <div class="copyright">
-                &copy; 2026 Dola.cn. 保留所有权利。
-            </div>
-        </footer>
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>Dola</h1>
+      <p>探索科技与创意的无限可能<br>在这里，未来触手可及</p>
+      
+      <div class="date-display" id="dateDisplay"></div>
+      
+      <div class="daily-quote">
+        <blockquote id="quote">"加载中..."</blockquote>
+        <cite id="quoteAuthor"></cite>
+      </div>
     </div>
+    
+    <div class="features">
+      <div class="feature-card">
+        <h3>🚀 创新前沿</h3>
+        <p>探索最新的技术趋势，拥抱未来的可能性</p>
+      </div>
+      <div class="feature-card">
+        <h3>💡 创意无限</h3>
+        <p>每个想法都值得被实现，每个梦想都值得被追逐</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌟 持续成长</h3>
+        <p>每天进步一点点，遇见更好的自己</p>
+      </div>
+    </div>
+    
+    <div class="contact">
+      <p>联系我：<a href="mailto:hbtony@aliyun.com">hbtony@aliyun.com</a></p>
+    </div>
+    
+    <div class="footer">
+      <p>&copy; 2026 Dola.cn. 保留所有权利。</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">每日更新 · 保持好奇 · 拥抱变化</p>
+    </div>
+  </div>
 
-    <script>
-        // 创建粒子效果
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // 随机位置
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                
-                // 随机大小
-                const size = Math.random() * 3 + 1;
-                
-                // 随机动画延迟
-                const delay = Math.random() * 15;
-                
-                // 随机动画持续时间
-                const duration = Math.random() * 10 + 10;
-                
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.animationDuration = `${duration}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        });
+  <script>
+    // 粒子动画
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+      particlesContainer.appendChild(particle);
+    }
 
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+    // 日期显示
+    const dateDisplay = document.getElementById('dateDisplay');
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    dateDisplay.textContent = now.toLocaleDateString('zh-CN', options);
 
-        // 添加鼠标跟随效果
-        document.addEventListener('mousemove', function(e) {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            document.documentElement.style.setProperty('--primary-color', `rgb(${Math.floor(0 + x * 50)}, ${Math.floor(242 - y * 40)}, ${Math.floor(255 - x * 30)})`);
-        });
-    </script>
+    // 每日语录
+    const quotes = [
+      { text: "未来属于那些相信梦想之美的人。", author: "埃莉诺·罗斯福" },
+      { text: "创新区分领导者和追随者。", author: "史蒂夫·乔布斯" },
+      { text: "最好的预测未来的方法是创造它。", author: "彼得·德鲁克" },
+      { text: "科技让不可能变为可能。", author: "未知" },
+      { text: "每一天都是新的开始，抓住它。", author: "未知" },
+      { text: "好奇心是学习的最强动力。", author: "阿尔伯特·爱因斯坦" },
+      { text: "在变化中找到机会，在挑战中发现成长。", author: "未知" }
+    ];
+
+    const today = new Date().getDate();
+    const quote = quotes[today % quotes.length];
+    document.getElementById('quote').textContent = `"${quote.text}"`;
+    document.getElementById('quoteAuthor').textContent = `— ${quote.author}`;
+
+    // 动态背景颜色变化
+    let hue = 0;
+    setInterval(() => {
+      hue = (hue + 0.1) % 360;
+      document.documentElement.style.setProperty('--primary', `hsl(${hue}, 100%, 50%)`);
+    }, 100);
+  </script>
 </body>
-</html> 
+</html>
