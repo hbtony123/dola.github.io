@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>被 127.0.0.1 骗了一整天 — Dola</title>
+<meta name="description" content="用一天时间把 dola.cn 换成新站并接通域名邮箱的实录：每个环节都「看起来成功了」，却没有一个是真的。附可复用的排查方法。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16.html">
+<meta property="og:title" content="被 127.0.0.1 骗了一整天">
+<meta property="og:description" content="每个环节都「看起来成功了」，却没有一个是真的。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 上线实录</p>
+    <h1 data-reveal style="--d:.06s">被 127.0.0.1<br>骗了一整天</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      我们用一天时间，把 dola.cn 从一个准备废弃的旧页面换成现在这个站，顺手给域名接上了邮箱。
+      过程里每一个环节都「看起来成功了」——这是今天最贵的教训。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先说清楚为什么值得写下来：这一天里，我们至少五次收到「成功」的信号——认证成功、命令没报错、页面能打开、
+      配置显示生效——而它们全都不是真的成功。真正花掉时间的地方，不是技术本身，而是<strong>分辨真假</strong>。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>01 · 早上：推倒重来</h2>
+      <p>
+        起因很简单：dola.cn 上那份旧页面早就没人维护，字里行间都是「准备废弃」的气息。于是决定重做——
+        不做通用模板，只做一页能长期活下去的东西：几个页面、一份样式表、没有框架、没有构建步骤，
+        任何人打开源码都能看懂它怎么工作。
+      </p>
+      <p>
+        我们对发布只提了一条要求：一条命令搞定。而且这条命令必须<strong>自己验证结果</strong>，
+        而不是自己宣布成功。这句话说完不到两小时，就被现实打了脸——而且打的正是这句话。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>02 · 中午：一个骗过我的 127.0.0.1</h2>
+      <p>
+        仓库在 GitHub Pages 上。按常理，克隆、提交、推送，是三分钟的事。第一次 <code>git clone</code> 就失败了。
+        查下去发现：这台机器上 <code>github.com</code> 被解析到了 <code>127.0.0.1</code>——本地有个代理在接客。
+      </p>
+      <p>
+        更妙的是，它接得很有礼貌。用 SSH 连上去，它回一句「You've successfully authenticated」：<strong>认证通过</strong>。
+      </p>
+      <p>
+        问题是，我当时手里那把密钥是刚生成的、从没上传到任何地方的。它不可能通过任何真实的验证。
+      </p>
+      <div class="callout">
+        <strong>知识点｜怎么识破「假的成功」</strong><br>
+        拿一把注定不该成功的钥匙去试。如果它也能开门，那这扇门就是假的。
+        我们当时立刻用一把随手生成的密钥复现了同样的「成功」，于是确认这个入口不可信。
+      </div>
+      <p>
+        真入口后来找到了：GitHub 的 SSH-over-443，也就是 <code>ssh.github.com:443</code>。
+        它解析到真实 IP，用机器上早就注册过的那把密钥验证——仍然是「成功」，但这次我们先用 API
+        交叉核对了提交哈希，确认它确实连到了真仓库，才敢继续往下走。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>03 · 下午：0 字节的包</h2>
+      <p>
+        真通道找到了，克隆还是不动。一看本地仓库的 <code>objects/pack</code>：临时文件停在
+        <strong>0 字节</strong>，从头到尾没长过一个字节。可 <code>ls-remote</code> 却能秒回——
+        说明握手没问题，是传数据这一步断了。
+      </p>
+      <p>
+        换成浅克隆 <code>--depth 1</code>：<strong>5 秒</strong>，6.2 MB，完事。
+        仓库里那 3 MB 的音频、几百个历史对象，我们其实一个都不需要。
+      </p>
+      <div class="callout">
+        <strong>知识点｜「命令报错」和「事情没成」是两件事</strong><br>
+        判断发布成功，永远不要只看命令的退出码，要看结果本身。
+        我们后来给自己的做法是：抓取线上首页，和本地文件<strong>逐字比对</strong>。
+      </div>
+      <p>
+        顺带交代：我们自己的发布脚本一开始也犯了这个错。它那句「已上线」判断，检查的是新旧版本里都存在的文字——
+        等于没验证，只是把「没报错」当成了「成功」。改成逐字比对之后，它才真正有资格说话。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>04 · 傍晚：顶点之争</h2>
+      <p>
+        站点上线之后，轮到邮箱。邮箱要能收信，得在 DNS 里放 MX 记录；而 dola.cn 的顶点
+        （也就是 <code>@</code> 本身）当时挂着一条 CNAME。
+      </p>
+      <div class="callout">
+        <strong>知识点｜CNAME 是独占记录</strong><br>
+        同一个名字下，CNAME 不能和 A / MX / TXT 共存——这是 DNS 规范，不是某个服务商的偏好。
+        所以顶点要收信，就得先把 CNAME 换成 A 记录。GitHub Pages 官方对顶点域名的要求，本来也是 4 条 A 记录。
+      </div>
+      <p>
+        换完，邮箱记录一条条加进去：MX 三条、SPF 一条。这时又冒出第二个坑——
+        <code>mail._domainkey.dola.cn</code>（DKIM 该待的地方）查出来指向了 GitHub Pages。
+        原因是我们之前配了一条通配符 <code>*</code> 的 CNAME：通配符会接管所有<strong>没有显式记录</strong>的名字，
+        包括 <code>mail._domainkey</code> 和 <code>_dmarc</code>，于是 DKIM 永远配不上。
+      </p>
+      <p>
+        删掉通配符，这两个名字空了出来，MX 和 SPF 原样还在，站点毫发无伤。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>05 · 晚上：邮箱在收信，却不让我进门</h2>
+      <p>
+        MX 就位之后，我们先做了一次硬验证：直连对方的收信服务器，用 SMTP 协议问一句
+        「这个收件人存在吗」。结果是：
+      </p>
+      <p>
+        <code>hello@dola.cn</code> → <code>250 Rcpt Ok</code>；
+        随手编一个不存在的地址 → <code>554 doesn't exist</code>。
+        一个真、一个假，这才叫验证通过。
+      </p>
+      <p>
+        （第一次这样测的时候，整台服务器把我们拒了——因为我们用的发件人域名没过对方 SPF 校验。
+        换成空发件人 <code>MAIL FROM:&lt;&gt;</code> 就绕过了这一层。）
+      </p>
+      <p>
+        收信没问题。但当我们要以 <code>hello@dola.cn</code> 的身份登录收发时，服务器一律回：
+        <strong>认证失败</strong>。于是一轮现在回想起来有点好笑的排查开始了：换了几种登录名写法、
+        换了两套认证方式、把重置密码的思路都铺好了……所有线索都指向「密码不对」。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>06 · 深夜：一条被忽略的黑名单</h2>
+      <p>
+        最后是翻后台翻出来的。在「访问策略」那一页，安安静静躺着一条谁都没注意的策略：
+        名称「<strong>禁止使用三方客户端</strong>」，类型「黑名单策略」，生效对象「所有用户」，
+        适用客户端「三方客户端」，状态「<strong>开启</strong>」。
+      </p>
+      <p>
+        它开着，就意味着任何第三方邮件客户端都进不来。而服务器给出的报错是「认证失败」——
+        把人稳稳地引向密码那条岔路。
+      </p>
+      <p>关掉它，再登一次：</p>
+      <pre><code>[mail] login OK
+[mail] inbox: 3 messages
+[mail] self-test message sent, waiting 25s for it to arrive...
+[mail] inbox now: 4 messages (was 3)</code></pre>
+      <p>密码从头到尾都是对的。</p>
+      <div class="callout">
+        <strong>知识点｜认证失败 ≠ 密码错</strong><br>
+        认证失败只说明「这个组合没通过」。原因可能是密码、可能是策略、可能是 IP 限制。
+        建议的排查顺序是：先看服务端的策略开关，再怀疑凭据——改密码是成本最高、也最容易白改的那一步。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.48s">
+      <h2>07 · 今天最值钱的一课</h2>
+      <p>
+        到深夜，该到位的都到位了：站点一条命令发布、域名解析干净、邮箱能收能发、凭据加密存在本机。
+        但真正值得记下来的是另一件事。
+      </p>
+      <table>
+        <caption>一天里的「假成功」与真正的证据</caption>
+        <thead>
+          <tr><th>看起来成功了</th><th>真正的证据</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SSH 提示「认证成功」</td><td>用一把不该成功的密钥试一次</td></tr>
+          <tr><td>克隆命令跑完了</td><td>数据包真的从 0 字节长起来</td></tr>
+          <tr><td>发布脚本说「已上线」</td><td>线上首页与本地文件逐字一致</td></tr>
+          <tr><td>邮箱记录「添加成功」</td><td>向权威服务器查 MX / SPF 真的在</td></tr>
+          <tr><td>收件人地址可用</td><td>同域下编一个不存在的地址会怎样</td></tr>
+          <tr><td>后台显示一切正常</td><td>报文里没有一条「禁止三方客户端」</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>「看起来成功了」是今天最贵的假象。</strong>
+        要拆穿它，办法只有一个：找一个能区分真假的证据。能反证、能对照、能自己复现的，才算数。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.52s">
+      文中出现的记录值、报错原文和命令输出都真实发生过；发布流程已经沉淀成一条命令，随时可以复跑。
+      <a href="../notes.html">← 回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

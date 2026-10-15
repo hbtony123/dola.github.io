@@ -9,6 +9,7 @@ index.html      首页
 works.html      作品
 notes.html      笔记
 about.html      关于
+notes/          长文（笔记区里带「读全文」的文章）
 assets/style.css  全部样式（含深色模式）
 assets/favicon.svg
 robots.txt / sitemap.xml

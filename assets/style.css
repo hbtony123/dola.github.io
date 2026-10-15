@@ -294,6 +294,58 @@ h1 {
 .prose p:last-child { margin-bottom: 0; }
 .prose a { color: var(--accent); text-underline-offset: 3px; }
 
+.prose pre {
+  margin: 0 0 1.2em;
+  padding: 16px 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.prose pre code {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--body);
+  white-space: pre;
+}
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  color: var(--text);
+  background: var(--accent-soft);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.4em;
+  font-size: 0.94rem;
+}
+.prose table caption {
+  text-align: left;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding-bottom: 10px;
+}
+.prose table th,
+.prose table td {
+  text-align: left;
+  padding: 10px 14px 10px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.7;
+}
+.prose table th {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.prose table td { color: var(--body); }
+.prose table tr:last-child td { border-bottom: 0; }
+
 .section { margin-top: clamp(34px, 6vh, 52px); }
 .section h2 {
   margin: 0 0 14px;
