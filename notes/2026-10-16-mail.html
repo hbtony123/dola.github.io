@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>邮箱在收信，却不让我进门 — Dola</title>
+<meta name="description" content="MX 配好、收信验证通过，可客户端登录一律「认证失败」。真相是后台一条谁都没注意的黑名单策略。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-mail.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-mail.html">
+<meta property="og:title" content="邮箱在收信，却不让我进门">
+<meta property="og:description" content="认证失败 ≠ 密码错。排查顺序应该是：先看策略，再怀疑凭据。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 上线实录 ③ / ④ · 邮箱</p>
+    <h1 data-reveal style="--d:.06s">邮箱在收信，<br>却不让我进门</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      记录配好了，收信也验证过了。可轮到我自己用这个身份收发时，
+      服务器一律回：认证失败。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>先证明它真的能收信</h2>
+      <p>
+        记录就位之后，我没有急着登录，而是做了一次硬验证：直连对方的收信服务器，
+        用 SMTP 协议问一句「这个收件人存在吗」。结果是：
+      </p>
+      <p>
+        <code>hello@dola.cn</code> → <code>250 Rcpt Ok</code>；
+        随手编一个同域下不存在的地址 → <code>554 doesn't exist</code>。
+      </p>
+      <p>
+        一个真、一个假，这才叫验证通过。如果两个地址都回 250，那说明这台服务器「什么都收」，
+        这个测试就毫无意义——对照组才是它的价值所在。
+      </p>
+      <p>
+        （第一次这样测的时候，整台服务器把我们拒了：我们用的发件人域名没过对方的 SPF 校验。
+        换成空发件人 <code>MAIL FROM:&lt;&gt;</code> 就绕过了这一层。）
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>然后就卡住了</h2>
+      <p>
+        收信没问题。但当我以 <code>hello@dola.cn</code> 的身份登录收发时，服务器一律回「认证失败」。
+        于是开始了一轮现在回想有点好笑的排查：
+      </p>
+      <p>
+        换了几种登录名写法（完整邮箱、只写前缀、账号名）、换了两套认证方式（LOGIN 和 PLAIN）、
+        把重置密码的思路都铺好了。所有线索都指向「密码不对」。
+      </p>
+      <p>
+        我甚至一度怀疑是免费版不支持第三方客户端，专门去翻官方文档——文档明确写着支持，
+        还配了一堆客户端的配置教程。方向又断了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>真相在一个没人看的页面里</h2>
+      <p>最后是翻后台翻出来的。在「访问策略」那一页，安安静静躺着一条谁都没注意的策略：</p>
+      <p>
+        名称「<strong>禁止使用三方客户端</strong>」、类型「黑名单策略」、生效对象「<strong>所有用户</strong>」、
+        适用客户端「三方客户端」、状态「<strong>开启</strong>」。
+      </p>
+      <p>
+        它开着，就意味着任何第三方邮件客户端都进不来——而服务器给出的报错是「认证失败」，
+        把人稳稳地引向密码那条岔路。
+      </p>
+      <p>关掉它，再登一次：</p>
+      <pre><code>[mail] login OK
+[mail] inbox: 3 messages
+[mail] self-test message sent, waiting 25s for it to arrive...
+[mail] inbox now: 4 messages (was 3)</code></pre>
+      <p>密码从头到尾都是对的。</p>
+      <div class="callout">
+        <strong>知识点｜认证失败 ≠ 密码错</strong><br>
+        认证失败只说明「这个组合没通过」。原因可能是密码、可能是策略、可能是 IP 限制。
+        建议的排查顺序是：<strong>先看服务端的策略开关，再怀疑凭据</strong>——
+        改密码是成本最高、也是最容易白改的那一步。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.32s">
+      《上线实录》连载：<a href="2026-10-16-deploy.html">① 部署通道</a> ·
+      <a href="2026-10-16-dns.html">② 域名解析</a> · <strong>③ 邮箱</strong> ·
+      <a href="2026-10-16-verify.html">④ 方法论</a>
+      —— 最后一篇收个尾：为什么这一天会被「成功」骗到那么多次。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

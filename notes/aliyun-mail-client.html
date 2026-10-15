@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>阿里邮箱免费版：让第三方客户端登进去 — Dola</title>
+<meta name="description" content="收信正常、客户端却一律「认证失败」——按这个顺序排查四项配置，就能找到真凶。附可复制的解析记录和验证方法。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/aliyun-mail-client.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/aliyun-mail-client.html">
+<meta property="og:title" content="阿里邮箱免费版：让第三方客户端登进去">
+<meta property="og:description" content="认证失败不一定是密码错：一份按顺序排查的完整记录。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 解法 · 邮箱</p>
+    <h1 data-reveal style="--d:.06s">阿里邮箱免费版：<br>让第三方客户端登进去</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      收信完全正常，客户端却一律回「认证失败」。我们按顺序排查了四项配置才找到真凶——
+      这份记录可以帮你少走那几圈。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>先要有的解析记录</h2>
+      <table>
+        <thead><tr><th>名字</th><th>类型</th><th>值</th></tr></thead>
+        <tbody>
+          <tr><td><code>@</code></td><td>MX ×3</td><td><code>mx1.qiye.aliyun.com</code>(5)、<code>mx2</code>(10)、<code>mx3</code>(15)</td></tr>
+          <tr><td><code>@</code></td><td>TXT</td><td><code>v=spf1 include:spf.qiye.aliyun.com -all</code></td></tr>
+          <tr><td><code>mail</code> / <code>smtp</code> / <code>imap</code> / <code>pop3</code></td><td>CNAME</td><td>指向对应的 <code>qiye.aliyun.com</code> 主机</td></tr>
+        </tbody>
+      </table>
+      <p>
+        客户端地址：IMAP <code>imap.qiye.aliyun.com:993</code>（SSL）、
+        SMTP <code>smtp.qiye.aliyun.com:465</code>（SSL）、POP3 <code>pop.qiye.aliyun.com:995</code>（SSL）。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>排查顺序：从最容易被忽略的开始</h2>
+      <p><strong>第一项，访问策略。</strong>管理后台的「访问策略」页面里，看有没有一条黑名单策略叫
+        「禁止使用三方客户端」，生效对象是「所有用户」。<strong>我们踩的就是这个</strong>——
+        它开着的时候，任何第三方客户端都进不来，而服务器给出的报错是「认证失败」，
+        把人稳稳地引向密码那条岔路。</p>
+      <p><strong>第二项，客户端服务开关。</strong>「客户端」一栏里的 POP3 / IMAP / SMTP 三个开关，
+        确认都是「允许」。默认一般是开的，但如果被关过，症状完全一样。</p>
+      <p><strong>第三项，「强制启用安全密码」。</strong>如果它是开启状态，客户端就必须用
+        「安全密码」那一栏里生成过的专用密码，主密码会被拒。顺便看一眼那张表里有没有记录——
+        空着说明从来没生成过。</p>
+      <p><strong>第四项，才是密码本身。</strong>前三项都没问题，再去重置密码。
+        注意别勾「要求下次登录修改密码」，否则客户端在改密前仍然连不上。</p>
+      <div class="callout">
+        <strong>知识点｜认证失败 ≠ 密码错</strong><br>
+        认证失败只说明「这个组合没通过」。可能是密码、策略、IP 限制。
+        先查服务端策略，再怀疑凭据——改密码是成本最高、也最容易白改的那一步。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>怎么验证「这个地址真的能收信」</h2>
+      <p>
+        不用真发一封邮件：直接连对方收信服务器的 25 端口，走完 EHLO 之后只用
+        <code>RCPT TO</code> 问一句收件人是否存在，然后断开。
+      </p>
+      <pre><code>EHLO mail.example.com
+MAIL FROM:&lt;&gt;          # 空发件人，可以跳过 SPF 校验
+RCPT TO:&lt;你的地址&gt;     # 250 = 存在；554 = 不存在
+QUIT</code></pre>
+      <p>
+        关键是<strong>加一个对照</strong>：同域下编一个不存在的地址再问一次。
+        如果它回 554，而你的地址回 250，这才叫验证通过；两个都回 250，说明这台服务器什么都收。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>想要现成的脚本</h2>
+      <p>
+        上面那段 RCPT 验证，我们写成了一个可以直接跑的小脚本：
+        <a href="../tools/mail-check.ps1">tools/mail-check.ps1</a>。
+        它会自动查 MX、问一次真实地址、再用一个随机地址做对照，最后给出明确结论（有效 / 无效 / 无法判定）。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>已知限制</h2>
+      <p>
+        阿里邮箱免费版不提供 DKIM 记录。收信不受影响，但用这个域名主动发信到 Gmail 这类严格的服务时，
+        进垃圾箱的概率会高一些。要治它只能升级付费版或换服务商。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      排查的完整经过：<a href="2026-10-16-mail.html">《上线实录 ③ 邮箱在收信，却不让我进门》</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

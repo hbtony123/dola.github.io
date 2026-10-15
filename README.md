@@ -9,7 +9,10 @@ index.html      首页
 works.html      作品
 notes.html      笔记
 about.html      关于
-notes/          长文（笔记区里带「读全文」的文章）
+notes/          长文与解法文（笔记区里带「读全文」的文章）
+guide/          Codex 使用指南（单文件长文，独立视觉）
+tools/          可以直接下载的小工具脚本
+404.html        找不到页面时的落地页
 assets/style.css  全部样式（含深色模式）
 assets/favicon.svg
 robots.txt / sitemap.xml
@@ -76,6 +79,23 @@ powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
 
 邮箱：`hello@dola.cn`，阿里邮箱免费版，管理员账号 `codex`。
 免费版不提供 DKIM 记录，所以主动发信到 QQ / Gmail 有进垃圾箱的风险，收信不受影响。
+
+## 运营与数据
+
+- **最省事的统计**：GitHub 仓库自带的流量面板（仓库 → Insights → Traffic），不用装任何东西，
+  能看最近 14 天的访问量与来源站，登录即用。先看这个就够。
+- **要看页面级数据**，再任选一种（都需要注册账号，注册后把那段脚本贴到各页 `</head>` 前，再跑一次 `deploy.ps1`）：
+  Cloudflare Web Analytics（免费、不采集个人信息，最贴合本站调性）、百度统计（国内数据最全）、
+  GoatCounter / Umami（开源，可自建）。
+- **提交搜索引擎**（一次性，都需要账号）：
+  - Google Search Console：添加「网址前缀」资源 `https://dola.cn/`，把验证文件放进站点根目录
+    （`deploy.ps1` 会一起发布，记得把文件名加进 `$Sync`），然后提交 `sitemap.xml`
+  - Bing Webmaster：可直接从 GSC 导入，同样提交 sitemap
+  - 百度搜索资源平台：添加站点 → 文件或 CNAME 验证 → 提交 sitemap
+- **订阅入口**：站上「发信到 hello@dola.cn，主题写订阅」。读者来信用 `mail.ps1 -Action inbox` 读，
+  回信用 `-Action send`。
+- **分发**：内容去 V2EX（分享创造）、掘金、知乎、少数派；英文版投 Hacker News。
+  别整篇复制——按平台改写标题和开头，读者不同，重复内容对自己也没好处。
 
 ## 待办
 

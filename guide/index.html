@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 使用指南 · Dola</title>
+<meta name="description" content="一份写给中文使用者的 Codex 手册：从安装、配置到权限、自动化与提问技巧，尽量说人话，不堆术语。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/guide/">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --bg-soft: #eef1f6;
+    --panel: #ffffff;
+    --text: #1a2130;
+    --muted: #6b788c;
+    --border: #e6eaf0;
+    --accent: #4a6fa5;
+    --accent-soft: rgba(74, 111, 165, 0.10);
+    --accent-2: #6f8fc4;
+    --warn: #b45309;
+    --warn-soft: rgba(180, 83, 9, 0.10);
+    --danger: #c0392b;
+    --danger-soft: rgba(192, 57, 43, 0.10);
+    --code-bg: #f1f4f8;
+    --code-border: #e2e8f0;
+    --shadow: 0 1px 2px rgba(23, 32, 53, 0.04), 0 20px 44px -28px rgba(23, 32, 53, 0.30);
+    --radius: 14px;
+    --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, "Courier New", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  }
+  html[data-theme="dark"] {
+    --bg: #0b0f16;
+    --bg-soft: #101725;
+    --panel: #121826;
+    --text: #e9eef7;
+    --muted: #94a2b7;
+    --border: #212b3b;
+    --accent: #8fb3e8;
+    --accent-soft: rgba(143, 179, 232, 0.12);
+    --accent-2: #a8c4ee;
+    --warn: #e0a458;
+    --warn-soft: rgba(224, 164, 88, 0.12);
+    --danger: #f0736a;
+    --danger-soft: rgba(240, 115, 106, 0.12);
+    --code-bg: #0f1521;
+    --code-border: #24303f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 54px -30px rgba(0, 0, 0, 0.70);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+      --bg: #0b0f16;
+      --bg-soft: #101725;
+      --panel: #121826;
+      --text: #e9eef7;
+      --muted: #94a2b7;
+      --border: #212b3b;
+      --accent: #8fb3e8;
+      --accent-soft: rgba(143, 179, 232, 0.12);
+      --accent-2: #a8c4ee;
+      --warn: #e0a458;
+      --warn-soft: rgba(224, 164, 88, 0.12);
+      --danger: #f0736a;
+      --danger-soft: rgba(240, 115, 106, 0.12);
+      --code-bg: #0f1521;
+      --code-border: #24303f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 54px -30px rgba(0, 0, 0, 0.70);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-size: 16px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  code, pre, kbd { font-family: var(--mono); }
+
+  .progress-track { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; }
+  .progress-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.1s linear; }
+
+  header.topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner { max-width: 1240px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 14px; }
+  .back-home { display: inline-flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 13.5px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: color 0.2s ease; }
+  .back-home:hover { color: var(--text); }
+  .back-home svg { width: 18px; height: 18px; color: var(--accent); flex: none; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; font-size: 15px; }
+  .brand svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+  .brand small { color: var(--muted); font-weight: 400; font-size: 12px; }
+  .topbar-spacer { flex: 1; }
+  .icon-btn {
+    display: inline-flex; align-items: center; gap: 7px; font: inherit; font-size: 13px;
+    color: var(--text); background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 7px 11px; cursor: pointer;
+  }
+  .icon-btn:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+  .icon-btn svg { width: 15px; height: 15px; }
+  #menuBtn { display: none; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 40px; }
+  nav.toc { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding: 26px 0 40px; }
+  nav.toc p { margin: 0 0 10px; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  nav.toc a { display: flex; gap: 9px; align-items: baseline; padding: 6px 10px; margin: 1px 0; border-radius: 9px; text-decoration: none; font-size: 13.5px; color: var(--muted); }
+  nav.toc a:hover { color: var(--text); background: var(--bg-soft); }
+  nav.toc a.active { color: var(--text); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a .num { font-family: var(--mono); font-size: 11px; color: color-mix(in srgb, var(--muted) 75%, transparent); }
+
+  main { padding: 34px 0 90px; min-width: 0; }
+  section { padding-bottom: 34px; }
+  section + section { border-top: 1px solid var(--border); padding-top: 34px; }
+  h1 { font-size: clamp(28px, 4.4vw, 40px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.02em; }
+  h2 { font-size: 22px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 .idx { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-right: 10px; font-weight: 500; }
+  h3 { font-size: 16px; margin: 26px 0 8px; }
+  p { margin: 10px 0; }
+  .lede { font-size: 17px; color: var(--muted); max-width: 70ch; }
+  .sub { color: var(--muted); font-size: 14px; margin-top: 0; }
+
+  .hero { padding: 40px 0 30px; border-bottom: 1px solid var(--border); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+  .chips li { font-size: 12.5px; color: var(--muted); border: 1px solid var(--border); background: var(--panel); border-radius: 999px; padding: 5px 12px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; text-decoration: none; cursor: pointer; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); color: var(--text); }
+  .btn svg { width: 15px; height: 15px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
+  html[data-theme="dark"] .btn.primary { color: #06231a; }
+  .btn:hover { transform: translateY(-1px); }
+
+  .note { display: flex; gap: 12px; align-items: flex-start; border-radius: var(--radius); padding: 14px 16px; margin: 20px 0 4px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); font-size: 14px; }
+  .note.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+  .note.danger { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+  .note svg { width: 17px; height: 17px; flex: none; margin-top: 4px; color: var(--accent); }
+  .note.warn svg { color: var(--warn); }
+  .note.danger svg { color: var(--danger); }
+  .note p { margin: 0; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 14px; margin: 20px 0 6px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 16px 18px; }
+  .card h3 { margin: 10px 0 6px; font-size: 15px; }
+  .card p { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .card .kicker { font-family: var(--mono); font-size: 11.5px; color: var(--accent); }
+  .card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .card .ico svg { width: 17px; height: 17px; }
+
+  .code { position: relative; margin: 14px 0; border: 1px solid var(--code-border); border-radius: 12px; background: var(--code-bg); overflow: hidden; }
+  .code-head { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 14px; border-bottom: 1px solid var(--code-border); font-size: 11.5px; color: var(--muted); font-family: var(--mono); }
+  .code-head .grow { flex: 1; }
+  .code-head button { font: inherit; font-family: var(--sans); font-size: 11.5px; color: var(--muted); background: transparent; border: 1px solid var(--code-border); border-radius: 7px; padding: 3px 9px; cursor: pointer; }
+  .code-head button:hover { color: var(--text); border-color: var(--accent); }
+  .code pre { margin: 0; padding: 13px 15px; overflow-x: auto; font-size: 13px; line-height: 1.65; }
+  .code pre code { white-space: pre; }
+  .cmt { color: color-mix(in srgb, var(--muted) 92%, transparent); }
+  .kw { color: var(--accent-2); }
+  .str { color: var(--accent); }
+  kbd { font-size: 12px; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-soft); color: var(--text); }
+  code:not(pre code) { font-size: 13px; padding: 1.5px 6px; border-radius: 6px; background: var(--bg-soft); border: 1px solid var(--border); }
+
+  .steps { list-style: none; margin: 22px 0 0; padding: 0; }
+  .steps li { position: relative; padding: 0 0 22px 46px; }
+  .steps li::before { content: attr(data-step); position: absolute; left: 0; top: 1px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+  .steps li::after { content: ""; position: absolute; left: 14px; top: 32px; bottom: 4px; width: 1px; background: var(--border); }
+  .steps li:last-child { padding-bottom: 0; }
+  .steps li:last-child::after { display: none; }
+  .steps h3 { margin: 2px 0 4px; font-size: 15.5px; }
+  .steps p { margin: 4px 0; font-size: 14px; color: var(--muted); }
+
+  .table-wrap { margin: 18px 0 6px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; background: var(--bg-soft); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+  td.cmd { font-family: var(--mono); font-size: 12.8px; white-space: nowrap; }
+  td.cmd code { background: transparent; border: 0; padding: 0; font-size: 12.8px; }
+  td.desc { color: var(--muted); }
+  .filter-row { display: flex; align-items: center; gap: 10px; margin: 16px 0 0; flex-wrap: wrap; }
+  .filter-row input { font: inherit; font-size: 13.5px; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; min-width: 220px; flex: 1; max-width: 340px; }
+  .filter-row .count { font-size: 12.5px; color: var(--muted); }
+  .empty-row td { text-align: center; color: var(--muted); padding: 22px; }
+
+  .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 22px 0 6px; }
+  .flow-step { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 13px; position: relative; }
+  .flow-step .n { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .flow-step h3 { margin: 7px 0 5px; font-size: 14px; }
+  .flow-step p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .flow-step::after { content: ""; position: absolute; right: -10px; top: 50%; width: 10px; height: 1px; background: var(--border); }
+  .flow-step:last-child::after { display: none; }
+  .who { display: inline-block; font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 18px 0 4px; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .panel h3 { margin: 0 0 8px; font-size: 14.5px; }
+  .panel ul { margin: 6px 0 0; padding-left: 20px; font-size: 13.8px; color: var(--muted); }
+  .panel li { margin: 5px 0; }
+  .panel li strong { color: var(--text); font-weight: 600; }
+  ul.plain { margin: 12px 0; padding-left: 20px; }
+  ul.plain li { margin: 7px 0; }
+  .badge { display: inline-block; font-family: var(--mono); font-size: 11.5px; border-radius: 6px; padding: 1px 7px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--muted); }
+  .badge.ok { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: var(--accent-soft); }
+  .badge.bad { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, transparent); background: var(--danger-soft); }
+
+  .compare { display: grid; gap: 12px; margin: 18px 0 4px; }
+  .compare-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .compare-row .tag { font-size: 12px; text-align: right; color: var(--muted); border-right: 2px solid var(--border); padding: 4px 12px 4px 0; }
+  .compare-row.good .tag { color: var(--accent); border-color: var(--accent); }
+  .compare-row .say { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 11px 14px; font-size: 14px; }
+  .compare-row.good .say { border-color: color-mix(in srgb, var(--accent) 32%, var(--border)); background: var(--accent-soft); }
+  .compare-row .note-line { color: var(--muted); font-size: 12.8px; margin-top: 6px; }
+
+  details { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 0 16px; margin: 10px 0; }
+  details summary { cursor: pointer; padding: 13px 0; font-size: 14.5px; font-weight: 500; list-style: none; display: flex; align-items: center; gap: 9px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "+"; font-family: var(--mono); color: var(--accent); font-size: 15px; width: 12px; }
+  details[open] summary::before { content: "\2013"; }
+  details .answer { padding: 12px 0 15px 21px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--border); }
+  details .answer p { margin: 0 0 8px; }
+  details .answer p:last-child { margin-bottom: 0; }
+
+  footer { border-top: 1px solid var(--border); background: var(--bg-soft); }
+  .footer-inner { max-width: 1240px; margin: 0 auto; padding: 26px 20px 40px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 14px 26px; align-items: flex-start; }
+  .footer-inner a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .footer-inner a:hover { border-color: var(--accent); }
+
+  .to-top { position: fixed; right: 22px; bottom: 22px; z-index: 40; width: 40px; height: 40px; border-radius: 50%; display: none; place-items: center; background: var(--panel); border: 1px solid var(--border); box-shadow: var(--shadow); color: var(--text); cursor: pointer; }
+  .to-top.show { display: grid; }
+  .to-top svg { width: 17px; height: 17px; }
+
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    #menuBtn { display: inline-flex; }
+    nav.toc { position: fixed; z-index: 45; top: 0; left: 0; bottom: 0; width: 268px; max-height: none; padding: 22px 18px 40px; background: var(--panel); border-right: 1px solid var(--border); overflow-y: auto; transform: translateX(-102%); transition: transform 0.22s ease; box-shadow: var(--shadow); }
+    body.nav-open nav.toc { transform: none; }
+    body.nav-open::after { content: ""; position: fixed; inset: 0; z-index: 44; background: rgba(0,0,0,0.35); }
+    .flow { grid-template-columns: 1fr 1fr; }
+    .flow-step::after { display: none; }
+  }
+  @media (max-width: 620px) {
+    body { font-size: 15.5px; }
+    .flow { grid-template-columns: 1fr; }
+    .compare-row { grid-template-columns: 1fr; gap: 6px; }
+    .compare-row .tag { text-align: left; border-right: 0; border-left: 2px solid var(--border); padding: 0 0 0 10px; }
+    .compare-row.good .tag { border-color: var(--accent); }
+    .steps li { padding-left: 40px; }
+    .hero { padding-top: 26px; }
+  }
+  @media print {
+    header.topbar, nav.toc, .to-top, .progress-track, .hero-actions, .filter-row { display: none !important; }
+    body { background: #fff; color: #000; }
+    .wrap { grid-template-columns: 1fr; max-width: none; }
+    section, details { break-inside: avoid; }
+    details > .answer { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-track" aria-hidden="true"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="back-home" href="../index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+        <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+        <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+      </svg>
+      <span>Dola</span>
+    </a>
+    <button class="icon-btn" id="menuBtn" aria-label="打开目录" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      目录
+    </button>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 8.5 3 12l5.5 3.5"/><path d="M15.5 8.5 21 12l-5.5 3.5"/><path d="M13.5 4l-3 16"/></svg>
+      <span>Codex 使用指南 <small>· codex-cli 0.162.1</small></span>
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="icon-btn" id="themeBtn" aria-label="切换深色模式">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></svg>
+      <span id="themeLabel">浅色</span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc" id="toc" aria-label="页面目录">
+    <p>目录</p>
+    <a href="#what"><span class="num">01</span>Codex 是什么</a>
+    <a href="#start"><span class="num">02</span>快速开始</a>
+    <a href="#loop"><span class="num">03</span>协作循环</a>
+    <a href="#safety"><span class="num">04</span>权限与沙箱</a>
+    <a href="#commands"><span class="num">05</span>命令速查</a>
+    <a href="#slash"><span class="num">06</span>会话内指令</a>
+    <a href="#exec"><span class="num">07</span>非交互与自动化</a>
+    <a href="#configure"><span class="num">08</span>配置与扩展</a>
+    <a href="#prompting"><span class="num">09</span>怎么提问更有效</a>
+    <a href="#practice"><span class="num">10</span>实践原则</a>
+    <a href="#faq"><span class="num">11</span>常见问题</a>
+    <a href="#source"><span class="num">12</span>资料与版本</a>
+  </nav>
+
+  <main>
+
+    <div class="hero" id="top">
+      <h1>Codex 使用指南</h1>
+      <p class="lede">Codex 是一个能真正动手干活的编程智能体：你用自然语言说清目标，它会读代码、改文件、跑命令，再把改动以 diff 的形式交给你审阅。这份指南从安装讲到高效协作，内容按本机安装的 Codex 实际命令核对整理，可离线查看。</p>
+      <ul class="chips">
+        <li>终端 · 编辑器 · 桌面 · 云端</li>
+        <li>基于 codex-cli 0.162.1 核对</li>
+        <li>附可复制的命令示例</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn primary" href="#start">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          从快速开始读起
+        </a>
+        <a class="btn" href="#commands">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M9 9l3 3-3 3M13.5 15H15"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg>
+          直接查命令
+        </a>
+      </div>
+    </div>
+
+    <section id="what" style="padding-top:34px">
+      <h2><span class="idx">01</span>Codex 是什么</h2>
+      <p class="lede">一句话：把"要做的事"说清楚，剩下的读代码、写代码、跑测试、看报错，它自己循环完成，然后请你验收。</p>
+      <p>它和代码补全不一样。补全工具猜你下一行想写什么；Codex 接受的是一个任务——"把支付回调的重复逻辑抽出来并补测试"——并自己决定读哪些文件、改哪些地方、跑什么命令来证明改对了。每一次改动都留在 Git 里，以 diff 的形式等你确认。</p>
+      <div class="cards">
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l4-4 12 12-4 4z"/><path d="M8 3L3 8l3 3 5-5z"/></svg></div>
+          <div class="kicker">codex</div>
+          <h3>终端 CLI</h3>
+          <p>最直接的方式。在项目目录里敲 <code>codex</code>，进入交互式会话，命令在本机沙箱内执行。</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></div>
+          <div class="kicker">IDE</div>
+          <h3>编辑器内</h3>
+          <p>在编辑器里贴着代码工作，改动与 diff 并排显示，适合逐处精修。</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="kicker">codex app</div>
+          <h3>桌面应用</h3>
+          <p>面向规划、审阅和多任务并行：一边跑任务，一边看改动、预览页面、审阅 diff。</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.5 3.5 0 0117 16z"/><path d="M12 12v6M9.5 15.5L12 18l2.5-2.5"/></svg></div>
+          <div class="kicker">codex cloud</div>
+          <h3>云端任务</h3>
+          <p>把任务交给远端环境执行，完成后用 <code>codex cloud</code> 浏览结果并把补丁取回本地。</p>
+        </div>
+      </div>
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <p><strong>关于本页的来源。</strong>命令清单、参数取值与说明文字均取自本机 codex-cli 0.162.1 的帮助输出，未凭印象编写。功能会持续增加，正式使用时请以 <code>codex --help</code> 与你所在团队的配置约束为准。</p>
+      </div>
+    </section>
+
+    <section id="start">
+      <h2><span class="idx">02</span>快速开始</h2>
+      <p class="sub">从零到第一条任务，五步。</p>
+      <ol class="steps">
+        <li data-step="1">
+          <h3>安装</h3>
+          <p>通过 npm 全局安装命令行版本，或者安装桌面应用（<code>codex app</code> 在缺失时会打开安装程序）。</p>
+          <div class="code">
+            <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
+            <pre><code>npm install -g @openai/codex</code></pre>
+          </div>
+        </li>
+        <li data-step="2">
+          <h3>登录</h3>
+          <p>用 <code>codex login</code> 按提示完成授权，凭据保存在本机 Codex 目录下；退出用 <code>codex logout</code>。</p>
+          <div class="code">
+            <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
+            <pre><code>codex login</code></pre>
+          </div>
+        </li>
+        <li data-step="3">
+          <h3>在项目里启动</h3>
+          <p>切到仓库目录再启动，Codex 就以它为工作根目录。也可以用 <code>-C</code> 指定目录、用 <code>--add-dir</code> 额外开放可写目录。</p>
+          <div class="code">
+            <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
+            <pre><code><span class="cmt"># 进入仓库后启动</span>
+cd D:\my-project
+codex
+
+<span class="cmt"># 或一步指定目录</span>
+codex -C D:\my-project</code></pre>
+          </div>
+        </li>
+        <li data-step="4">
+          <h3>说清第一个目标</h3>
+          <p>上来先让它做一件小事：摸清仓库、跑通测试、解释一处逻辑。这比一上来丢一个大需求更容易建立信任。</p>
+          <div class="code">
+            <div class="code-head"><span>prompt</span><span class="grow"></span><button data-copy>复制</button></div>
+            <pre><code>先浏览这个仓库的结构，告诉我它是做什么的、怎么跑测试，
+然后跑一遍测试并把失败项摘要给我。</code></pre>
+          </div>
+          <p>也可以把任务直接写在启动命令后面：<code>codex "把 README 里的安装步骤按当前脚本更新一遍"</code>。</p>
+        </li>
+        <li data-step="5">
+          <h3>审阅并确认</h3>
+          <p>需要执行敏感命令时它会先征求同意；改完代码它会给出 diff。你逐处看过、确认无误，再决定是否提交。</p>
+          <div class="code">
+            <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
+            <pre><code><span class="cmt"># 在仓库里查看改动</span>
+git diff
+
+<span class="cmt"># 满意就提交</span>
+git add -p
+git commit -m "refactor: 抽取支付回调重复逻辑"</code></pre>
+          </div>
+        </li>
+      </ol>
+      <div class="note warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <p>动手前先 <code>git commit</code> 一次，或者用 <code>codex --worktree</code> 让它在一个独立的 Git worktree 里工作。这样任何改动都能干净地丢弃，试错成本几乎为零。</p>
+      </div>
+    </section>
+
+    <section id="loop">
+      <h2><span class="idx">03</span>一次典型的协作循环</h2>
+      <p class="sub">理解这五步，就知道什么时候该说话、什么时候该放手。</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="n">01</div>
+          <h3>你说目标</h3>
+          <p>描述要做的事、边界和验收标准。<span class="who">你</span></p>
+        </div>
+        <div class="flow-step">
+          <div class="n">02</div>
+          <h3>它摸清现状</h3>
+          <p>搜索文件、读相关实现，必要时先给出计划再动手。<span class="who">Codex</span></p>
+        </div>
+        <div class="flow-step">
+          <div class="n">03</div>
+          <h3>它执行并自证</h3>
+          <p>改文件、装依赖、跑测试；越出沙箱边界的动作会先请你批准。<span class="who">Codex</span></p>
+        </div>
+        <div class="flow-step">
+          <div class="n">04</div>
+          <h3>你审阅 diff</h3>
+          <p>看它改了什么、为什么改，重点盯"顺手改的无关文件"。<span class="who">你</span></p>
+        </div>
+        <div class="flow-step">
+          <div class="n">05</div>
+          <h3>收敛或提交</h3>
+          <p>继续追加要求，或确认提交、开 PR。<span class="who">你</span></p>
+        </div>
+      </div>
+      <ul class="plain">
+        <li><strong>随时可以打断。</strong>它在跑的时候你也能补一句"先别改测试""顺便把日志级别统一一下"，它会带着新要求继续。</li>
+        <li><strong>一轮别塞太多事。</strong>大需求拆成几步，每步都能验证，出问题时定位范围小得多。</li>
+        <li><strong>要它拿证据说话。</strong>让它跑测试、跑构建、复现原始报错，而不是只说"已修复"。</li>
+        <li><strong>不满意就直说。</strong>指出具体哪一处不对、期望是什么样，比"再优化下"有效得多。</li>
+      </ul>
+    </section>
+
+    <section id="safety">
+      <h2><span class="idx">04</span>权限与沙箱：它能动到哪一步</h2>
+      <p>两个开关决定"它能碰什么"和"什么时候必须问你"。默认组合是<strong>能在工作区里自由干活，出圈要打招呼</strong>。</p>
+
+      <h3>沙箱模式 <code>-s, --sandbox</code></h3>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>取值</th><th>含义</th><th>适合场景</th></tr></thead>
+            <tbody>
+              <tr><td class="cmd"><span class="badge ok">read-only</span></td><td class="desc">只能读取和查看，不能修改文件</td><td class="desc">只想让它调研、解释、审查，不改代码</td></tr>
+              <tr><td class="cmd"><span class="badge ok">workspace-write</span></td><td class="desc">可以修改当前工作区（以及允许的临时目录）</td><td class="desc">日常默认，改代码、跑测试都在这里完成</td></tr>
+              <tr><td class="cmd"><span class="badge bad">danger-full-access</span></td><td class="desc">不限制文件与系统访问</td><td class="desc">仅在你已用容器或虚拟机隔离风险时使用</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>审批策略 <code>-a, --ask-for-approval</code></h3>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>取值</th><th>含义</th></tr></thead>
+            <tbody>
+              <tr><td class="cmd">on-request</td><td class="desc">由模型自行判断哪些命令需要先问你（默认，最稳妥）</td></tr>
+              <tr><td class="cmd">never</td><td class="desc">从不询问，命令失败的输出直接返回给模型。适合已经隔离好的自动化环境</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>想少被打断，从这三个方向调</h3>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>做法</th><th>效果</th><th>代价</th></tr></thead>
+            <tbody>
+              <tr><td class="cmd">--approve-for-me</td><td class="desc">审批请求交给自动审查处理，仍限制在 workspace-write 沙箱内</td><td class="desc">几乎不用点确认，但自动审查可能误判</td></tr>
+              <tr><td class="cmd">-a never</td><td class="desc">不再询问；需要出界的命令直接失败并把错误交回给模型</td><td class="desc">部分操作做不了，得手动补</td></tr>
+              <tr><td class="cmd">--dangerously-bypass-approvals-and-sandbox</td><td class="desc">跳过全部确认并取消沙箱，等同"最大权限"</td><td class="desc">官方标注为极度危险，只应在外部已隔离的环境使用</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>只放宽某个目录</h3>
+          <p style="font-size:13.8px;color:var(--muted);margin:0">需要同时改两个仓库时用 <code>--add-dir &lt;目录&gt;</code> 追加可写目录，而不是把整个沙箱放开。改动范围越明确，审查越轻松。</p>
+        </div>
+        <div class="panel">
+          <h3>让配置说了算</h3>
+          <p style="font-size:13.8px;color:var(--muted);margin:0">把 <code>approval_policy</code> 与 <code>sandbox_mode</code> 写进 config.toml，就不用每次启动都带一长串参数。写法见第 08 节。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="commands">
+      <h2><span class="idx">05</span>命令速查</h2>
+      <p class="sub">以下命令与说明取自本机 codex-cli 0.162.1 的帮助输出。输入关键词可以过滤。</p>
+
+      <div class="filter-row">
+        <input id="cmdFilter" type="search" placeholder="过滤命令，例如 resume / mcp / 沙箱" aria-label="过滤命令表">
+        <span class="count" id="cmdCount"></span>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table id="cmdTable">
+            <thead><tr><th>命令</th><th>作用</th></tr></thead>
+            <tbody>
+              <tr><td class="cmd">codex</td><td class="desc">在当前目录启动交互式会话（可跟一段初始任务文本）</td></tr>
+              <tr><td class="cmd">codex "任务描述"</td><td class="desc">带着初始任务直接进入会话</td></tr>
+              <tr><td class="cmd">codex -C &lt;目录&gt;</td><td class="desc">指定会话的工作根目录</td></tr>
+              <tr><td class="cmd">codex -m &lt;模型&gt;</td><td class="desc">指定本次使用的模型</td></tr>
+              <tr><td class="cmd">codex -i &lt;图片&gt;</td><td class="desc">给初始提示附上截图或设计图</td></tr>
+              <tr><td class="cmd">codex -s &lt;模式&gt;</td><td class="desc">指定沙箱：read-only / workspace-write / danger-full-access</td></tr>
+              <tr><td class="cmd">codex -a &lt;策略&gt;</td><td class="desc">指定审批策略：on-request / never</td></tr>
+              <tr><td class="cmd">codex --approve-for-me</td><td class="desc">审批交给自动审查，仍在 workspace-write 沙箱内执行</td></tr>
+              <tr><td class="cmd">codex --add-dir &lt;目录&gt;</td><td class="desc">在主工作区之外再开放一个可写目录</td></tr>
+              <tr><td class="cmd">codex --worktree</td><td class="desc">在新建的托管 Git worktree 中运行会话，改动与主工作区隔离</td></tr>
+              <tr><td class="cmd">codex --search</td><td class="desc">为本次会话开启实时联网搜索能力</td></tr>
+              <tr><td class="cmd">codex -c key=value</td><td class="desc">临时覆盖配置项，如 <code>-c model="..."</code>、<code>-c features.xxx=true</code></td></tr>
+              <tr><td class="cmd">codex -p &lt;profile&gt;</td><td class="desc">叠加一层命名配置：$CODEX_HOME/&lt;名字&gt;.config.toml</td></tr>
+              <tr><td class="cmd">codex --oss --local-provider ollama</td><td class="desc">改用开源 / 本地模型提供方（ollama 或 lmstudio）</td></tr>
+              <tr><td class="cmd">codex resume</td><td class="desc">恢复历史会话（列表选择）；加 <code>--last</code> 直接继续最近一次</td></tr>
+              <tr><td class="cmd">codex fork</td><td class="desc">从某个历史会话分叉出新会话，原会话保持不变</td></tr>
+              <tr><td class="cmd">codex exec "任务"</td><td class="desc">非交互执行，任务完成后退出，适合脚本与 CI</td></tr>
+              <tr><td class="cmd">codex exec resume --last</td><td class="desc">非交互地接着最近一次会话继续做</td></tr>
+              <tr><td class="cmd">codex review --uncommitted</td><td class="desc">审查暂存区、工作区与未跟踪的改动</td></tr>
+              <tr><td class="cmd">codex review --base main</td><td class="desc">与指定基线分支比对后做代码审查</td></tr>
+              <tr><td class="cmd">codex apply</td><td class="desc">把 Codex 生成的最新补丁应用到本地工作区</td></tr>
+              <tr><td class="cmd">codex doctor</td><td class="desc">诊断安装、配置、登录与运行时健康状况</td></tr>
+              <tr><td class="cmd">codex update</td><td class="desc">更新到最新版本</td></tr>
+              <tr><td class="cmd">codex login / logout</td><td class="desc">登录，或清除本机保存的凭据</td></tr>
+              <tr><td class="cmd">codex mcp add / list / get / remove / login</td><td class="desc">管理外部 MCP 服务器接入</td></tr>
+              <tr><td class="cmd">codex plugin add / list / remove / marketplace</td><td class="desc">安装、查看、卸载插件，管理插件市场</td></tr>
+              <tr><td class="cmd">codex cloud</td><td class="desc">浏览 Codex 云端任务，并把结果应用到本地（实验特性）</td></tr>
+              <tr><td class="cmd">codex agents</td><td class="desc">浏览共享本地服务上的全部 agent 会话</td></tr>
+              <tr><td class="cmd">codex archive / unarchive / delete &lt;会话&gt;</td><td class="desc">归档、取消归档或永久删除本地会话</td></tr>
+              <tr><td class="cmd">codex queue "消息"</td><td class="desc">给正在运行的会话排队一条消息</td></tr>
+              <tr><td class="cmd">codex features</td><td class="desc">查看特性开关；<code>--enable / --disable</code> 可临时开关某项能力</td></tr>
+              <tr><td class="cmd">codex debug models</td><td class="desc">输出模型目录的原始 JSON，排查模型可用性时有用</td></tr>
+              <tr><td class="cmd">codex sandbox &lt;命令&gt;</td><td class="desc">在 Codex 提供的沙箱环境里运行指定命令</td></tr>
+              <tr><td class="cmd">codex completion</td><td class="desc">生成 shell 补全脚本</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="slash">
+      <h2><span class="idx">06</span>会话内的斜杠指令</h2>
+      <p class="sub">进入交互式会话后，以 <code>/</code> 开头的短指令用来控制会话本身，而不是干活的指令。<strong>直接敲一个 <code>/</code> 就能看到当前版本支持的完整列表</strong>，下面是高频项。</p>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>把控方向</h3>
+          <ul>
+            <li><strong>/init</strong> · 为当前仓库生成 AGENTS.md 初稿</li>
+            <li><strong>/model</strong> · 查看或切换本次会话使用的模型</li>
+            <li><strong>/approvals</strong> · 调整审批策略，少被打断或多加一层关</li>
+            <li><strong>/status</strong> · 查看会话状态（工作目录、配置、用量等）</li>
+            <li><strong>/compact</strong> · 压缩上下文，长会话接近上限时用它续命</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>管理会话与改动</h3>
+          <ul>
+            <li><strong>/diff</strong> · 查看当前改动</li>
+            <li><strong>/review</strong> · 让 Codex 审查改动</li>
+            <li><strong>/new</strong> · 开一个新会话，上下文互不干扰</li>
+            <li><strong>/resume</strong> · 回到之前的会话</li>
+            <li><strong>/fork</strong> · 从当前会话分叉出一条新线，用于试不同方案</li>
+            <li><strong>/skills</strong> · 查看可用技能</li>
+            <li><strong>/mcp</strong> · 查看已接入的 MCP 服务器</li>
+            <li><strong>/help</strong> · 指令总览；<strong>/quit</strong> · 退出会话</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <p>斜杠指令的名字在不同版本里会调整，以 <code>/</code> 拉出的列表为准。上面这些在本机 0.162.1 上都可以直接使用。</p>
+      </div>
+    </section>
+
+    <section id="exec">
+      <h2><span class="idx">07</span>非交互模式与自动化</h2>
+      <p><code>codex exec</code> 把 Codex 当成一条普通命令来用：给任务、等结果、拿输出。这是把它接进脚本、CI、定时任务的方式。</p>
+
+      <div class="code">
+        <div class="code-head"><span>shell · 基本用法</span><span class="grow"></span><button data-copy>复制</button></div>
+        <pre><code><span class="cmt"># 一条命令跑完一个任务</span>
+codex exec "为 src/utils/date.ts 里的公开函数补齐注释和单测，跑通测试"
+
+<span class="cmt"># 从标准输入接手任务描述</span>
+Get-Content spec.md | codex exec -
+
+<span class="cmt"># 机器可读输出，并把最终消息写进文件</span>
+codex exec --json -o result.txt "跑测试并总结失败原因"</code></pre>
+      </div>
+
+      <h3>常用配套选项</h3>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>选项</th><th>作用</th></tr></thead>
+            <tbody>
+              <tr><td class="cmd">--json</td><td class="desc">以 JSONL 形式输出事件流，便于脚本解析</td></tr>
+              <tr><td class="cmd">-o, --output-last-message &lt;文件&gt;</td><td class="desc">把 agent 的最后一条消息写入指定文件</td></tr>
+              <tr><td class="cmd">--output-schema &lt;文件&gt;</td><td class="desc">用 JSON Schema 约束最终输出的结构，适合接下游程序</td></tr>
+              <tr><td class="cmd">--ephemeral</td><td class="desc">不把会话文件持久化到磁盘</td></tr>
+              <tr><td class="cmd">--skip-git-repo-check</td><td class="desc">允许在非 Git 仓库目录中运行</td></tr>
+              <tr><td class="cmd">--ignore-user-config</td><td class="desc">不加载用户的 config.toml，让 CI 行为可复现</td></tr>
+              <tr><td class="cmd">--color never</td><td class="desc">关闭彩色输出，日志更干净</td></tr>
+              <tr><td class="cmd">-s / -a</td><td class="desc">在无人值守环境里把权限边界写死，例如只给 workspace-write</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>放进流水线</h3>
+      <div class="code">
+        <div class="code-head"><span>yaml · CI 示意</span><span class="grow"></span><button data-copy>复制</button></div>
+        <pre><code><span class="kw">- name:</span> <span class="str">自动审查本次改动</span>
+  <span class="kw">run:</span> |
+    codex exec \
+      --skip-git-repo-check \
+      --color never \
+      -s read-only \
+      -o review.md \
+      "审查本次改动，按严重程度列出问题，不要改动文件"
+
+<span class="kw">- name:</span> <span class="str">与基线分支比对审查</span>
+  <span class="kw">run:</span> codex review --base main</code></pre>
+      </div>
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <p>无人值守时，把权限收窄比放开更重要：只想让它评论代码就给 <code>read-only</code>；需要它落盘改动，就用 <code>workspace-write</code>，并把产出当补丁走正常的评审流程。</p>
+      </div>
+    </section>
+
+    <section id="configure">
+      <h2><span class="idx">08</span>配置与扩展：让它更懂你的项目</h2>
+      <p>大部分不确定来自"它不知道你的规矩"。把规矩沉淀到下面这些地方，就不用每次在对话里重复交代。</p>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>AGENTS.md · 项目规矩</h3>
+          <ul>
+            <li><strong>仓库根目录</strong>放整体约定：怎么装依赖、怎么跑测试、代码风格、禁区</li>
+            <li><strong>子目录</strong>可放更细的说明：越靠近文件的规则越具体、优先适用</li>
+            <li>会话里用 <strong>/init</strong> 先生成初稿，再按团队习惯改</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>config.toml · 默认设置</h3>
+          <ul>
+            <li><strong>用户级</strong> <code>~/.codex/config.toml</code>：个人在所有项目里的默认值</li>
+            <li><strong>项目级</strong> 仓库内的 <code>.codex/config.toml</code>：跟着仓库走的约定</li>
+            <li><strong>临时覆盖</strong> <code>-c key=value</code>；<strong>命名配置</strong> <code>-p &lt;名字&gt;</code> 叠加 <code>$CODEX_HOME/&lt;名字&gt;.config.toml</code></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>技能 Skills · 可复用的做法</h3>
+          <ul>
+            <li>把重复出现的流程写成一份带步骤说明的技能（可附带脚本与素材）</li>
+            <li>放在 Codex 目录下的 <code>skills</code> 里，会话中按需触发</li>
+            <li>适合"发版检查清单""新接口脚手架""固定格式的报告"这类活儿</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>MCP 与插件 · 接上外部世界</h3>
+          <ul>
+            <li><strong>MCP 服务器</strong>：让 Codex 访问真实数据与工具，用 <code>codex mcp add</code></li>
+            <li><strong>插件</strong>：把技能、工具、命令、MCP 配置打包分发，用 <code>codex plugin add</code></li>
+            <li><strong>钩子 hooks</strong>：在关键节点做机械式校验或拦截，把规矩变成硬约束</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>一个 config.toml 的样子</h3>
+      <div class="code">
+        <div class="code-head"><span>toml · 示例，按需增删</span><span class="grow"></span><button data-copy>复制</button></div>
+        <pre><code><span class="cmt"># ~/.codex/config.toml</span>
+model = <span class="str">"你的账号可用的模型"</span>
+model_reasoning_effort = <span class="str">"high"</span>
+approval_policy = <span class="str">"on-request"</span>
+sandbox_mode = <span class="str">"workspace-write"</span>
+
+<span class="cmt"># 接入一个 MCP 服务器</span>
+[mcp_servers.example]
+command = <span class="str">"npx"</span>
+args = [<span class="str">"-y"</span>, <span class="str">"some-mcp-server"</span>]</code></pre>
+      </div>
+      <div class="note warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <p>配置项会随版本演进。改完用 <code>codex doctor</code> 体检；启动时加 <code>--strict-config</code>，Codex 会对不认识的字段直接报错，能帮你尽早发现拼写错误或过时配置。</p>
+      </div>
+    </section>
+
+    <section id="prompting">
+      <h2><span class="idx">09</span>怎么提问更有效</h2>
+      <p>同一件事，说法不同返工次数能差好几倍。把这几样说清楚就够了：<strong>做什么、在哪做、别碰什么、怎么算完成</strong>。</p>
+
+      <div class="compare">
+        <div class="compare-row">
+          <div class="tag">含糊</div>
+          <div class="body">
+            <div class="say">帮我优化一下代码。</div>
+            <div class="note-line">范围、目标、验收标准全空，它只能猜。</div>
+          </div>
+        </div>
+        <div class="compare-row good">
+          <div class="tag">明确</div>
+          <div class="body">
+            <div class="say">src/api/ 下三个请求函数里的错误处理是重复的。抽成一个封装并替换调用点，保持现有函数签名和错误信息不变；跑通 api 相关的测试用例；最后列出改动点和不影响的行为。</div>
+            <div class="note-line">范围（三个函数）、约束（签名不变）、验收（测试通过）、交付（改动清单）都在。</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="tag">含糊</div>
+          <div class="body">
+            <div class="say">登录接口报错了，你看看。</div>
+            <div class="note-line">它得先猜是哪个接口、什么错。</div>
+          </div>
+        </div>
+        <div class="compare-row good">
+          <div class="tag">明确</div>
+          <div class="body">
+            <div class="say">POST /api/login 在密码错误时返回 500，应该返回 401。下面是完整堆栈和复现步骤。先复现，再定位，修完补一个回归测试，把根因写清楚。</div>
+            <div class="note-line">贴原始报错 + 期望行为 + 复现路径 + 要求它自证。</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>几个立刻能用上的习惯</h3>
+      <ul class="plain">
+        <li><strong>大任务先要计划。</strong>"先别改代码，列出你打算改哪些文件、怎么验证，我确认后再动手。"</li>
+        <li><strong>让它分清确定与猜测。</strong>"不确定的地方单独列出来问我，不要替我假设。"</li>
+        <li><strong>要证据。</strong>"跑一遍测试并把输出贴出来"，比"确保没问题"可靠得多。</li>
+        <li><strong>给它上下文。</strong>相关文件、接口文档、线上日志、界面截图都可以直接给它（命令行用 <code>-i</code> 附图片，或用管道把文档喂进去）。</li>
+        <li><strong>长会话及时收口。</strong>任务切换时开新会话，或先 <code>/compact</code> 再继续，避免旧上下文干扰当前判断。</li>
+        <li><strong>不满意就具体化。</strong>"第 2 个测试的断言改错了，应该判断 401 而不是抛异常"远比"再改改"有效。</li>
+      </ul>
+    </section>
+
+    <section id="practice">
+      <h2><span class="idx">10</span>实践原则</h2>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>安全地用</h3>
+          <ul>
+            <li>保持默认沙箱与审批，别为了省几次确认就长期关掉</li>
+            <li>开工前先提交或开 worktree，改动随时能干净丢弃</li>
+            <li>密钥、令牌、生产数据不要写进提示词或仓库</li>
+            <li>需要更宽权限时用 <code>--add-dir</code> 精确放权，而不是整体放开</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>高效地用</h3>
+          <ul>
+            <li>认真审 diff，重点看它"顺手"改掉的文件</li>
+            <li>把团队约定写进 AGENTS.md，让每次会话都从同一份规矩出发</li>
+            <li>重复劳动固化成技能或脚本，别每次口头教一遍</li>
+            <li>能自动化的检查（代码审查、依赖巡检）交给 <code>codex exec</code> 定时跑</li>
+            <li>任务拆小、每步可验证，比一口气许愿成功率高得多</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <p>把它当成一位刚入职、能力很强、但完全不熟悉你项目的同事：给背景、给标准、看产出。协作质量的上限，主要由你交代任务的质量决定。</p>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2><span class="idx">11</span>常见问题</h2>
+
+      <details>
+        <summary>它会擅自修改我的文件吗？</summary>
+        <div class="answer">
+          <p>改动都在沙箱允许的范围内，并且以 diff 的形式呈现给你。越过边界的操作（访问工作区外的文件、执行高危命令等）会先征求同意——除非你显式把审批关掉。</p>
+          <p>最稳的用法：先提交当前状态，再让它动手，随后用 <code>git diff</code> 逐块审查。</p>
+        </div>
+      </details>
+      <details>
+        <summary>每次都要点同意，太打断节奏了怎么办？</summary>
+        <div class="answer">
+          <p>按风险从小到大有三个层次：会话里用 <code>/approvals</code> 调整策略；启动时加 <code>--approve-for-me</code> 让自动审查接管审批；确实需要完全不问时用 <code>-a never</code>（沙箱约束仍然生效）。</p>
+          <p>要长期生效，把 <code>approval_policy</code> 和 <code>sandbox_mode</code> 写进 <code>~/.codex/config.toml</code>。</p>
+        </div>
+      </details>
+      <details>
+        <summary>会话中断了，或者我想接着昨天那条线继续？</summary>
+        <div class="answer">
+          <p>交互式会话里用 <code>/resume</code>，命令行用 <code>codex resume</code>（加 <code>--last</code> 直接继续最近一次）。想保留原会话、换个思路重来时用 <code>codex fork</code>。要给正在跑的会话补一句话，用 <code>codex queue "消息"</code>。</p>
+        </div>
+      </details>
+      <details>
+        <summary>改坏了怎么回退？</summary>
+        <div class="answer">
+          <p>改动都在 Git 里，按平常的方式回退即可：<code>git diff</code> 看，<code>git restore</code> 或 <code>git checkout</code> 丢弃。如果用的是 <code>--worktree</code>，整个 worktree 直接弃置就行，主工作区没被碰过。</p>
+          <p><code>codex apply</code> 是相反方向的操作：把 Codex 生成的最新补丁应用到本地。</p>
+        </div>
+      </details>
+      <details>
+        <summary>它需要联网吗？能不能只用本地模型？</summary>
+        <div class="answer">
+          <p>正常使用时模型在云端，需要网络。想走本地或自托管模型，可以用 <code>--oss --local-provider ollama</code>（或 <code>lmstudio</code>）切换提供方；需要查阅实时资料时，单独用 <code>--search</code> 给这次会话开启联网搜索。</p>
+        </div>
+      </details>
+      <details>
+        <summary>怎么知道我的版本支持哪些功能？</summary>
+        <div class="answer">
+          <p><code>codex --version</code> 看版本，<code>codex --help</code> 看子命令与参数，<code>codex features</code> 看特性开关，<code>codex doctor</code> 排查环境问题。会话里敲一个 <code>/</code> 就能列出斜杠指令。</p>
+        </div>
+      </details>
+      <details>
+        <summary>怎么接入我团队的工具和数据？</summary>
+        <div class="answer">
+          <p>用 <code>codex mcp add</code> 接 MCP 服务器，把外部系统以工具形式暴露给 Codex；需要成套能力（技能 + 工具 + 命令 + 钩子）时打成插件，用 <code>codex plugin add</code> 安装。接入时留意权限范围，能少给就少给。</p>
+        </div>
+      </details>
+      <details>
+        <summary>为什么有些命令或选项不在本页里？</summary>
+        <div class="answer">
+          <p>本页按本机 codex-cli 0.162.1 整理，覆盖常用部分。功能会持续增加，未列出不等于不存在——请以 <code>codex --help</code> 和 <code>codex &lt;子命令&gt; --help</code> 的实际输出为准。</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="source">
+      <h2><span class="idx">12</span>资料与版本说明</h2>
+      <div class="panel">
+        <h3>本页内容的来源</h3>
+        <ul>
+          <li>命令清单、参数取值与说明文字：取自本机 <strong>codex-cli 0.162.1</strong> 的 <code>codex --help</code>、<code>codex exec --help</code>、<code>codex review --help</code>、<code>codex mcp --help</code>、<code>codex plugin --help</code> 实际输出</li>
+          <li>配置层次与扩展方式（AGENTS.md、配置目录、技能、插件、MCP、钩子）：结合本机安装目录结构核对</li>
+          <li><strong>未能核对的部分</strong>：官方文档站在当前网络环境下返回 403、正文不可读，因此模型名称、套餐权益、云端能力细节以你账号与版本的实际可用情况为准</li>
+        </ul>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <h3>自己核对一遍</h3>
+        <div class="code">
+          <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
+          <pre><code>codex --version        <span class="cmt"># 版本</span>
+codex --help           <span class="cmt"># 子命令与全局参数</span>
+codex exec --help      <span class="cmt"># 非交互模式的全部选项</span>
+codex doctor           <span class="cmt"># 环境体检</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="flex:1 1 340px">
+      <strong style="color:var(--text)">Codex 使用指南</strong><br>
+      单文件离线页面，内容按本机 codex-cli 0.162.1 核对整理；功能与选项请以你所用版本的实际输出为准。
+    </div>
+    <div>
+      官方文档：<a href="https://developers.openai.com/codex/" target="_blank" rel="noreferrer">developers.openai.com/codex</a>
+    </div>
+    <div>
+      来自 <a href="../index.html">Dola</a> · 联系 <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script>
+(function () {
+  var root = document.documentElement;
+
+  /* theme */
+  var themeBtn = document.getElementById('themeBtn');
+  var themeIcon = document.getElementById('themeIcon');
+  var themeLabel = document.getElementById('themeLabel');
+  var sun = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>';
+  var moon = '<path d="M20 14.5A8.5 8.5 0 019.5 4a7 7 0 1010.5 10.5z"/>';
+
+  function stored() {
+    try { return localStorage.getItem('codex-guide-theme'); } catch (e) { return null; }
+  }
+  function currentTheme() {
+    var s = stored();
+    if (s === 'light' || s === 'dark') { return s; }
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    themeIcon.innerHTML = theme === 'dark' ? moon : sun;
+    themeLabel.textContent = theme === 'dark' ? '深色' : '浅色';
+    themeBtn.setAttribute('aria-label', theme === 'dark' ? '切换到浅色模式' : '切换到深色模式');
+  }
+  applyTheme(currentTheme());
+  themeBtn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('codex-guide-theme', next); } catch (e) {}
+  });
+
+  /* mobile nav */
+  var menuBtn = document.getElementById('menuBtn');
+  var toc = document.getElementById('toc');
+  function closeNav() {
+    document.body.classList.remove('nav-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = !document.body.classList.contains('nav-open');
+    document.body.classList.toggle('nav-open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function (e) {
+    if (!document.body.classList.contains('nav-open')) { return; }
+    if (toc.contains(e.target)) { return; }
+    closeNav();
+  });
+  toc.addEventListener('click', function (e) {
+    if (e.target.closest('a')) { closeNav(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeNav(); }
+  });
+
+  /* copy buttons */
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      } catch (err) { reject(err); }
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var box = btn.closest('.code');
+      var pre = box ? box.querySelector('pre') : null;
+      if (!pre) { return; }
+      copyText(pre.innerText.replace(/\s+$/, '')).then(function () {
+        btn.textContent = '已复制';
+      }, function () {
+        btn.textContent = '复制失败';
+      }).then(function () {
+        setTimeout(function () { btn.textContent = '复制'; }, 1600);
+      });
+    });
+  });
+
+  /* command filter */
+  var filter = document.getElementById('cmdFilter');
+  var table = document.getElementById('cmdTable');
+  var countEl = document.getElementById('cmdCount');
+  var rows = Array.prototype.slice.call(table.tBodies[0].rows);
+  var emptyRow = document.createElement('tr');
+  emptyRow.className = 'empty-row';
+  emptyRow.innerHTML = '<td colspan="2">没有匹配的命令，换个关键词试试。</td>';
+
+  function visibleCount() {
+    var n = 0;
+    rows.forEach(function (r) { if (r.style.display !== 'none') { n++; } });
+    return n;
+  }
+  filter.addEventListener('input', function () {
+    var q = filter.value.trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function (r) {
+      var hit = (q === '' || r.innerText.toLowerCase().indexOf(q) !== -1);
+      r.style.display = hit ? '' : 'none';
+      if (hit) { shown++; }
+    });
+    if (shown === 0 && !emptyRow.parentNode) { table.tBodies[0].appendChild(emptyRow); }
+    if (shown > 0 && emptyRow.parentNode) { emptyRow.parentNode.removeChild(emptyRow); }
+    countEl.textContent = '显示 ' + visibleCount() + ' / ' + rows.length + ' 条';
+  });
+  countEl.textContent = '显示 ' + rows.length + ' / ' + rows.length + ' 条';
+
+  /* scroll spy, progress, to top */
+  var links = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  var progressFill = document.getElementById('progressFill');
+  var toTop = document.getElementById('toTop');
+  var ticking = false;
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progressFill.style.width = (max > 0 ? Math.min(100, (y / max) * 100) : 0) + '%';
+    if (y > 700) { toTop.classList.add('show'); } else { toTop.classList.remove('show'); }
+
+    var best = null;
+    var bestTop = -Infinity;
+    sections.forEach(function (s) {
+      var top = s.getBoundingClientRect().top;
+      if (top <= 130 && top > bestTop) { bestTop = top; best = s; }
+    });
+    if (!best) { best = sections[0]; }
+    links.forEach(function (a) {
+      if (best && a.getAttribute('href') === '#' + best.id) { a.classList.add('active'); }
+      else { a.classList.remove('active'); }
+    });
+  }
+  window.addEventListener('scroll', function () {
+    if (ticking) { return; }
+    ticking = true;
+    window.requestAnimationFrame(function () { onScroll(); ticking = false; });
+  }, { passive: true });
+  onScroll();
+
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* keep FAQ answers visible when printing */
+  window.addEventListener('beforeprint', function () {
+    Array.prototype.forEach.call(document.querySelectorAll('details'), function (d) { d.open = true; });
+  });
+})();
+</script>
+</body>
+</html>

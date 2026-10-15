@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>顶点上的那条 CNAME — Dola</title>
+<meta name="description" content="邮箱要收信，MX 记录却加不进去——因为域名的顶点上早挂着一条 CNAME。顺带发现一条通配符在偷偷吃掉 DKIM。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-dns.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-dns.html">
+<meta property="og:title" content="顶点上的那条 CNAME">
+<meta property="og:description" content="CNAME 是独占记录；通配符会悄悄接管你没写的名字。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 上线实录 ② / ④ · 域名解析</p>
+    <h1 data-reveal style="--d:.06s">顶点上的<br>那条 CNAME</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      站点上线之后轮到邮箱。我以为加两条 MX 记录就完事，结果卡在一条早就存在的 CNAME 上。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      邮箱要能收信，得在 DNS 里放 MX 记录。而 <code>dola.cn</code> 的顶点（也就是 <code>@</code> 本身）
+      当时挂着一条 CNAME——指向 GitHub Pages。加 MX 的时候，控制台直接报记录冲突。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先把顶点腾出来</h2>
+      <div class="callout">
+        <strong>知识点｜CNAME 是独占记录</strong><br>
+        同一个名字下，CNAME 不能和 A、MX、TXT 共存——这是 DNS 规范，不是哪家服务商的偏好。
+        所以顶点要收信，就得先把 CNAME 换成 A 记录。
+      </div>
+      <p>
+        顺带一提，GitHub Pages 官方对顶点域名的要求本来也是 4 条 A 记录
+        （<code>185.199.108.153</code> 那四条）。换过去之后，站点照常跑，顶点也空了出来。
+      </p>
+      <p>然后邮箱的记录一条条加进去：MX 三条、SPF 一条。</p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>通配符在偷偷吃掉 DKIM</h2>
+      <p>
+        第二个坑更隐蔽。之前为了「任何子域名都能打开这个站」，我们配了一条通配符 <code>*</code> 的 CNAME。
+        结果一查 <code>mail._domainkey.dola.cn</code>——DKIM 签名该待的地方——返回的是 GitHub Pages 的地址。
+      </p>
+      <p>
+        原因：通配符会接管所有<strong>没有显式记录</strong>的名字，包括 <code>mail._domainkey</code>
+        和 <code>_dmarc</code>。也就是说，只要它在，DKIM 永远配不上——而且不会报任何错，
+        只是你发出去的邮件更容易被判成垃圾。
+      </p>
+      <p>删掉通配符，这两个名字空了出来，MX 和 SPF 原样都在，站点毫发无伤。</p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>别信中间任何一层缓存</h2>
+      <p>
+        排查过程中有一步差点把我带偏：我从公共 DNS 查询，明明已经删掉的 CNAME 还在返回。
+        一度以为没保存成功。其实那是缓存——TTL 十分钟，十分钟后自然就消失了。
+      </p>
+      <div class="callout">
+        <strong>知识点｜改完 DNS 怎么验证</strong><br>
+        直接问<strong>权威服务器</strong>（比如域名的 NS 机器），看返回的记录是不是你写的那几条；
+        再换一个公共 DNS 复核一遍。两次都对，才算真的生效。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      《上线实录》连载：<a href="2026-10-16-deploy.html">① 部署通道</a> · <strong>② 域名解析</strong> ·
+      <a href="2026-10-16-mail.html">③ 邮箱</a> · <a href="2026-10-16-verify.html">④ 方法论</a>
+      —— 下一篇讲：邮箱明明在收信，却怎么也不让我进门。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

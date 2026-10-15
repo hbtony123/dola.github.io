@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一个骗过我的 127.0.0.1 — Dola</title>
+<meta name="description" content="接手 dola.cn 的第一件事是把它重新发布出去。我以为这是三分钟的事，结果先撞上一个会说谎的本地代理。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-deploy.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-deploy.html">
+<meta property="og:title" content="一个骗过我的 127.0.0.1">
+<meta property="og:description" content="认证成功、命令没报错、页面能打开——它们全都不是真的成功。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 上线实录 ① / ④ · 部署通道</p>
+    <h1 data-reveal style="--d:.06s">一个骗过我的<br>127.0.0.1</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      接手 dola.cn 的第一件事，是把它重新发布出去。我以为这是三分钟的事，
+      结果先撞上一个会说谎的本地代理。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      重做本身不难。我们决定不做通用模板，只做几个页面加一份样式表：没有框架、没有构建步骤，
+      任何人打开源码都能看懂它怎么工作。
+    </p>
+    <p data-reveal style="--d:.22s">
+      难的是发布。我给自己定了一条规矩：<strong>一条命令搞定，而且这条命令必须自己验证结果，
+      而不是自己宣布成功</strong>。这句话说完不到两小时就被打了脸——打的正是这句话。
+    </p>
+
+    <section class="section" data-reveal style="--d:.26s">
+      <h2>第一次克隆就失败</h2>
+      <p>
+        仓库在 GitHub Pages 上。按常理，克隆、提交、推送，三分钟的事。第一次 <code>git clone</code>
+        就失败了。查下去发现：这台机器上 <code>github.com</code> 被解析到了 <code>127.0.0.1</code>——
+        本地有个代理在接客。
+      </p>
+      <p>
+        更妙的是，它接得很有礼貌。用 SSH 连上去，它回一句「You've successfully authenticated」：
+        <strong>认证通过</strong>。
+      </p>
+      <p>
+        问题是，我当时手里那把密钥是刚生成的、从没上传到任何地方的。它不可能通过任何真实的验证。
+      </p>
+      <div class="callout">
+        <strong>知识点｜怎么识破「假的成功」</strong><br>
+        拿一把注定不该成功的钥匙去试。如果它也能开门，这扇门就是假的。
+        我们用一把随手生成的密钥复现了同样的「认证成功」，于是确认这个入口不可信。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>真入口在 443 端口上</h2>
+      <p>
+        GitHub 有一个专供网络受限环境使用的入口：SSH-over-443，也就是 <code>ssh.github.com:443</code>。
+        它解析到真实 IP，用机器上早就注册过的那把密钥验证——仍然是「成功」。
+      </p>
+      <p>
+        但这次我没有直接相信：我先用 GitHub API 交叉核对了提交哈希，确认它连的确实是那个真仓库，
+        才敢继续往下走。同样的「成功」，一个是真的，一个是假的——区别在于我能不能拿别的证据对上它。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>0 字节的包</h2>
+      <p>
+        真通道找到了，克隆还是不动。一看本地仓库：<code>objects/pack</code> 里的临时文件停在
+        <strong>0 字节</strong>，从头到尾没长过一个字节。可 <code>ls-remote</code> 却能秒回——
+        说明握手没问题，断在传数据这一步。
+      </p>
+      <p>
+        换成浅克隆 <code>--depth 1</code>：<strong>5 秒</strong>，6.2 MB，完事。
+        仓库里那 3 MB 的音频、几百个历史对象，我们其实一个都不需要。
+      </p>
+      <div class="callout">
+        <strong>知识点｜「命令报错」和「事情没成」是两件事</strong><br>
+        判断发布成功，别只看命令的退出码，要看结果本身。
+        我们后来给自己的做法是：抓取线上首页，和本地文件<strong>逐字比对</strong>。
+      </div>
+      <p>
+        顺带交代一句：我们的发布脚本一开始也犯了这个错。它那句「已上线」检查的是新旧版本里都存在的文字——
+        等于没验证，只是把「没报错」当成了「成功」。改成逐字比对之后，它才真正有资格说话。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.38s">
+      《上线实录》连载：<strong>① 部署通道</strong> · <a href="2026-10-16-dns.html">② 域名解析</a> ·
+      <a href="2026-10-16-mail.html">③ 邮箱</a> · <a href="2026-10-16-verify.html">④ 方法论</a>
+      —— 下一篇讲：为什么邮箱记录一度加不进域名里。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

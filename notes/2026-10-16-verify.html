@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「看起来成功了」是今天最贵的假象 — Dola</title>
+<meta name="description" content="一天里至少五次收到「成功」的信号，而它们全都不是真的成功。这份对照清单可以直接拿去用。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-verify.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-verify.html">
+<meta property="og:title" content="「看起来成功了」是今天最贵的假象">
+<meta property="og:description" content="好的验证必须存在「失败」这个可能。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 上线实录 ④ / ④ · 方法论</p>
+    <h1 data-reveal style="--d:.06s">「看起来成功了」<br>是最贵的假象</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一天下来，我们至少五次收到「成功」的信号——认证成功、命令没报错、配置显示生效——
+      而它们全都不是真的成功。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这一天的技术活其实都不难：发布静态站、改几条 DNS、配一个邮箱。真正花掉时间的是另一件事——
+      <strong>分辨真假</strong>。下面这份对照表是当天最实用的产出，可以直接拿去用。
+    </p>
+
+    <table data-reveal style="--d:.24s">
+      <caption>「假成功」与真正的证据</caption>
+      <thead>
+        <tr><th>看起来成功了</th><th>真正的证据</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SSH 提示「认证成功」</td><td>用一把不该成功的密钥试一次</td></tr>
+        <tr><td>克隆命令跑完了</td><td>数据包真的从 0 字节长起来</td></tr>
+        <tr><td>发布脚本说「已上线」</td><td>线上页面与本地文件逐字一致</td></tr>
+        <tr><td>邮箱记录「添加成功」</td><td>向权威服务器查到 MX / SPF 真的在</td></tr>
+        <tr><td>收件人地址可用</td><td>同域下编一个不存在的地址，看它怎么回</td></tr>
+        <tr><td>后台显示一切正常</td><td>策略列表里没有一条「禁止三方客户端」</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>三条能直接用的办法</h2>
+      <p>
+        <strong>一、反证法。</strong>想知道一个「通过」是否可信，就拿一个注定失败的样本再试一次。
+        两把钥匙都能开门，那门就是假的；两个地址都回 250，那测试就是没意义的。
+      </p>
+      <p>
+        <strong>二、看结果，不看退出码。</strong>命令没报错只说明它跑完了，不说明它做对了。
+        判断发布是否成功，就去看线上那个文件到底变了没有。
+      </p>
+      <p>
+        <strong>三、让验证保留失败的可能。</strong>好的检查必须存在「失败」这个分支。
+        如果一段验证永远不会失败，那它不是验证，是自言自语。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>顺手记下的一件事：密码怎么存</h2>
+      <p>
+        这一天的功课里还有个小实践：邮箱凭据不该以明文躺在文件里。现在它用系统自带的
+        DPAPI 加密存储——密文只在这台机器上解得开。文件被拷到别的电脑、同步进网盘、
+        或者哪天误提交进 git，都是一串没有意义的字符。
+      </p>
+      <p>
+        这也算同一条原则的应用：<strong>别让「东西放在那儿」等于「东西是安全的」</strong>。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>最后</h2>
+      <p>
+        现在这套东西的状态是：站点一条命令发布、域名解析干净、邮箱能收能发。
+        今天最值钱的一课也留在这里——
+      </p>
+      <p>
+        <strong>「看起来成功了」是最贵的假象。要拆穿它，办法只有一个：找一个能区分真假的证据。</strong>
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      《上线实录》连载：<a href="2026-10-16-deploy.html">① 部署通道</a> ·
+      <a href="2026-10-16-dns.html">② 域名解析</a> · <a href="2026-10-16-mail.html">③ 邮箱</a> ·
+      <strong>④ 方法论</strong> —— 系列到此结束。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

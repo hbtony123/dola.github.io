@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub Pages 在国内网络下怎么发布 — Dola</title>
+<meta name="description" content="git clone 卡在 0 字节、SSH 假认证、超时重试——一份可以直接照抄的 GitHub Pages 发布方案，含不依赖 git 传输的备用通道。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/github-pages-china.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/github-pages-china.html">
+<meta property="og:title" content="GitHub Pages 在国内网络下怎么发布">
+<meta property="og:description" content="从假认证到 0 字节的包，一份可以照抄的发布方案。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 解法 · 部署</p>
+    <h1 data-reveal style="--d:.06s">GitHub Pages<br>在国内网络下怎么发布</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      克隆卡在 0 字节、SSH 说「认证成功」却推不动、命令超时——这三种症状我们一天里全遇上了。
+      下面是最后跑通的那套做法，可以直接照抄。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>先看症状属于哪一种</h2>
+      <table>
+        <thead><tr><th>症状</th><th>真正的原因</th></tr></thead>
+        <tbody>
+          <tr><td>SSH 提示 <code>successfully authenticated</code>，但推送失败</td><td>域名被本地代理接管，认证是假的</td></tr>
+          <tr><td><code>git clone</code> 卡住，<code>objects/pack</code> 一直是 0 字节</td><td>握手能过，数据传输被切断</td></tr>
+          <tr><td><code>ls-remote</code> 秒回、<code>clone</code> 不动</td><td>同上，参考广告能读，大包传不动</td></tr>
+          <tr><td>过一会儿又能用了</td><td>网络本身断续，不是配置错</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>第 0 步：先验证「认证成功」是真的</h2>
+      <p>这一步能省掉最多时间。生成一把注定不该成功的密钥去试：</p>
+      <pre><code>ssh-keygen -t ed25519 -N "`"`"" -f %TEMP%\probe
+ssh -i %TEMP%\probe -o IdentitiesOnly=yes -T git@github.com</code></pre>
+      <p>
+        如果它也回你 <code>successfully authenticated</code>，那这个入口就不是真的 GitHub——
+        你后面所有「成功」都不算数。真入口用官方密钥重测，并且用 API 交叉核对一次提交哈希。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>第 1 步：改用 443 端口的 SSH 入口</h2>
+      <p>GitHub 为受限网络提供了 SSH-over-443，这是最可用的通道：</p>
+      <pre><code>$env:GIT_SSH_COMMAND = '"C:/Windows/System32/OpenSSH/ssh.exe" -p 443 -o StrictHostKeyChecking=accept-new -o BatchMode=yes -o ConnectTimeout=15'
+git ls-remote ssh://git@ssh.github.com:443/&lt;用户名&gt;/&lt;用户名&gt;.github.io.git</code></pre>
+      <p>
+        注意 <code>GIT_SSH_COMMAND</code> 里的路径要用<strong>正斜杠</strong>——这个字符串会被 sh 解析，
+        反斜杠会被吃掉（我们为此白折腾了一轮）。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>第 2 步：浅克隆</h2>
+      <p>完整克隆的包协商很容易挂在那里。只需要最新一个提交的话：</p>
+      <pre><code>git clone --depth 1 --single-branch --branch main \
+  ssh://git@ssh.github.com:443/&lt;用户名&gt;/&lt;用户名&gt;.github.io.git</code></pre>
+      <p>我们这边：完整克隆二十分钟不动，浅克隆 5 秒、6.2 MB 结束。提交完照样能推送。</p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>第 3 步：把重试写进脚本</h2>
+      <p>
+        网络断续是常态，不是异常。推送失败就等 10 秒重试，最多五次；同时给 ssh 加上
+        <code>-o ServerAliveInterval=10 -o ServerAliveCountMax=6</code>，避免连接被静默掐断。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>备用通道：完全不依赖 git 传输</h2>
+      <p>
+        如果 443 也被挡，还有一条路：用 GitHub 的 REST API 直接提交。它只需要能打开
+        <code>api.github.com</code>（HTTPS），一个文件对应一次调用：
+      </p>
+      <p>
+        建 blob → 建 tree（把远端当前 tree 作为 <code>base_tree</code>，这样没动的文件自动保留）→
+        建 commit → 移动分支 ref。需要一个只有该仓库 <code>Contents: Read and write</code> 权限的令牌。
+      </p>
+      <div class="callout">
+        <strong>知识点｜判断发布成功，看结果不看退出码</strong><br>
+        抓一次线上页面，和本地文件逐字比对。命令没报错只说明它跑完了。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.44s">
+      这套做法的由来（含假认证的完整推理过程）：<a href="2026-10-16-deploy.html">《上线实录 ① 一个骗过我的 127.0.0.1》</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
