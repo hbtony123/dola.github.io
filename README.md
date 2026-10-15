@@ -56,9 +56,28 @@ powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
 
 备选通道：`.dola-deploy\publish.ps1` 走 GitHub API 发布（需要一把限权到该仓库的令牌，放在同目录 `token.txt`），当 SSH 通道彻底不通时可用。
 
+## 域名与解析（2026-10-16 起）
+
+解析在阿里云云解析，NS 是 `dns21.hichina.com` / `dns22.hichina.com`。
+
+| 名字 | 类型 | 值 | 用途 |
+| --- | --- | --- | --- |
+| `@` | A ×4 | `185.199.108.153`、`.109.153`、`.110.153`、`.111.153` | GitHub Pages 站点 |
+| `www` | CNAME | `hbtony123.github.io` | 跳主域名 |
+| `_github-pages-challenge-hbtony123` | TXT | `4e82c4cf…dd6` | GitHub 域名验证，**别删** |
+| `@` | MX ×3 | `mx1.qiye.aliyun.com`(5)、`mx2`(10)、`mx3`(15) | 阿里邮箱收信 |
+| `@` | TXT | `v=spf1 include:spf.qiye.aliyun.com -all` | 发信防伪造 |
+
+两个已经踩过的坑：
+
+- 顶点原先是一条 CNAME。**CNAME 与 MX/TXT 互斥**，所以加邮箱记录之前必须先删掉它、换成上面那 4 条 A 记录，否则邮箱记录写不进去。
+- 原先还有一条 `*` 通配符 CNAME 指向 github.io。它会把 `mail._domainkey`、`_dmarc` 这类名字一并接管，导致 DKIM / DMARC 永远配不上。已于 2026-10-16 删除，**不要加回来**。
+
+邮箱：`hello@dola.cn`，阿里邮箱免费版，管理员账号 `codex`。
+免费版不提供 DKIM 记录，所以主动发信到 QQ / Gmail 有进垃圾箱的风险，收信不受影响。
+
 ## 待办
 
-- 邮箱：`dola.cn` 目前没有 MX 记录，`hello@dola.cn` 收不到信，所以站内的联系方式先用 GitHub。
-  配好企业邮箱或邮件转发之后，把 4 个页面页脚里的 GitHub 链接换成邮箱即可。
+- DKIM / DMARC：当前只有 SPF。可选加一条 `_dmarc` 的 TXT（`v=DMARC1; p=none; rua=mailto:hello@dola.cn`）先做监控。
 - Codex 使用指南整理好后，放进本站并加上入口。
 - 可选：站内搜索、订阅、站点访问统计（如需，另开分支）。
