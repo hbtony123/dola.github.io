@@ -12,9 +12,12 @@ about.html      关于
 notes/          长文与解法文（笔记区里带「读全文」的文章）
 guide/          Codex 使用指南（单文件长文，独立视觉）
 tools/          可以直接下载的小工具脚本
+scripts/        早期页面留下的音频与脚本，与本站无关
 404.html        找不到页面时的落地页
 assets/style.css  全部样式（含深色模式）
 assets/favicon.svg
+CNAME           GitHub Pages 自定义域名，内容必须是 dola.cn
+.nojekyll       让 Pages 跳过 Jekyll 处理
 robots.txt / sitemap.xml
 ```
 
@@ -32,33 +35,45 @@ robots.txt / sitemap.xml
 ## 上线（现状）
 
 `dola.cn` = GitHub Pages，源仓库 **`hbtony123/dola.github.io`**，分支 `main`。
-域名解析：`dola.cn` → CNAME → `hbtony123.github.io`，NS 在阿里云。
+解析：`dola.cn` 用 4 条 A 记录指向 GitHub Pages（见下文表格），NS 在阿里云。
 
-发布只需要一条命令（工具在 `D:\CODEX\.dola-deploy\`，不属于本站内容）：
+发布工具不在本站目录里（它维护着远端的一份镜像克隆，所以只会快进、不会覆盖别人推上去的提交）。
+在维护机上只需要这两条命令：
 
-```powershell
-powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
+```bash
+bash ~/CODEX/.dola-deploy/deploy.sh --dry-run   # 彩排：只列出这次会动哪些文件
+bash ~/CODEX/.dola-deploy/deploy.sh             # 真发布
 ```
 
-脚本流程：浅克隆／更新镜像 → 拷贝本站文件 → 删除废弃项目 → 提交推送（自带重试）→ 等 dola.cn 真的返回新页面。
+脚本流程：探测并选定 SSH 通道 → 更新镜像（浅克隆、只允许快进）→ 拷贝本站文件 →
+删除已废弃项目 → 提交推送（失败自动重试 5 次）→ **逐个核对本次改动过的文件**是否已在线上生效。
 
-三个已经踩过的坑，别再踩：
+判断成功不看命令有没有报错，看结果：线上文件与本地文件忽略空白后哈希一致，才算发布成功。
+脚本只核验「这一次真正改动的文件」——核验一个没有改动的页面，什么也证明不了。
 
-- **本机的 `github.com` 被本地代理接管**（解析到 `127.0.0.1`）：此时任何密钥都会「认证成功」，看着像通了，其实推不动真东西。真实入口是 GitHub 的 SSH-over-443：`ssh://git@ssh.github.com:443/hbtony123/dola.github.io.git`。
+三个已经踩过的坑，别再踩（前两条发生在上一台维护机上，留着是为了认症状）：
+
+- **`github.com` 被本地代理接管**（解析到 `127.0.0.1`）：此时任何密钥都会「认证成功」，
+  看着像通了，其实推不动真东西。判断方法很便宜：拿一把注定不该成功的密钥去试，看它是不是也回「认证成功」。
+  现在的维护机没有这个问题，22 端口直连即可；脚本仍保留自动回落到
+  `ssh://git@ssh.github.com:443/hbtony123/dola.github.io.git` 的能力，通道不通时会自己切过去。
 - **完整克隆会卡死**（包协商之后 0 字节不动），必须用 `--depth 1` 浅克隆，几秒就能拉下来。
 - **网络时断时续是常态**，脚本内置 5 次重试；判断是否成功要看 dola.cn 是否真的返回新内容，而不是看命令有没有报错。
 
 仓库里必须留意的文件：
 
 - 根目录 `CNAME` 内容必须是 `dola.cn`，删了自定义域名就掉。
+- `.nojekyll` 别删：它让 Pages 跳过 Jekyll 处理。
 - `scripts/` 是旧页面留下的音频与脚本，跟本站无关，不要动。
 - `animal-paradise/`（动物乐园）已于 2026-10-16 删除，需要时可在历史提交里找回。
+- 本文件（`README.md`）会随站点一起发布——**不要在里面写凭据或内部地址**。
 
 样式没更新一般是缓存，强制刷新一次即可。
 
 本地预览：直接双击 `index.html` 就能看，整站没有外部依赖。
 
-备选通道：`.dola-deploy\publish.ps1` 走 GitHub API 发布（需要一把限权到该仓库的令牌，放在同目录 `token.txt`），当 SSH 通道彻底不通时可用。
+通道彻底不通时的备用方案：`.dola-deploy/publish.ps1` 走 GitHub API 发布（需要一把限权到该仓库的令牌）。
+它是上一台维护机上留下的脚本，**没有搬到现在的机器**；现在主要依赖上面那条自动回落。
 
 ## 域名与解析（2026-10-16 起）
 
@@ -84,21 +99,22 @@ powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
 
 - **最省事的统计**：GitHub 仓库自带的流量面板（仓库 → Insights → Traffic），不用装任何东西，
   能看最近 14 天的访问量与来源站，登录即用。先看这个就够。
-- **要看页面级数据**，再任选一种（都需要注册账号，注册后把那段脚本贴到各页 `</head>` 前，再跑一次 `deploy.ps1`）：
+- **要看页面级数据**，再任选一种（都需要注册账号，注册后把那段脚本贴到各页 `</head>` 前，再跑一次 `deploy.sh`）：
   Cloudflare Web Analytics（免费、不采集个人信息，最贴合本站调性）、百度统计（国内数据最全）、
   GoatCounter / Umami（开源，可自建）。
 - **提交搜索引擎**（一次性，都需要账号）：
   - Google Search Console：添加「网址前缀」资源 `https://dola.cn/`，把验证文件放进站点根目录
-    （`deploy.ps1` 会一起发布，记得把文件名加进 `$Sync`），然后提交 `sitemap.xml`
+    （发布脚本会一起发上去，记得把文件名加进脚本里的同步清单），然后提交 `sitemap.xml`
   - Bing Webmaster：可直接从 GSC 导入，同样提交 sitemap
   - 百度搜索资源平台：添加站点 → 文件或 CNAME 验证 → 提交 sitemap
-- **订阅入口**：站上「发信到 hello@dola.cn，主题写订阅」。读者来信用 `mail.ps1 -Action inbox` 读，
-  回信用 `-Action send`。
+- **订阅入口**：站上「发信到 hello@dola.cn，主题写订阅」。读者来信用邮件工具读、用邮件工具回
+  （工具脚本与凭据都还在上一台机器上，见「待办」）。
 - **分发**：内容去 V2EX（分享创造）、掘金、知乎、少数派；英文版投 Hacker News。
   别整篇复制——按平台改写标题和开头，读者不同，重复内容对自己也没好处。
 
 ## 待办
 
+- 邮件工具：现维护机上还没有可用的收发脚本。重做时把密码存进系统钥匙串，不要再抄旧的加密文件。
 - DKIM / DMARC：当前只有 SPF。可选加一条 `_dmarc` 的 TXT（`v=DMARC1; p=none; rua=mailto:hello@dola.cn`）先做监控。
 - Codex 使用指南整理好后，放进本站并加上入口。
 - 可选：站内搜索、订阅、站点访问统计（如需，另开分支）。
