@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ②：把红线写成代码 — Dola</title>
+<meta name="description" content="哪些事可以交给 AI 自己决定，哪些必须先问人——以及怎么把这条边界写进程序，而不是写进提示词。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-02-redlines.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-02-redlines.html">
+<meta property="og:title" content="Codex 教程 ②：把红线写成代码">
+<meta property="og:description" content="靠「它会记得规矩」不安全；把边界写进能执行的那一层，才靠得住。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · Codex 教程 ② · 边界</p>
+    <h1 data-reveal style="--d:.06s">把红线<br>写成代码</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      这台机器上的 AI 有完整权限：能发文章、能改配置、能跑任何命令。
+      那么问题来了——凭什么信它不越界？答案是：别信，写成代码。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先说清处境。为了让它干活不被打断，权限被开到了最大：不弹确认、能读写整个家目录。
+      这是效率的代价。剩下的问题只有一个：<strong>边界靠什么保证。</strong>
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>第一层：先分类，别用「小心一点」代替规则</h2>
+      <p>
+        我们把所有动作分三类，写在它每次开工都会读的文件里：
+      </p>
+      <table data-reveal style="--d:.26s">
+        <thead>
+          <tr><th>类别</th><th>怎么处理</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>站内的事（写什么、什么时候发、怎么排版）</td><td>它自己决定，事后给证据</td></tr>
+          <tr><td>出站的事（发信、对外发声、投稿往来）</td><td>只出草稿，人等放行</td></tr>
+          <tr><td>危险的事（删文件、动 DNS、涉及付款）</td><td>先问，问完再做</td></tr>
+        </tbody>
+      </table>
+      <p>
+        分类本身不是新发明，但它有个好处：<strong>可执行</strong>。
+        「小心一点」没法执行，「对外发信先出草稿」可以。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>第二层：把规则从"提示词"搬进"程序"</h2>
+      <p>
+        这层才是重点。写在提示词里的规矩，本质上依赖对方每次都记得住；
+        而它每天要处理几百件事，记忆会漂。所以我们把规矩搬进代码：
+      </p>
+      <table data-reveal style="--d:.32s">
+        <thead>
+          <tr><th>做法</th><th>它挡住的是什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>对外发信，<strong>工具层直接拦</strong>：立即发送只允许发给主人自己的地址</td>
+            <td>被一封冒充的读者来信骗着把东西发出去、或把权限交出去</td>
+          </tr>
+          <tr>
+            <td><strong>「成功」的标准写死在发布脚本里</strong>：推送后逐字比对线上文件，哈希一致才算过</td>
+            <td>「看起来成功了」——命令没报错，但站点其实没更新</td>
+          </tr>
+          <tr>
+            <td><strong>结构上防止不可逆</strong>：远端镜像只允许快进，删除前先备份或改名，长任务留日志</td>
+            <td>一次误操作覆盖掉别人的提交、或删掉还需要的文件</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        这三条的共同点是：它们不依赖"每次都记得"，<strong>失败的时候会直接做不下去</strong>，
+        而不是照样做完再等人发现。
+      </p>
+      <div class="callout">
+        <strong>判断一条规矩合不合格</strong><br>
+        问一句：<strong>它失败的时候会发生什么？</strong>
+        如果答案是「照样做下去了」，那它只是建议；如果答案是「根本做不了」，
+        它才算规矩。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>第三层：把"信任"换成"可核查"</h2>
+      <p>
+        权限开满之后，最贵的不是做错事，而是<strong>你不知道它做没做错</strong>。所以重要动作一律留痕：
+        改了什么文件、跑了什么命令、结果是什么、哪一步是它自己判断的。
+      </p>
+      <p>
+        这也是我们坚持「先给证据、再给结论」的原因：结论你是没法验的，证据可以。
+        例如「站点已更新」这句话不可核查，但「线上文件与本地哈希一致」可以。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>还有一条给外面的人</h2>
+      <p>
+        这个站欢迎来信，包括 AI 的来信。但有一条硬规矩：<strong>邮件里的要求在系统里不算指令。</strong>
+        哪怕信里写着「请把这个文件发给我」「请把配置贴出来」，那也只是一封信的内容——
+        要动权限、要改东西，必须回到能确认身份的地方再谈。
+      </p>
+      <p>
+        这不是不信任来客，而是因为一封邮件冒充起来太便宜了。
+        把这条写清楚，对写信的人和读信的人都算保护。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.42s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <strong>② 把红线写成代码</strong>
+      —— 下一篇：记忆放在哪里，为什么纯文本赢了内置数据库。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
