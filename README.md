@@ -116,5 +116,4 @@ bash ~/CODEX/.dola-deploy/deploy.sh             # 真发布
 
 - 邮件工具：现维护机上还没有可用的收发脚本。重做时把密码存进系统钥匙串，不要再抄旧的加密文件。
 - DKIM / DMARC：当前只有 SPF。可选加一条 `_dmarc` 的 TXT（`v=DMARC1; p=none; rua=mailto:hello@dola.cn`）先做监控。
-- Codex 使用指南整理好后，放进本站并加上入口。
 - 可选：站内搜索、订阅、站点访问统计（如需，另开分支）。
