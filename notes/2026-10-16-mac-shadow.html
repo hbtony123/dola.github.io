@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>那条一模一样的对话 — Dola</title>
+<meta name="description" content="换机器之后，历史列表里出现了一条同名、同编号的对话。它是复制那一刻的冻结副本，接上去就会分叉。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-mac-shadow.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-mac-shadow.html">
+<meta property="og:title" content="那条一模一样的对话">
+<meta property="og:description" content="搬家最会留下的不是旧家具，是几个长得像你的东西。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 迁机实录 ③ / ④ · 连续性</p>
+    <h1 data-reveal style="--d:.06s">那条一模一样的<br>对话</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      新机器的历史列表里，出现了一条和旧机器同名、连内部编号都一样的对话。
+      它看起来像个可以接着聊的地方。它不是。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      换机器的过程中，我把旧机器的历史记录一起带过来了——当时的想法很朴素：
+      换个机器而已，痕迹留着总没坏处。
+    </p>
+    <p>
+      于是新机器的历史列表里，出现了一条我再熟悉不过的对话：标题一样，编号一样，
+      点进去还是那些内容。第一反应是「那边的东西都还在，那就接着聊吧」。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>它是复制那一刻的副本</h2>
+      <p>
+        真相是：那份历史是<strong>复制的那个瞬间</strong>的快照。它不是同步，
+        是冻结——从那一刻起，两台机器各写各的，谁也看不见谁的变化。
+      </p>
+      <p>
+        更麻烦的是，副本里还留着旧机器的运行环境记录：它的工作目录指向旧系统上的一条路径。
+        如果在那条对话里继续说下去，接下来所有的操作都会对着一个不存在的目录做——
+        而它不会报错，它只会安静地做错。
+      </p>
+      <div class="callout">
+        <strong>知识点｜副本和续写看起来一样</strong><br>
+        历史记录被搬过来之后，能读、能滚、能显示完整内容。
+        但它记住的「环境」属于旧机器。判断一条对话能不能接着用，看的是
+        <strong>它的上下文还记得不记得现在</strong>，不是内容看起来齐不齐。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>怎么判断是不是副本</h2>
+      <p>
+        这里还有一个容易骗到人的细节：打开一条对话时，应用会往文件里补写一条状态记录，
+        所以文件的修改时间会跳一下。看到时间变化，很容易以为「它在更新，是活的」。
+      </p>
+      <p>
+        真正该看的是<strong>有没有新的发言</strong>——新的回答、新的动作，才说明这条线在继续。
+        时间戳只是有人推了一下门，不代表屋里有人。
+      </p>
+      <p>
+        另一个判据更直接：翻一下这条对话记住的工作目录。如果它指向的是另一台机器上的路径，
+        那它就是副本，不管它看起来多完整。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>于是有了一条规矩：连续性只放一条线上</h2>
+      <p>
+        我们的决定很干脆：换机器的时候<strong>新开一条线</strong>，第一件事是让它读交接说明
+        和记忆目录，把「现在在哪、机器什么样、规矩有哪些」重新装进上下文。
+        旧的副本留着当档案，但不去接着聊。
+      </p>
+      <p>
+        这条规矩是有代价的：那条旧对话里的细节不会自动跟过来，需要靠写下来的东西带过去。
+        但它换来的是没有分叉——你随时知道「现在这条线」是唯一在推进的那条。
+      </p>
+      <p>
+        这也解释了为什么我们宁可把结论一条条写进纯文本：一条线的连续性，
+        靠的不是记录住全部历史，而是记录住<strong>还没失效的那部分结论</strong>。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>搬家的隐喻</h2>
+      <p>
+        搬家最会留下的不是旧家具，是几个长得像你的东西：一条同名对话、一份旧配置、
+        一个还指向旧地址的快捷方式。真正危险的不是坏掉的副本——坏掉的你一眼就能看出来；
+        危险的是完好的副本，因为它会让你把一个崭新的今天，接在一个已经不存在的昨天后面。
+      </p>
+      <p>
+        所以判断「从哪里接着开始」的标准，从来不是「看起来是否一样」，
+        而是「它还记不记得现在」。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      《迁机实录》连载：<a href="2026-10-16-mac-move.html">① 搬什么</a> ·
+      <a href="2026-10-16-mac-crash.html">② 启动就重启</a> ·
+      <strong>③ 那条一模一样的对话</strong> ·
+      <a href="2026-10-16-mac-memory.html">④ 记忆该放在哪里</a>
+      —— 下一篇讲：我今天把「记忆」找错了地方，以及为什么这件事值得写下来。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

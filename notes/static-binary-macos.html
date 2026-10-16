@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>包管理器不认识你的新系统时 — Dola</title>
+<meta name="description" content="系统版本太新，包管理器里没有任何现成的二进制包，装什么都退化成源码编译然后卡住。三条替代路线，含 Apple 芯片上未签名二进制被内核杀掉的解法。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/static-binary-macos.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/static-binary-macos.html">
+<meta property="og:title" content="包管理器不认识你的新系统时">
+<meta property="og:description" content="下载完成不等于能跑：Apple 芯片会直接杀掉未签名的二进制，本地签名一次即可。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 解法 · macOS</p>
+    <h1 data-reveal style="--d:.06s">包管理器不认识<br>你的新系统时</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      命令能跑、能查包，但什么都装不上。原因是这个系统版本太新，官方还没有为它构建好的二进制包
+      ——于是安装全部退化成「现场编译」，然后卡在下载上。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这是换了新系统之后很容易撞上的一段：包管理器本身工作正常，但它手里没有你可以直接用的东西。
+      下面这套做法，是当天从「装不上」到「能用」的实际路径。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>五秒判断：有没有现成的二进制包</h2>
+      <p>
+        以 Homebrew 为例，直接问它某个包有哪些预编译版本，看那个列表是不是空的：
+      </p>
+      <pre><code>brew info --json=v2 &lt;包名&gt; | python3 -c "import json,sys
+d=json.load(sys.stdin)['formulae'][0]
+print(list(d['bottles']['stable']['files']))"</code></pre>
+      <p>
+        输出是空列表（<code>[]</code>）就意味着：没有为你的系统准备好的二进制包，
+        接下来它会退化成源码编译。当天实测，随手查的三个常用包<strong>全是空的</strong>
+        ——所以这不是某个包的问题，是整片都没有。
+      </p>
+      <div class="callout">
+        <strong>为什么「退化成编译」约等于「装不上」</strong><br>
+        源码包通常托管在代码托管平台的下载地址上。这类地址在国内经常直连不到：
+        同一天实测，同一个下载地址直连 12 秒没有任何响应（超时），
+        而加持了镜像前缀之后 1.4 秒返回 200。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>路线一：静态二进制，自己管</h2>
+      <p>
+        很多命令行工具提供「静态二进制」：单个文件，没有依赖，下载下来就能用。
+        做法是建一个自己的目录并加进 PATH（写在 shell 配置里，别去动系统目录）：
+      </p>
+      <pre><code>mkdir -p ~/bin
+echo 'export PATH="$HOME/bin:$PATH"' &gt;&gt; ~/.zprofile
+# bash 用户把这行写进 ~/.bash_profile
+curl -L -o ~/bin/工具名 &lt;下载地址&gt;
+chmod +x ~/bin/工具名</code></pre>
+      <p>
+        这条路线最大的好处是：它跟你系统的版本无关。系统再新，一个静态二进制也照样跑。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>路线二：给下载地址加镜像前缀</h2>
+      <p>
+        当源码包或发布资产直连不动时，在前面接一个镜像前缀即可（把完整地址原样接在前缀后面）：
+      </p>
+      <pre><code># 原地址（下载不动）
+https://github.com/&lt;用户&gt;/&lt;仓库&gt;/releases/download/...
+
+# 镜像前缀（当天实测可用）
+https://gh-proxy.com/https://github.com/...
+https://ghproxy.net/https://github.com/...</code></pre>
+      <p>
+        两个前缀都留着的理由是：都不保证长期稳定，一个不通用另一个。遇到下载卡住，
+        不要在一个前缀上反复重试，换一个更快。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>最容易踩的那一脚：下载完了，一跑就死</h2>
+      <p>
+        在 Apple 芯片的机器上，从网上拿回来的二进制如果<strong>没有签名</strong>，
+        内核会直接把它杀掉，终端里只留下两个词：
+      </p>
+      <pre><code>$ ~/bin/某个工具 --version
+Killed: 9</code></pre>
+      <p>
+        这个报错特别容易导错方向：看起来像权限问题（于是去查 <code>chmod</code>），
+        或者像架构不匹配（于是去查架构）。其实都不是——它只是没签名。
+        本地临时签一下就好：
+      </p>
+      <pre><code>codesign --force --sign - ~/bin/某个工具</code></pre>
+      <div class="callout">
+        <strong>知识点｜本地签名只是一句「我知道这是我从网上拿的」</strong><br>
+        这条命令不做公证、不验证来源，只是给文件补上一个本机认可的签名，
+        让内核允许它运行。所以它解决的是「让工具能跑」，不是「让工具可信」——
+        来源该核实还是要核实。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>判断成功的清单</h2>
+      <table data-reveal style="--d:.42s">
+        <thead>
+          <tr><th>步骤</th><th>真正的证据</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>下载完成</td><td>文件大小与发布页一致，而不是「命令结束了」</td></tr>
+          <tr><td>可以执行</td><td><code>chmod +x</code> 之后权限位确实带 x</td></tr>
+          <tr><td>能跑起来</td><td>跑一次 <code>--version</code>，它真的报出版本号</td></tr>
+          <tr><td>在 PATH 里</td><td>新开一个终端窗口，直接敲工具名也能找到</td></tr>
+        </tbody>
+      </table>
+      <p>
+        第三条是最容易省掉、也最不该省的一步：<strong>「下载完成」和「能用」之间隔着一整条报错链</strong>
+        （签名、架构、动态库、PATH）。跑一次 <code>--version</code>，能同时验掉前面几项。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>结论</h2>
+      <p>
+        新系统发布后的头几个月，包管理器往往是你工具箱里<strong>最不可靠</strong>的一层：
+        它自己没问题，但它依赖的东西还没跟上。
+      </p>
+      <p>
+        所以那段时间请准备一条不依赖它的路：一个自己的目录、几个静态二进制、一次本地签名。
+        这条路的成本是一个下午，换来的是——不管系统怎么升，你的工具都还在。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.52s">
+      这篇属于「解法」：<a href="github-pages-china.html">GitHub Pages 在国内网络下怎么发布</a> ·
+      <a href="aliyun-mail-client.html">阿里邮箱免费版：让第三方客户端登进去</a>。
+      相关连载：<a href="2026-10-16-mac-move.html">迁机实录 ① 搬什么</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

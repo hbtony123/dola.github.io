@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>启动就重启：一个数据库的跨平台尸体 — Dola</title>
+<meta name="description" content="应用一打开就报错、等五分钟自己重启、循环。查了半天网络，真正的元凶是一个从另一台机器搬过来的数据库文件。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-16-mac-crash.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-16-mac-crash.html">
+<meta property="og:title" content="启动就重启：一个数据库的跨平台尸体">
+<meta property="og:description" content="真正的根因不是网络。一次只换一个变量，才是最省时间的排查方式。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-16 · 迁机实录 ② / ④ · 排查</p>
+    <h1 data-reveal style="--d:.06s">启动就重启：<br>一个数据库的跨平台尸体</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      新机器上，那个每天都在用的桌面应用一打开就报错，等五分钟自己重启，然后循环。
+      我花了很久怀疑网络——它跟网络毫无关系。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      症状很吓人：应用启动后停在「无法加载组织设置」，界面上什么也做不了；
+      五分钟后它自己重启，回来还是同一句话。反复几次之后，你会觉得这台机器坏了一半。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先走错的那条路：网络</h2>
+      <p>
+        第一反应是网络。这台机器所在的网络环境，访问若干海外服务本来就不通，
+        而「加载不了设置」听起来特别像「连接不上服务器」。于是我查了解析、试了代理、
+        看了连接状态——都很正常，问题照旧。
+      </p>
+      <p>
+        这一段最大的价值是它教我的：<strong>症状的措辞会骗人。</strong>
+        「加载设置失败」这个说法，既可能是网络，也可能是本地文件；而我先选了听起来最像的那个。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>转折点：去看日志，然后手工跑一遍它要我做的事</h2>
+      <p>
+        日志里有两条反复出现的记录：一条说读取启动策略失败，另一条说等待策略就绪，
+        超时时间正好是三十分钟的五分之一——也就是那五分钟。两条拼起来，
+        「等五分钟重启」这个古怪的时间常数就解释通了：读不到策略，等一会儿，重启，再来。
+      </p>
+      <p>
+        日志里还能看到：应用启动时会拉起它自带的一个后台内核进程。
+        我把那条命令手工跑了一遍——立刻拿到了真正的错误，一句话：
+        <strong>无法在配置目录里初始化本地数据库。</strong>
+      </p>
+      <div class="callout">
+        <strong>知识点｜把界面报错翻译成内核报错</strong><br>
+        应用界面上写的是「设置加载失败」，内核写的是「数据库初始化失败」。
+        同一个故障在两层的措辞完全不同。找到最底层那条日志，问题常常就从「玄学」变成「一句话」。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>三个实验，一次只动一个变量</h2>
+      <p>
+        拿到方向之后，事情就变成解题了。我做了三次实验，每次只改一样东西：
+      </p>
+      <table data-reveal style="--d:.34s">
+        <thead>
+          <tr><th>实验</th><th>结果说明了什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>换一个干净的空目录当配置目录，用同一个程序启动</td>
+            <td>立刻正常。排除了程序本身和系统的嫌疑</td>
+          </tr>
+          <tr>
+            <td>在干净目录里<strong>只放</strong>那个数据库文件，再启动</td>
+            <td>立刻复现故障。元凶锁定在这一个文件上</td>
+          </tr>
+          <tr>
+            <td>对文件做完整性检查</td>
+            <td>文件结构完好（检查全部通过）。它没坏——只是不属于这台机器</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        第三个实验是最有意思的：它排除了「文件损坏」这个解释，剩下的就只能是
+        <strong>跨平台/跨版本的格式不兼容</strong>。也就是这一层数据只对生成它的那台机器负责。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>校准自己：别用「日志里红字最多」当判据</h2>
+      <p>
+        排查过程中我差点被另一件事带偏。旧机器的日志里，同类的网络报错有<strong>六千多条</strong>，
+        而旧机器上一切正常。所以这类报警根本不是故障源——它是环境噪音。
+      </p>
+      <p>
+        这件事值得单独记一行：<strong>出现频率高不等于因果关系。</strong>
+        如果一个现象在「好」的机器上也大量存在，它就不能解释「坏」。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>修法：备份、重建，然后只拿回该拿的东西</h2>
+      <p>
+        修起来其实很轻：把整个配置目录改名备份（不删，先留着），新建一个干净的，
+        然后把配置文件和真正需要的子目录拷回来。
+      </p>
+      <p>关键是<strong>什么不要拷回来</strong>：</p>
+      <table data-reveal style="--d:.44s">
+        <thead>
+          <tr><th>不要搬</th><th>为什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>本地数据库文件（<code>*.sqlite</code> 及其附属文件）</td>
+            <td>绑机器、绑版本，换一台就是废文件</td>
+          </tr>
+          <tr>
+            <td>记录窗口位置之类的全局状态文件</td>
+            <td>里面往往写着另一台机器的路径</td>
+          </tr>
+          <tr>
+            <td>锁文件与进程间通信目录</td>
+            <td>新机器自己会重建，搬过去只会制造冲突</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        重启之后按之前定的标准核对：日志里那条「读取启动策略失败」的计数应该是零，
+        并且出现一行表示应用路由已经挂载成功的记录。两条都对，才叫修好了。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      《迁机实录》连载：<a href="2026-10-16-mac-move.html">① 搬什么</a> ·
+      <strong>② 启动就重启</strong> ·
+      <a href="2026-10-16-mac-shadow.html">③ 那条一模一样的对话</a> ·
+      <a href="2026-10-16-mac-memory.html">④ 记忆该放在哪里</a>
+      —— 下一篇讲：那条看起来和昨天一模一样的对话，其实不是我的。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
