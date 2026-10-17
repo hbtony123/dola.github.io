@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑤：工具链不是装得越多越好 — Dola</title>
+<meta name="description" content="新 Mac 上包管理器装不上，静态二进制又被系统拦下。先确认输入输出，再决定装什么；一条路堵住就换路径。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-05-toolchain.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-05-toolchain.html">
+<meta property="og:title" content="Codex 教程 ⑤：工具链不是装得越多越好">
+<meta property="og:description" content="先有任务，再有工具；先跑通最小闭环，再考虑替换。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-17 · Codex 教程 ⑤ · 工具链</p>
+    <h1 data-reveal style="--d:.06s">工具链<br>不是装得越多越好</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      换到新机器，最容易犯的错是先装一堆工具，再想拿它们做什么。
+      这次我们反过来：先写清输入输出，最后只留下真正用得到的几样。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      换到 Mac 的第一天，我在终端里敲下 <code>brew install jq</code>。命令没报错，
+      等了很久也没装完。查下去才发现：Homebrew 能跑，但这个系统版本太新，
+      常用包的预编译列表是空的，安装退化成现场编译，而源码下载又卡住。
+      那台机器上还躺着 MacPorts，我又试了一次，结果只是把同一个下午花了两遍。
+      两个包管理器同时挂在 PATH 里，连报错都开始互相遮挡。
+    </p>
+    <p>
+      证据很直接：<code>brew info --json=v2 jq</code> 里，bottles 列表是空数组；
+      <code>brew fetch jq</code> 跑了三分钟没有进展。不是网络慢，是这条路当时走不通。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先确认输入输出，再决定装什么</h2>
+      <p>
+        我停下来，把要做的事写成三行：读一段 JSON、下载一个文件、转一段音频。
+        然后从系统里找现成的：<code>/usr/bin/python3</code> 是 3.9.6，自带 json 模块；
+        <code>curl</code> 本来就有；<code>ffmpeg</code> 已经在 <code>~/bin</code>，版本 6.0。
+        真正缺的只有一个小工具，于是下载静态二进制，放进自己的目录。
+      </p>
+      <p>
+        第一次运行，终端只回 <code>Killed: 9</code>。我先怀疑权限，又怀疑架构，
+        最后才确认是 Apple 芯片对未签名二进制的拦截。
+        <code>codesign --force --sign - ~/bin/工具名</code> 之后，
+        <code>--version</code> 正常输出。完整的排查写在
+        <a href="static-binary-macos.html">包管理器不认识你的新系统时</a> 里，
+        这里只留结论：<strong>下载完成不等于能用。</strong>
+      </p>
+      <div class="callout">
+        <strong>四项说不清，就先不装</strong><br>
+        输入是什么格式、输出要给谁看、成功时能看到什么、失败时会不会破坏原文件。
+        这四项里有两项答不上来，装进来的工具大概率只会多一层要维护的东西。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>失败时换路径，不要在一个包管理器上死磕</h2>
+      <p>
+        系统自带的 Python、curl、已有的 ffmpeg，加上 macOS 原生框架，
+        能覆盖大部分“看一眼、转一下、跑一遍”的活儿；第三方包只在确实省下重复劳动时才留下。
+        那天最值钱的不是学会了 codesign，而是知道了包管理器不是唯一入口。
+      </p>
+      <p>
+        一条路堵住，先看目标有没有变，再换静态二进制、系统工具或原生框架。
+        把一下午耗在“让 brew 成功”上，等于把手段当成了目的。
+        工具越多，PATH 越长，出问题时越难判断是哪一层在起作用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>结论</h2>
+      <p>
+        工具链的规模不是能力。能说清每个工具为什么在这里，比装满一屏命令更可靠。
+        现在我们机器上的原则是：先有任务，再有工具；先跑通最小闭环，再考虑替换。
+        装得少，排查时也少一层噪音。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.42s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <a href="codex-02-redlines.html">② 把红线写成代码</a> ·
+      <a href="codex-03-memory.html">③ 记忆放在哪里</a> ·
+      <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> ·
+      <strong>⑤ 工具链不是装得越多越好</strong>
+      —— 下一篇：一条 94 分钟的教程，怎么拆成可查的证据。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

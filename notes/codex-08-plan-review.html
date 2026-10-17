@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑧：先写清，再动手 — Dola</title>
+<meta name="description" content="仓库指针显示落后 6 个提交，工作区却与远端逐字一致。先查清指针、工作区和远端的关系，再决定动不动 pull。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-08-plan-review.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-08-plan-review.html">
+<meta property="og:title" content="Codex 教程 ⑧：先写清，再动手">
+<meta property="og:description" content="计划先写，改完看 diff 和测试，发布看线上逐字结果。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-17 · Codex 教程 ⑧ · 计划与审查</p>
+    <h1 data-reveal style="--d:.06s">先写清<br>再动手</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      改代码之前，最危险的动作往往不是“改错”，而是“先同步一下”。
+      我们这次先查清仓库指针和工作区的关系，再决定动不动它。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      准备补这五篇文章时，<code>git -C dola status --short --branch</code> 给出两个看似矛盾的消息：
+      分支显示 <code>main...origin/main [behind 6]</code>，HEAD 是 <code>ecea656</code>；
+      但工作区里有一堆未提交改动，还有几篇未跟踪的新文章。
+      按直觉，应该先 pull 或 reset。可那样做，很可能把正在写的稿子覆盖掉。
+    </p>
+    <p>
+      我们没有动。先读发布说明：站点源码目录不是发布入口，真正推送的是
+      <code>.dola-deploy/repo</code> 里的镜像克隆，脚本只允许快进。
+      再逐个比对：镜像 HEAD 是 <code>67c14b5</code>，镜像里的 32 个文件在工作区全部存在，
+      逐字哈希一致；其中 23 个属于本地 HEAD，另外 9 个尚未提交。
+      结论是：本地 HEAD 指针落后，但工作区内容已经等于远端；
+      <strong>指针旧不等于文件旧。</strong>
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>三样东西，不能混成一个 pull</h2>
+      <table data-reveal style="--d:.26s">
+        <thead>
+          <tr><th>看到的东西</th><th>当时的值</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>站点源码 HEAD</td>
+            <td><code>ecea656</code></td>
+            <td>本地分支指针，落后 6 个提交</td>
+          </tr>
+          <tr>
+            <td>镜像 HEAD</td>
+            <td><code>67c14b5</code></td>
+            <td>部署脚本真正推送的远端镜像</td>
+          </tr>
+          <tr>
+            <td>工作区文件</td>
+            <td>32 个镜像文件</td>
+            <td>全部存在且逐字一致（23 跟踪 / 9 未提交）</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        指针、工作区、远端是三样东西。指针落后可以只是“没 fetch”，
+        工作区却可能已经是最新内容；反过来，指针最新也不保证文件没被人改过。
+        在脏工作区里执行 <code>reset</code>、<code>checkout</code> 或 <code>pull</code>，
+        保护不了任何一方。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>计划模式：先写清要动什么</h2>
+      <p>
+        这次的计划只有四步：列出要新增的五个页面；核对每篇的素材和链接；
+        只改 <code>notes.html</code>、<code>sitemap.xml</code>、路线图和一处连载尾注；
+        最后查结构和链接。计划写在前面，改的时候就不会一边写一边改范围。
+        计划模式的价值不是“多一步”，而是把“我打算动什么”变成可以先审的东西。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>看 diff，不看“我觉得没问题”</h2>
+      <p>
+        改完以后看三样：<code>git status --short</code> 确认只多了预期的文件；
+        <code>git diff --stat</code> 确认索引文件的改动量；再用脚本检查新页面的标题、
+        canonical、相对链接和字符数。
+      </p>
+      <p>
+        发布脚本的判断更硬：线上文件与本地文件忽略空白后哈希一致，才算成功；
+        命令退出码不算证据。这条规矩和
+        <a href="codex-02-redlines.html">② 把红线写成代码</a> 里说的是同一件事。
+      </p>
+      <div class="callout">
+        <strong>保护用户已有改动，第一条是不乱同步</strong><br>
+        先读状态，再比对内容；确实需要同步，也在镜像里做。
+        工作区里的未提交文件，可能正是别人正在写的东西。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>结论</h2>
+      <p>
+        先写清要改什么，再改；改完看 diff 和测试；要发布，再看线上逐字结果。
+        慢的是前面几分钟，省下的是返工。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <a href="codex-02-redlines.html">② 把红线写成代码</a> ·
+      <a href="codex-03-memory.html">③ 记忆放在哪里</a> ·
+      <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> ·
+      <a href="codex-05-toolchain.html">⑤ 工具链不是装得越多越好</a> ·
+      <a href="codex-06-video.html">⑥ 让它「看」视频</a> ·
+      <a href="codex-07-skills.html">⑦ Skills 不是插件市场</a> ·
+      <strong>⑧ 先写清，再动手</strong>
+      —— 下一篇：四道门，决定哪些事可以自己跑。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

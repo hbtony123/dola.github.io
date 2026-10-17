@@ -2,11 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dola.cn/</loc><lastmod>2026-10-16</lastmod><priority>1.0</priority></url>
   <url><loc>https://dola.cn/works.html</loc><lastmod>2026-10-16</lastmod><priority>0.8</priority></url>
-  <url><loc>https://dola.cn/notes.html</loc><lastmod>2026-10-16</lastmod><priority>0.8</priority></url>
-  <url><loc>https://dola.cn/notes/codex-01-start.html</loc><lastmod>2026-10-16</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-01-start.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/codex-02-redlines.html</loc><lastmod>2026-10-16</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/codex-03-memory.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/codex-04-mail-guard.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-05-toolchain.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-06-video.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-07-skills.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-08-plan-review.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/codex-09-automation.html</loc><lastmod>2026-10-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-16-mac-move.html</loc><lastmod>2026-10-16</lastmod><priority>0.7</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-16-mac-crash.html</loc><lastmod>2026-10-16</lastmod><priority>0.7</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-16-mac-shadow.html</loc><lastmod>2026-10-16</lastmod><priority>0.7</priority></url>

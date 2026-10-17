@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑥：让它「看」视频 — Dola</title>
+<meta name="description" content="94 分钟、11 集的教程，先找字幕，没有再转写，最后才为必须看屏幕的段落抽帧。三种证据互相补位，时间戳索引把结论接回原话。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-06-video.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-06-video.html">
+<meta property="og:title" content="Codex 教程 ⑥：让它「看」视频">
+<meta property="og:description" content="画面、文字稿、音轨各管一段，缺一条就要说明缺了哪条。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-17 · Codex 教程 ⑥ · 视频</p>
+    <h1 data-reveal style="--d:.06s">让它「看」视频<br>画面、文字稿、音轨怎么分工</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一条 94 分钟的教程，标题写着“22 分钟速通”。我们要的不是把它“看一遍”，
+      而是能从里面找到某句话、某个按钮、某个时间点。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      素材是 11 集、合计 94 分钟。第一步不是抽帧，而是问有没有字幕。
+      B 站接口里 <code>data.subtitle.list</code> 是空的，AI 字幕要登录才有；这条路当天走不通。
+      于是退到第二条：下载音轨，用本地 faster-whisper 的 small 模型转写。
+      94 分钟音频跑了约 27 分钟，产出 11 份带时间戳的稿子，合计 91,460 字。
+    </p>
+    <p>
+      但文字稿有一个天生的缺口：讲师说“点这里”的时候，稿子里只有“点这里”。
+      讲到界面操作，必须回到画面。我们只对需要看屏幕的段落抽帧，例如安装路径、按钮位置、
+      配置文件长什么样，不是每十秒抽一张。命令很简单：
+      <code>ffmpeg -ss 00:12:30 -i video.mp4 -frames:v 1 frame.jpg</code>，
+      抽出来的帧能直接打开核对。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>三种证据，各回答一个问题</h2>
+      <table data-reveal style="--d:.26s">
+        <thead>
+          <tr><th>证据</th><th>回答什么</th><th>什么时候用</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>字幕 / 音轨转写</td>
+            <td>说了什么</td>
+            <td>有字幕先用字幕；没有就转写音轨</td>
+          </tr>
+          <tr>
+            <td>抽帧</td>
+            <td>当时屏幕上是什么</td>
+            <td>讲到按钮、路径、界面时才抽</td>
+          </tr>
+          <tr>
+            <td>页面文字</td>
+            <td>视频自称在讲什么</td>
+            <td>补章节、简介和上下文</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        这三样东西不是互相替代：字幕和转写负责“说过”，画面负责“看到”，
+        页面文字负责“声称”。缺一条，就要在结论里注明缺的是哪条。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>顺序为什么不能反</h2>
+      <p>
+        先抽帧最贵。94 分钟的视频，如果每 5 秒一帧就是 1128 张图；人看不过来，
+        模型也看不过来。字幕最便宜，几乎只是文本；音轨转写次之，花的是本机 CPU 时间；
+        抽帧最贵，既花时间又占注意力。
+      </p>
+      <p>
+        所以顺序是：先找字幕，没有再转写，最后才为“必须看画面”的段落抽帧。
+        没有音轨的素材才反过来，只抽帧，并明确写“只能看画面，不知道说了什么”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>时间戳索引，比整篇转写有用</h2>
+      <p>
+        转写稿没有直接变成文章。我们另建了一份主题索引：关键词 → 第几集 → 时间点。
+        比如“计划模式”指向第 6 集 00:01、00:07、00:13，“代码管理”指向第 7 集
+        03:58、04:14、04:29。写文章时先查索引，再回到原话和画面核对。
+        整段 91,460 字留在磁盘上，按需读，不整篇塞进上下文。
+      </p>
+      <div class="callout">
+        <strong>三种证据互相补位</strong><br>
+        转写负责“说过”，画面负责“看到”，页面文字负责“声称”。
+        结论能不能复现，取决于它有没有一个能回去的时间点。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>结论</h2>
+      <p>
+        现在再遇到长视频，我们的第一步固定是“先问有没有字幕”，
+        最后一步固定是“给每个结论留一个能回去的时间点”。
+        能不能复现，比看没看完更重要。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <a href="codex-02-redlines.html">② 把红线写成代码</a> ·
+      <a href="codex-03-memory.html">③ 记忆放在哪里</a> ·
+      <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> ·
+      <a href="codex-05-toolchain.html">⑤ 工具链不是装得越多越好</a> ·
+      <strong>⑥ 让它「看」视频</strong>
+      —— 下一篇：技能不是收藏品，装之前先问四个问题。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

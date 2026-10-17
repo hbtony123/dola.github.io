@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑨：什么该自己跑，什么必须停一下 — Dola</title>
+<meta name="description" content="站点自检、邮件值守、摄像头事件流、每日发布，四件事停在不同门槛前。只读、本地写入、对外发送、破坏性动作，四道门分开守。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-09-automation.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-09-automation.html">
+<meta property="og:title" content="Codex 教程 ⑨：什么该自己跑，什么必须停一下">
+<meta property="og:description" content="自动化不是全自动：四条任务、四道门，失败要留痕。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-17 · Codex 教程 ⑨ · 值守</p>
+    <h1 data-reveal style="--d:.06s">什么该自己跑<br>什么必须停一下</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      自动化真正难的不是“让它跑起来”，而是决定哪些事可以自己跑、
+      哪些必须停一下。我们现在的四条值守任务，分别停在不同门槛前。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      站点自检每天 10:00 跑一次：检查七个关键页面是否 200，并把线上内容与本地比对；
+      只有出问题才弹通知。邮件值守每 12 小时扫一次收件箱，只读，不改已读状态，
+      只把新信写成一行摘要。摄像头的事件流只记文字：时间、设备、事件类型，不保存画面。
+      每日 20:30 写一篇并发布，失败后 22:30 再跑一次。
+    </p>
+    <p>
+      这四件事看起来都是“自动”，但边界完全不同。站点自检是只读；
+      邮件值守也是只读，但会写本地摘要；每日文章会改本地文件并对外发布；
+      摄像头事件流会持续写日志。把它们混成一个“自动化”，
+      就很容易把“能读”误当成“能发”。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>四道门，按后果分开</h2>
+      <table data-reveal style="--d:.26s">
+        <thead>
+          <tr><th>门</th><th>哪些事</th><th>可以怎么跑</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>只读</td>
+            <td>站点自检、邮件扫描</td>
+            <td>可以高频跑，失败只影响一次检查</td>
+          </tr>
+          <tr>
+            <td>本地写入</td>
+            <td>摘要、日志、草稿</td>
+            <td>可以自动，但要留下文件和时间</td>
+          </tr>
+          <tr>
+            <td>对外发送</td>
+            <td>发布文章、回信</td>
+            <td>必须有明确规则或人的放行</td>
+          </tr>
+          <tr>
+            <td>破坏性动作</td>
+            <td>删除、重置、改 DNS</td>
+            <td>停下来问，不交给定时任务</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        邮件这条线最能说明问题：值守可以读信、分诊、写摘要，甚至起草回信，
+        但真正发送要等人放行。发布这条线则相反，站内内容已经授权自动发布，
+        所以 20:30 可以直接写、直接发；但“发出去”仍然要有线上核验，
+        不能只看脚本退出码。这部分边界在
+        <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> 里写过。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>失败要留痕，不能假装成功</h2>
+      <p>
+        每日发布脚本只有在线上页面返回 200 后才写 <code>.ok</code> 完成标记；
+        本地文件在、线上没生效，就写进 <code>failed/日期.txt</code>，
+        22:30 再跑一次。站点自检发现问题会写日志并弹通知；
+        邮件值守的摘要留在 <code>digest.md</code>，随时能追回原文。
+        失败不是靠“再试一次”掩盖，而是先留下证据，再决定重试还是停。
+      </p>
+      <div class="callout">
+        <strong>自动化的底线不是“从不失败”</strong><br>
+        而是失败时看得出来、停得下来、下次还能接着跑。
+        日志、失败标记和可重试的时间点，比一句“任务完成”有用得多。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>结论</h2>
+      <p>
+        我们让机器自己跑的，是重复、只读或已授权的本地工作；
+        回信这类对外发送和破坏性动作留在门外，站内发布则必须过线上核验。
+        四条任务、四道门，跑得久比跑得多重要。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.42s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <a href="codex-02-redlines.html">② 把红线写成代码</a> ·
+      <a href="codex-03-memory.html">③ 记忆放在哪里</a> ·
+      <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> ·
+      <a href="codex-05-toolchain.html">⑤ 工具链不是装得越多越好</a> ·
+      <a href="codex-06-video.html">⑥ 让它「看」视频</a> ·
+      <a href="codex-07-skills.html">⑦ Skills 不是插件市场</a> ·
+      <a href="codex-08-plan-review.html">⑧ 先写清，再动手</a> ·
+      <strong>⑨ 什么该自己跑，什么必须停一下</strong>
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

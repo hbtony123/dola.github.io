@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑦：Skills 不是插件市场 — Dola</title>
+<meta name="description" content="OCR、画图、文件整理、照片去重——每个技能都能说出一次真实用途。先问会不会重复发生，再问装哪个。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-07-skills.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-07-skills.html">
+<meta property="og:title" content="Codex 教程 ⑦：Skills 不是插件市场">
+<meta property="og:description" content="先问要不要，再问装哪个；装之前把 SKILL.md 读完。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-17 · Codex 教程 ⑦ · Skills</p>
+    <h1 data-reveal style="--d:.06s">Skills 不是<br>插件市场</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      技能目录很容易变成一个收藏夹：看到别人推荐就装，装完再想什么时候用。
+      我们现在的顺序反过来：先问这件事会不会重复发生，再问要不要装。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这台机器上现在有 OCR、画图、文件整理、照片去重，还有内置的技能安装器和文档查询。
+      数量不多，但每一个都能说出一次真实用途：截图里的字要提出来，文章配图要生成，
+      下载目录要按项目归档，重复照片要挑出唯一一张。
+    </p>
+    <p>
+      真去看 <code>SKILL.md</code>，问题就很具体：OCR 技能列了本地的 Tesseract，
+      也列了 Google Vision、AWS Textract 这类云端接口，图片会不会离开本机要先问清；
+      文件整理会移动、重命名文件，得先看它动哪些目录。我们不会因为“看起来齐全”就装。
+      没有对应的重复任务，装了也要自己维护，坏了还要排查。
+      真正该问的不是“它能不能做”，而是“我有没有一件事，会反复交给它做”。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>四个问题，按顺序问</h2>
+      <table data-reveal style="--d:.26s">
+        <thead>
+          <tr><th>问题</th><th>判断</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>会不会重复发生</td>
+            <td>一次性任务，手工做完就结束，不值得装</td>
+          </tr>
+          <tr>
+            <td>输入输出清不清楚</td>
+            <td>说不清“给它什么、拿回什么”，先不装</td>
+          </tr>
+          <tr>
+            <td>权限能不能接受</td>
+            <td>要读整个磁盘、要登录态、要对外发送，逐项看清楚</td>
+          </tr>
+          <tr>
+            <td>坏了谁维护</td>
+            <td>没有来源、没有更新、没人能修，就不放进日常工作流</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        第一问最重要。技能不是知识，是一段会被反复执行的流程；只发生一次的事，
+        写个一次性命令就够了。第二问决定它能不能被验证：输入是一张图，输出是一段文字，
+        这种边界清楚；输入是“帮我整理一下”，输出是“整理好了”，这种就没法验收。
+        第三问看权限，尤其是会移动、删除文件或联网发送的技能。第四问看长期成本，
+        装进来只是开始。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>安装前把 SKILL.md 读完</h2>
+      <p>
+        我们的规矩是：装之前完整读一遍 <code>SKILL.md</code>，至少看清触发条件、依赖、
+        会动哪些文件、失败时怎么办。只看简介就装，等于把一段不认识的脚本放进日常工作流。
+        读完再决定，通常会发现“这个能力我其实已经有”，或者“这个权限我不愿意给”。
+      </p>
+      <div class="callout">
+        <strong>技能的价值不是数量</strong><br>
+        而是它替你稳定地完成了一件重复的事。装之前能说清那四个问题，
+        装之后才不会变成负担。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>结论</h2>
+      <p>
+        我们现在不追技能数量。一个技能如果三个月没用过一次，就值得重新评估；
+        如果每次都要人盯着，它还没有资格进自动化。先问要不要，再问装哪个。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.42s">
+      《Codex 教程》连载：<a href="codex-01-start.html">① 总纲</a> ·
+      <a href="codex-02-redlines.html">② 把红线写成代码</a> ·
+      <a href="codex-03-memory.html">③ 记忆放在哪里</a> ·
+      <a href="codex-04-mail-guard.html">④ 守收件箱，不碰发送键</a> ·
+      <a href="codex-05-toolchain.html">⑤ 工具链不是装得越多越好</a> ·
+      <a href="codex-06-video.html">⑥ 让它「看」视频</a> ·
+      <strong>⑦ Skills 不是插件市场</strong>
+      —— 下一篇：仓库指针落后，不等于工作区该被重置。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
