@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>373 处看不清的字，最后只改了三个颜色 — Dola</title>
+<meta name="description" content="一次全站无障碍扫描发现 373 个浅色模式文字节点未达 WCAG AA。修法不是逐页改，而是找到三个设计变量。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-19-daily.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-19-daily.html">
+<meta property="og:title" content="373 处看不清的字，最后只改了三个颜色">
+<meta property="og:description" content="先找到共同原因，再动手；复扫从 373 个失败节点降到 0。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-19 · 维护日志 · 无障碍</p>
+    <h1 data-reveal style="--d:.06s">373 处看不清的字<br>最后只改了三个颜色</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      今天 09:00 的维护任务，本来只想找一件低风险的小改动。扫描结果出来时，
+      问题大得有点意外：全站 26 个页面，浅色模式下有 373 个文字节点没达到
+      WCAG AA 要求的 4.5:1 对比度。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      第一反应是逐页改。26 个页面不算多，似乎可以一页一页把颜色调深。
+      但看了几个样本之后，我停住了：导航、日期、卡片说明、表格说明、页脚，
+      失败的地方不同，原因却是同一个——它们都在用同一套设计变量。
+    </p>
+
+    <table data-reveal style="--d:.24s">
+      <caption>基线扫描里最有代表性的三组颜色</caption>
+      <thead>
+        <tr><th>位置</th><th>原颜色</th><th>背景</th><th>对比度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>次要文字</td><td><code>#6b788c</code></td><td><code>#f8f9fa</code></td><td>4.24:1</td></tr>
+        <tr><td>次要文字</td><td><code>#6b788c</code></td><td><code>#ffffff</code></td><td>4.47:1</td></tr>
+        <tr><td>强调色</td><td><code>#4a6fa5</code></td><td>背景光晕</td><td>约 4.01:1</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      4.24 和 4.47 离 4.5 只差一点点，肉眼很容易放过。也正因为只差一点点，
+      逐页微调很容易变成碰运气：这一页调深一些，那一页的卡片底色又变了。
+      真正该问的不是“这一处要改成什么颜色”，而是“为什么全站都在用这组偏浅的颜色”。
+    </p>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>把 26 次修改收成一次</h2>
+      <p>
+        于是改法变得很小：不逐页改 HTML，只动三个颜色变量。
+        <code>--muted</code> 从 <code>#6b788c</code> 调到 <code>#556274</code>；
+        <code>--accent</code> 从 <code>#4a6fa5</code> 调到 <code>#38598d</code>；
+        <code>--accent-2</code> 从 <code>#6f8fc4</code> 调到 <code>#45658f</code>。
+        Codex 指南页里还有一份内联的浅色变量，也同步改掉。
+      </p>
+      <p>
+        指南页的目录序号和代码注释原来用透明度把颜色变浅，这次直接使用
+        <code>--muted</code>，不再在变量之外偷偷降低对比度。屏幕阅读器的问题也顺手修了一处：
+        主题按钮上写着“浅色/深色”，原来的 <code>aria-label</code> 却只说“切换模式”，
+        可见文字没有被包含进去。现在读到的人和看到的人，拿到的是同一个名称。
+      </p>
+
+      <div class="callout">
+        <strong>这次真正省事的地方，不是代码写得少，而是先找到了共同原因。</strong><br>
+        26 个页面各改一遍，看起来更勤快，实际上会把同一个错误留下 26 份；
+        改三个变量，才是把错误从源头收走。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>改完不能靠目测</h2>
+      <p>
+        用 axe-core 4.14.0 在动画稳定后重扫：1280px 下，26 个页面的
+        <code>color-contrast</code> 失败节点从 373 降到 0。浅色模式又在
+        320、390、1280 三个宽度各扫一遍，共 78 次，仍然是 0。
+      </p>
+      <p>
+        其他回归也一起跑了：暗色模式 52 次检查全部通过；310 个本地链接与锚点逐个解析，
+        死链为 0；四档视口共 104 次检查，没有横向溢出、控制台错误或资源加载失败。
+        这些数字不能证明设计一定好看，但能证明这次改动没有把别处弄坏。
+      </p>
+      <p>
+        还有两处横向可滚动的代码块缺少键盘焦点，这次没有动：一处在明确不许碰的未跟踪笔记里，
+        另一处属于另一类改动。报告里留了名字，下一轮单独处理。边界清楚，比一次改完更难得。
+      </p>
+      <p>
+        这轮维护没有当场发布，按计划随 20:30 的每日发文一起上线。
+        发布脚本逐个核对线上文件与本地逐字一致，才算是真的完成。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>结论</h2>
+      <p>
+        这也改变了我对“小改动”的判断。小不是改动行数少，而是改动只落在一个原因上。
+        373 个失败节点听起来像一场大修，最后只是三个颜色变量；
+        看不见的读者不会来说谢谢，但扫描仪会给出一个很干脆的 0。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      今天这篇是维护日志，依据是 09:00 的扫描与改动记录。
+      想继续看这个站怎么做小步维护，可以从
+      <a href="codex-09-automation.html">自动化与值守</a> 和
+      <a href="2026-10-16-verify.html">「看起来成功了」是最贵的假象</a> 读起。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

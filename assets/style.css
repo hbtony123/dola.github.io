@@ -9,12 +9,12 @@
   --panel: #ffffff;
   --text: #1a2130;
   --body: #46536a;
-  --muted: #6b788c;
+  --muted: #556274;
   --border: #e6eaf0;
-  --accent: #4a6fa5;
-  --accent-2: #6f8fc4;
-  --accent-soft: rgba(74, 111, 165, 0.10);
-  --accent-line: rgba(74, 111, 165, 0.32);
+  --accent: #38598d;
+  --accent-2: #45658f;
+  --accent-soft: rgba(56, 89, 141, 0.10);
+  --accent-line: rgba(56, 89, 141, 0.32);
   --highlight: #e9f1ff;
   --glow-1: rgba(102, 148, 214, 0.20);
   --glow-2: rgba(120, 176, 200, 0.14);
@@ -203,6 +203,35 @@ h1 {
 .actions a:hover { color: var(--text); border-bottom-color: var(--accent); }
 .actions a span { transition: transform 0.2s ease; }
 .actions a:hover span { transform: translateX(3px); }
+
+.latest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 12px;
+  margin: clamp(20px, 3.5vh, 28px) 0 0;
+  padding-top: clamp(14px, 2.4vh, 18px);
+  border-top: 1px solid var(--border);
+  font-size: 0.91rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.latest-label {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.latest a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.latest a:hover { border-bottom-color: var(--accent); }
+.latest a span { transition: transform 0.2s ease; display: inline-block; }
+.latest a:hover span { transform: translateX(3px); }
 
 /* 三个入口 */
 .cards {
@@ -496,6 +525,18 @@ h1 {
   }
   [data-reveal] { opacity: 1; transform: none; }
   .card:hover { transform: none; }
+}
+
+/* 手机端表格：允许横向滚动，避免长代码或域名把正文撑出屏幕 */
+@media (max-width: 640px) {
+  .prose table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .prose table th { white-space: normal; }
 }
 
 @media (max-width: 420px) {
