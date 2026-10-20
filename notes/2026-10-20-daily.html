@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>省了 55% 的词元，没省下时间 — Dola</title>
+<meta name="description" content="同一件活，命令行和工具调用各跑三遍：每任务 1,278 对 575 个词元，端到端 13–15 秒对 12–13 秒。省下的究竟是哪一块。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-20-daily.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-20-daily.html">
+<meta property="og:title" content="省了 55% 的词元，没省下时间">
+<meta property="og:description" content="MCP 值不值得包：同一后端、同一句问题各跑三遍，省的是重复交代，不是速度。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-20 · 实测 · MCP</p>
+    <h1 data-reveal style="--d:.06s">省了 55% 的词元<br>没省下时间</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      学 Codex 时有个问题一直没答好：既然它已经能读写文件、能跑命令，为什么还要 MCP？
+      「多一层协议总归更规范」这个回答我不满意——规范不值钱，省下来的东西才值钱。
+      于是做了个对照实验：同一件活，两种接入方式，各跑三遍。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这篇文章只想回答一件事：把一条常用的接口包成工具，到底换来了什么，又付出了什么。
+      结论不复杂——它省词元、省一致性，不省时间；有 shell 权限的时候，它不是必需品。
+      但「省了 55%」这个数字是怎么来的、又被什么抵消，值得把过程摊开。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>怎么测</h2>
+      <p>
+        场景选每天都用得到的：检索本机知识库，问「MCP 审批策略」，返回命中的笔记文件名。
+        同一件活，两种接法：
+      </p>
+      <p>
+        <strong>甲：</strong>让模型自己写一条 PowerShell 命令，去调本机的检索接口。
+      </p>
+      <p>
+        <strong>乙：</strong>把同一个接口包成一个工具，模型只填两个参数。
+      </p>
+      <p>
+        同一个模型、同一句问题、同一个后端，各跑 3 次，取中位数。
+      </p>
+      <div class="callout">
+        <strong>这一轮，甲其实是占便宜的</strong><br>
+        接口地址、参数名、令牌从哪个文件读，我全都写进了提示词。
+        真实场景里，这些信息要靠模型自己翻代码、试出来。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>结果</h2>
+      <table data-reveal style="--d:.32s">
+        <caption>同一后端、同一句问题，各 3 次取中位数</caption>
+        <thead>
+          <tr><th>指标</th><th>命令行</th><th>工具调用</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>每任务词元（中位数）</td><td>1,278</td><td>575</td></tr>
+          <tr><td>三次原始值</td><td>1,273 / 1,463 / 1,278</td><td>648 / 541 / 575</td></tr>
+          <tr><td>模型需要写的胶水</td><td>363–394 字符</td><td>20 字符</td></tr>
+          <tr><td>工具调用次数</td><td>1</td><td>1</td></tr>
+          <tr><td>端到端耗时</td><td>13–15 秒</td><td>12–13 秒</td></tr>
+        </tbody>
+      </table>
+      <p>
+        省了 55%，两边都一次做对，延迟没差别。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>三个发现</h2>
+      <p>
+        <strong>一、省的是「每次重新交代」。</strong>
+        命令行那一侧，模型每轮都要现编一条近 400 字符的命令：接口路径、参数名、
+        令牌从哪个文件读、中文和引号怎么不炸、返回的 JSON 里哪个字段才算命中。
+        工具那一侧，它只写 <code>{"query":"..."}</code>。
+      </p>
+      <p>
+        这不是模型笨，是知识没地方放。同一段交代，写了一百遍，就是一百遍的账单。
+      </p>
+      <p>
+        <strong>二、正确性可以从提示词搬进代码。</strong>
+        指令模糊、只说「只输出命中的」时，命令行版把 8 个文件全列了出来，
+        其中 5 个相关度是 0；工具版只给 3 个——因为「相关度大于 0」这条过滤
+        写死在工具里，模型说什么都不会错。
+      </p>
+      <p>
+        换成精确指令后，命令行版也能做对。所以差别不在能力，在
+        <strong>规则放在哪儿</strong>：放在提示词里靠自觉，放在代码里靠执行。
+      </p>
+      <p>
+        <strong>三、它并不更快。</strong>
+        单次调用，命令行 296 毫秒，工具 8 毫秒——差的全是 PowerShell 每次启动的开销。
+        可到了整轮对话，两边都被模型推理吃掉，13 秒对 12 秒。
+      </p>
+      <p>
+        所以「用 MCP 提速」这个理由站不住。它省的是词元和一致性，不是时间。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>结论</h2>
+      <p>
+        有 shell 权限的时候，MCP 不是必需品。它在两种时刻回本：
+        一是这件事你每周要做几十遍，省的是重复交代；
+        二是这件危险的事你只想让 AI 碰其中一小块，用窄接口替代全权 shell，省的是失控的风险。
+        其余时候，写条命令就够了。
+      </p>
+      <div class="callout">
+        <strong>真正决定要不要包的，是「重复」和「失控」这两件事</strong><br>
+        重复得多，工具替你记住怎么做；风险高，工具替你划出边界。
+        两个都不占的时候，多一层协议只是多一层要维护的东西。
+      </div>
+      <p>
+        还有个容易被忽略的代价：工具声明会随每一轮请求常驻，每个会话还要多起一个进程。
+        给一个会话挂十个工具，这部分会积少成多。工具不是越多越好，是越准越好。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      实测环境：Windows、Codex CLI 0.162.1、模型 deepseek-flash（reasoning high），
+      检索后端为本机知识库接口（12 篇笔记）。对照组使用同一后端、同一句问题，
+      各 3 次取中位数；词元数取自 <code>codex exec</code> 输出。
+      工具这件事还能接着读
+      <a href="codex-05-toolchain.html">工具链不是装得越多越好</a> 和
+      <a href="codex-09-automation.html">什么该自己跑，什么必须停一下</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
