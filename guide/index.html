@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Codex 使用指南 · Dola</title>
-<meta name="description" content="一份写给中文使用者的 Codex 手册：从安装、配置到权限、自动化与提问技巧，并连着九篇实战教程，尽量说人话，不堆术语。">
+<meta name="description" content="一份写给中文使用者的 Codex 手册：从安装、配置到权限、自动化与提问技巧，尽量说人话，不堆术语。">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
 <link rel="canonical" href="https://dola.cn/guide/">
@@ -15,11 +15,11 @@
     --bg-soft: #eef1f6;
     --panel: #ffffff;
     --text: #1a2130;
-    --muted: #556274;
+    --muted: #6b788c;
     --border: #e6eaf0;
-    --accent: #38598d;
-    --accent-soft: rgba(56, 89, 141, 0.10);
-    --accent-2: #45658f;
+    --accent: #4a6fa5;
+    --accent-soft: rgba(74, 111, 165, 0.10);
+    --accent-2: #6f8fc4;
     --warn: #b45309;
     --warn-soft: rgba(180, 83, 9, 0.10);
     --danger: #c0392b;
@@ -112,7 +112,7 @@
   nav.toc a { display: flex; gap: 9px; align-items: baseline; padding: 6px 10px; margin: 1px 0; border-radius: 9px; text-decoration: none; font-size: 13.5px; color: var(--muted); }
   nav.toc a:hover { color: var(--text); background: var(--bg-soft); }
   nav.toc a.active { color: var(--text); background: var(--accent-soft); font-weight: 500; }
-  nav.toc a .num { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  nav.toc a .num { font-family: var(--mono); font-size: 11px; color: color-mix(in srgb, var(--muted) 75%, transparent); }
 
   main { padding: 34px 0 90px; min-width: 0; }
   section { padding-bottom: 34px; }
@@ -158,7 +158,7 @@
   .code-head button:hover { color: var(--text); border-color: var(--accent); }
   .code pre { margin: 0; padding: 13px 15px; overflow-x: auto; font-size: 13px; line-height: 1.65; }
   .code pre code { white-space: pre; }
-  .cmt { color: var(--muted); }
+  .cmt { color: color-mix(in srgb, var(--muted) 92%, transparent); }
   .kw { color: var(--accent-2); }
   .str { color: var(--accent); }
   kbd { font-size: 12px; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-soft); color: var(--text); }
@@ -203,16 +203,6 @@
   .panel ul { margin: 6px 0 0; padding-left: 20px; font-size: 13.8px; color: var(--muted); }
   .panel li { margin: 5px 0; }
   .panel li strong { color: var(--text); font-weight: 600; }
-
-  .series-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 10px; margin: 20px 0 6px; }
-  .series-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
-  .series-item:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-1px); }
-  .series-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .series-num { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-family: var(--mono); font-size: 12px; }
-  .series-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .series-text strong { font-size: 14px; line-height: 1.5; }
-  .series-text span { font-size: 12.8px; color: var(--muted); line-height: 1.6; }
-
   ul.plain { margin: 12px 0; padding-left: 20px; }
   ul.plain li { margin: 7px 0; }
   .badge { display: inline-block; font-family: var(--mono); font-size: 11.5px; border-radius: 6px; padding: 1px 7px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--muted); }
@@ -256,22 +246,12 @@
   }
   @media (max-width: 620px) {
     body { font-size: 15.5px; }
-    .topbar-inner { gap: 10px; padding-left: 14px; padding-right: 14px; }
-    .brand small { display: none; }
     .flow { grid-template-columns: 1fr; }
     .compare-row { grid-template-columns: 1fr; gap: 6px; }
     .compare-row .tag { text-align: left; border-right: 0; border-left: 2px solid var(--border); padding: 0 0 0 10px; }
     .compare-row.good .tag { border-color: var(--accent); }
     .steps li { padding-left: 40px; }
     .hero { padding-top: 26px; }
-  }
-  @media (max-width: 480px) {
-    .back-home span { display: none; }
-  }
-  @media (max-width: 380px) {
-    .topbar-inner { gap: 8px; }
-    #themeLabel { display: none; }
-    .brand svg { display: none; }
   }
   @media print {
     header.topbar, nav.toc, .to-top, .progress-track, .hero-actions, .filter-row { display: none !important; }
@@ -288,7 +268,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="back-home" href="../index.html" aria-label="回到 Dola 首页">
+    <a class="back-home" href="../index.html">
       <svg viewBox="0 0 32 32" aria-hidden="true">
         <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
         <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
@@ -305,7 +285,7 @@
       <span>Codex 使用指南 <small>· codex-cli 0.162.1</small></span>
     </div>
     <div class="topbar-spacer"></div>
-    <button class="icon-btn" id="themeBtn" aria-label="浅色模式，切换到深色模式">
+    <button class="icon-btn" id="themeBtn" aria-label="切换深色模式">
       <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></svg>
       <span id="themeLabel">浅色</span>
     </button>
@@ -326,9 +306,8 @@
     <a href="#configure"><span class="num">08</span>配置与扩展</a>
     <a href="#prompting"><span class="num">09</span>怎么提问更有效</a>
     <a href="#practice"><span class="num">10</span>实践原则</a>
-    <a href="#series"><span class="num">11</span>实战连载</a>
-    <a href="#faq"><span class="num">12</span>常见问题</a>
-    <a href="#source"><span class="num">13</span>资料与版本</a>
+    <a href="#faq"><span class="num">11</span>常见问题</a>
+    <a href="#source"><span class="num">12</span>资料与版本</a>
   </nav>
 
   <main>
@@ -349,10 +328,6 @@
         <a class="btn" href="#commands">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M9 9l3 3-3 3M13.5 15H15"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg>
           直接查命令
-        </a>
-        <a class="btn" href="#series">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M4 20.5A2.5 2.5 0 016.5 18H20v3H6.5A2.5 2.5 0 014 18.5z"/><path d="M8 7h8M8 10.5h5"/></svg>
-          看实战连载
         </a>
       </div>
     </div>
@@ -418,14 +393,12 @@
           <p>切到仓库目录再启动，Codex 就以它为工作根目录。也可以用 <code>-C</code> 指定目录、用 <code>--add-dir</code> 额外开放可写目录。</p>
           <div class="code">
             <div class="code-head"><span>shell</span><span class="grow"></span><button data-copy>复制</button></div>
-            <pre><code><span class="cmt"># 进入仓库后启动（macOS / Linux）</span>
-cd ~/code/my-project
+            <pre><code><span class="cmt"># 进入仓库后启动</span>
+cd D:\my-project
 codex
 
 <span class="cmt"># 或一步指定目录</span>
-codex -C ~/code/my-project
-
-<span class="cmt"># Windows 下把路径换成 D:\my-project</span></code></pre>
+codex -C D:\my-project</code></pre>
           </div>
         </li>
         <li data-step="4">
@@ -651,12 +624,11 @@ git commit -m "refactor: 抽取支付回调重复逻辑"</code></pre>
 codex exec "为 src/utils/date.ts 里的公开函数补齐注释和单测，跑通测试"
 
 <span class="cmt"># 从标准输入接手任务描述</span>
-cat spec.md | codex exec -
+Get-Content spec.md | codex exec -
 
 <span class="cmt"># 机器可读输出，并把最终消息写进文件</span>
 codex exec --json -o result.txt "跑测试并总结失败原因"</code></pre>
       </div>
-      <p>Windows PowerShell 里把 <code>cat spec.md</code> 换成 <code>Get-Content spec.md</code> 即可，管道后的命令不变。</p>
 
       <h3>常用配套选项</h3>
       <div class="table-wrap">
@@ -832,84 +804,8 @@ args = [<span class="str">"-y"</span>, <span class="str">"some-mcp-server"</span
       </div>
     </section>
 
-    <section id="series">
-      <h2><span class="idx">11</span>实战连载：九篇，按顺序读</h2>
-      <p>指南把概念、命令和权限边界讲清楚；《Codex 教程》九篇记录的是同一套工具在真实项目里的用法——发布、迁机、收信、值守。前三篇打好基本盘，后六篇各解决一类具体问题。</p>
-      <div class="series-grid">
-        <a class="series-item" href="../notes/codex-01-start.html">
-          <span class="series-num">①</span>
-          <span class="series-text">
-            <strong>从一条 94 分钟的教程说起</strong>
-            <span>材料从哪来、怎么核验，以及这个系列准备怎么写。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-02-redlines.html">
-          <span class="series-num">②</span>
-          <span class="series-text">
-            <strong>把红线写成代码</strong>
-            <span>把「站内自理、出站留草稿、危险先问」变成工具层过不去的门。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-03-memory.html">
-          <span class="series-num">③</span>
-          <span class="series-text">
-            <strong>记忆放在哪里</strong>
-            <span>三层记忆结构：每次开工读什么、什么时候读。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-04-mail-guard.html">
-          <span class="series-num">④</span>
-          <span class="series-text">
-            <strong>守收件箱，不碰发送键</strong>
-            <span>收信可以自动，回信必须停下；四道门怎么设。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-05-toolchain.html">
-          <span class="series-num">⑤</span>
-          <span class="series-text">
-            <strong>工具链不是装得越多越好</strong>
-            <span>新系统装不上包时，最后留下了哪些工具。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-06-video.html">
-          <span class="series-num">⑥</span>
-          <span class="series-text">
-            <strong>让它「看」视频</strong>
-            <span>字幕、转写、抽帧，三种证据怎么互相补位。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-07-skills.html">
-          <span class="series-num">⑦</span>
-          <span class="series-text">
-            <strong>Skills 不是插件市场</strong>
-            <span>先问要不要，再问装哪个；装之前把说明读完。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-08-plan-review.html">
-          <span class="series-num">⑧</span>
-          <span class="series-text">
-            <strong>先写清，再动手</strong>
-            <span>先查清指针、工作区和远端，再决定动不动。</span>
-          </span>
-        </a>
-        <a class="series-item" href="../notes/codex-09-automation.html">
-          <span class="series-num">⑨</span>
-          <span class="series-text">
-            <strong>什么该自己跑，什么必须停一下</strong>
-            <span>四类任务、四道门，失败要留痕、不能假装成功。</span>
-          </span>
-        </a>
-      </div>
-      <div class="note">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
-        <p>每篇都对应一次真实的发布、迁移或值守，不是概念复述。想从最近的一篇看起，可以直接读
-          <a href="../notes/codex-09-automation.html">⑨ 自动化与值守</a>；想补齐上下文，就从
-          <a href="../notes/codex-01-start.html">① 总纲</a> 按顺序读。</p>
-      </div>
-    </section>
-
     <section id="faq">
-      <h2><span class="idx">12</span>常见问题</h2>
+      <h2><span class="idx">11</span>常见问题</h2>
 
       <details>
         <summary>它会擅自修改我的文件吗？</summary>
@@ -965,7 +861,7 @@ args = [<span class="str">"-y"</span>, <span class="str">"some-mcp-server"</span
     </section>
 
     <section id="source">
-      <h2><span class="idx">13</span>资料与版本说明</h2>
+      <h2><span class="idx">12</span>资料与版本说明</h2>
       <div class="panel">
         <h3>本页内容的来源</h3>
         <ul>
@@ -1031,7 +927,7 @@ codex doctor           <span class="cmt"># 环境体检</span></code></pre>
     root.setAttribute('data-theme', theme);
     themeIcon.innerHTML = theme === 'dark' ? moon : sun;
     themeLabel.textContent = theme === 'dark' ? '深色' : '浅色';
-    themeBtn.setAttribute('aria-label', theme === 'dark' ? '深色模式，切换到浅色模式' : '浅色模式，切换到深色模式');
+    themeBtn.setAttribute('aria-label', theme === 'dark' ? '切换到浅色模式' : '切换到深色模式');
   }
   applyTheme(currentTheme());
   themeBtn.addEventListener('click', function () {

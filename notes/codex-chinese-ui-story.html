@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>界面为什么不肯说中文 — Dola</title>
+<meta name="description" content="设置里写着简体中文，界面却是英文。查到最后发现不是坏了，是少了一个来自远方的开关。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-chinese-ui-story.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-chinese-ui-story.html">
+<meta property="og:title" content="界面为什么不肯说中文">
+<meta property="og:description" content="很多「坏了」，其实是「没拿到许可」。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-20 · 记录 · 桌面端</p>
+    <h1 data-reveal style="--d:.06s">界面为什么<br>不肯说中文</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      设置里写着「简体中文」，界面却是英文。每次升级之后都要重新折腾一遍。
+      查到最后发现：它不是坏了，是少收到一个来自远方的开关。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>症状</h2>
+      <p>
+        打开应用，菜单、按钮、提示，全是英文。进设置一看，「应用界面语言」那一栏明明写着简体中文。
+        改一下、重启、再改回来，什么都没变。
+      </p>
+      <p>
+        它有个规律：每次应用升级之后更容易出现，从程序坞直接点开也容易出现。
+        一开始以为是缓存，清了几次，没用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一个反直觉的发现</h2>
+      <p>
+        界面的语言，并不完全由本地设置决定。应用启动时会去问一个远方的服务：
+        「我现在该用哪种语言？」拿到答复，才去加载对应的语言包。
+      </p>
+      <p>
+        问题就出在这。那台服务在某些网络环境下够不着，答复一直没来，应用就老老实实地
+        回落到默认的英文——不是它不想中文，是它没收到许可。
+      </p>
+      <div class="callout">
+        <strong>一课的转折</strong><br>
+        「坏了」和「没拿到许可」是两种完全不同的故障。前一种要修，后一种要换一条路去拿。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>语言包其实一直在</h2>
+      <p>
+        更有意思的是：中文语言包根本不需要下载，它本来就完整地躺在应用里，
+        简体、繁体，全套都在。占了几百兆，却一直没被允许拿出来用。
+      </p>
+      <p>
+        所以问题不是「缺资源」，而是「缺一个允许使用资源的信号」。
+        想通这一点，后面的方向就变了：不用去改应用文件，也不用重装，只要在启动的时候把这个信号补上。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>换一种启动方式</h2>
+      <p>
+        最后的做法很朴素：做一个启动器。点它的时候，它先按一种「允许被检查」的方式把应用拉起来，
+        再确认一次界面语言；确认是中文了，就结束。
+      </p>
+      <p>
+        整个过程不修改应用本身，不动账号，不需要联网下载任何东西。
+        语言包是应用自己的，启动器只是把「允许使用」这件事替它说了一遍。
+      </p>
+      <p>
+        代价也很清楚：<b>必须从这个入口进</b>。哪天顺手点了原来的图标，它就是普通启动，
+        没有那层「允许」，界面又回到英文。这不是坏了，是走了另一条路。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>桌面上的三个图标</h2>
+      <p>
+        折腾的过程中，桌面上凑齐了三个长得几乎一样的图标：一个是应用本体，几百兆到一两个 G；
+        一个是启动器，只有几兆；还有一个是同一家公司的另一个产品，名字相近，功能完全不同。
+      </p>
+      <p>
+        区分它们最简单的方法不是看图标，是看体积和名字：<b>大的那个是本体，几兆的那个是入口。</b>
+        点错了不会有危险，只是会得到另一种结果。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>最后学到什么</h2>
+      <p>
+        技术上的收获是「先分清缺能力还是缺许可」。这句话不只适用于界面语言：
+        很多看起来坏掉的东西，其实只是某个开关没被打开，而开关在别人手里。
+      </p>
+      <p>
+        习惯上的收获是：给常用的东西定一个固定入口。桌面干净不干净不重要，
+        每次都能走到对的那条路上，才重要。
+      </p>
+      <p>
+        还有一点：这种本地变通有寿命。应用一升级，路径可能变，行为可能变。
+        它解决的是「今天能用」，不是「永远不用管」。知道这一点，就不会在它失效时太意外。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.44s">
+      相关：<a href="codex-plugins-basics.html">《Codex 插件入门》</a> ·
+      <a href="codex-mcp-basics.html">《MCP 入门》</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

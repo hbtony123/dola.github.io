@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP 入门：让 AI 接上你自己的工具 — Dola</title>
+<meta name="description" content="MCP 解决什么问题、三个角色怎么分工、报文长什么样，以及接进 Codex 时最容易踩的一个坑。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-mcp-basics.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-mcp-basics.html">
+<meta property="og:title" content="MCP 入门：让 AI 接上你自己的工具">
+<meta property="og:description" content="一个双方都认的接口，让模型能发现工具、调用工具、拿到结果。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-20 · 基础 · 工具接口</p>
+    <h1 data-reveal style="--d:.06s">MCP 入门：<br>让 AI 接上你自己的工具</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      模型本身只会说话。要让它查你的数据、动你的文件，需要一个双方都认的接口。
+      MCP 就是这个接口，本文只讲它解决什么、怎么接，不涉及任何具体项目的内部实现。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>一句话说清</h2>
+      <p>
+        MCP（Model Context Protocol）是一套约定：应用怎么发现你有哪些工具、怎么调用、结果怎么返回。
+        它不负责干活，负责让「干活的东西」被看见、被用上。
+      </p>
+      <p>
+        传输层是 JSON-RPC 2.0；走标准输入输出时，一条消息一行。就这点东西，剩下的都是围绕它的约定。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>为什么需要一个标准</h2>
+      <p>
+        假设有 5 个 AI 应用、8 个外部系统。没有标准，要写 40 个适配器；有标准，两边各写一次，加起来 13 个。
+        这就是 MCP 最朴素的价值：把乘法变成加法。
+      </p>
+      <p>
+        对使用者来说，好处更直接：同一个工具服务器，Codex 能用，别的支持 MCP 的客户端也能用，不用为每家重写。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>三个角色</h2>
+      <table>
+        <thead><tr><th>角色</th><th>是谁</th><th>负责什么</th></tr></thead>
+        <tbody>
+          <tr><td>客户端</td><td>你用 AI 的那个应用</td><td>连上服务器、把工具列表交给模型、执行调用</td></tr>
+          <tr><td>服务器</td><td>你自己写的小程序</td><td>声明有哪些工具、收到请求后真正去做</td></tr>
+          <tr><td>工具</td><td>服务器里的一个动作</td><td>有名字、说明和参数格式，比如「查一条笔记」</td></tr>
+        </tbody>
+      </table>
+      <p>
+        模型看到的不是你的代码，而是一份工具清单：每个工具叫什么、干什么、要哪些参数。
+        所以<b>描述写得清不清楚，直接决定它会不会用错</b>。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>报文长什么样</h2>
+      <p>先问「你有哪些工具」：</p>
+      <pre><code>{"jsonrpc":"2.0","id":1,"method":"tools/list"}</code></pre>
+      <p>服务器回一份清单（省略了部分字段）：</p>
+      <pre><code>{"jsonrpc":"2.0","id":1,"result":{"tools":[
+  {"name":"search_notes",
+   "description":"按关键词查本地笔记，返回标题和摘要",
+   "inputSchema":{"type":"object",
+     "properties":{"q":{"type":"string"}},
+     "required":["q"]}}
+]}}</code></pre>
+      <p>要用了，就发一次调用：</p>
+      <pre><code>{"jsonrpc":"2.0","id":2,"method":"tools/call",
+ "params":{"name":"search_notes","arguments":{"q":"发布流程"}}}</code></pre>
+      <p>
+        看懂这三段，MCP 就没有神秘感了：列清单、按名字调用、把结果交回去。
+        剩下的复杂度都在「怎么把服务器跑起来」和「怎么把权限管住」。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>接进 Codex 的三步</h2>
+      <ol>
+        <li><b>先单独跑通服务器。</b>不接任何客户端，用一行命令发个请求，确认它真的能回话。</li>
+        <li><b>登记。</b>用 <code>codex mcp add</code> 把启动命令写进去，或者在配置文件里加一段服务器声明。</li>
+        <li><b>让它调一次。</b>问一个必须用这个工具才能回答的问题，看它是否真的调用了、结果是否正确。</li>
+      </ol>
+      <p>
+        第三步最容易被跳过。只看「已连接」不算数，要看一次真实的调用记录和返回内容。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>最容易踩的坑：审批策略</h2>
+      <p>
+        如果你把审批设成了「永不询问」，那些需要确认才能执行的工具调用会被直接拒绝。
+        表现很像「服务器坏了」：连得上、列表也有，就是一调用就失败。
+      </p>
+      <p>
+        正确做法是给这个服务器单独设一个审批模式，而不是为了省事把全局审批全关掉。
+        权限是分层给的，不是一次性全给。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>安全边界</h2>
+      <ul>
+        <li>先给只读工具，确认行为符合预期，再考虑写操作。</li>
+        <li>服务器能碰到的目录越小越好，别一上来就开放整个磁盘。</li>
+        <li>返回结果要短。把整张表塞回去，既费钱又容易让模型抓错重点。</li>
+        <li>密钥、令牌这类东西留在服务器自己的配置里，不要出现在提示词和返回内容中。</li>
+      </ul>
+    </section>
+
+    <section class="section" data-reveal style="--d:.48s">
+      <h2>什么时候别用 MCP</h2>
+      <p>
+        一次性任务，直接跑一条命令就够了。MCP 的价值在「反复用」：同一套查询、同一组操作，
+        今天用、下周还用，才值得为它写一个服务器、维护一份权限。
+      </p>
+      <p>
+        判断标准很简单：这件事你会不会做第二次。会，就考虑标准化；不会，别为它建基础设施。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.52s">
+      接着看：<a href="codex-plugins-basics.html">《Codex 插件入门》</a>，讲怎么把技能、脚本和工具打包成一个可安装的盒子。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
