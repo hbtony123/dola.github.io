@@ -34,10 +34,10 @@ robots.txt / sitemap.xml
 `dola.cn` = GitHub Pages，源仓库 **`hbtony123/dola.github.io`**，分支 `main`。
 域名解析：`dola.cn` → CNAME → `hbtony123.github.io`，NS 在阿里云。
 
-发布只需要一条命令（工具在 `D:\CODEX\.dola-deploy\`，不属于本站内容）：
+发布只需要一条命令（工具目录用占位符表示，不属于本站内容）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
+powershell -ExecutionPolicy Bypass -File C:\path\to\deploy-tools\deploy.ps1
 ```
 
 脚本流程：浅克隆／更新镜像 → 拷贝本站文件 → 删除废弃项目 → 提交推送（自带重试）→ 等 dola.cn 真的返回新页面。
@@ -58,7 +58,7 @@ powershell -ExecutionPolicy Bypass -File D:\CODEX\.dola-deploy\deploy.ps1
 
 本地预览：直接双击 `index.html` 就能看，整站没有外部依赖。
 
-备选通道：`.dola-deploy\publish.ps1` 走 GitHub API 发布（需要一把限权到该仓库的令牌，放在同目录 `token.txt`），当 SSH 通道彻底不通时可用。
+备选通道：`deploy-tools\publish.ps1` 走 GitHub API 发布（需要一把限权到该仓库的令牌，放在同目录 `token.txt`），当 SSH 通道彻底不通时可用。
 
 ## 域名与解析（2026-10-16 起）
 
