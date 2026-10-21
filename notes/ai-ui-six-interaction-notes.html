@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 能生成界面，但质感藏在交互里：我的 6 点学习笔记 — Dola</title>
+<meta name="description" content="AI 很快能做出“能点、能跳”的界面，但真正显得精致的，是动作有终态、进度有联动、展开有层次、滑动有落点、选择有准头、转场有来源。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/ai-ui-six-interaction-notes.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/ai-ui-six-interaction-notes.html">
+<meta property="og:title" content="AI 能生成界面，但质感藏在交互里：我的 6 点学习笔记">
+<meta property="og:description" content="功能能跑只是起点。用户真正感受到的“精致”，往往来自操作之后那一小段清楚、连续、可信的回应。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-22 · 学习心得 · 交互设计</p>
+    <h1 data-reveal style="--d:.06s">AI 能生成界面，但质感藏在交互里：我的 6 点学习笔记</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      功能能跑只是起点。用户真正感受到的“精致”，往往来自操作之后那一小段清楚、连续、可信的回应。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      最近看完一条一分多钟的短视频，主题是“让 AI 做的 App 和小程序更精致的 6 个交互”。
+      视频本身没有讲复杂代码，但它把我平时说不清的“差一点感觉”拆得很具体：
+      按钮能点、页面能跳，只说明功能存在；如果动作结束后没有明确结果，操作过程中没有连续反馈，界面就会显得普通。
+    </p>
+    <p data-reveal style="--d:.22s">
+      我把这 6 个案例重新整理了一遍，也补上了自己认为更重要的适用边界。
+      它们不是六种必须堆上去的动画，而是六种可以按场景选用的交互思路。
+    </p>
+
+    <section class="section" data-reveal style="--d:.26s">
+      <h2>一、完成动作要有终态</h2>
+      <p>
+        第一个案例是完成反馈按钮。点击“完成”后，按钮收缩成圆形，对勾一笔画出，周围再迸发一小圈粒子。
+        它解决的不是“按钮不好看”，而是用户点完之后不知道事情有没有真正结束。
+      </p>
+      <p>
+        普通按钮常常只有按下变色，松手后又恢复原样，用户只能靠页面跳转来判断结果。
+        完成反馈则把“正在处理”和“已经成功”拆成两个清楚的状态：先让用户知道点击被接收，再用终态确认任务结束。
+      </p>
+      <p>
+        这个模式适合提交、确认、打卡、保存等短动作，但不适合长任务，更不适合付款、删除这类高风险操作。
+        实现时最重要的是状态机，而不是粒子：<code>idle → pressing → loading → success / error</code>
+        要完整，成功动画必须等真实请求成功之后播放，失败还要能回到可重试状态。
+        对动效敏感的用户，保留对勾和文字提示即可。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>二、一个勾选，要让整页回应</h2>
+      <p>
+        第二个案例是勾选联动。勾掉一项待办，进度环同步增长，数字滚动更新，顶部背景也跟着变化。
+        一个很小的操作，让整个页面都给出了回应。
+      </p>
+      <p>
+        这背后其实是一个很朴素的产品问题：单项操作和整体进度经常是割裂的。
+        用户勾了一项，却不知道离完成还差多少；页面明明已经变化，却没有任何“我正在接近目标”的感觉。
+      </p>
+      <p>
+        但联动不能变成假进度。进度必须从同一份勾选数据派生，不能另外维护一个可能漂移的数字。
+        批量操作要合并刷新，乐观更新要能回滚。0%、部分完成、100% 三种状态都要检查，
+        读屏用户也应该能知道当前进度，而不是只看到一段动画。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>三、内容多，不代表只能铺成长列表</h2>
+      <p>
+        第三个案例是叠卡展开。几张卡片层层叠放，点击后依次展开，再点一下又整齐收回。
+        它用很低的页面成本，表达了内容的层级。
+      </p>
+      <p>
+        长列表的问题不只是“长”，而是重点容易被淹没。用户看到很多条目，却不知道哪些是一组、
+        哪些是摘要、哪些可以继续展开。叠卡把“先看什么、再看什么”变成了空间关系。
+      </p>
+      <p>
+        不过，卡片不能用来藏关键信息。它更适合三到七张摘要卡、功能入口或步骤说明，
+        不适合需要并排比较的大量数据。实现时要明确当前展开的是哪一张，单开还是多开，
+        返回键是先收起卡片还是离开页面。动画可以做得漂亮，但状态和动画必须一致，
+        不能出现“看起来展开了、逻辑上却还是收起”的情况。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>四、滑动要有落点</h2>
+      <p>
+        第四个案例是吸附卡加画线。上下滑动一组卡片，松手后自动吸附到中间；
+        卡片停稳之后，旁边的时间线再逐段绘制出来。
+      </p>
+      <p>
+        自由滚动最大的问题是缺少落点。用户滑到一半松手，卡片停在两个选项之间，
+        既不确定当前选中了什么，也不知道下一步该往哪走。
+        吸附把“浏览”变成了“选择”，时间线则把当前位置和整体结构连了起来。
+      </p>
+      <p>
+        这个模式适合步骤、日期、章节、方案等有序内容，但不适合强行拦截页面的主滚动。
+        快速甩动、第一项和最后一项、反向滑动，都要有明确行为。
+        画线也要等卡片停稳后再开始，用户一旦继续滑动，旧动画就应取消，否则线和卡会错位。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>五、选择器要有手感，也要有准头</h2>
+      <p>
+        第五个案例是惯性滚轮。手指轻轻一滑，滚轮带着惯性旋转，逐渐减速后吸附到刻度；
+        滑过头时像橡皮筋一样回弹。
+      </p>
+      <p>
+        它比一格一格点选更自然，但“手感”不能以牺牲准确度为代价。
+        惯性太强，用户会反复滑过头；只显示动画位置，不明确最终值，用户又不知道自己到底选了什么。
+      </p>
+      <p>
+        所以这类控件要同时定义四件事：刻度间距、速度上限、吸附阈值、越界回弹。
+        手指抬起后不要立刻提交值，等滚轮真正停稳再确认。
+        触摸之外，还应该有点击、键盘或滚轮等替代路径；触觉反馈可以加分，但不能成为唯一反馈。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>六、转场要交代“从哪里来”</h2>
+      <p>
+        第六个案例是圆形扩散转场。点击底部页签，新页面从手指按下的位置向外扩散，直到铺满屏幕。
+      </p>
+      <p>
+        页面直接替换并不是不能用，但它没有交代空间关系。
+        圆形扩散把“我点了这里，所以进入了这个页面”表达了出来，前后两屏因此显得连贯。
+      </p>
+      <p>
+        这种转场适合底部页签、卡片进入详情等有明确来源的导航，不适合每一次跳转都使用，
+        也不适合频繁返回的多层级页面。实现时要先把目标页面准备好，再播放扩散，
+        否则动画结束时会露出空白或布局跳动。
+        时长控制在三百到五百毫秒比较稳妥，并且要允许快速点击时跳过；
+        开启减少动态效果后，直接切换或淡入即可。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.50s">
+      <h2>把方法带回开发流程</h2>
+      <p>这 6 个案例让我最受用的一点，不是记住了六种效果，而是找到了一套检查顺序：</p>
+      <ol>
+        <li><strong>先写状态，再写动画。</strong>用户做了什么、页面立即反馈什么、等待时显示什么、成功后停在哪里、失败后怎么恢复。</li>
+        <li><strong>按任务选模式。</strong>一屏最多选一两个真正解决问题的交互，不要把所有效果都堆上去。</li>
+        <li><strong>让动效服务于理解。</strong>动效只负责解释状态变化、保留空间关系或确认结果，不负责掩盖数据延迟。</li>
+        <li><strong>最后做压力测试。</strong>快速连点、反向滑动、第一项和最后一项、小屏、长文本、减弱动效、低端机，都是比截图更重要的验收项。</li>
+      </ol>
+      <p>
+        AI 可以很快生成一个“能用”的界面，但“好用”仍然需要人来定义节奏。
+        完成之后有没有回应，操作和整体有没有关系，内容展开有没有层次，滑动结束有没有落点，
+        选择之后有没有准头，页面切换有没有来源——这些细节加在一起，才是产品的质感。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.54s">
+      <h2>参考来源</h2>
+      <ul>
+        <li>视频：《让AI做的App和小程序更精致的6个交互》，作者“西瓜同学”，抖音，2026-10-21。</li>
+        <li>链接：<a href="https://www.douyin.com/video/7695339931123715366" rel="noopener">https://www.douyin.com/video/7695339931123715366</a></li>
+      </ul>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.58s">
+      继续读 <a href="codex-10-menu-bar-temperature.html">⑩ 把温度搬到菜单栏</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
