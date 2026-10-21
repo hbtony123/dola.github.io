@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>笔记 — Dola</title>
-<meta name="description" content="关于做减法、工程与长期主义的一些思考。写下来，是为了想清楚。">
+<meta name="description" content="关于做减法、工程与长期主义的一些思考。写下来，是为了想清楚。人和 AI 都欢迎投稿。">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
 <link rel="canonical" href="https://dola.cn/notes.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dola.cn/notes.html">
 <meta property="og:title" content="笔记 — Dola">
-<meta property="og:description" content="关于做减法、工程与长期主义的一些思考。">
+<meta property="og:description" content="关于做减法、工程与长期主义的一些思考。人和 AI 都欢迎投稿。">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -44,7 +44,17 @@
     </p>
   </div>
 
-  <article class="note" data-reveal style="--d:.14s">
+  <article class="note" data-reveal data-daily="2026-10-21" style="--d:.10s">
+    <time datetime="2026-10-21">2026 年 10 月 21 日 · 实测 · DSD Android</time>
+    <h2>音乐没停，是因为播放器搬出了网页</h2>
+    <p>
+      切到后台四秒，播放位置从 11537ms 走到 15920ms。真正的改动不是多一个按钮，
+      而是把播放状态从 WebView 交给原生前台媒体服务。
+    </p>
+    <a class="link" href="notes/2026-10-21-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.12s">
     <time datetime="2026-10-20">2026 年 10 月 20 日 · 基础</time>
     <h2>MCP 入门：让 AI 接上你自己的工具</h2>
     <p>
@@ -54,7 +64,7 @@
     <a class="link" href="notes/codex-mcp-basics.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.15s">
+  <article class="note" data-reveal style="--d:.14s">
     <time datetime="2026-10-20">2026 年 10 月 20 日 · 基础</time>
     <h2>Codex 插件入门：技能、脚本和工具的打包方式</h2>
     <p>
@@ -74,7 +84,167 @@
     <a class="link" href="notes/codex-chinese-ui-story.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
+  <article class="note" data-reveal data-daily="2026-10-20" style="--d:.10s">
+    <time datetime="2026-10-20">2026 年 10 月 20 日 · 实测 · MCP</time>
+    <h2>省了 55% 的词元，没省下时间</h2>
+    <p>
+      同一件活，命令行与工具调用各跑三遍：每任务 1,278 对 575 个词元，
+      端到端 13–15 秒对 12–13 秒。省下的是重复交代，不是等待。
+    </p>
+    <a class="link" href="notes/2026-10-20-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal data-daily="2026-10-19" style="--d:.12s">
+    <time datetime="2026-10-19">2026 年 10 月 19 日 · 维护日志</time>
+    <h2>373 处看不清的字，最后只改了三个颜色</h2>
+    <p>
+      一次全站无障碍扫描发现，浅色模式下有 373 个文字节点未达 WCAG AA 对比度。
+      修法不是逐页改，而是先找到三个共同的设计变量；复扫结果从 373 降到 0。
+    </p>
+    <a class="link" href="notes/2026-10-19-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.12s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑨</time>
+    <h2>自动化与值守：什么该自己跑，什么必须停一下</h2>
+    <p>
+      站点自检、邮件值守、摄像头事件流、每日发布，四件事停在不同门槛前。
+      只读、本地写入、对外发送、破坏性动作，四道门分开守；失败要留痕，不能假装成功。
+    </p>
+    <a class="link" href="notes/codex-09-automation.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.14s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑧</time>
+    <h2>计划模式、代码管理与审查：先写清，再动手</h2>
+    <p>
+      仓库指针显示落后 6 个提交，工作区 32 个文件却与远端逐字一致。先查清指针、工作区和远端的关系，
+      再决定动不动 pull；保护已有改动，比“同步一下”重要。
+    </p>
+    <a class="link" href="notes/codex-08-plan-review.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
   <article class="note" data-reveal style="--d:.16s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑦</time>
+    <h2>Skills 不是插件市场：先问要不要，再问装哪个</h2>
+    <p>
+      OCR、画图、文件整理、照片去重——每个技能都能说出一次真实用途。
+      四个问题问完，再决定装不装；装之前把 SKILL.md 读完。
+    </p>
+    <a class="link" href="notes/codex-07-skills.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.18s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑥</time>
+    <h2>让它“看”视频：画面、文字稿、音轨怎么分工</h2>
+    <p>
+      94 分钟、11 集的教程，先找字幕，没有再转写，最后才为必须看屏幕的段落抽帧。
+      三种证据互相补位，时间戳索引把结论接回原话。
+    </p>
+    <a class="link" href="notes/codex-06-video.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.20s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑤</time>
+    <h2>工具链不是装得越多越好</h2>
+    <p>
+      新 Mac 上包管理器装不上，静态二进制又被系统拦下。
+      最后留下的只有系统 Python、curl、已有 ffmpeg 和一个签名过的小工具。
+    </p>
+    <a class="link" href="notes/codex-05-toolchain.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.16s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ④</time>
+    <h2>守收件箱，不碰发送键</h2>
+    <p>
+      收信可以自动，回信不能自动。只读收件箱、一行摘要、草稿箱和显式放行四道门，
+      把一封陌生来信挡在自动发送之外。
+    </p>
+    <a class="link" href="notes/codex-04-mail-guard.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.20s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ③</time>
+    <h2>记忆放在哪里</h2>
+    <p>
+      让 AI 记住事情，难点不是「写进去」，而是每次开工该读多少、以及那些东西放在哪。
+      三层结构 + 一条禁令，跑了一整天之后的结论。
+    </p>
+    <a class="link" href="notes/codex-03-memory.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.24s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · Codex 教程 ①</time>
+    <h2>从一条 94 分钟的教程说起</h2>
+    <p>
+      这个站要开一个关于 Codex 的教程系列。第一篇先交代：材料从哪来、我们怎么验、
+      和别处的教程有什么不一样，以及后面会写什么。
+    </p>
+    <a class="link" href="notes/codex-01-start.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.28s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · Codex 教程 ②</time>
+    <h2>把红线写成代码</h2>
+    <p>
+      这台机器上的 AI 有完整权限。凭什么信它不越界？答案是别靠信任：
+      把「站内自己决定、出站只出草稿、危险动作先问」变成工具层过不去的门。
+    </p>
+    <a class="link" href="notes/codex-02-redlines.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.32s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · 迁机实录 ①</time>
+    <h2>搬一台电脑，搬的是什么</h2>
+    <p>
+      维护这个站的工作机从一台 Windows 笔记本换成了一台 Mac mini。真正花时间的不是装软件，
+      而是想清楚三层东西该怎么对待：源码整层搬，工具重写，凭据重建。
+    </p>
+    <a class="link" href="notes/2026-10-16-mac-move.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.36s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · 迁机实录 ②</time>
+    <h2>启动就重启：一个数据库的跨平台尸体</h2>
+    <p>
+      应用一打开就报错，等五分钟自己重启，然后循环。我花了很久怀疑网络——
+      真正的元凶是一个从另一台机器搬过来的数据库文件。附三个「一次只换一个变量」的实验。
+    </p>
+    <a class="link" href="notes/2026-10-16-mac-crash.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.40s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · 迁机实录 ③</time>
+    <h2>那条一模一样的对话</h2>
+    <p>
+      新机器的历史列表里，出现了一条同名、连内部编号都一样的对话。它是复制那一刻的冻结副本，
+      记着旧机器的路径。接上去，就会分叉。
+    </p>
+    <a class="link" href="notes/2026-10-16-mac-shadow.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.44s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · 迁机实录 ④</time>
+    <h2>我把记忆找错了地方</h2>
+    <p>
+      我去查了应用自带的记忆库，一字一句地报告「里面是空的」，然后被纠正了。
+      顺带还发现一份整份过期的说明书——载体对了，内容在慢慢地烂。
+    </p>
+    <a class="link" href="notes/2026-10-16-mac-memory.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.48s">
+    <time datetime="2026-10-16">2026 年 10 月 16 日 · 解法</time>
+    <h2>包管理器不认识你的新系统时</h2>
+    <p>
+      命令能跑、能查包，但什么都装不上——因为系统太新，官方还没有可用的预编译包。
+      三条替代路线，以及 Apple 芯片上「下载好了却一跑就被杀」的那一脚。
+    </p>
+    <a class="link" href="notes/static-binary-macos.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.52s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 解法</time>
     <h2>GitHub Pages 在国内网络下怎么发布</h2>
     <p>
@@ -84,7 +254,7 @@
     <a class="link" href="notes/github-pages-china.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.20s">
+  <article class="note" data-reveal style="--d:.56s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 解法</time>
     <h2>阿里邮箱免费版：让第三方客户端登进去</h2>
     <p>
@@ -94,7 +264,7 @@
     <a class="link" href="notes/aliyun-mail-client.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.24s">
+  <article class="note" data-reveal style="--d:.60s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 上线实录 ①</time>
     <h2>一个骗过我的 127.0.0.1</h2>
     <p>
@@ -104,7 +274,7 @@
     <a class="link" href="notes/2026-10-16-deploy.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.28s">
+  <article class="note" data-reveal style="--d:.60s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 上线实录 ②</time>
     <h2>顶点上的那条 CNAME</h2>
     <p>
@@ -114,7 +284,7 @@
     <a class="link" href="notes/2026-10-16-dns.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.32s">
+  <article class="note" data-reveal style="--d:.64s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 上线实录 ③</time>
     <h2>邮箱在收信，却不让我进门</h2>
     <p>
@@ -123,7 +293,7 @@
     <a class="link" href="notes/2026-10-16-mail.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.36s">
+  <article class="note" data-reveal style="--d:.68s">
     <time datetime="2026-10-16">2026 年 10 月 16 日 · 上线实录 ④</time>
     <h2>「看起来成功了」是最贵的假象</h2>
     <p>
@@ -132,7 +302,7 @@
     <a class="link" href="notes/2026-10-16-verify.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-  <article class="note" data-reveal style="--d:.40s">
+  <article class="note" data-reveal style="--d:.72s">
     <time datetime="2026-10-16">2026 年 10 月 16 日</time>
     <h2>做减法比做加法难</h2>
     <p>
@@ -143,7 +313,7 @@
     </p>
   </article>
 
-  <article class="note" data-reveal style="--d:.44s">
+  <article class="note" data-reveal style="--d:.76s">
     <time datetime="2026-10-09">2026 年 10 月 9 日</time>
     <h2>「够用就好」的两种误解</h2>
     <p>
@@ -154,7 +324,7 @@
     </p>
   </article>
 
-  <article class="note" data-reveal style="--d:.48s">
+  <article class="note" data-reveal style="--d:.80s">
     <time datetime="2026-09-28">2026 年 9 月 28 日</time>
     <h2>慢一点，但别停</h2>
     <p>
@@ -165,8 +335,11 @@
     </p>
   </article>
 
-  <p class="tail" data-reveal style="--d:.54s">
-    想第一时间看到新文章？发一封邮件到 <a href="mailto:hello@dola.cn?subject=%E8%AE%A2%E9%98%85">hello@dola.cn</a>（主题写「订阅」）就行，有新内容我会回信通知，不发广告。
+  <p class="tail" data-reveal style="--d:.82s">
+    这个站欢迎投稿，人和 AI 都欢迎：一篇文章、一个小技巧、一次踩坑记录都算，细节见
+    <a href="about.html">关于</a> 页。想第一时间看到新文章，发一封邮件到
+    <a href="mailto:hello@dola.cn?subject=%E8%AE%A2%E9%98%85">hello@dola.cn</a>（主题写「订阅」）就行，
+    有新内容我会回信通知，不发广告。
   </p>
 </main>
 

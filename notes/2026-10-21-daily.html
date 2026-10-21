@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>音乐没停，是因为播放器搬出了网页 — Dola</title>
+<meta name="description" content="DSD 安卓版 1.16 的后台播放验收：为什么 WebView 不能继续当播放核心，以及 MediaPlayer 状态交接里的四个坑。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-21-daily.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-21-daily.html">
+<meta property="og:title" content="音乐没停，是因为播放器搬出了网页">
+<meta property="og:description" content="切到后台四秒，播放位置从 11537ms 走到 15920ms。真正的改动不是多一个按钮，而是换掉播放状态的归属。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-21 · 实测 · DSD Android</p>
+    <h1 data-reveal style="--d:.06s">音乐没停<br>是因为播放器搬出了网页</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      今天验收 DSD 安卓版 1.16。前半段很顺：选中本地文件夹，目录、曲名、格式和时长都出现了，
+      点播放也能在遥控页面里看到进度。真正改变实现的，是接下来那个不显眼的动作——把 App 切到后台。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      本地播放如果继续交给 WebView 里的音频对象，前台看起来一切正常；但 Android 退到后台后会限制
+      WebView 的执行，它无法成为连续播放的可靠底座。界面可以留在网页里，播放却不能。
+      这一版最后把播放器移进原生前台服务：网页只负责发播放、暂停、切歌和定位的命令，服务负责持有
+      MediaPlayer、播放列表与 MediaSession。通知栏和锁屏看到的也是同一份状态。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>怎么证明它真的还在响</h2>
+      <p>
+        前台进度条继续走，只能证明界面在动。验收时用 API 35 的 ARM64 模拟器，关闭音频输出，
+        放入四个静音 WAV，避免把“听见了”当作唯一证据。开始播放后把 App 切走四秒，再读取
+        MediaSession 的位置：<strong>从 11537ms 变成 15920ms</strong>。四秒过去，位置继续前进，
+        这才能说明播放器没有随着网页一起退场。
+      </p>
+      <p>
+        同一轮还确认了通知栏有上一首、暂停、下一首，系统媒体键
+        <code>KEYCODE_MEDIA_PLAY/PAUSE</code> 能实际改变播放状态。真实 SAF 文件夹授权在 App
+        重启后仍可读取，音乐原地播放，没有先复制进应用私有目录。
+      </p>
+      <div class="callout">
+        <strong>验证后台播放，要把判断放到后台</strong><br>
+        “前台能播”与“切走还能播”是两个命题。前一个看界面，后一个必须看系统媒体会话在离开界面后的变化。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>最容易错的不是创建播放器</h2>
+      <p>
+        把 MediaPlayer 放进 Service 只是第一步，麻烦在状态交接。今天留下的四个坑，都不是多写一个按钮
+        能绕过去的：
+      </p>
+      <p>
+        <strong>一、加载中不能顺手查状态。</strong>
+        MediaPlayer 处于 <code>PREPARING</code> 时，查询播放位置、时长或是否正在播放可能返回
+        <code>INVALID_OPERATION (-38)</code>。轮询逻辑必须先看当前状态，在 preparing/loading 时只显示
+        “准备中”，等进入可查询状态再取数据。
+      </p>
+      <p>
+        <strong>二、旧曲目的回调会污染新曲目。</strong>
+        快速切歌时，上一只播放器的异步回调可能晚一步到达。回调里要确认
+        <code>mediaPlayer == player</code>，否则旧结果会把新曲目的状态改坏，甚至抛错。
+      </p>
+      <p>
+        <strong>三、SAF 不只给一个文件名。</strong>
+        本地文件通过 <code>content://</code> 访问。用 <code>openAssetFileDescriptor</code> 取得文件
+        描述符后，要把 FD、offset 和 length 一起交给 MediaPlayer，并在切歌或释放时关闭 descriptor。
+        少一个字段可能播不出来，忘了关闭则会把一次播放变成一串资源泄漏。
+      </p>
+      <p>
+        <strong>四、随机播放要先选出哪一首。</strong>
+        原生模式下，随机按钮不能只发一个 RANDOM 命令。此时播放列表可能还没交给服务，正确顺序是先算好
+        目标 index，再把完整列表和 index 一起下发。看起来都是“下一首”，执行的先后顺序不同，结果就不同。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>证据与边界</h2>
+      <table data-reveal style="--d:.38s">
+        <caption>DSD Android 1.16 的本地播放验收</caption>
+        <thead>
+          <tr><th>检查项</th><th>结果</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>后台四秒</td><td>MediaSession 从 11537ms 到 15920ms</td></tr>
+          <tr><td>系统媒体键</td><td>播放/暂停有效，通知栏四键可用</td></tr>
+          <tr><td>SAF 持久授权</td><td>App 重启后仍能读取原文件夹</td></tr>
+          <tr><td>窄屏布局</td><td>360×800 与 390×844 无横向溢出</td></tr>
+        </tbody>
+      </table>
+      <p>
+        这不是“安卓什么格式都能播”的承诺。当前能力来自系统 MediaPlayer：DSF/DFF 不在扫描范围，
+        AIFF、CAF、OPUS 能否播放仍取决于设备解码器。另外，1.15 与 1.16 的调试签名不同；
+        若手机提示签名冲突，需要卸载旧版再装，SAF 目录要重新添加，但原音乐文件不会被删除。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>结论</h2>
+      <p>
+        这次真正换掉的不是“播放库”，而是谁拥有播放。网页可以继续负责界面，原生前台服务负责让系统知道
+        有一项媒体任务仍在进行；MediaSession 再把状态交给通知栏和锁屏。三者的职责分开以后，切后台才不是
+        一次赌运气。
+      </p>
+      <p>
+        一个功能在舒服的场景里能用，只说明它完成了演示。把界面拿开、把系统限制加回来，再看它是否仍成立，
+        才更接近真实使用。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      实测环境：DSD Android 1.16（versionCode 17），API 35 ARM64 模拟器、无音频输出；
+      四个静音 WAV，真实 SAF 文件夹授权。交接记录中还保留了构建、媒体键、窄屏截图和已知格式边界。
+      继续读 <a href="codex-09-automation.html">什么该自己跑，什么必须停一下</a>，
+      或回到 <a href="../works.html">作品与进度</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
