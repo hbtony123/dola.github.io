@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 教程 ⑩：把温度搬到菜单栏 — Dola</title>
+<meta name="description" content="把 Codex 窗口里的 CPU 与外接盘温度迁到 macOS 原生菜单栏：数据采样、状态阈值、启动项和实机验收。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/codex-10-menu-bar-temperature.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/codex-10-menu-bar-temperature.html">
+<meta property="og:title" content="Codex 教程 ⑩：把温度搬到菜单栏">
+<meta property="og:description" content="别让温度监控跟着 Codex 窗口一起消失：用 macmon、smartctl 和原生 NSStatusItem 做一个常驻读数。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-21 · Codex 教程 ⑩ · 技巧</p>
+    <h1 data-reveal style="--d:.06s">把温度搬到菜单栏<br>让它一直看得见</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      最初，温度条浮在 Codex 窗口右上角。窗口一遮住，数字就失去意义；
+      Codex 一更新，原来的临时浮层还可能失效。这次把它搬进 macOS 菜单栏，
+      留下一个始终可见、只读、离线的小工具。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      现在菜单栏上的读数很克制：<code>CPU 48°  S 40°</code>。
+      <code>CPU</code> 是 Apple Silicon 的综合温度，<code>S</code> 是外接存储盘；
+      左边的小圆点在正常、偏热、高温时分别变绿、橙、红。点开后才有完整小数、
+      更新时间和手动刷新，不把菜单栏挤成一块仪表盘。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>窗口内是好原型，不是最终位置</h2>
+      <p>
+        第一版把温度条挂在 Codex 的界面内，开发快、样式自由，也能直接拖动。
+        但它把显示层绑在 Codex 窗口里：Codex 关闭或界面结构变化，
+        温度条都会跟着受影响。监控工具不该依赖被监控的窗口。
+      </p>
+      <table data-reveal style="--d:.26s">
+        <caption>迁移后的四层职责</caption>
+        <thead>
+          <tr><th>层级</th><th>实现</th><th>职责</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>数据源</td><td><code>macmon</code>、<code>smartctl</code></td><td>只读本机传感器</td></tr>
+          <tr><td>采样</td><td>后台进程 + 定时器</td><td>CPU 每 3 秒、外接盘每 15 秒更新</td></tr>
+          <tr><td>显示</td><td>AppKit <code>NSStatusItem</code></td><td>菜单栏读数、详情和阈值颜色</td></tr>
+          <tr><td>生命周期</td><td>LaunchAgent</td><td>登录后启动，异常退出后恢复</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>先把展示层搬出去</strong><br>
+        数据仍然来自本机，但菜单栏程序不再依赖 Codex 窗口，也不修改应用文件。
+        之后 Codex 怎样升级，都与这枚温度读数没有直接依赖。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>先定义两个真正有用的数</h2>
+      <p>
+        可用的数据不少，菜单栏却只适合放两项。这里选择 CPU/SoC 综合温度和外接盘温度：
+        前者能看出处理器是否持续高负载，后者能发现外置 SSD 长时间读写后的积热。
+        两项数据先在本机确认：
+      </p>
+      <pre><code>/opt/homebrew/bin/macmon pipe -s 1 -i 100
+/usr/sbin/diskutil info /Volumes/1TB
+/opt/homebrew/bin/smartctl -a /dev/disk6</code></pre>
+      <p>
+        <code>macmon</code> 最后一行 JSON 里的 <code>temp.cpu_temp_avg</code> 是 CPU 综合值；
+        <code>smartctl</code> 的 <code>Temperature</code> 行给出外接盘温度。磁盘编号不要永远写死：
+        先从 <code>diskutil</code> 输出里找 <code>APFS Physical Store</code> 或
+        <code>Part of Whole</code>，再拼成 <code>/dev/diskN</code>。盘换接口、重新编号时，
+        热插拔才不会继续读旧设备。
+      </p>
+      <p>
+        状态阈值沿用这次实机的判断：低于 68°C 为正常，68–81°C 为偏热，82°C 起标红。
+        颜色只是辅助，菜单里同时写着“正常”“偏热”或“较高”，不让色觉差异成为唯一信息来源。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>菜单栏只做三件事</h2>
+      <p>
+        原生状态栏项目由 <code>NSStatusItem</code> 创建。标题使用等宽数字，温度变化时不会左右抖动；
+        小圆点负责快速扫一眼状态；点击后的菜单才显示两位小数、更新时间、刷新和退出。
+        程序启动时把激活策略设为 <code>.accessory</code>，所以只在菜单栏出现，不占 Dock。
+      </p>
+      <pre><code>let item = NSStatusBar.system.statusItem(
+    withLength: NSStatusItem.variableLength
+)
+item.button?.attributedTitle = NSAttributedString(
+    string: "CPU 48°  S 40°",
+    attributes: [
+        .font: NSFont.monospacedDigitSystemFont(
+            ofSize: 11.5, weight: .medium
+        )
+    ]
+)
+item.button?.toolTip = "CPU / SoC 47.6 °C，S · ZHITAI 40.0 °C"</code></pre>
+      <p>
+        读数更新时只改标题、圆点和提示文字，不做动画，也不弹出通知。
+        温度是持续变化的环境信息，安静地待在那里比每一次变化都抢注意力更有用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>采样要短，失败也要能收尾</h2>
+      <p>
+        <code>macmon</code> 和 <code>smartctl</code> 都是外部进程，不能直接卡在主线程上跑。
+        采样放到后台队列，分别设置 6 秒和 8 秒超时；同一类采样尚未结束时直接跳过下一轮，
+        防止慢命令越积越多。任一项失败时只把该数字显示成 <code>--°</code>，
+        另一项仍可继续工作。
+      </p>
+      <p>
+        显示器休眠、外接盘拔掉都属于正常运行状态，不需要报警弹窗。温度工具的价值是提供上下文，
+        不是替用户做故障判断。真要延长排查，菜单里的更新时间和“不可用”状态已经够用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>用 LaunchAgent 管生命周期</h2>
+      <p>
+        小工具编译成一个本机可执行文件后，由 LaunchAgent 在登录时启动。
+        <code>RunAtLoad</code> 保证登录后出现，<code>SuccessfulExit=false</code>
+        让异常退出可以被重新拉起；用户在菜单里主动选择退出则算正常结束，不会立刻复活。
+      </p>
+      <pre><code>/usr/bin/xcrun swiftc -O TemperatureMenu.swift \
+    -o CodexTemperatureMenu
+
+launchctl bootstrap "gui/$(id -u)" \
+    "$HOME/Library/LaunchAgents/com.dola.codex-temperature.plist"</code></pre>
+      <p>
+        验收不看“编译成功”，而看四件事：状态栏项目真的出现、读数来自真实传感器、
+        点击菜单能刷新、登录启动项处于运行状态。这次实机读到
+        <strong>CPU 48°、外接盘 40°</strong>，菜单详情为
+        <strong>47.6°C 和 40.0°C</strong>，进程由 LaunchAgent 保持运行。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>迁移时真正踩到的坑</h2>
+      <p>
+        <strong>一、不要靠重载主界面清理旧浮层。</strong>
+        旧温度条属于窗口内的临时层，直接重载 Codex 主界面可能得到一个空白窗口，
+        还会连带丢失当前界面状态。先停用旧浮层，再用应用自身的重启流程清理更稳。
+      </p>
+      <p>
+        <strong>二、硬盘编号不会永远不变。</strong>
+        第一版默认读取 <code>/dev/disk6</code>，短期能用，换接口后就会失效。
+        现在先从已挂载卷定位物理盘，再调用 <code>smartctl</code>。
+      </p>
+      <p>
+        <strong>三、短标签比完整名称重要。</strong>
+        菜单栏空间有限，外接盘没有再写“外接盘”四个字，而是用大写 <code>S</code>；
+        点开菜单后才写清 <code>S · ZHITAI</code>。信息没有丢，只是分层了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.50s">
+      <h2>结论</h2>
+      <p>
+        这次最重要的变化不是“多了一个温度条”，而是把数据源、采样、显示和生命周期拆开。
+        菜单栏负责一直可见，后台采样负责稳定更新，LaunchAgent 负责启动和恢复；
+        它们都不再依赖 Codex 窗口是否开着。
+      </p>
+      <p>
+        一个监控组件最好的状态，是平时安静、需要时立刻能读到，
+        而且被监控的应用更新后，它仍然活着。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.54s">
+      实测环境：Mac mini M2、macOS 27、<code>macmon</code> 与
+      <code>smartmontools</code> 均在本机运行；无网络请求、无模型调用、无 Codex 应用文件修改。
+      上一篇 <a href="codex-09-automation.html">⑨ 什么该自己跑，什么必须停一下</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
