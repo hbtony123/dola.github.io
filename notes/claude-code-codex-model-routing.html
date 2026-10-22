@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code、Codex 和“接入大模型”：别把工具、模型和网关混成一件事 — Dola</title>
+<meta name="description" content="Claude Code 与 Codex 都是 AI 编程智能体；DeepSeek、Kimi 等是大模型；VPS 和网关只是连接方式。用三层结构看清抖音教程里最容易混淆的概念。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/claude-code-codex-model-routing.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/claude-code-codex-model-routing.html">
+<meta property="og:title" content="Claude Code、Codex 和“接入大模型”：别把工具、模型和网关混成一件事">
+<meta property="og:description" content="工具负责动手，模型负责思考，网关负责转接。先分清这三层，再决定要不要买课、换工具或搭服务器。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-23 · AI 工具 · 概念辨析</p>
+    <h1 data-reveal style="--d:.06s">Claude Code、Codex 和“接入大模型”：别把工具、模型和网关混成一件事</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      工具负责动手，模型负责思考，网关负责转接。先分清这三层，才知道抖音里卖的课、共享账号和“连接大模型”到底在卖什么。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      短视频里常见一句话：“给 Claude Code 接入 DeepSeek，免费又好用。”这句话不算全错，但它把三个不同层次的东西压成了一句。
+      如果不拆开，很容易把“安装工具”“购买模型额度”和“搭建网络中转”当成同一件事。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一、先分清三层：工具、模型、网关</h2>
+      <p><strong>第一层是智能体工具。</strong>Claude Code 和 Codex 都属于这一类。它们能读项目文件、改代码、运行命令、查看测试结果，必要时还会继续修复。</p>
+      <p><strong>第二层是大模型。</strong>Claude、DeepSeek、Kimi、GLM、Qwen 等模型，负责理解需求、制定步骤和生成内容。工具本身不生产模型能力，它只是把模型接进文件与终端。</p>
+      <p><strong>第三层是网关或连接方式。</strong>网关把不同厂商的接口包装成工具认识的格式，或者改变请求从哪条网络路径出去。VPS、反向代理和兼容接口都可能出现在这一层。</p>
+      <p>
+        所以，“给 Claude Code 接入 DeepSeek”更准确的解释是：继续使用 Claude Code 这个工具外壳，把负责思考的模型换成 DeepSeek，
+        中间可能还需要一个兼容层。它不是把 Claude Code 改造成 DeepSeek，也不是让 VPS 提供模型。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>二、Codex 和 Claude Code 有什么不同</h2>
+      <p>
+        两者已经高度相似：都能在终端、编辑器和桌面端工作，都能修改多个文件、运行命令、使用 MCP、保存项目规则和拆分子任务。
+        真正不同的地方，主要在原生模型生态和工具的组织方式。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>维度</th><th>Codex</th><th>Claude Code</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>厂商与原生模型</td><td>OpenAI 及其 Codex 模型体系</td><td>Anthropic 及其 Claude 模型体系</td></tr>
+            <tr><td>项目规则</td><td>以 <code>AGENTS.md</code> 为主</td><td>以 <code>CLAUDE.md</code> 为主，也能读取 <code>AGENTS.md</code></td></tr>
+            <tr><td>扩展方式</td><td>Skills、MCP、插件、Hooks、子代理</td><td>Skills、MCP、插件、Hooks、子代理与动态工作流</td></tr>
+            <tr><td>执行边界</td><td>提供只读、可写、完全访问等沙箱档位</td><td>通过权限模式与 Hooks 约束具体工具动作</td></tr>
+            <tr><td>使用入口</td><td>命令行、IDE、桌面端与云端任务</td><td>命令行、IDE、桌面端、网页与移动端</td></tr>
+            <tr><td>第三方模型</td><td>可通过自定义 provider 接入其他模型服务</td><td>部分入口支持第三方 provider，也可通过兼容网关接入</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        这不是“谁一定更聪明”的对比。同一个工具换模型、换提示词、换项目上下文，结果就可能完全不同。
+        对个人用户来说，已经用顺手的入口、账号成本和项目规则，通常比追逐一次跑分更重要。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>三、“接入模型”到底改了什么</h2>
+      <p>
+        工具最终都要向某个模型服务发送请求。所谓接入，通常只是改变请求地址、鉴权方式和模型名称。
+        Claude Code 支持通过网关连接模型；DeepSeek 也提供了 Anthropic 兼容接口，因此可以把自己的模型放进类似的工具工作流。
+      </p>
+      <p>
+        常见配置只涉及两类信息：一个是兼容接口的地址，另一个是用户自己的 API Key。
+        这些值应当放在本机配置或受保护的账号设置里，不要上传到网页、仓库、截图或聊天记录中。
+      </p>
+      <ul>
+        <li>模型接口决定请求发给谁。</li>
+        <li>API Key 决定费用记在哪个账号上，也决定谁能调用。</li>
+        <li>工具配置决定这个模型能不能读文件、执行命令和继续迭代。</li>
+      </ul>
+      <p>
+        还要注意一个边界：Anthropic 官方并不承诺 Claude Code 对非 Claude 模型的完整兼容。
+        DeepSeek 提供兼容接口，说明可以尝试，但新功能、工具调用和错误格式仍可能有差异。看到“完美兼容”四个字时，应该先看实际测试。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>四、VPS 不是免费模型</h2>
+      <p>
+        VPS 是一台租来的远程服务器。便宜的普通 VPS 通常没有能跑大模型的 GPU，它不会凭空提供模型，也不会让商业 API 变成免费。
+        它真正能做的是：提供稳定的网络出口、保存统一配置、代理 API 请求、记录用量，或者运行一个轻量网关。
+      </p>
+      <p>
+        “VPS + 免费模型额度”是两笔账：服务器本身要付租金，模型的免费额度仍然受平台账号规则限制。
+        如果只是在自己的电脑上调用云端 API，VPS 并不是必需品；只有网络不稳定、需要多设备共用，或要把 API Key 留在服务器后端时，它才更有价值。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>五、Cloudflare 的免费模型额度是什么</h2>
+      <p>
+        Cloudflare Workers AI 提供按“Neurons”计费的模型服务。当前免费额度是每天 10,000 Neurons，并在每天 UTC 00:00 重置。
+        这个额度属于 Cloudflare 账号，不属于 VPS，也不会因为换了服务器就变成无限。
+      </p>
+      <p>
+        轻量问答、分类、摘要和小批量实验可以先用免费额度；大批量处理、复杂代码任务或部分前沿模型可能需要付费计划。
+        具体额度和模型准入会变化，真正接入前应查看官方价格页，而不是照抄短视频里的一张截图。
+      </p>
+      <p>
+        对普通用户来说，先问三个问题就够了：每天大概要处理多少内容？模型是否支持需要的文本、图片或工具调用？
+        免费额度用完以后，自己愿不愿意为超出的部分付费？
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>六、怎么选，才不容易被“教程”带跑</h2>
+      <ol>
+        <li><strong>先选工具。</strong>已经习惯 Codex 的桌面端和规则，就继续用；主要在终端里工作，也可以试 Claude Code。</li>
+        <li><strong>再选模型。</strong>编程任务优先看工具调用、长上下文和稳定性，不要只看聊天演示里的文采。</li>
+        <li><strong>最后才看连接方式。</strong>能直连官方接口就直连；确实需要服务器时，再考虑 VPS 或网关。</li>
+        <li><strong>不要把共享账号当长期方案。</strong>代码和提示词会经过第三方，额度、隐私和稳定性都不由自己控制。</li>
+        <li><strong>保留退路。</strong>配置文件要备份，项目要提交 Git，模型和工具要能从同一个任务里快速切换。</li>
+      </ol>
+    </section>
+
+    <section class="section" data-reveal style="--d:.48s">
+      <h2>结论：真正的区别不在名字</h2>
+      <p>
+        Claude Code 和 Codex 都是“会动手”的 AI 编程工具；DeepSeek 等是它们可以调用的模型；
+        VPS 和网关只是把请求送到模型身边的桥。把这四类东西分开看，短视频里大半的“神操作”都会变成几个普通配置项。
+      </p>
+      <p>
+        工具可以换，模型可以换，网络方案也可以换。真正值得长期积累的，是清楚的项目规则、可验证的测试、最小权限和一套不泄露账号凭据的工作习惯。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.52s">
+      <h2>参考来源</h2>
+      <ul>
+        <li><a href="https://code.claude.com/docs/en/overview" rel="noopener">Claude Code 官方概览</a></li>
+        <li><a href="https://code.claude.com/docs/en/llm-gateway" rel="noopener">Claude Code 的 LLM 网关说明</a></li>
+        <li><a href="https://api-docs.deepseek.com/guides/anthropic_api" rel="noopener">DeepSeek 的 Anthropic API 兼容指南</a></li>
+        <li><a href="https://developers.openai.com/codex/cli/" rel="noopener">OpenAI Codex CLI 官方文档</a></li>
+        <li><a href="https://developers.cloudflare.com/workers-ai/platform/pricing/" rel="noopener">Cloudflare Workers AI 价格与免费额度</a></li>
+      </ul>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.56s">
+      继续读 <a href="codex-mcp-basics.html">MCP 入门：让 AI 接上你自己的工具</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
