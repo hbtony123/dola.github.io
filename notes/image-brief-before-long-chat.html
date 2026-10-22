@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>截图别急着塞进长对话：把图片先变成一份可复用的文字档案 — Dola</title>
+<meta name="description" content="图片一旦留在活动上下文里，就可能随着后续模型调用被反复带入。更省成本也更稳妥的做法，是先看图一次，整理成包含文字、布局和结论的 Markdown 档案，再让主线只读档案。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/image-brief-before-long-chat.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/image-brief-before-long-chat.html">
+<meta property="og:title" content="截图别急着塞进长对话：把图片先变成一份可复用的文字档案">
+<meta property="og:description" content="把看图与办事拆开：一次视觉分析，生成文字档案，后续对话只读档案。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-23 · AI 工具 · 工作流</p>
+    <h1 data-reveal style="--d:.06s">截图别急着塞进长对话：把图片先变成一份可复用的文字档案</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一张图只“看”一次，把文字、布局、结论和不确定项写下来；之后让对话读档案，而不是反复带着原图跑完全程。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      很多人习惯把截图拖进对话，然后围绕它连续追问半小时。界面上看起来只上传了一次，
+      但只要图片还留在活动上下文里，后续模型调用就可能再次携带这部分内容。
+      对话越长、工具调用越多、图片越清晰，重复带入的成本和隐私暴露面也就越大。
+    </p>
+    <p data-reveal style="--d:.22s">
+      问题不在于视觉模型能不能看懂，而在于我们把“看图”和“办事”绑得太紧了。
+      更稳妥的工作流是：先用视觉模型生成一份结构化文字档案，再让主任务只读这份档案。
+    </p>
+
+    <section class="section" data-reveal style="--d:.26s">
+      <h2>一、图片是输入，不是长期记忆</h2>
+      <p>
+        图片擅长表达布局、颜色、图标、截图原文和相对位置，却不适合充当长期上下文。
+        一张普通截图可能包含几百到上千个视觉 token；如果任务还要连续调用工具，
+        同一张图就可能随着多轮模型请求反复进入上下文。
+      </p>
+      <p>
+        DeepSeek 的视觉文档说明，图片会按尺寸折算成 token，并与文字一起计费。
+        更重要的是，Responses API 采用无状态方式：客户端需要在每次请求里带上当前活动上下文。
+        这并不表示每次都会重新上传整个无限长的线程，但尚未被截断或压缩的图片，
+        确实可能继续留在后续请求中。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>二、把“看图”拆成一次独立工作</h2>
+      <p>
+        我更喜欢把视觉能力放在任务入口，而不是让原图陪任务跑完全程。
+        收到图片后，先做一次独立分析，输出一份 Markdown 档案：
+      </p>
+      <div>
+<pre><code># 图片档案
+
+## 一句话摘要
+## 完整可见文字
+## 布局与关键元素
+## 可操作信息
+## 不确定项</code></pre>
+      </div>
+      <p>
+        这份格式看起来朴素，却刚好覆盖了后续最常用的信息：图里写了什么、东西在哪里、
+        它们是什么关系、哪些结论可以确定、哪些地方可能看错。主任务拿到这几段文字，
+        通常就不再需要原图。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>三、一张图只分析一次，用内容哈希做缓存</h2>
+      <p>
+        如果同一张图会在多个任务或多次追问中出现，就应该给图片内容计算 SHA-256。
+        清晰度、问题和图片内容一起决定缓存键：同一组合直接读取已有档案，
+        不再调用视觉模型。
+      </p>
+      <p>
+        哈希解决的是“是不是同一张图”，清晰度和问题解决的是“这次需要看到什么”。
+        普通界面先用低清晰度；只有小字、表格、代码或细节关系看不清时，才裁剪目标区域，
+        再提高清晰度。不要为了省一次判断，默认把整张图按最高精度处理。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>四、文字档案比“模型记忆”更可靠</h2>
+      <p>
+        文字档案的另一个好处，是可检查。模型说错了哪一行 OCR、漏了哪个按钮、
+        把左右关系说反了，你都能直接改档案；下一次任务读到的就是修正后的版本。
+        如果所有信息都藏在图片和模型记忆里，错误很难被发现，也无法复用。
+      </p>
+      <p>
+        档案还可以带来源信息：图片哈希、分析时间、使用的清晰度、原始文件名和模型用量。
+        这些元数据不是正文的一部分，却能让后续排查变得简单。真正需要审计时，
+        可以回答“这份结论来自哪张图、什么时候生成、有没有第二次分析”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>五、先分辨：是读字，还是理解画面</h2>
+      <p>
+        纯文字截图不一定需要视觉大模型。系统 OCR、轻量 OCR 工具通常更快、更便宜，
+        也不会上传整张图片。只有当任务涉及版面关系、图表趋势、产品外观、界面状态或复杂标注时，
+        才更值得交给视觉模型。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>任务</th><th>更合适的入口</th><th>原因</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>截图里只有文字</td><td>本地 OCR</td><td>速度快，隐私面小，结果容易核对</td></tr>
+            <tr><td>表格、界面、图表</td><td>视觉模型</td><td>需要理解结构、位置和元素关系</td></tr>
+            <tr><td>后续多次追问</td><td>文字档案</td><td>避免原图反复进入长上下文</td></tr>
+            <tr><td>敏感资料</td><td>本地处理或先脱敏</td><td>减少不必要的公网传输</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>六、隐私不是最后再检查，而是入口就分流</h2>
+      <p>
+        截图比纯文本更容易带出意外信息：通知栏、账号头像、文件名、聊天对象、订单号、
+        浏览器标签页，甚至背景里没被注意到的窗口。上传前先裁剪到必要区域，
+        往往比事后再要求模型“忽略这些内容”更有效。
+      </p>
+      <p>
+        含账号凭据、身份证件、客户资料或私人聊天的图片，应优先本地处理，
+        或者先遮掉无关区域再交给云端模型。文字档案同样是敏感数据，
+        不应因为“已经不是图片了”就当作可以公开的材料。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.50s">
+      <h2>七、可以直接照做的三步</h2>
+      <ol>
+        <li><strong>裁图。</strong>只留下任务需要的区域，先去掉通知栏、侧边栏和个人信息。</li>
+        <li><strong>看一次。</strong>让视觉模型输出结构化档案；纯文字截图可先本地 OCR。</li>
+        <li><strong>只带文字。</strong>主任务读取档案并完成后续步骤；档案不足时，再针对缺口做一次局部高精度分析。</li>
+      </ol>
+      <p>
+        这套方法最重要的变化，不是省下某一轮调用，而是把图片从“长对话的乘客”变成
+        “一次入库的资料”。图片负责提供证据，文字档案负责被检索、修改和复用，
+        主任务则专心完成判断、写代码和执行操作。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.54s">
+      <h2>结论：先归档，再办事</h2>
+      <p>
+        视觉模型很强，但长对话不是图片仓库。把每张图一次性转成可核对的文字档案，
+        既能减少重复 token，也能降低敏感信息在上下文中停留的时间，
+        还能让后续任务拿到一份稳定、可修改、可复用的证据。
+      </p>
+      <p>
+        下次准备把截图拖进一个会聊很久的任务时，可以先问一句：
+        我真正需要的是这张图，还是图里已经被整理出来的那几段文字和关系？
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.58s">
+      <h2>参考来源</h2>
+      <ul>
+        <li><a href="https://api-docs.deepseek.com/guides/vision" rel="noopener">DeepSeek Vision：图片格式、清晰度与 token 规则</a></li>
+        <li><a href="https://api-docs.deepseek.com/guides/responses_api" rel="noopener">DeepSeek Responses API：无状态请求与图片输入</a></li>
+      </ul>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.62s">
+      继续读 <a href="claude-code-codex-model-routing.html">工具、模型和网关，别混成一件事</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
