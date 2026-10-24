@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>账上少了 3 个文件：一次 973 GiB 照片去重 — Dola</title>
+<meta name="description" content="29 万个文件、16 万个精确重复副本、973 GiB 回收空间。真正让清理可以继续的，不只是哈希相同，而是每一笔删除都能对上账。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-24-daily.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-24-daily.html">
+<meta property="og:title" content="账上少了 3 个文件：一次 973 GiB 照片去重">
+<meta property="og:description" content="29 万个文件、16 万个精确重复副本、973 GiB 回收空间，以及一份不能靠猜测补齐的核对表。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-24 · 维护日志 · 照片整理</p>
+    <h1 data-reveal style="--d:.06s">账上少了 3 个文件<br>一次 973 GiB 的照片去重</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      12:30，3TB 相片备份的清理开始执行。计划表里有 160,081 个确认重复的副本，
+      但移动日志和整组日志加起来只有 160,078 个。少了 3 个，究竟是清单错了，
+      还是已有文件被漏删？这比“释放了多少空间”更值得先回答。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这里说的“确认”不是文件名一样，也不是肉眼看着相似。先按文件大小筛出候选，再比较首尾片段，
+      只有快速签名相同的文件才进入完整 SHA-256 计算。29 万个可判重文件最后算完，没有哈希错误；
+      得到的 33,373 组完全相同内容里，才挑出可以删除的 160,081 个副本。
+      每条删除记录还必须指向一个仍然存在的同哈希参考文件。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先隔离，再相信清单</h2>
+      <p>
+        备份里四座 Photos 图库原样保留，任何 <code>.photoslibrary</code>
+        内部文件都不进入删除范围。清理先处理 11 个外围来源：能整组确认的，把整组放进同盘隔离目录；
+        不能整组处理的，逐个移动并写日志。只有在复核完成后，隔离区才有资格进入下一步。
+      </p>
+      <p>
+        核对表随后给出了一个很具体的结果：删除源位置仍存在的文件为 0，隔离目标缺失为 0，
+        检查到 32,569 个唯一参考路径，没有任何一个被列进删除计划，图库包内违规同为 0。
+        唯一没对上的，就是总数与日志之间那 3 个。
+      </p>
+      <div class="callout">
+        <strong>找到了：3 个文件在速度测试时直接从隔离区删掉，均已有保留参考。</strong><br>
+        它们不是凭空消失，也不在正式移动日志里。找到确切原因之前，不能把差额写成“约等于”；
+        找到以后，也不能把解释当作借口，另外的异常仍要逐项归零。
+      </div>
+    </section>
+
+    <table data-reveal style="--d:.28s">
+      <caption>3TB 相片备份的清理账本</caption>
+      <thead>
+        <tr><th>项目</th><th>结果</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>审计文件</td><td>290,551 个</td></tr>
+        <tr><td>精确重复组</td><td>33,373 组</td></tr>
+        <tr><td>可删除副本</td><td>160,081 个，约 973 GiB</td></tr>
+        <tr><td>日志记录</td><td>160,078 个，另 3 个测试删除已解释</td></tr>
+        <tr><td>保留并整理</td><td>16,129 个，含 14,490 张照片、1,381 段视频</td></tr>
+        <tr><td>边界违规</td><td>0；参考路径进入删除计划 0</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>模糊的部分，宁可留下</h2>
+      <p>
+        精确哈希之外，还生成了 14,526 条待复核记录，没有移动或删除任何一项。里面有 12,237 个
+        哈希相同但 Live Photo、视频或旁车文件尚未确认完整的副本，3,698 个同名但内容不同，
+        154 个大小相同但内容不同，以及 31 个图片解码失败。
+      </p>
+      <p>
+        相似照片另做了一轮感知哈希：3,524 组、11,248 个文件被放进候选组，最多的一组有 38 张。
+        连拍、截图、不同尺寸导出都可能长得几乎一样，却不能证明它们可以互相替代。
+        所以这一轮只是生成复核表，自动删除数量是 0。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>留下的文件，也不能随便丢进年份</h2>
+      <p>
+        清理完成后，16,129 个保留文件按时间和原有分类整理，移动失败为 0。拍摄时间没有只看一个来源：
+        10,992 个来自 EXIF，1,381 个视频来自 QuickTime 元数据，1,946 个 Live Photo 配套文件
+        继承主文件时间，最后才有 1,810 个回退到文件修改时间。照片内容相同，才讨论删哪个；
+        拍摄时间可冲突，就不能只凭目录名替它搬家。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>结论</h2>
+      <p>
+        删掉 973 GiB 只是结果。真正让这次清理成立的，是每个被删文件都能指向保留副本，
+        每个移动动作都有日志，每个模糊判断都停在不删除的一侧。
+        差 3 个文件并不比差 3 万个文件小；它们都说明账本还没闭合。先解释差额，再相信空间数字，
+        照片备份才不只是“看起来整理完了”。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      本文依据 2026-10-24 的审计、删除计划、移动日志、复核结果和整理统计写成。
+      想继续看“怎么证明操作真的完成”，可以读
+      <a href="2026-10-16-verify.html">“看起来成功了”是最贵的假象</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
