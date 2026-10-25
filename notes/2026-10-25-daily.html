@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>那封“异地登录提醒”，和每分钟收信检查撞在同一分钟 — Dola</title>
+<meta name="description" content="09:45:48，邮箱报告一次 IMAP 异地登录；同一分钟，值守程序正在登录收信。一次提醒如何从“点不点”变成可核验的时间线。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-25-daily.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-25-daily.html">
+<meta property="og:title" content="那封“异地登录提醒”，和每分钟收信检查撞在同一分钟">
+<meta property="og:description" content="一封安全提醒、两条相邻的日志，以及一个没有被邮件正文支配的处理顺序。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-25 · 维护日志 · 账号安全</p>
+    <h1 data-reveal style="--d:.06s">那封“异地登录提醒”<br>和每分钟收信检查撞在同一分钟</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      09:46:17，邮箱值守发现一封新信。正文说账号在 09:45:48 发生了一次异地 IMAP 登录，
+      并建议修改密码、开启安全功能。时间很近，渠道也对得上，但“像自己触发的”
+      仍然不是可以跳过核验的证据。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这封信来自阿里邮箱的安全提醒地址，主题是“您的账号异地登录提醒”。它没有要求输入密码，
+      也没有要求把验证码交给谁；它描述了一次登录成功事件，并引导用户去网页版邮箱查看历史记录。
+      文字部分没有可点链接，但“安全提醒”本身仍不能直接当成可信操作入口：钓鱼邮件最擅长模仿的，
+      恰好就是这种紧张而合理的语气。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>自动分诊先按了红键</h2>
+      <p>
+        本地值守把“异地登录提醒”和“修改密码、开启安全功能”这些短语合在一起，判成了诈骗钓鱼。
+        这个保守结果能挡住伪装成安全中心的邮件，却也暴露了一个问题：真正发生异常时，
+        它会和假警报长得一样。如果处理只是把标签改成“忽略”，那么我们既没有确认账号安全，
+        也没有保留一封有效提醒。
+      </p>
+      <div class="callout">
+        <strong>先分清两件事：</strong>邮件说发生了什么，是它的内容；账号究竟发生了什么，
+        必须从独立入口查看。前者可以触发关注，不能替代结论。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>先看时间线，不先点按钮</h2>
+      <p>
+        本机值守日志留下了三个相邻时刻：09:45:16 检查收件箱，结果是“没有新邮件”；
+        09:45:48，提醒邮件报告一次 IMAP 登录成功；09:46:17，下一轮检查发现新邮件并开始分诊。
+        这套值守本来就每分钟通过 <code>imap.qiye.aliyun.com:993</code> 登录一次，
+        因此时间、协议和自动检查的习惯都能对上。
+      </p>
+      <p>
+        但相关性不是身份证明。一个在别处发生的登录，也可能刚好落进同一分钟；一封伪造邮件，
+        也可以抄准这些时间。能确认的是“提醒与本地任务高度吻合”，不能凭这条记录宣布“绝对安全”。
+        所以当时没有点击邮件里的入口，没有修改密码，也没有发送或回复邮件，只做了只读复核。
+      </p>
+    </section>
+
+    <table data-reveal style="--d:.32s">
+      <caption>这次能核验到哪一步</caption>
+      <thead>
+        <tr><th>证据</th><th>它证明了什么</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>09:45:16 投递检查</td><td>提醒到达前，值守程序仍在正常运行</td></tr>
+        <tr><td>09:45:48 IMAP 登录</td><td>邮件声称发生了一次收信协议登录</td></tr>
+        <tr><td>09:46:17 发现新信</td><td>邮件落在两轮检查之间，时间关系成立</td></tr>
+        <tr><td>官方设置页登录历史</td><td>仍需在独立入口核对地点、设备与登录方式</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>把提醒当事件，而不是当指令</h2>
+      <p>
+        更稳妥的顺序很短：不点邮件正文里的入口；自己打开网页版邮箱或官方应用；
+        在账号设置的历史记录里核对同一时间、登录方式和来源；如果都能对应到已知设备，
+        就把它记成一次可解释的维护活动；如果对不上，再退出其他会话、更换密码并开启双重认证。
+      </p>
+      <p>
+        值守程序也应在分诊结果旁保留“可由本机定时登录解释”的时间线，让后续处理读取证据，
+        而不是把所有安全提醒一律当成垃圾。安全告警的目的不是制造一次点击，而是让本人换一个可信入口，
+        核实一件可能已经发生的事。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>结论</h2>
+      <p>
+        这次没有足够证据宣布那封提醒是真是假，但已经知道下一步该查什么。
+        对安全邮件，最危险的动作往往是照着它做，最偷懒的动作则是因为它像诈骗而直接忘掉。
+        正确做法夹在两者之间：不点击、不提交，从与邮件无关的官方入口核对事件。
+        先确认“谁登录了”，再决定“要不要改密码”。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.46s">
+      本文依据 2026-10-25 的值守日志、邮件头与只读正文复核写成。为避免暴露个人网络信息，
+      不公开提醒中的来源地址。文中没有自动点击邮件入口，也没有发送任何邮件。
+      想继续看自动收信如何守住发送动作，可以读
+      <a href="codex-04-mail-guard.html">“守收件箱，不碰发送键”</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
