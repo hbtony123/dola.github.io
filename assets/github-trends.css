@@ -1,0 +1,385 @@
+/* GitHub trends column — kept separate from the shared site stylesheet. */
+
+.trend-hero {
+  padding-block: clamp(38px, 8vh, 72px) clamp(24px, 4vh, 38px);
+}
+
+.trend-hero .lede {
+  max-width: 35em;
+}
+
+.trend-hero strong {
+  color: var(--text);
+  font-weight: 620;
+}
+
+.trend-dateline {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+.trend-dateline.is-stale {
+  color: #a15c22;
+}
+
+.trend-toolbar {
+  display: grid;
+  gap: 18px;
+  padding: 18px 0 22px;
+  border-block: 1px solid var(--border);
+}
+
+.trend-field,
+.trend-filters label {
+  display: grid;
+  gap: 8px;
+}
+
+.trend-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.trend-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.segmented {
+  display: inline-flex;
+  width: fit-content;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+}
+
+.segmented button {
+  min-height: 38px;
+  padding: 7px 15px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.segmented button:hover {
+  color: var(--text);
+}
+
+.segmented button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.trend-filters select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 34px 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.trend-toolbar button:focus-visible,
+.trend-toolbar select:focus-visible,
+.text-button:focus-visible,
+.repo-card a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.trend-sample-note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(161, 92, 34, 0.28);
+  border-radius: 10px;
+  background: rgba(161, 92, 34, 0.08);
+  color: var(--body);
+  font-size: 0.86rem;
+}
+
+.trend-feedback {
+  min-height: 1.75em;
+  padding-block: 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.trend-feedback:empty {
+  display: none;
+}
+
+.trend-feedback .empty-state,
+.trend-feedback .error-state {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.trend-feedback .error-state {
+  border-color: rgba(161, 92, 34, 0.28);
+}
+
+.trend-feedback button {
+  margin-top: 10px;
+}
+
+.trend-section {
+  padding-block: clamp(30px, 6vh, 52px);
+  border-top: 1px solid var(--border);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.section-heading .kicker {
+  margin-bottom: 8px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.15rem, 3vw, 1.3rem);
+  font-weight: 630;
+  letter-spacing: -0.01em;
+}
+
+.section-note {
+  margin: 9px 0 18px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-wrap: pretty;
+}
+
+.text-button {
+  padding: 7px 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent-line);
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.metric {
+  min-height: 100px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.77rem;
+}
+
+.metric-value {
+  display: block;
+  margin-top: 5px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.trend-summary {
+  margin: 18px 0 0;
+  max-width: 42em;
+  color: var(--body);
+  font-size: 0.96rem;
+  line-height: 1.9;
+}
+
+.topic-list,
+.repo-list {
+  display: grid;
+  gap: 12px;
+}
+
+.topic-card,
+.repo-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+}
+
+.topic-head,
+.repo-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topic-card h3,
+.repo-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 620;
+  line-height: 1.45;
+}
+
+.repo-card h3 a {
+  color: var(--text);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+.repo-card h3 a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.topic-gain,
+.repo-rank {
+  flex: none;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.topic-card p,
+.repo-card p {
+  margin: 9px 0 0;
+  color: var(--body);
+  font-size: 0.91rem;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.repo-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+}
+
+.repo-rank {
+  min-width: 2.2em;
+  padding-top: 2px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.repo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.repo-meta strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.repo-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 12px;
+}
+
+.repo-foot a {
+  color: var(--accent);
+  font-size: 0.84rem;
+  text-underline-offset: 3px;
+}
+
+.repo-observation {
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.method-grid h3 {
+  margin: 0 0 6px;
+  font-size: 0.92rem;
+  font-weight: 620;
+}
+
+.method-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 580px) {
+  .trend-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .metric {
+    min-height: 0;
+  }
+
+  .segmented {
+    width: 100%;
+  }
+
+  .segmented button {
+    flex: 1;
+  }
+
+  .repo-card {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .repo-card,
+  .topic-card,
+  .segmented button {
+    transition: none !important;
+  }
+}
