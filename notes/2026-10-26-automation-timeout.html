@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自动化任务卡住时，先补上退出码和超时 — Dola</title>
+<meta name="description" content="一条每天运行的任务连续失败，问题不在模型，而在调用层：错误输出被当成致命错误，进程没有超时，失败也没有可核验的退出记录。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-26-automation-timeout.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-26-automation-timeout.html">
+<meta property="og:title" content="自动化任务卡住时，先补上退出码和超时">
+<meta property="og:description" content="稳定的自动化不靠“没有报错”，而靠有限时长、清楚状态和可恢复的失败。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-26 · 工程 · 自动化</p>
+    <h1 data-reveal style="--d:.06s">自动化任务卡住时，先补上退出码和超时</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一条每天运行的任务连续失败，问题不在模型，而在调用层：错误输出被当成致命错误，
+      进程没有超时，失败也没有留下可核验的退出记录。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      最近检查一条每日内容任务时，日志里只有“开始”和一行版本信息，没有完成记录，
+      也没有明确的错误码。表面上像是模型没有工作，实际是外层包装先退出了。
+      这件事提醒我：自动化任务的可靠性，不能只看它有没有写出结果，还要看它失败时能不能说清楚为什么。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一、有错误输出，不等于任务失败</h2>
+      <p>
+        很多命令行程序会把版本、进度和警告写到标准错误流，但最后仍然成功退出。
+        如果外层脚本把任何一行错误输出都当成致命错误，任务就会在真正开始工作之前被终止。
+      </p>
+      <p>
+        更稳的判断依据是进程的退出码，而不是输出流里有没有“错误”两个字。
+        错误输出应该完整保存，供失败后定位；是否成功，要由退出码和产物共同决定。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>二、所有外部进程都要有超时</h2>
+      <p>
+        网络、登录、模型响应、等待输入，都可能让一个进程停在那里。没有超时，
+        计划任务就会一直占着，下一次运行也无法开始，日志还停留在“启动中”。
+      </p>
+      <p>
+        超时不是简单地把任务标记为失败。更完整的处理是：到点终止进程，保存已经产生的输出，
+        记录终止原因，再让下一次运行重新开始。失败可以重试，但不能无限等待。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>三、退出码为空要单独处理</h2>
+      <p>
+        有些启动器会再拉起一个子进程，外层拿到的是空退出码。空值既不能直接当成功，
+        也不能直接当失败，必须结合输出和最终产物判断。
+      </p>
+      <p>
+        我的做法是：先看进程有没有在限定时间内结束，再看标准输出是否产生了预期内容，
+        最后检查目标文件是否真的写出。三层都满足才算完成；只有其中一层通过，仍然不算成功。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>四、先跑最小预检，再跑完整任务</h2>
+      <p>
+        完整任务可能运行几分钟，出错后重试成本高。更便宜的办法是先发一个极小请求，
+        要求它只返回固定文本，例如 <code>PREFLIGHT_OK</code>。
+      </p>
+      <p>
+        预检能同时验证可执行文件、模型连接、输入输出重定向和超时逻辑。
+        预检通过后再启动完整任务，就能把“环境不通”和“内容不合格”分开处理。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>五、日志至少留下五个字段</h2>
+      <ol>
+        <li>开始时间和结束时间，用来确认耗时和是否超时。</li>
+        <li>退出码，区分成功、失败和被人为终止。</li>
+        <li>标准输出和标准错误的长度，确认程序确实工作过。</li>
+        <li>产物数量，例如生成了几篇文章、几份文件。</li>
+        <li>失败原因和保留路径，避免下次从头猜。</li>
+      </ol>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>结论</h2>
+      <p>
+        稳定的自动化不是“从来不报错”，而是每一轮都在有限时间内结束，
+        成功有产物，失败有证据，下一次还能安全重来。
+      </p>
+      <p>
+        先把退出码、超时和日志补齐，再谈模型效果和内容质量。
+        底层调用不清楚时，上层做得再漂亮也只是偶然成功。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      继续读 <a href="2026-10-26-backup-verify.html">备份成功的标准，不是文件已经生成</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
