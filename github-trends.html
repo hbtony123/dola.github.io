@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub 趋势 — Dola</title>
+<meta name="description" content="看最近 24 小时和 7 天，GitHub 上哪些技术与项目正在获得关注。Star 总量与增长速度分开统计。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/github-trends.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dola.cn/github-trends.html">
+<meta property="og:title" content="GitHub 趋势 — Dola">
+<meta property="og:description" content="看最近 24 小时和 7 天，GitHub 上哪些技术与项目正在获得关注。">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/github-trends.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="works.html">作品</a>
+    <a href="notes.html">笔记</a>
+    <a href="github-trends.html" aria-current="page">趋势</a>
+    <a href="about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="trend-hero">
+    <p class="kicker">GITHUB · DAILY SNAPSHOT</p>
+    <h1>GitHub 趋势</h1>
+    <p class="lede">
+      看最近 24 小时和 7 天，哪些技术与项目正在获得关注。这里把
+      <strong>Star 总量</strong>和<strong>这段时间新增了多少</strong>分开呈现。
+    </p>
+    <p class="trend-dateline" id="data-dateline" aria-live="polite">
+      正在读取最近一次数据快照……
+    </p>
+  </section>
+
+  <section class="trend-toolbar" aria-label="趋势筛选">
+    <div class="trend-field">
+      <span class="trend-label" id="range-label">时间范围</span>
+      <div class="segmented" role="group" aria-labelledby="range-label">
+        <button type="button" data-range="24h" aria-pressed="true">最近 24 小时</button>
+        <button type="button" data-range="7d" aria-pressed="false">最近 7 天</button>
+      </div>
+    </div>
+    <div class="trend-filters">
+      <label>
+        <span class="trend-label">语言</span>
+        <select id="language-filter">
+          <option value="all">全部语言</option>
+        </select>
+      </label>
+      <label>
+        <span class="trend-label">主题</span>
+        <select id="topic-filter">
+          <option value="all">全部主题</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <div class="trend-sample-note" id="sample-note" hidden>
+    当前为排版预览，以下全部是明确标记的示例数据，不代表真实排名。
+  </div>
+
+  <div class="trend-feedback" id="trend-feedback" role="status" aria-live="polite"></div>
+
+  <div id="trend-content" hidden>
+    <section class="trend-section" aria-labelledby="overview-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">OVERVIEW</p>
+          <h2 id="overview-title">一眼看完</h2>
+        </div>
+        <button type="button" class="text-button" id="clear-filters" hidden>清除筛选</button>
+      </div>
+      <div class="metrics" id="overview-metrics"></div>
+      <p class="trend-summary" id="overview-summary"></p>
+    </section>
+
+    <section class="trend-section" aria-labelledby="topics-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">TECH PULSE</p>
+          <h2 id="topics-title">热门技术</h2>
+        </div>
+      </div>
+      <p class="section-note">按公开仓库的主题聚合，仅说明当前样本中的关注变化。</p>
+      <div class="topic-list" id="topic-list"></div>
+    </section>
+
+    <section class="trend-section" aria-labelledby="rising-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">STAR VELOCITY</p>
+          <h2 id="rising-title">Star 增速榜</h2>
+        </div>
+      </div>
+      <p class="section-note" id="ranking-note"></p>
+      <div class="repo-list" id="repo-list"></div>
+    </section>
+
+    <section class="trend-section trend-method" aria-labelledby="method-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">METHOD</p>
+          <h2 id="method-title">数据怎么来</h2>
+        </div>
+      </div>
+      <div class="method-grid">
+        <div>
+          <h3>只比较相邻快照</h3>
+          <p>增长速度等于当前快照与 24 小时或 7 天前快照之间的 Star 净增量，不是 Star 总量。</p>
+        </div>
+        <div>
+          <h3>不稳定增长不急着下结论</h3>
+          <p>缺少完整观察窗口、数据不完整或短期波动异常的项目，会延后进入对应榜单。</p>
+        </div>
+        <div>
+          <h3>自动采集，编辑复核</h3>
+          <p>采集、排序和计算由本地脚本完成；Copilot 只在最终摘要阶段协助措辞，不改数据或排名。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+
+<script src="assets/github-trends.js"></script>
+</body>
+</html>
