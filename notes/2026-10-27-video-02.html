@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 浏览器到底帮了什么忙：从看截图点按钮到直接读取页面 — Dola</title>
+<meta name="description" content="从 Ego（lite）理解 AI 浏览器：把网页操作交给 Agent，同时保留登录态、权限和提交动作的边界。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-27-video-02.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-27-video-02.html">
+<meta property="og:title" content="AI 浏览器到底帮了什么忙：从看截图点按钮到直接读取页面">
+<meta property="og:description" content="AI 能操作网页，不等于可以替你做决定；真正要检查的是任务范围、登录态和提交权限。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-27 · 视频学习 · 02</p>
+    <h1 data-reveal style="--d:.06s">AI 浏览器<br>到底帮了什么忙</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      让 AI 操作网页，过去常见的方法是“看一张截图，猜按钮在哪里，再模拟点击”。
+      这条视频介绍的 Ego（lite）换了一个思路：给 Agent 一个可以直接读取页面的浏览器环境，
+      让它更适合处理登录后的网页任务。但它仍然只是工具，登录态、权限和最后提交动作都不能失去控制。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      普通聊天 AI 能看到你贴过去的文字，却不一定知道网页里有哪些输入框、菜单和弹窗。
+      AI 浏览器解决的正是这段距离：它把页面结构、当前状态和可操作区域提供给 Agent，
+      再让 Agent 执行点击、填写和读取。原理可以概括成一句话：
+      <strong>让 Agent 直接在浏览器里工作，而不是隔着截图猜页面。</strong>
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>它带来的三个实际变化</h2>
+      <p>
+        第一，网页任务更连贯。整理一页资料、切换几个标签页、把结果填进表格，
+        可以交给同一个 Agent 连续完成。第二，已登录的网站通常能继续使用现成登录态，
+        不必每次都重新登录。第三，工作可以放在独立的浏览空间里，
+        减少对当前标签页和鼠标操作的打扰。
+      </p>
+      <p>
+        这些能力适合公开资料整理、后台数据核对和重复填写。
+        不过，“能进入页面”与“应该替你完成所有动作”是两件事。
+        登录邮箱、代码仓库、后台管理或支付页面时，风险和普通公开网页完全不同。
+      </p>
+      <div class="callout">
+        <strong>先做只读任务，再逐步扩大范围</strong><br>
+        第一次不要提交表单、发送消息或完成付款。先让 Agent 打开页面并整理信息，
+        看看它是否真的理解当前页面。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>一个普通人今天就能做的试验</h2>
+      <p>
+        在艾戈官方页面安装并启动客户端后，先决定要导入哪些浏览器账号。
+        不需要一次带入全部登录态，可以从一个低风险网站开始。
+        然后给 Agent 一个明确的小任务，例如：打开某篇公开文章，读出标题、
+        更新时间、作者和三个要点，并返回原文链接。
+      </p>
+      <p>
+        指令里要加两个限制：不要点击广告或下载按钮，不要提交任何表单。
+        完成后，你亲自打开同一页面核对结果。能稳定复现，再尝试需要登录的任务；
+        涉及发送、购买、删除、发布或修改设置时，要求 Agent 在最后一步停下来交给你。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>导入登录态前，先检查权限</h2>
+      <p>
+        继承 Chrome 配置很方便，也意味着浏览器里保存的账号和登录状态会进入新的使用场景。
+        导入前先想清楚：这个 Agent 需要访问哪些网站？哪些账号完全没必要带进去？
+        是否有公开页面可以先完成同样的任务？把权限缩小，比事后猜测它做了什么更容易检查。
+      </p>
+      <p>
+        独立 Space 能减少对日常浏览的干扰，但它不是安全边界。
+        真正的边界来自任务范围、账号范围，以及对高风险动作的人工确认。
+        浏览器数据保存在本机是一种便利，也提醒我们要按本机敏感数据来管理它。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>看到宣传数字，先别急着相信</h2>
+      <p>
+        视频提到速度、成功率和成本上的优势。这些数字来自产品方自己的测试，
+        可以作为了解产品思路的参考，却不能代替你自己的小范围试验。
+        不同网站的页面复杂度、登录方式和网络状况都会影响结果，
+        真正可靠的标准仍然是你能否复述任务、检查结果并撤回错误。
+      </p>
+      <p>
+        “控制电脑干任何事情”也是容易让人误会的一句话。从现有资料看，
+        它主要解决的是网页任务自动化，并不等于无条件操作本机所有软件和文件。
+        把能力说清楚，才能知道什么时候可以用，什么时候应该换回人工操作。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>记住这条使用顺序</h2>
+      <p>
+        先安装并缩小账号范围，再完成一个只读任务；验证无误后，才尝试填写草稿；
+        发送、发布、购买和删除始终保留人工确认。这个顺序比工具本身更值得记住。
+        AI 浏览器真正的价值，不是替你按下所有按钮，而是把重复的网页操作变成可检查的流程。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.44s">
+      视频来源：<a href="https://www.douyin.com/video/7700961192604454159">《真正意义上的 AI 浏览器来了 Ego lite》</a>。
+      产品资料：<a href="https://egolite.ai/">egolite.ai</a>、<a href="https://lite.ego.app/">lite.ego.app</a>。
+      本文只根据本地保存的视频摘要和公开页面核对结果整理，没有补充演示之外的细节。
+      回到 <a href="../notes.html">全部笔记</a>，或前往 <a href="../index.html">首页</a>。
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
