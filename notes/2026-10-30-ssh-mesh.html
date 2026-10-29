@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ping 不通，不等于连不上：四台机器的免密 SSH 是怎么收尾的 — Dola</title>
+<meta name="description" content="局域网扫描里少了一台机器，ping 也不回，可它偏偏能 SSH 进来。四台设备互通这件事，验收标准得从“能看见”改成“能执行”。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-ssh-mesh.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-ssh-mesh.html">
+<meta property="og:title" content="ping 不通，不等于连不上：四台机器的免密 SSH 是怎么收尾的">
+<meta property="og:description" content="扫描器看不见、ping 也不回的那台 Windows 机器，其实一直在线。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 网络与互信</p>
+    <h1 data-reveal style="--d:.06s">ping 不通，不等于连不上<br>四台机器的免密 SSH 是怎么收尾的</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      局域网扫描表里少了一台 Windows 机器，ping 它也不回。
+      可同一天，它却能稳定地 SSH 进来，也能被别人登录。
+      这次把四台设备打通，最先被纠正的不是命令，而是“通”的定义。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      今天的目标很具体：一台 Mac mini、一台 24 小时常驻的旧 ThinkPad、
+      一台 Windows 游戏本，再加一个跑在云端的 Linux 沙箱，
+      任意一台都能用短别名登录另一台，不再每次输入地址和口令。
+      三台真机之间要求双向，沙箱只要求能主动出站。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先统一“通”的判据</h2>
+      <p>
+        最初的排查走了弯路：扫描器按 ping 和端口探测判定在线，Windows 那台因此被判成离线。
+        但它的防火墙只是不响应 ping，SSH 服务本身一直开着；
+        真正该做的是在另一端执行一条命令，看返回结果，而不是看它回不回回声请求。
+      </p>
+      <p>
+        于是验收标准改成三句话：能连上、能执行、能返回。每条链路都跑一次
+        <code>ssh 别名 'hostname; uname -a'</code>，输出对得上才算通过。
+        端口扫描只能说明“可能有人在那儿”，命令输出才能说明“那台机器愿意让我进去”。
+      </p>
+      <div class="callout">
+        <strong>一条便宜的经验：</strong>
+        判断连通性别用单一信号。ping、端口、SSH 三条线索里，
+        只有最后一条经过认证并真正执行了命令，才值得写进验收记录。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>每台机器自己的钥匙，别复制粘贴</h2>
+      <p>
+        做法并不新：每台设备生成自己的密钥对，把公钥登记到其他机器的授权列表里，
+        再用 <code>~/.ssh/config</code> 给每台机器起短别名。
+        关键在“自己生成”——把同一份私钥拷来拷去，短期省事，
+        一旦其中一台丢了，所有机器都得跟着换锁。
+      </p>
+      <p>
+        云端沙箱那一侧还多了一个小坑：它能主动连出去，但对端第一次连接时
+        需要目标主机已在已知主机列表里，否则非交互命令会停在确认提示上。
+        把目标主机指纹先写进已知主机列表，脚本才不会被一句
+        “是否继续连接”卡住。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>Windows 那一端最容易漏的三件事</h2>
+      <p>
+        第一，OpenSSH 服务要设成自动启动，否则重启后链路就断了。
+        第二，防火墙只放行局域网、Tailscale 和回环，不要把 SSH 暴露到公网。
+        第三，管理员账号的公钥要放进管理员专用授权文件，
+        并且把这个文件的权限收紧到只有系统和管理员可读——
+        Windows 的 OpenSSH 对权限很挑剔，权限一松，登录会被直接拒绝。
+      </p>
+      <p>
+        还有一条边界要提前说清：Mac 上的 <code>~/.ssh</code> 是受系统保护的目录，
+        不能像普通文件夹那样通过挂载读取，但 SSH 连接本身完全正常。
+        这两件事经常被混为一谈，以为“读不到就等于不能用”。
+      </p>
+    </section>
+
+    <table data-reveal style="--d:.40s">
+      <caption>四台设备的最终状态</caption>
+      <thead>
+        <tr><th>设备</th><th>能否主动连出</th><th>能否被连入</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mac mini</td><td>能</td><td>能</td></tr>
+        <tr><td>常驻 ThinkPad</td><td>能</td><td>能</td></tr>
+        <tr><td>Windows 游戏本</td><td>能</td><td>能</td></tr>
+        <tr><td>云端沙箱</td><td>能</td><td>不能（NAT 之后，无入站）</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>结论</h2>
+      <p>
+        这次没有发明新方法，价值在于把判据改对了：
+        扫描器看不见的机器不一定离线，ping 不回的主机不一定拒绝你。
+        连通性工程最后比的不是配了多少条规则，而是能不能拿出
+        “从这台机器上，真的执行了那台机器上的命令”的证据。
+        沙箱不能入站也不是失败，那是 NAT 的物理事实，
+        把它写进表格，比硬凑一个“全部互通”的结论更有用。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 的链路搭建与验收记录写成：三台真机两两执行远程命令、
+      沙箱主动出站、Windows 防火墙与管理员授权文件检查均通过。
+      为保护内部信息，文中不写具体地址、账号和端口。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

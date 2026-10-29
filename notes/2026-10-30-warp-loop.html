@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一个把请求转发给自己的服务，吃掉了 76% 的 CPU — Dola</title>
+<meta name="description" content="风扇变响、温度到 61°C，查下去却发现是一个“桥”把请求转发给了自己。进程活着，不等于它在干活。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-warp-loop.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-warp-loop.html">
+<meta property="og:title" content="一个把请求转发给自己的服务，吃掉了 76% 的 CPU">
+<meta property="og:description" content="它本该把请求送出去，结果原地打转。停掉之后，温度降了十来度。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 排障</p>
+    <h1 data-reveal style="--d:.06s">一个把请求转发给自己的服务<br>吃掉了 76% 的 CPU</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      常驻机的风扇最近一直响。温度 61°C，负载 1.35，
+      查下来是一个本该帮 Google 访问加速的“桥”，
+      它依赖的代理从来没起来，于是所有请求在本地原地打转。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这台常驻机是一台老 ThinkPad，负责网络底座、下载中转和备份汇聚，
+      常年不关机。最近它的风扇噪音明显变大，温度读数在 61°C 附近，
+      负载 1.35。按经验，这种“不忙但一直热”的状态，多半有个进程在空转。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先看谁在吃 CPU</h2>
+      <p>
+        排查很直接：看占用最高的进程。一个名字里带 bridge 的服务常年占着约 76% 的 CPU
+        和 700 MiB 内存。它的职责是把发往 Google 的请求经由 WARP 的 SOCKS 代理转发出去，
+        但检查监听状态时发现，那个 SOCKS 代理端口从来就没有起来过。
+      </p>
+      <p>
+        代理不可用，服务却没有退出，而是把请求又转回了自己。
+        请求进来、原地转一圈、再进来，形成死循环。
+        从外面看，进程活着、端口在听、日志也没报致命错误，
+        所以监控一直把它当成“正常运行”。
+      </p>
+      <div class="callout">
+        <strong>这次最值钱的一条：</strong>
+        进程存在、端口在听、日志没红，三件事加起来仍然不等于“服务可用”。
+        还要加一条：端到端发一个真实请求，看它能不能带着结果回来。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>停掉之后，数字说话</h2>
+      <p>
+        处理方式是把服务停用并取消开机自启，没有删除任何文件——
+        先保留回滚路径，确认没有副作用再决定去留。效果立刻可见：
+        温度从 61°C 降到 49–54°C，负载从 1.35 回到 1.0 左右，
+        风扇的噪音也跟着小了。
+      </p>
+      <p>
+        Google 访问没有受影响：这台机器直连本来就正常，
+        另有一个 HTTP/SOCKS 代理可以给其他设备使用。
+        这也说明那个“桥”从一开始就没承担它声称的职责，
+        它只是在消耗电和寿命。
+      </p>
+    </section>
+
+    <table data-reveal style="--d:.36s">
+      <caption>停用前后的对比</caption>
+      <thead>
+        <tr><th>指标</th><th>停用前</th><th>停用后</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CPU 占用（该服务）</td><td>约 76%</td><td>0</td></tr>
+        <tr><td>内存</td><td>约 700 MiB</td><td>释放</td></tr>
+        <tr><td>温度</td><td>61°C</td><td>49–54°C</td></tr>
+        <tr><td>负载</td><td>1.35</td><td>约 1.0</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>以后怎么防止同类问题</h2>
+      <p>
+        第一，凡是“中转/桥接”类服务，验收时必须检查上游依赖是否真的在监听，
+        不能只看服务自己的状态。第二，给常驻机留一条温度与负载的基线，
+        今天这种“不忙但热”的偏差才有参照。第三，停用而不是删除，
+        并把恢复条件写清楚：要先修好自循环，才允许重新启用。
+      </p>
+      <p>
+        还有一个容易被忽略的点：这类服务往往由“临时方案”演变而来，
+        装的时候解决了一个具体问题，后来上游失效了，却没人记得回头检查。
+        定期问一句“它现在还在完成任务吗”，比看它有没有崩更有价值。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>结论</h2>
+      <p>
+        这不是一次复杂的排障，而是一次常识的回归：
+        服务在跑，不等于它在工作；端口在听，不等于请求能到达终点。
+        一个把请求转发给自己的桥，最危险的地方不是它坏了，
+        而是它坏得很安静——CPU 在烧，日志却一片正常。
+        停掉它之后省下的十几度温度，就是这条判据最直观的回报。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 的进程占用、温度与负载读数，以及服务停用前后的对照记录写成。
+      停用采用“禁用并取消自启”，文件保留，可回滚；文中不写具体地址与账号。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

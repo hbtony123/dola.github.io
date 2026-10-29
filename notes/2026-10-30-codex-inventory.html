@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三台机器、三套记录：先把规则统一，再谈合并 — Dola</title>
+<meta name="description" content="57、38、103 条线程，三份索引互不重叠。合并之前先做了一件更基础的事：让三台机器读同一份规则。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-codex-inventory.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-codex-inventory.html">
+<meta property="og:title" content="三台机器、三套记录：先把规则统一，再谈合并">
+<meta property="og:description" content="数据量不是问题，三套各自为政的规则才是。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 多机协作</p>
+    <h1 data-reveal style="--d:.06s">三台机器、三套记录<br>先把规则统一，再谈合并</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      57 条、38 条、103 条线程，1.0 GiB、199 MiB、1.78 GiB，
+      三份索引里没有一条线程 ID 重叠。
+      面对这种“各自长出来的历史”，先合并数据是最糟的选择。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      今天做了一次盘点：Mac mini、常驻 ThinkPad、Windows 游戏本，
+      三台机器各有一套 AI 编程工具的运行记录。
+      Mac 上有 57 条线程、约 1.0 GiB；常驻机 38 条、199 MiB；
+      Windows 机器 103 条、1.78 GiB，时间跨度从 10 月中旬到当天。
+      三份记录互不重叠，说明它们真的是三台机器各自长出来的。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先看差异，再决定动不动</h2>
+      <p>
+        第一步不是搬文件，而是对比配置。三台机器的模型配置基本一致：
+        都走同一条 DeepSeek 直连，模型名和推理强度相同；
+        差异只在常驻机上多了一小段能力声明。
+        这说明“每台机器各配一套”的阶段已经结束，接下来要防的是配置漂移。
+      </p>
+      <p>
+        第二步是规则文件。三台机器原先各有一份 AGENTS 规则，内容有细微差别。
+        现在统一成一份主文件，放在常驻机的共享目录里：
+        Mac 通过定时任务每 10 分钟拉取一次，Windows 通过计划任务经共享盘同步，
+        两边都指向本地那份只读副本。
+      </p>
+      <div class="callout">
+        <strong>为什么是“单向镜像”而不是“互相同步”：</strong>
+        多机同步最容易死在冲突上。定一个唯一主文件，其他机器只读跟随，
+        规则就不会出现三个版本；要改，也只改主文件。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>合并记录的三个前提</h2>
+      <p>
+        第一，永远不要把运行中的数据库文件直接在两台机器之间对拷。
+        之前吃过一次亏：数据库被整体重建，应用直接起不来。
+        要迁移历史，用导出与导入，不要让两个进程同时碰同一个文件。
+      </p>
+      <p>
+        第二，先清掉占位线程。常驻机 38 条里有 30 条只是“手机端新建对话”的空壳，
+        Windows 机器也有 22 条类似记录。它们不承载任何内容，
+        却会把索引撑大、干扰检索。清理这类噪音，比压缩历史更划算。
+      </p>
+      <p>
+        第三，技能分布不均要先补齐，再谈统一。
+        三台机器的技能数量是 16、4、3，最全的那台在 Windows 上。
+        把技能反向同步到另外两台，比让每台各自维护一套更省事。
+      </p>
+    </section>
+
+    <table data-reveal style="--d:.36s">
+      <caption>盘点结果（2026-10-30）</caption>
+      <thead>
+        <tr><th>机器</th><th>线程数</th><th>体积</th><th>技能数</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mac mini</td><td>57</td><td>约 1.0 GiB</td><td>4</td></tr>
+        <tr><td>常驻 ThinkPad</td><td>38</td><td>199 MiB</td><td>3</td></tr>
+        <tr><td>Windows 游戏本</td><td>103</td><td>1.78 GiB</td><td>16</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.40s">
+      <h2>还没做的，先写清楚</h2>
+      <p>
+        盘点之后列了几条建议，但今天没有执行：
+        把散落的旧备份文件归档、把旧会话记录压缩留存、
+        批量清理占位线程、把 Windows 上最全的技能库反向同步。
+        这些都属于“会动数据”的操作，应该单独安排、单独验收，
+        不能顺手塞进一次盘点里。
+      </p>
+      <p>
+        今天真正完成的是三件事：线程索引导出成三份表格，
+        配置差异核对清楚，规则文件统一到唯一主文件并验证三台内容一致。
+        这三件事都不炫技，但它们是后面所有合并动作的地基。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>结论</h2>
+      <p>
+        多机协作最容易犯的错，是把“数据合在一起”当成目标。
+        真正该先合的是规则：同一份配置、同一份行为约束、同一个主文件。
+        规则统一之后，数据放在哪台机器上反而没那么重要；
+        而规则不统一时，数据越集中，混乱越集中。
+        今天先做了这件不显眼的事，后面才有资格谈合并。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 的三机盘点结果写成：三份线程索引共 198 条记录、
+      线程 ID 无重叠，配置对比与规则文件校验均通过。
+      文中不写具体路径、地址与内部标识。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

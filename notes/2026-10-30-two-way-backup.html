@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>备份放在两台机器上，告警也留两条路 — Dola</title>
+<meta name="description" content="凌晨两次互相拉取，白天三档巡检，手机上两条推送通道。备份的意义不是“有一份”，而是失败时有人知道。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-two-way-backup.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-two-way-backup.html">
+<meta property="og:title" content="备份放在两台机器上，告警也留两条路">
+<meta property="og:description" content="一台机器坏了，另一台要有它的数据；一条通道断了，手机仍要响。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 备份与告警</p>
+    <h1 data-reveal style="--d:.06s">备份放在两台机器上<br>告警也留两条路</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      今天凌晨，一台机器从另一台拉走约 3.3 GiB 的记录与文档；
+      白天，两台手机先后收到了同一条测试推送。
+      这两件事看起来不相干，其实都在回答同一个问题：坏了以后，谁会发现。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      现在的备份是双向的。常驻的旧笔记本每天凌晨主动从 Mac 拉取
+      Codex 记录、SSH 配置、桌面和文档，首轮约 3.3 GiB，保留 14 天；
+      Mac 则在更早的时间反向拉取常驻机的配置、定时任务、共享服务清单，
+      每周日额外多备一份更大的共享目录，同样保留 14 天。
+      两边都不依赖“记得手动备份”这件事。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>备份的验收，不止“文件到了”</h2>
+      <p>
+        备份任务最容易被“成功退出码”骗过去。今天的验收多看了一眼：
+        目录里有当天的日期文件夹，文件数量与源端对得上，
+        任务失败会通过推送通道报出来。
+        这比在前一天写过的那篇归档校验文章里说的更进了一步——
+        不仅文件能打开，还要确认它确实是今天的数据。
+      </p>
+      <p>
+        权限是另一个容易被忽略的部分。Mac 上负责 SSH 登录的进程
+        需要“完全磁盘访问”，才能真正读到桌面和文档；
+        这意味着，拿到这台机器 SSH 权限的人，也就拿到了这些文件的读取权。
+        备份做通了，安全边界也要跟着写清楚，不能只庆祝“能备了”。
+      </p>
+      <div class="callout">
+        <strong>值得抄走的检查顺序：</strong>
+        先看当天目录是否生成，再看关键文件是否存在，最后看任务退出码与告警是否正常。
+        三步都过，才算一次可信的备份。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>巡检：只在状态变化时说话</h2>
+      <p>
+        常驻机每 10 分钟检查温度、磁盘、负载和几个关键服务，
+        还会看 Mac 的备份是否新鲜、备份盘剩余空间是否低于阈值；
+        Mac 和 Windows 机器各自每 30 分钟检查磁盘、服务与温度。
+        规则不是“每次检查都发消息”，而是状态发生变化才推送——
+        这样手机响的时候，基本都有事。
+      </p>
+      <p>
+        文件事件也单独盯：常驻机每 10 分钟看一次下载目录和共享库里有没有新文件。
+        这件事和温度、磁盘不是一类问题，但都归到同一条告警通道里，
+        省得再养一套通知系统。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>一条通道，就是单点故障</h2>
+      <p>
+        告警走了两条完全不同的路：iPhone 用 Bark 推送到官方应用，
+        安卓和华为手机用常驻机上自建的 ntfy 服务，只在局域网和 Tailscale 内可见。
+        今天两台手机都收到了同一条测试消息，说明两条路都是活的。
+        于是顺手定了一条规矩：以后任何测试或临时推送，两条通道各发一条，
+        不许只发一条就说“通知正常”。
+      </p>
+      <p>
+        Windows 那一端的推送还修过一个中文编码问题：
+        消息要按 UTF-8 字节写进 JSON，直接传中文会变成乱码。
+        这种问题不会让脚本报错，只会让手机上出现一串看不懂的字，
+        所以“发出去了”和“看懂了”也得分开验收。
+      </p>
+    </section>
+
+    <table data-reveal style="--d:.40s">
+      <caption>今天上线的三层保障</caption>
+      <thead>
+        <tr><th>层</th><th>做什么</th><th>失败时</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>备份</td><td>两台机器每天互相拉取，保留 14 天</td><td>任务失败推送告警</td></tr>
+        <tr><td>巡检</td><td>温度、磁盘、负载、服务、备份新鲜度</td><td>状态变化才推送</td></tr>
+        <tr><td>告警</td><td>iPhone 与安卓各走一条通道</td><td>另一条仍可送达</td></tr>
+      </tbody>
+    </table>
+
+    <section class="section" data-reveal style="--d:.44s">
+      <h2>结论</h2>
+      <p>
+        备份的价值不在于“我有一份”，而在于“坏掉那天，有人能证明这份是新的”。
+        告警的价值也不在于“我配了推送”，而在于“主通道挂掉时，另一条还会响”。
+        今天把这两件事同时补上：数据有两台机器互相看着，
+        异常有两条通道互相兜底。剩下要做的，是等外接音乐盘接回来，
+        把它也纳入备份范围——那时候这套机制才算覆盖完整。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 的备份首轮结果、巡检任务配置与双通道测试记录写成：
+      两台手机均收到 Bark 与 ntfy 推送，备份保留期均为 14 天。
+      文中不写内网地址、端口与账号。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
