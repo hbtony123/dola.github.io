@@ -10,7 +10,7 @@
 
   --bg: #05060e;
   --bg-deep: #03040a;
-  --panel: rgba(15, 20, 40, 0.22);
+  --panel: rgba(15, 20, 40, 0.40);
   --panel-strong: rgba(11, 15, 30, 0.46);
   --text: #eceffc;
   --body: #b8c2db;
@@ -26,7 +26,6 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.40), 0 26px 60px -30px rgba(0, 0, 0, 0.75);
 
-  --glass-blur: 9px;
   --glass-radius: 20px;
 
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
@@ -102,7 +101,7 @@ body {
   padding-inline: clamp(20px, 5vw, 32px);
 }
 
-/* ---------- 玻璃卡：所有文字块共用的半透明底 ---------- */
+/* ---------- 透底卡：所有文字块共用的半透明底（无模糊，彗星直接透过来） ---------- */
 
 .hero,
 .page-head,
@@ -116,8 +115,6 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--glass-radius);
   box-shadow: var(--shadow-sm);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
 }
 
 /* ---------- 页头 ---------- */
@@ -157,8 +154,6 @@ body {
   background: var(--panel-strong);
   border: 1px solid var(--border);
   border-radius: 999px;
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
 }
 .nav a {
   color: var(--muted);
@@ -280,7 +275,7 @@ h1 {
   display: flex;
   flex-direction: column;
   padding: clamp(20px, 3.4vw, 26px);
-  background: rgba(18, 24, 46, 0.20);
+  background: rgba(18, 24, 46, 0.34);
   color: inherit;
   text-decoration: none;
   transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -289,7 +284,7 @@ h1 {
 .card:hover {
   transform: translateY(-3px);
   border-color: var(--accent-line);
-  background: rgba(24, 31, 58, 0.30);
+  background: rgba(24, 31, 58, 0.44);
   box-shadow: var(--shadow);
 }
 .card h2 {
@@ -552,8 +547,6 @@ h1 {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--glass-radius);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
   font-size: 0.9rem;
 }
 .pager-step {
@@ -636,7 +629,6 @@ h1 {
 /* 手机端表格：允许横向滚动，避免长代码或域名把正文撑出屏幕 */
 @media (max-width: 640px) {
   :root {
-    --glass-blur: 9px;
     --glass-radius: 16px;
   }
   .prose table {

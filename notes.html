@@ -48,12 +48,33 @@
 
 
 
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 站点</time>
+    <h2>拆掉毛玻璃：彗星应该直接透过来，而不是被糊成一团</h2>
+    <p>
+      把全站的 backdrop-filter 删干净，面板只留一层 0.4 的底色。
+      同一个 alpha，去掉 blur，背景从一团雾变回能辨认方向的彗星。
+    </p>
+    <a class="link" href="notes/2026-10-30-no-frosted-glass.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · 前端</time>
+    <h2>静态截图抓不到飞行的彗星：无头 Chrome 的两个开关</h2>
+    <p>
+      虚拟时间预算不会推进 requestAnimationFrame，两张截图字节数一模一样；
+      换成 reduced-motion 开关，才抓到一帧有彗星的静止画面。
+    </p>
+    <a class="link" href="notes/2026-10-30-static-frame-screenshot.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.02s">
     <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 站点</time>
     <h2>把玻璃擦亮一点：让彗星从文字块背后透出来</h2>
     <p>
-      面板从 52% 的不透明度收到 22%，背景模糊从 18 像素收到 9 像素；
-      两轮调参、六张截图，才让飞过的彗星在卡片背后被看见。
+      面板从 52% 一路收到 22%，最后把毛玻璃整个拆掉；
+      两轮调参、六张截图，彗星终于从卡片背后直接透了出来。
     </p>
     <a class="link" href="notes/2026-10-30-glass-opacity.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
@@ -126,26 +147,6 @@
       而在另一个默认值：Fn 键归谁管。
     </p>
     <a class="link" href="notes/2026-10-30-mac-dictation-fn.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.03s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · 桌面应用</time>
-    <h2>应用说「语音不可用」，系统说「可以」：语音输入要先分清在哪一层</h2>
-    <p>
-      桌面应用自带的语音入口被部署配置标成不可用，同机的系统听写却一切正常。
-      两句话并不矛盾，它们说的是不同的层。
-    </p>
-    <a class="link" href="notes/2026-10-30-voice-input-layers.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.02s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · MCP</time>
-    <h2>给桌面 AI 加两个本地工具：一次 MCP 接入实录</h2>
-    <p>
-      桌面应用设置里早有「本地 MCP 服务器」入口，机器上却没有 Node。
-      两个用系统自带 Python 写的服务器，把翻历史和叫醒手机变成每个会话都能直接调用的工具。
-    </p>
-    <a class="link" href="notes/2026-10-30-local-mcp-claude-desktop.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
 <nav class="pager" aria-label="笔记分页">

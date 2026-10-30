@@ -13,7 +13,7 @@
     color-scheme: dark;
     --bg: #05060e;
     --bg-soft: rgba(255, 255, 255, 0.05);
-    --panel: rgba(15, 20, 40, 0.22);
+    --panel: rgba(15, 20, 40, 0.40);
     --text: #eceffc;
     --muted: #8b96b6;
     --border: rgba(148, 163, 255, 0.14);
@@ -48,7 +48,6 @@
 
   header.topbar {
     position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(10px);
     background: color-mix(in srgb, var(--bg) 78%, transparent);
     border-bottom: 1px solid var(--border);
   }
@@ -82,8 +81,6 @@
     min-width: 0; margin: 24px 0 64px; padding: 30px clamp(20px, 3vw, 36px) 56px;
     background: var(--panel); border: 1px solid var(--border); border-radius: 20px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-    -webkit-backdrop-filter: blur(9px) saturate(1.25);
-    backdrop-filter: blur(9px) saturate(1.25);
   }
   section { padding-bottom: 34px; }
   section + section { border-top: 1px solid var(--border); padding-top: 34px; }
