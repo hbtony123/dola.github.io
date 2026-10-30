@@ -24,8 +24,9 @@ robots.txt / sitemap.xml
 ## 维护约定
 
 - **改颜色、间距、字号**：只动 `assets/style.css` 顶部的变量，不要把颜色写进页面里。
-- **加一篇笔记**：复制 `notes.html` 里任意一个 `<article class="note">`，改日期与正文。
-  顺序是从新到旧，新条目放在最前面。
+- **加一篇笔记**：复制 `notes.html` 里任意一个 `<article class="note">`，改日期与正文，插入到第一个条目之前；
+  再跑 `python3 scripts/paginate-notes.py`，把列表按每页 10 条重新分页（会自动生成 `notes-N.html`、删除多余页）。
+  顺序是从新到旧。
 - **加一个作品**：复制 `works.html` 里的 `<article class="work">`，状态标签写清楚当前进度。
 - **导航高亮**：当前页面的导航项加 `aria-current="page"`。
 - **动画**：入场的淡入靠 `data-reveal`，用 `style="--d:.2s"` 控制先后顺序。系统开启「减少动态效果」时自动关闭。

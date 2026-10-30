@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dola.cn/</loc><lastmod>2026-10-30</lastmod><priority>1.0</priority></url>
+  <url><loc>https://dola.cn/notes/2026-10-30-cosmic-redesign.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/2026-10-30-comet-background.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-30-gmail-huawei-apk.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-30-windows-flash-task.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-30-screen-flash-crosscheck.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
@@ -23,6 +25,11 @@
   <url><loc>https://dola.cn/notes/claude-code-codex-model-routing.html</loc><lastmod>2026-10-23</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/works.html</loc><lastmod>2026-10-16</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes.html</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes-2.html</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://dola.cn/notes-3.html</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://dola.cn/notes-4.html</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://dola.cn/notes-5.html</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://dola.cn/notes-6.html</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://dola.cn/notes/ai-ui-six-interaction-notes.html</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/codex-10-menu-bar-temperature.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-21-daily.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>

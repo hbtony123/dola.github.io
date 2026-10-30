@@ -1,7 +1,14 @@
 /* GitHub trends column — kept separate from the shared site stylesheet. */
 
 .trend-hero {
-  padding-block: clamp(38px, 8vh, 72px) clamp(24px, 4vh, 38px);
+  margin-top: clamp(24px, 5vh, 44px);
+  padding: clamp(26px, 5vw, 44px) clamp(22px, 4.6vw, 40px) clamp(24px, 4.4vw, 38px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
 }
 
 .trend-hero .lede {
@@ -22,14 +29,20 @@
 }
 
 .trend-dateline.is-stale {
-  color: #a15c22;
+  color: #e0a458;
 }
 
 .trend-toolbar {
   display: grid;
   gap: 18px;
-  padding: 18px 0 22px;
-  border-block: 1px solid var(--border);
+  margin-top: 16px;
+  padding: clamp(18px, 3.4vw, 24px) clamp(20px, 4vw, 30px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
 }
 
 .trend-field,
@@ -140,8 +153,14 @@
 }
 
 .trend-section {
-  padding-block: clamp(30px, 6vh, 52px);
-  border-top: 1px solid var(--border);
+  margin-top: 16px;
+  padding: clamp(24px, 4.6vw, 38px) clamp(22px, 4.6vw, 38px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
 }
 
 .section-heading {

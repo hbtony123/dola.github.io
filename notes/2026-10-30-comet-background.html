@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>彗星是怎么在背景里拐弯的：拆一个 canvas 动画 — Dola</title>
+<meta name="description" content="spectr.to 的夜空背景只有九条彗星，但每条都会拐弯、拖尾、呼吸。把它的 canvas 脚本拆开，看拖尾和辉光是怎么画出来的。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-comet-background.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-comet-background.html">
+<meta property="og:title" content="彗星是怎么在背景里拐弯的：拆一个 canvas 动画">
+<meta property="og:description" content="九条会拐弯的彗星、一层星点、几层极淡的 CSS 背景——这就是一个好看的夜空。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 前端</p>
+    <h1 data-reveal style="--d:.06s">彗星是怎么在背景里拐弯的<br>拆一个 canvas 动画</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      看到一个喜欢的网站背景，最省事的学法是把它读一遍。
+      spectr.to 的夜空只有九条彗星，但每条都会拐弯、拖尾、呼吸——
+      这篇把它拆成几个可以复用的零件。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先给结论：它不是视频，也不是图片序列，而是一块铺满视口的
+      <code>&lt;canvas&gt;</code>，加几层几乎看不见的 CSS 背景。
+      页面源码里那块画布的类名叫 <code>canvas</code>，透明度从 0 淡入；
+      周围的「极光」「网格」「噪点」「暗角」全是 DOM 元素，和动画没有关系。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先搭场景，再谈运动</h2>
+      <p>
+        静的那些层决定了「夜空」的气质：两团靛蓝色的径向渐变做极光，用
+        <code>scale</code> 和透明度缓慢呼吸；一层 12 列的细网格，底部逐渐隐去；
+        一层 <code>feTurbulence</code> 生成的噪点，透明度只有 0.028；
+        再加一层从四周收暗的暗角。单看每一层都几乎看不见，叠起来才有深度。
+      </p>
+      <p>
+        运动的只有画布。九条彗星，每条依次落在四个屏幕边缘之一出生，
+        初速度指向屏幕内部，速度约 0.45 到 1.55 像素每帧——不快，看久了也不晃眼。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>拐弯的秘密是一个很小的旋转</h2>
+      <p>
+        每条彗星都带一个 <code>curve</code> 参数，取值范围大约正负 0.005 弧度。
+        每帧把速度向量按这个角度旋转一次，再叠加到坐标上：
+        于是同一段弧线会持续地、极轻微地偏转，看起来像受了一点引力。
+        轨迹点保留 90 个，超过就把最老的丢掉。
+      </p>
+      <p>
+        拖尾的观感由两处细节决定：画每一小段时，透明度和线宽都乘以「这一小段在尾巴里的位置比例」——
+        透明度再平方一次。头部又亮又粗，尾部又暗又细，方向自然就出来了；
+        最后在头部画一团径向渐变的辉光，当作彗核。
+      </p>
+      <p>
+        生命周期用帧数控制：每条 420 到 900 帧，出生后前 12% 淡入、最后 22% 淡出，
+        飞出边界 180 像素就回收重生。所以画面里永远有彗星在出生、在离开，
+        不会有「循环」的感觉。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>我们自己的版本改了什么</h2>
+      <p>
+        站点新版背景按同样的思路重写了一份，改了四处：
+        数量按屏宽扩展到 26 到 34 条，密度明显更高；
+        加了一层静态星点（渲染一次存成离屏画布，每帧只贴图，不重算）；
+        用户开了「减少动态效果」时只画一帧静态画面；
+        标签页隐藏时暂停动画，回来再继续。画布像素比封顶 2，照顾高分辨屏的性能。
+      </p>
+      <div class="callout">
+        <strong>复刻时最容易漏掉的不是彗星，而是层。</strong>
+        极光、网格、噪点、暗角各是一层极淡的 CSS 背景；
+        只把彗星抄过去，画面会立刻显得「单薄」。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本文依据 2026-10-30 对 spectr.to 首页 HTML 与 <code>/_next</code> 静态脚本的阅读写成，
+      参数取自其页面源码；文中没有转载对方代码，只记录做法与思路。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

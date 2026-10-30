@@ -3,77 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
 <title>Codex 使用指南 · Dola</title>
 <meta name="description" content="一份写给中文使用者的 Codex 手册：从安装、配置到权限、自动化与提问技巧，并连着九篇实战教程，尽量说人话，不堆术语。">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
 <link rel="canonical" href="https://dola.cn/guide/">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <style>
   :root {
-    --bg: #f8f9fa;
-    --bg-soft: #eef1f6;
-    --panel: #ffffff;
-    --text: #1a2130;
-    --muted: #556274;
-    --border: #e6eaf0;
-    --accent: #38598d;
-    --accent-soft: rgba(56, 89, 141, 0.10);
-    --accent-2: #45658f;
-    --warn: #b45309;
-    --warn-soft: rgba(180, 83, 9, 0.10);
-    --danger: #c0392b;
-    --danger-soft: rgba(192, 57, 43, 0.10);
-    --code-bg: #f1f4f8;
-    --code-border: #e2e8f0;
-    --shadow: 0 1px 2px rgba(23, 32, 53, 0.04), 0 20px 44px -28px rgba(23, 32, 53, 0.30);
-    --radius: 14px;
-    --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, "Courier New", monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
-  }
-  html[data-theme="dark"] {
-    --bg: #0b0f16;
-    --bg-soft: #101725;
-    --panel: #121826;
-    --text: #e9eef7;
-    --muted: #94a2b7;
-    --border: #212b3b;
-    --accent: #8fb3e8;
-    --accent-soft: rgba(143, 179, 232, 0.12);
-    --accent-2: #a8c4ee;
+    color-scheme: dark;
+    --bg: #05060e;
+    --bg-soft: rgba(255, 255, 255, 0.05);
+    --panel: rgba(15, 20, 40, 0.52);
+    --text: #eceffc;
+    --muted: #8b96b6;
+    --border: rgba(148, 163, 255, 0.14);
+    --accent: #99a6ff;
+    --accent-soft: rgba(143, 156, 255, 0.13);
+    --accent-2: #c3ccff;
     --warn: #e0a458;
     --warn-soft: rgba(224, 164, 88, 0.12);
     --danger: #f0736a;
     --danger-soft: rgba(240, 115, 106, 0.12);
-    --code-bg: #0f1521;
-    --code-border: #24303f;
+    --code-bg: rgba(5, 8, 20, 0.62);
+    --code-border: rgba(148, 163, 255, 0.16);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 54px -30px rgba(0, 0, 0, 0.70);
+    --radius: 14px;
+    --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, "Courier New", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) {
-      --bg: #0b0f16;
-      --bg-soft: #101725;
-      --panel: #121826;
-      --text: #e9eef7;
-      --muted: #94a2b7;
-      --border: #212b3b;
-      --accent: #8fb3e8;
-      --accent-soft: rgba(143, 179, 232, 0.12);
-      --accent-2: #a8c4ee;
-      --warn: #e0a458;
-      --warn-soft: rgba(224, 164, 88, 0.12);
-      --danger: #f0736a;
-      --danger-soft: rgba(240, 115, 106, 0.12);
-      --code-bg: #0f1521;
-      --code-border: #24303f;
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 54px -30px rgba(0, 0, 0, 0.70);
-    }
-  }
+
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 88px; }
   body {
-    margin: 0; background: var(--bg); color: var(--text);
+    margin: 0; background: var(--bg); color: var(--text); overflow-x: clip;
     font-family: var(--sans); font-size: 16px; line-height: 1.7;
     -webkit-font-smoothing: antialiased;
   }
@@ -105,8 +68,9 @@
   .icon-btn:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
   .icon-btn svg { width: 15px; height: 15px; }
   #menuBtn { display: none; }
+  #themeBtn { display: none !important; }
 
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 40px; }
+  .wrap { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 40px; }
   nav.toc { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding: 26px 0 40px; }
   nav.toc p { margin: 0 0 10px; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   nav.toc a { display: flex; gap: 9px; align-items: baseline; padding: 6px 10px; margin: 1px 0; border-radius: 9px; text-decoration: none; font-size: 13.5px; color: var(--muted); }
@@ -114,7 +78,13 @@
   nav.toc a.active { color: var(--text); background: var(--accent-soft); font-weight: 500; }
   nav.toc a .num { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 
-  main { padding: 34px 0 90px; min-width: 0; }
+  main {
+    min-width: 0; margin: 24px 0 64px; padding: 30px clamp(20px, 3vw, 36px) 56px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+    backdrop-filter: blur(18px) saturate(1.25);
+  }
   section { padding-bottom: 34px; }
   section + section { border-top: 1px solid var(--border); padding-top: 34px; }
   h1 { font-size: clamp(28px, 4.4vw, 40px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.02em; }
@@ -132,7 +102,7 @@
   .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; text-decoration: none; cursor: pointer; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); color: var(--text); }
   .btn svg { width: 15px; height: 15px; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
-  html[data-theme="dark"] .btn.primary { color: #06231a; }
+  .btn.primary { color: #05060e; }
   .btn:hover { transform: translateY(-1px); }
 
   .note { display: flex; gap: 12px; align-items: flex-start; border-radius: var(--radius); padding: 14px 16px; margin: 20px 0 4px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); font-size: 14px; }
@@ -236,7 +206,7 @@
   details .answer p { margin: 0 0 8px; }
   details .answer p:last-child { margin-bottom: 0; }
 
-  footer { border-top: 1px solid var(--border); background: var(--bg-soft); }
+  footer { position: relative; z-index: 1; border-top: 1px solid var(--border); }
   .footer-inner { max-width: 1240px; margin: 0 auto; padding: 26px 20px 40px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 14px 26px; align-items: flex-start; }
   .footer-inner a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
   .footer-inner a:hover { border-color: var(--accent); }
@@ -1170,5 +1140,6 @@ codex doctor           <span class="cmt"># 环境体检</span></code></pre>
   });
 })();
 </script>
+<script src="../assets/comets.js" defer></script>
 </body>
 </html>

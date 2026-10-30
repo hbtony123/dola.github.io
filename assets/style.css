@@ -1,25 +1,33 @@
 /* ==========================================================================
    Dola — 站点样式表
    设计原则：颜色用变量、间距用 clamp、动画可关闭。
+   视觉：深空底色 + 彗星画布（assets/comets.js），文字块统一用半透明玻璃卡。
    改主题只需要动最上面的 :root。
    ========================================================================== */
 
 :root {
-  --bg: #f8f9fa;
-  --panel: #ffffff;
-  --text: #1a2130;
-  --body: #46536a;
-  --muted: #556274;
-  --border: #e6eaf0;
-  --accent: #38598d;
-  --accent-2: #45658f;
-  --accent-soft: rgba(56, 89, 141, 0.10);
-  --accent-line: rgba(56, 89, 141, 0.32);
-  --highlight: #e9f1ff;
-  --glow-1: rgba(102, 148, 214, 0.20);
-  --glow-2: rgba(120, 176, 200, 0.14);
-  --shadow-sm: 0 1px 2px rgba(23, 32, 53, 0.04);
-  --shadow: 0 1px 2px rgba(23, 32, 53, 0.04), 0 20px 44px -28px rgba(23, 32, 53, 0.30);
+  color-scheme: dark;
+
+  --bg: #05060e;
+  --bg-deep: #03040a;
+  --panel: rgba(15, 20, 40, 0.52);
+  --panel-strong: rgba(11, 15, 30, 0.72);
+  --text: #eceffc;
+  --body: #b8c2db;
+  --muted: #8b96b6;
+  --border: rgba(148, 163, 255, 0.14);
+  --accent: #99a6ff;
+  --accent-2: #c3ccff;
+  --accent-soft: rgba(143, 156, 255, 0.13);
+  --accent-line: rgba(143, 156, 255, 0.38);
+  --highlight: rgba(143, 156, 255, 0.08);
+  --glow-1: rgba(94, 106, 210, 0.18);
+  --glow-2: rgba(56, 89, 141, 0.16);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.40), 0 26px 60px -30px rgba(0, 0, 0, 0.75);
+
+  --glass-blur: 18px;
+  --glass-radius: 20px;
 
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
           "Microsoft YaHei UI", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
@@ -28,30 +36,10 @@
   --wrap: 720px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0f16;
-    --panel: #121826;
-    --text: #e9eef7;
-    --body: #c2cddc;
-    --muted: #94a2b7;
-    --border: #212b3b;
-    --accent: #8fb3e8;
-    --accent-2: #a8c4ee;
-    --accent-soft: rgba(143, 179, 232, 0.12);
-    --accent-line: rgba(143, 179, 232, 0.32);
-    --highlight: rgba(143, 179, 232, 0.10);
-    --glow-1: rgba(60, 100, 164, 0.24);
-    --glow-2: rgba(42, 88, 112, 0.18);
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 54px -30px rgba(0, 0, 0, 0.70);
-  }
-}
-
 * { box-sizing: border-box; }
 
 html {
-  color-scheme: light dark;
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
   overflow-x: clip;
@@ -71,6 +59,10 @@ body {
   overflow-x: hidden;
   overflow-x: clip;
 }
+
+/* ---------- 深空背景 ----------
+   背景层（.cosmos）的结构与样式由 assets/comets.js 随脚本注入，
+   这里只保留背景上的两团静态光晕，避免两处样式各写一份。 */
 
 /* 背景里两团极淡的光，给纯色一点空气感 */
 .glow {
@@ -110,6 +102,24 @@ body {
   padding-inline: clamp(20px, 5vw, 32px);
 }
 
+/* ---------- 玻璃卡：所有文字块共用的半透明底 ---------- */
+
+.hero,
+.page-head,
+.prose,
+.note,
+.work,
+.card,
+.principles {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+}
+
 /* ---------- 页头 ---------- */
 
 .site-header {
@@ -129,18 +139,31 @@ body {
   letter-spacing: -0.01em;
   color: var(--text);
   text-decoration: none;
+  text-shadow: 0 1px 12px rgba(5, 6, 14, 0.8);
 }
-.brand svg { width: 24px; height: 24px; color: var(--accent); flex: none; }
+.brand svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  flex: none;
+  filter: drop-shadow(0 0 10px rgba(143, 156, 255, 0.35));
+}
 
 .nav {
   display: flex;
   gap: clamp(14px, 3.4vw, 26px);
   font-size: 0.94rem;
+  padding: 7px clamp(12px, 2.4vw, 18px);
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }
 .nav a {
   color: var(--muted);
   text-decoration: none;
-  padding-block: 4px;
+  padding-block: 2px;
   border-bottom: 1px solid transparent;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
@@ -154,7 +177,10 @@ body {
 
 main { flex: 1; }
 
-.hero { padding-block: clamp(44px, 11vh, 104px) clamp(28px, 5vh, 48px); }
+.hero {
+  margin-top: clamp(24px, 5vh, 44px);
+  padding: clamp(26px, 5vw, 46px) clamp(22px, 4.6vw, 40px) clamp(24px, 4.4vw, 38px);
+}
 
 .kicker {
   margin: 0 0 clamp(16px, 3vh, 22px);
@@ -172,6 +198,15 @@ h1 {
   line-height: 1.24;
   letter-spacing: -0.022em;
   text-wrap: balance;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  h1 {
+    background: linear-gradient(180deg, #f7f9ff 28%, #aebbf0 96%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
 
 .lede {
@@ -233,30 +268,28 @@ h1 {
 .latest a span { transition: transform 0.2s ease; display: inline-block; }
 .latest a:hover span { transform: translateX(3px); }
 
-/* 三个入口 */
+/* 入口卡片 */
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(184px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: clamp(12px, 2.2vw, 18px);
-  margin: clamp(38px, 7vh, 64px) 0 0;
+  margin: clamp(18px, 3.4vh, 26px) 0 0;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   padding: clamp(20px, 3.4vw, 26px);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
+  background: rgba(18, 24, 46, 0.46);
   color: inherit;
   text-decoration: none;
   transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
-              border-color 0.28s ease, box-shadow 0.28s ease;
+              border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
 }
 .card:hover {
   transform: translateY(-3px);
   border-color: var(--accent-line);
+  background: rgba(24, 31, 58, 0.58);
   box-shadow: var(--shadow);
 }
 .card h2 {
@@ -289,9 +322,8 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: clamp(18px, 3vw, 28px);
-  margin-top: clamp(48px, 9vh, 88px);
-  padding-top: clamp(24px, 4vh, 34px);
-  border-top: 1px solid var(--border);
+  margin-top: clamp(18px, 3.4vh, 26px);
+  padding: clamp(22px, 3.8vw, 30px);
 }
 .principle h3 {
   margin: 0 0 7px;
@@ -308,11 +340,18 @@ h1 {
 
 /* ---------- 内容页 ---------- */
 
-.page-head { padding-block: clamp(36px, 9vh, 80px) clamp(10px, 2vh, 18px); }
+.page-head {
+  margin-top: clamp(24px, 5vh, 44px);
+  padding: clamp(26px, 5vw, 40px) clamp(22px, 4.6vw, 38px) clamp(22px, 4vw, 32px);
+}
 .page-head h1 { font-size: clamp(1.85rem, 5.2vw, 2.4rem); }
 .page-head .lede { margin-top: clamp(14px, 2.4vh, 20px); }
 
-.prose { max-width: 34em; padding-bottom: clamp(20px, 4vh, 36px); }
+.prose {
+  margin-top: 16px;
+  padding: clamp(24px, 4.6vw, 38px) clamp(22px, 4.6vw, 38px) clamp(26px, 4.8vw, 40px);
+  max-width: none;
+}
 .prose p {
   margin: 0 0 1.25em;
   font-size: clamp(1rem, 2.5vw, 1.05rem);
@@ -326,7 +365,7 @@ h1 {
 .prose pre {
   margin: 0 0 1.2em;
   padding: 16px 18px;
-  background: var(--panel);
+  background: rgba(5, 8, 20, 0.62);
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow-x: auto;
@@ -385,9 +424,9 @@ h1 {
 
 /* 作品条目 */
 .work {
-  padding-block: clamp(24px, 4.4vh, 34px);
+  margin-top: 16px;
+  padding: clamp(24px, 4.4vw, 34px) clamp(22px, 4.4vw, 34px);
 }
-.work + .work { border-top: 1px solid var(--border); }
 .work-head {
   display: flex;
   flex-wrap: wrap;
@@ -405,6 +444,7 @@ h1 {
   letter-spacing: 0.06em;
   color: var(--accent);
   background: var(--accent-soft);
+  border: 1px solid rgba(143, 156, 255, 0.18);
   border-radius: 999px;
 }
 .work p {
@@ -434,8 +474,10 @@ h1 {
 .link:hover span { transform: translateX(3px); }
 
 /* 笔记条目 */
-.note { padding-block: clamp(26px, 4.6vh, 36px); }
-.note + .note { border-top: 1px solid var(--border); }
+.note {
+  margin-top: 14px;
+  padding: clamp(26px, 4.6vw, 36px) clamp(22px, 4.4vw, 34px);
+}
 .note time {
   display: block;
   margin-bottom: 10px;
@@ -473,7 +515,7 @@ h1 {
   margin-top: clamp(28px, 5vh, 40px);
   padding: clamp(20px, 3.6vw, 28px);
   background: var(--highlight);
-  border: 1px solid var(--accent-soft);
+  border: 1px solid rgba(143, 156, 255, 0.20);
   border-radius: 16px;
   font-size: clamp(0.99rem, 2.5vw, 1.04rem);
   line-height: 1.9;
@@ -498,15 +540,79 @@ h1 {
 .site-footer a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); }
 .site-footer a:hover { color: var(--text); border-bottom-color: var(--accent-line); }
 
+/* 分页 */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-top: 16px;
+  padding: 14px clamp(16px, 3.4vw, 24px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--glass-radius);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  font-size: 0.9rem;
+}
+.pager-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.pager-step:hover { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+.pager-step.is-disabled {
+  color: var(--muted);
+  border-color: var(--border);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.pager-nums { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.pager-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.pager-num:hover { color: var(--text); background: var(--accent-soft); }
+.pager-num.is-current {
+  color: var(--bg-deep);
+  background: var(--accent);
+  font-weight: 600;
+}
+
 /* ---------- 细节 ---------- */
 
-::selection { background: var(--accent); color: var(--panel); }
+::selection { background: var(--accent); color: var(--bg-deep); }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb {
+  background: rgba(143, 156, 255, 0.22);
+  border-radius: 999px;
+  border: 2px solid var(--bg-deep);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(143, 156, 255, 0.4); }
 
 [data-reveal] {
   animation: rise 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
@@ -529,6 +635,10 @@ h1 {
 
 /* 手机端表格：允许横向滚动，避免长代码或域名把正文撑出屏幕 */
 @media (max-width: 640px) {
+  :root {
+    --glass-blur: 14px;
+    --glass-radius: 16px;
+  }
   .prose table {
     display: block;
     width: 100%;
@@ -537,9 +647,14 @@ h1 {
     overscroll-behavior-x: contain;
   }
   .prose table th { white-space: normal; }
+  .nav {
+    gap: 12px;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 420px) {
-  .nav { gap: 14px; font-size: 0.9rem; }
+  .site-header { flex-wrap: wrap; }
+  .nav { padding: 6px 14px; }
   .site-footer { justify-content: flex-start; }
 }

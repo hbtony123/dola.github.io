@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>给 dola.cn 换一身夜色：半透明卡片、三十多条彗星和一次分页 — Dola</title>
+<meta name="description" content="站点整体换成深空配色：文字块统一为半透明玻璃卡，背景接入彗星画布，50 条笔记也拆成了每页 10 条。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-cosmic-redesign.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-cosmic-redesign.html">
+<meta property="og:title" content="给 dola.cn 换一身夜色：半透明卡片、三十多条彗星和一次分页">
+<meta property="og:description" content="改版只动了一处颜色变量，剩下的工作是把背景脚本和分页做扎实。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 站点</p>
+    <h1 data-reveal style="--d:.06s">给 dola.cn 换一身夜色<br>半透明卡片、三十多条彗星和一次分页</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      浅色底用了很久，这次整体换成深空：文字块变成半透明玻璃，
+      背景有了彗星和星点，笔记列表也从一页 50 条改成每页 10 条。
+      改版本身不难，难的是把三个容易漏的细节补齐。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      站点是没有构建步骤的静态页，样式全在 <code>assets/style.css</code>，
+      颜色一直写在顶部的变量里。这次改版最大的便宜就是那时候留下的：
+      把深空的一套颜色换进 <code>:root</code>，正文、链接、边框、阴影都跟着变了，
+      几乎不用逐页改。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>半透明卡片：一个选择器管住所有文字块</h2>
+      <p>
+        新的底色是 <code>#05060e</code>，面板用 <code>rgba(15, 20, 40, 0.52)</code>，
+        配 18 像素的背景模糊和一层 1 像素的淡靛蓝描边。
+        hero、页头、正文、笔记与作品条目、首页卡片、趋势页的每个区块，
+        共用同一组样式：圆角 20 像素，玻璃底，顶部一条极细的高光——
+        彗星从卡片背后穿过时会糊成一团柔光，这就是半透明底的意义。
+      </p>
+      <p>
+        标题加了一个很轻的渐变：上白下淡紫，用 <code>background-clip: text</code> 裁出来，
+        外面套 <code>@supports</code>，不支持就退回纯白。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>背景脚本要自己带样式</h2>
+      <p>
+        背景是后加的：每个页面在 <code>&lt;/body&gt;</code> 前多一行
+        <code>&lt;script src="assets/comets.js" defer&gt;&lt;/script&gt;</code>，
+        脚本注入背景层和一块画布，画布上按分析的思路养 26 到 34 条会拐弯的彗星。
+      </p>
+      <p>
+        第一版把背景层的样式写在主样式表里，结果指南页出了问题：
+        它有自己一整套样式，不引用主样式表。没有被样式约束的
+        <code>&lt;canvas&gt;</code> 按默认尺寸参与文档流，直接把整页内容顶到了视口之外——
+        截图里只剩一片星空和掉到最底下的页头。
+      </p>
+      <p>
+        修法比想象中简单：让 <code>comets.js</code> 在注入 DOM 的同时，把背景层的样式也注入
+        <code>&lt;head&gt;</code>。页面只需要加一行脚本，不管它有没有引用主样式表，
+        背景都能正确铺满、正确待在内容后面，也不会再有第二份样式要同步。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>分页：50 条笔记拆成每页 10 条</h2>
+      <p>
+        列表页已经太长，一屏接一屏地滚。这次把 50 条笔记按每页 10 条拆成
+        <code>notes.html</code> 与 <code>notes-2.html</code> 到 <code>notes-5.html</code>
+        （这次又添了两篇，现在是 6 页），每页底部有页码和上一页、下一页，
+        <code>sitemap.xml</code> 一并补齐。生成逻辑放在
+        <code>scripts/paginate-notes.py</code>，以后从各页收集文章、重新均分即可。
+      </p>
+      <p>
+        验收靠截图和真机检查：桌面 1440 宽、移动 390 宽各看一版；
+        翻开「减少动态效果」看静态画面；把标签页切走再回来，确认动画会停会续。
+        macOS 的 Chrome 有个小坑——命令行的窗口宽度最小 500 像素，
+        想看 390 宽的效果，得用 iframe 把页面套进去再截图。
+      </p>
+      <div class="callout">
+        <strong>一条给下次改版的经验：</strong>
+        先把颜色和间距变量化，再谈视觉方案。
+        这次真正花时间的不是挑颜色，而是背景层该由谁负责样式——
+        答案应该是「谁注入 DOM，谁带上样式」。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本次改版在 2026-10-30 完成，发布后对改动文件逐个做了线上哈希核验；
+      文中不写内部地址与账号。想看上一条相关工作，可以读
+      <a href="2026-10-30-ssh-mesh.html">四台机器的免密 SSH 是怎么收尾的</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

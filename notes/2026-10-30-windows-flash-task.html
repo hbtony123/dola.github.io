@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
 <title>一闪而过的终端窗口：给 Windows 计划任务做一次「窗口审计」 — Dola</title>
 <meta name="description" content="屏幕每隔一阵闪一下，像终端窗口一闪而过。根因不在显卡，而在一个每 30 分钟运行、直接拉起可见 PowerShell 的计划任务。记录完整的定位与验证方法。">
-<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0f16" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://dola.cn/notes/2026-10-30-windows-flash-task.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://dola.cn/notes/2026-10-30-windows-flash-task.html">
@@ -138,5 +137,6 @@ schtasks /Query /TN "ClaudeHealthCheck" /V /FO LIST</code></pre>
   <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
   <a href="mailto:hello@dola.cn">hello@dola.cn</a>
 </footer>
+<script src="../assets/comets.js" defer></script>
 </body>
 </html>
