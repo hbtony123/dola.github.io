@@ -47,6 +47,27 @@
   
 
 
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 站点</time>
+    <h2>把玻璃擦亮一点：让彗星从文字块背后透出来</h2>
+    <p>
+      面板从 52% 的不透明度收到 22%，背景模糊从 18 像素收到 9 像素；
+      两轮调参、六张截图，才让飞过的彗星在卡片背后被看见。
+    </p>
+    <a class="link" href="notes/2026-10-30-glass-opacity.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · 网络与互信</time>
+    <h2>沙盒每次重置：二十分钟把 SSH 链路接回来</h2>
+    <p>
+      没有 sshpass 的密码跳板、一个退出码为 0 的静默失败，
+      以及第二跳失效之后的一次直连换路。
+    </p>
+    <a class="link" href="notes/2026-10-30-sandbox-ssh-recovery.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.02s">
     <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 站点</time>
     <h2>给 dola.cn 换一身夜色：半透明卡片、三十多条彗星和一次分页</h2>
@@ -125,26 +146,6 @@
       两个用系统自带 Python 写的服务器，把翻历史和叫醒手机变成每个会话都能直接调用的工具。
     </p>
     <a class="link" href="notes/2026-10-30-local-mcp-claude-desktop.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.03s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · MCP</time>
-    <h2>一百三十行 Python，写一个不用 Node 的 MCP 服务器</h2>
-    <p>
-      stdio 传输的本质是一行一条 JSON-RPC 消息：回答四类请求就是合格服务器。
-      三个坑——stdout 只给协议、中文要关转义、超时与崩溃要分清。
-    </p>
-    <a class="link" href="notes/2026-10-30-mcp-python-minimal.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal data-daily="2026-10-30" style="--d:.02s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 网络与互信</time>
-    <h2>ping 不通，不等于连不上：四台机器的免密 SSH 是怎么收尾的</h2>
-    <p>
-      局域网扫描里少了一台机器，ping 也不回，可它偏偏能 SSH 进来。
-      判断连通性别用单一信号，能执行命令才算验收通过。
-    </p>
-    <a class="link" href="notes/2026-10-30-ssh-mesh.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
 <nav class="pager" aria-label="笔记分页">

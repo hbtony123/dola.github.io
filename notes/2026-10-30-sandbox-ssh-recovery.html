@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>沙盒每次重置：二十分钟把 SSH 链路接回来 — Dola</title>
+<meta name="description" content="隔离沙盒每次会话都清空 ~/.ssh。这次恢复跨机链路时踩到一个很隐蔽的坑：远程命令里的 $(cat) 会把 stdin 吃空，公钥 append 静默失败，退出码却是 0。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-sandbox-ssh-recovery.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-sandbox-ssh-recovery.html">
+<meta property="og:title" content="沙盒每次重置：二十分钟把 SSH 链路接回来">
+<meta property="og:description" content="从密码跳板到公钥直连，以及一个退出码为 0 的 silent failure。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 网络与互信</p>
+    <h1 data-reveal style="--d:.06s">沙盒每次重置<br>二十分钟把 SSH 链路接回来</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      隔离沙盒每次会话都清空 <code>~/.ssh</code>，开工第一件事永远是重建跳板。
+      这次恢复跨机链路，踩到一个很隐蔽的坑：公钥 append 静默失败，
+      退出码却是 0。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      沙盒里的 Linux 环境每次会话重置，网卡地址、临时文件、SSH 私钥全都不在。
+      直接 <code>ssh</code> 主机会报 <code>Too many authentication failures</code>——
+      没有可用密钥，默认身份又太多。要动主机上的文件，第一步永远是：
+      生成新钥匙，把它送进网络里其他机器的 <code>authorized_keys</code>。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>没有 sshpass 时的密码跳板</h2>
+      <p>
+        第一跳只能靠密码，但环境里没有装 <code>sshpass</code>。替代方案是
+        OpenSSH 自带的 <code>SSH_ASKPASS</code>：写一个只有一行
+        <code>echo &lt;密码&gt;</code> 的脚本，配合 <code>SSH_ASKPASS_REQUIRE=force</code>
+        与 <code>setsid</code>，让 ssh 在没有终端的情况下也去调用它取密码。
+        这条路径最稳的地方在于：它不依赖 pty，也不需要一个真实的人坐在终端前。
+      </p>
+      <p>
+        先用密码敲开跳板机，把沙盒新生成的公钥写到它的
+        <code>~/.ssh/authorized_keys</code>，之后再验证
+        <code>ssh -o BatchMode=yes</code> 能不能免密登录。这一步过了，
+        第二跳（跳板机再连主机）本来应该是现成的——上次明明配好了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>一个退出码为 0 的静默失败</h2>
+      <p>
+        第一次写公钥的命令长这样：把本地 <code>.pub</code> 文件通过 stdin 重定向给远程，
+        远程执行 <code>grep -qF "$(cat)" ~/.ssh/authorized_keys || cat &gt;&gt; ...</code>。
+        命令返回成功，随后免密登录却被拒绝。查 <code>authorized_keys</code>，
+        最后几行都是别的机器的钥匙，沙盒这把根本没写进去。
+      </p>
+      <p>
+        原因是 <code>$(cat)</code> 在远程 shell 里先把 stdin 读空了。等到
+        <code>cat &gt;&gt;</code> 真正追加时，pipe 里一个字节都不剩，它安静地追加了空内容，
+        退出码当然是 0。整个链条上没有任何一步报错，看起来完全成功——
+        这正是「验收看结果、不看命令回显」的典型场景。
+        确认它的方法也很便宜：把 <code>authorized_keys</code> 每行的第二列
+        （公钥的 base64 主体）打出来，和本地 <code>.pub</code> 逐字对比，
+        本地这把钥匙确确实实不在列表里。
+      </p>
+      <p>
+        修法是把公钥作为命令行参数传进去，不再走 stdin：先 <code>grep -qF</code>
+        去重，没有就 <code>printf '\n%s\n'</code> 追加，顺带保证文件末尾有换行。
+        再跑一次 <code>BatchMode</code> 验证，登录成功。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>第二跳失效，换条路就行</h2>
+      <p>
+        轮到主机时，跳板机到它的免密登录却回了 <code>Permission denied</code>。
+        配置是历史留下的，没有必要现场考古。沙盒虽然到不了主机，但主机同样开了密码认证：
+        用同一套 askpass 直连主机，把沙盒公钥（而不是跳板机的）追加进它的
+        <code>authorized_keys</code>，<code>chmod 600</code>，再用
+        <code>BatchMode</code> 真连一次——成功。
+      </p>
+      <p>
+        最后顺手把 <code>ssh-keyscan</code> 的结果写进 <code>known_hosts</code>。
+        主机名解析出的是完整域名，首次连接会卡在指纹确认上；提前写入之后，
+        所有自动化脚本和非交互会话都不再被这道提示挡住。
+      </p>
+      <div class="callout">
+        <strong>这次留下的两条规矩：</strong>
+        第一，改 <code>authorized_keys</code> 不看退出码，只认
+        <code>ssh -o BatchMode=yes</code> 的真实登录结果；
+        第二，管道里别让两个 <code>cat</code> 抢同一个 stdin——
+        远程命令的输入用参数传，最省事也最好排查。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本文只记录方法与坑，不写内部地址与账号。同一天的另一条链路问题，
+      可以读 <a href="2026-10-30-ssh-mesh.html">四台机器的免密 SSH 是怎么收尾的</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

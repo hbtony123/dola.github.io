@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>把玻璃擦亮一点：让彗星从文字块背后透出来 — Dola</title>
+<meta name="description" content="深空改版的第二天，把文字块的背景从 52% 透明度调到 22%，模糊从 18 像素收到 9 像素，让飞过的彗星能在卡片背后被看见。两轮截图才定稿。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-glass-opacity.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-glass-opacity.html">
+<meta property="og:title" content="把玻璃擦亮一点：让彗星从文字块背后透出来">
+<meta property="og:description" content="透明度不是单一变量：面板 alpha 和背景模糊是一对，要降就一起降。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 站点</p>
+    <h1 data-reveal style="--d:.06s">把玻璃擦亮一点<br>让彗星从文字块背后透出来</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      深空改版刚上线，反馈只有一句：彗星在文字块后面飞的时候看不见。
+      于是把面板从 52% 的实底调到 22%，背景模糊从 18 像素收到 9 像素——
+      分两轮、拍了六张截图才定下来。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      改版的初版面板是 <code>rgba(15, 20, 40, 0.52)</code>，配 18 像素的
+      <code>backdrop-filter: blur()</code>。当时的想法是「半透明」，但这两个数字放在一起，
+      实际效果是一堵磨砂墙：面板压掉了背景一半以上的亮度，剩下的部分又被 18 像素的模糊
+      抹成一片均匀的雾。彗星从卡片背后穿过时，方向、尾巴、头部的辉光全都消失了，
+      读者只能在卡片外面看到它们。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>透明度不是单一变量</h2>
+      <p>
+        直觉上「更透明」只要调低 alpha 就够了，但真正决定能不能看见彗星的是两件事：
+        面板盖住了多少亮度，和背景被模糊到什么程度。只降 alpha、不动模糊，得到的是一层
+        更淡的毛玻璃——背景还是糊的，彗星仍然没有形状；只降模糊、不动 alpha，
+        玻璃后面会出现锐利的彗星，但被 52% 的底色压得只剩一点点亮度。
+        要让它「看得见」，两个数得一起降。
+      </p>
+      <p>
+        第一轮把面板调到 <code>0.28</code>、模糊收到 11 像素，截图里已经能在卡片边缘
+        看到彗星的尾巴，但在卡片中间依然偏暗。第二轮再压到 <code>0.22</code> 与 9 像素，
+        彗星穿过整张卡片时都能辨认出方向和头部的高光，正文的对比度也没有掉到不可读。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>一处变量，顺带改了七处</h2>
+      <p>
+        站点所有文字块共用一组玻璃卡样式，面板颜色来自 <code>:root</code> 里的
+        <code>--panel</code>，所以主页 hero、页头、正文、笔记条目、作品条目、
+        首页卡片和分页条是一次性跟着变的。真正要单独照顾的是绕过变量的那几处：
+        首页卡片自己有更深的底色（<code>0.46</code> 收到 <code>0.20</code>，悬停态
+        从 <code>0.58</code> 收到 <code>0.30</code>），导航胶囊用的是
+        <code>--panel-strong</code>（<code>0.72</code> 收到 <code>0.46</code>），
+        代码块要保持可读只从 <code>0.62</code> 让到 <code>0.55</code>，
+        手机断点里的模糊值从 14 像素同步改成 9 像素。
+      </p>
+      <p>
+        还有一页容易漏：指南页有独立的视觉，不引用主样式表，它自己在
+        <code>&lt;style&gt;</code> 里抄了一份 <code>--panel</code>。改主站的同时，
+        那一份也得跟着改，否则指南页会停留在旧的不透明度上——这正是上次改版
+        踩过的「第二份样式」问题的翻版。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>怎么用截图验收一场动画</h2>
+      <p>
+        验收用的是无头 Chrome。第一次用 <code>--virtual-time-budget=20000</code>
+        截图，先后拍了两张，文件大小一模一样——都是 738686 字节。这说明画面完全没变：
+        在虚拟时间下 <code>requestAnimationFrame</code> 没有推进，画布还停在第一帧之前，
+        拍到的永远是一张没有彗星的背景。
+      </p>
+      <p>
+        换了个思路：给浏览器加上 <code>--force-prefers-reduced-motion</code>，
+        脚本会走「减少动态效果」的静态分支，只画一帧。这一帧里的彗星不是从屏幕边缘
+        出发的，生成时就随机「预热」了最多半个生命周期，所以落点分布在整屏，
+        正好能检查彗星与卡片重叠处的效果。连拍三张、把卡片区域裁出来看，
+        才确认第二轮的数字是合适的。
+      </p>
+      <div class="callout">
+        <strong>给下次调参留一条经验：</strong>
+        玻璃效果由「面板 alpha + 背景模糊」成对决定。
+        想让人看见背景在动，两个数一起降；验收动态画布，别指望虚拟时间的截图，
+        用静态帧分支抓一帧才靠谱。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本次调整在 2026-10-30 完成，改动只有样式表与指南页的变量；发布后对改动文件
+      逐个做了线上哈希核验。想读改版本身，可以看
+      <a href="2026-10-30-cosmic-redesign.html">给 dola.cn 换一身夜色</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
