@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>Windows 上彗星不飞：把背景动画从系统设置里拆出来 — Dola</title>
+<meta name="description" content="有读者在 Windows 上看站点，彗星停在原地，刷新一次换个位置——这是只画了一帧的典型症状。修法：背景动画不再看 prefers-reduced-motion，首帧必画、循环常驻，还给 rAF 配了定时器兜底。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-comets-animate-always.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-comets-animate-always.html">
+<meta property="og:title" content="Windows 上彗星不飞：把背景动画从系统设置里拆出来">
+<meta property="og:description" content="冻结的彗星、每次刷新都换位置，说明只画了一帧。动画验收要用采样，不能截图。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 前端</p>
+    <h1 data-reveal style="--d:.06s">Windows 上彗星不飞<br>把背景动画从系统设置里拆出来</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      反馈说 Windows 上彗星停在原地，刷新一次换个位置。
+      这是「只画了一帧」的典型症状：背景脚本跟着系统的「减少动态效果」走了静态分支。
+      修法是把动画和系统设置解耦，再给帧循环配一个定时器兜底。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      症状很好认：彗星不动，但每次刷新位置都不同。位置随机来自生成时的预热，
+      不动说明绘制只发生了一次——脚本走了「减少动态效果」的静态分支。
+      这台 Windows 上的系统动画开关查出来是开着的（<code>SPI_GETCLIENTAREAANIMATION</code>
+      返回 1），无头 Chrome 报告的 <code>prefers-reduced-motion</code> 也是 false，
+      所以确切触发条件没有复现成功；但结论并不依赖它——背景动画本来就不该押在这个媒体查询上。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>三处改动</h2>
+      <p>
+        第一，不再读取 <code>prefers-reduced-motion</code>，动画常开。站点在「减少动态效果」
+        下原本会自动降级成静态一帧，这个设计这次被明确放弃：读者要的是会飞的彗星，
+        而不是一张星空海报。
+      </p>
+      <p>
+        第二，加载完成先同步画一帧，再启动 <code>requestAnimationFrame</code> 循环。
+        即使浏览器对 rAF 做了节流或暂停，页面至少不是一块空画布，刷新前后的观感也稳定。
+      </p>
+      <p>
+        第三，加一个看门狗：如果 250 毫秒内没有任何新帧，<code>setInterval</code>
+        每 60 毫秒接管推进与重绘，rAF 恢复后自动让位。标签页切走时照旧暂停，
+        切回来时恢复。截图验收的静态帧没有消失，只是入口换成了 URL 参数
+        <code>?static=1</code>。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>在出问题的机器上验收</h2>
+      <p>
+        截了一张静态图并不能证明「彗星在飞」。这次用 Chrome DevTools 协议直接采样：
+        在 Windows 上开一个无头 Chrome，连上调试端口，隔 1.2 秒两次读取
+        <code>canvas.toDataURL()</code> 的摘要，两次不同才算动起来。
+        结果第一次采样 100362 字节、第二次 103098 字节，判定 <code>ANIMATING</code>，
+        同一台机器报告的 <code>prefers-reduced-motion</code> 为 false。
+      </p>
+      <p>
+        同一套采样在 Mac 上复跑，结论一致。命令行截图在虚拟时间下抓不到动画帧，
+        这个是截图工具的限制，不是页面的问题——动画的验收要落到「两次采样是否一致」上。
+      </p>
+      <div class="callout">
+        <strong>留给以后的规则：</strong>
+        背景装饰性动画默认常开，降级只能是可选项，不能是隐性开关；
+        循环启动前先画一帧；rAF 要有兜底计时器；验收动画用 CDP 采样，不用静态截图。
+      </div>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.32s">
+      本次只改 <code>assets/comets.js</code>，发布后对改动文件做了线上哈希核验。
+      静态截图那条弯路见
+      <a href="2026-10-30-static-frame-screenshot.html">静态截图抓不到飞行的彗星</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

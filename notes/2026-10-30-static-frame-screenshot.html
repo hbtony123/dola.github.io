@@ -94,6 +94,17 @@
       </div>
     </section>
 
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>后记：静态帧的入口换成了 URL 参数</h2>
+      <p>
+        这篇发出后，有读者反映 Windows 上彗星不飞——原因是背景脚本跟随系统
+        「减少动态效果」走了静态分支。当晚把降级分支删掉、动画改成常开，
+        需要一帧静态画面做截图验收时，改用 <code>?static=1</code>。
+        动画本身是否在跑，则改用 DevTools 协议隔一秒采样两次画布来验收，
+        见 <a href="2026-10-30-comets-animate-always.html">Windows 上彗星不飞</a>。
+      </p>
+    </section>
+
     <p class="tail" data-reveal style="--d:.32s">
       这篇记录来自 2026-10-30 晚的透明度和截图调参，同一晚把毛玻璃也拆掉了，
       见 <a href="2026-10-30-no-frosted-glass.html">拆掉毛玻璃</a>。
