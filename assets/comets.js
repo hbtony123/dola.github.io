@@ -11,7 +11,9 @@
   'use strict';
   if (document.querySelector('.cosmos')) return;
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 动画常开：不跟随系统「减少动态效果」（Windows 关闭动画后彗星会静止）。
+  // 需要静态一帧做截图验收时，在 URL 上加 ?static=1。
+  var staticFrame = /[?&]static(=|&|$)/.test(window.location.search);
 
   // 背景层的样式随脚本注入：这样不依赖 style.css 是否被当前页面加载
   // （例如指南页自带一套独立样式表）。
@@ -74,6 +76,7 @@
   var comets = [];
   var starLayer = null;  // 离屏星点，避免每帧重画
   var raf = 0;
+  var lastRaf = 0;
 
   function cometCount() {
     var n = Math.round(window.innerWidth / 40);
@@ -226,44 +229,48 @@
     for (var i = 0; i < comets.length; i++) drawComet(comets[i]);
   }
 
-  function loop() {
+  function respawnAt(i) {
+    var sp = comets[i].special;
+    var nc = spawn(W, H);
+    if (sp != null) {
+      vividSteps[sp]++;
+      nc.special = sp;
+      vividPaint(nc, sp);
+    }
+    comets[i] = nc;
+  }
+
+  function advance() {
     for (var i = 0; i < comets.length; i++) {
       var c = comets[i];
       step(c);
-      if (outOfStage(c)) {
-        var sp = c.special;
-        var nc = spawn(W, H);
-        if (sp != null) {
-          vividSteps[sp]++;
-          nc.special = sp;
-          vividPaint(nc, sp);
-        }
-        comets[i] = nc;
-      }
+      if (outOfStage(c)) respawnAt(i);
     }
     drawFrame();
+  }
+
+  function loop() {
+    lastRaf = Date.now();
+    advance();
     raf = requestAnimationFrame(loop);
   }
 
   resize();
 
-  if (reduced) {
-    drawFrame();                 // 静态一帧：彗星停在半空，像一张海报
-  } else {
-    raf = requestAnimationFrame(loop);
-  }
+  drawFrame();                   // 先画一帧：即使 rAF 被浏览器节流，页面也有彗星
+  if (!staticFrame) raf = requestAnimationFrame(loop);
 
   var resizeTimer = 0;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       resize();
-      if (reduced) drawFrame();
+      if (staticFrame) drawFrame();
     }, 160);
   });
 
   document.addEventListener('visibilitychange', function () {
-    if (reduced) return;
+    if (staticFrame) return;
     if (document.hidden) {
       cancelAnimationFrame(raf);
       raf = 0;
@@ -271,4 +278,13 @@
       raf = requestAnimationFrame(loop);
     }
   });
+
+  // 兜底驱动：部分 Windows 环境会把 rAF 节流到几乎不跑。
+  // 超过 250ms 没有新帧，就用定时器接管推进，保证彗星继续飞。
+  setInterval(function () {
+    if (staticFrame || document.hidden) return;
+    if (Date.now() - lastRaf < 250) return;
+    lastRaf = Date.now();
+    advance();
+  }, 60);
 })();
