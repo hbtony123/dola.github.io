@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>给桌面 AI 加两个本地工具：一次 MCP 接入实录 — Dola</title>
+<meta name="description" content="桌面端设置里早有「本地 MCP 服务器」入口，机器上却没有 Node。两个用 Python 标准库写的服务器，把翻历史和叫醒手机变成每个会话都能直接调用的工具。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-local-mcp-claude-desktop.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-local-mcp-claude-desktop.html">
+<meta property="og:title" content="给桌面 AI 加两个本地工具：一次 MCP 接入实录">
+<meta property="og:description" content="把本来就有的本机能力，变成每个新会话默认就会用的入口。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · MCP</p>
+    <h1 data-reveal style="--d:.06s">给桌面 AI 加两个本地工具<br>一次 MCP 接入实录</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      桌面应用的设置里一直有一栏「本地 MCP 服务器（Python 运行时）」，
+      但从来没真正用过。今天补上：两个用系统自带 Python 写的服务器，
+      把“翻历史”和“叫醒手机”变成每个会话都能直接调用的工具。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      MCP 是让 AI 应用连接外部工具的一套开放协议，已经写进各种工具的说明里。
+      但协议是大词，落到这台机器上，真正的问题只有一个：
+      哪些本机能力值得变成“工具”，让每个新会话不用解释就直接会用？
+      今天挑了两个人人都用得上的：查历史、发通知。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>为什么是这两个</h2>
+      <p>
+        第一个是历史语义检索。三台机器各自的 AI 编程记录白天已经切块向量化，
+        建成了一个八千多块的索引，背后一直在跑一个本地检索服务。
+        但服务在跑不等于用得上：每次新会话想“先查查以前怎么做的”，
+        都得先想起来它存在。做成 MCP 工具之后，它是一个有名字、有说明、
+        带参数表的工具，模型在回答“以前怎么处理过”这类问题时会直接调用它。
+      </p>
+      <p>
+        第二个是手机通知。家里定过一条铁律：手动推送必须两条通道各发一次——
+        iPhone 一条、安卓一条，缺一不可。以前靠一条 shell 脚本保证，
+        现在把它做成工具，模型可以直接调用，脚本逻辑（双通道、成功码校验）
+        藏在工具里面，调用方不需要记得这些讲究。
+      </p>
+      <div class="callout">
+        <strong>挑选标准：</strong>
+        一是已经有现成服务，缺的只是一个“入口”；
+        二是调用频率高、且忘了用会出事的场景。两条都占的，才值得做成工具。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>没有 Node，反而更简单</h2>
+      <p>
+        MCP 的现成服务器大多以 npm 包的形式分发，但这台 Mac 上没有 Node，
+        也不想为两个小工具装一整棵依赖树。好在桌面端支持 Python 运行时，
+        而系统自带的 Python 就够用：两个服务器都只用标准库，
+        一个文件、零安装、`python3 server.py` 就能跑。
+      </p>
+      <p>
+        服务器的结构其实很朴素：客户端把它当子进程启动，双方通过标准输入输出
+        一行一行地交换 JSON 消息。服务器只需要回答四类问题——你好（initialize）、
+        你有哪些工具（tools/list）、执行某个工具（tools/call）、
+        还在不在（ping）。剩下的就是把具体逻辑写成普通函数。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>登记、备份、重启，三步都要走</h2>
+      <p>
+        桌面端把本地服务器登记在一份 JSON 配置里：服务器名字、启动命令、参数。
+        和旧版桌面端是同一套约定，新加的条目写进 `mcpServers` 一节即可。
+        动手之前先备份原文件——这份配置桌面端自己也读也写（保存偏好时），
+        外部改动和它抢同一个文件，留个副本是最低成本的保险。
+      </p>
+      <p>
+        改完先用 Python 把它解析一遍，确认 JSON 合法、原有字段都还在，
+        再看桌面端是否要重启。这里踩到的第一个坑就是“生效条件”：
+        这类配置通常在应用启动时读一次，写完不重启，设置页里什么都不会出现。
+        最稳妥的做法是完全退出应用再打开，而不是新开一个窗口。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>踩到的三个小坑</h2>
+      <p>
+        其一，标准输出是协议通道，不是日志通道。
+        服务器往 stdout 写一行调试信息，客户端解析就会炸；
+        所有调试输出必须走 stderr，哪怕是一句“启动成功”。
+      </p>
+      <p>
+        其二，协议版本号别自作主张。客户端在初始化消息里带上它期望的版本，
+        自己手写的服务器直接回显这个值最稳，硬编码任何一个版本都会在未来某次升级时出问题。
+      </p>
+      <p>
+        其三，中文和换行都要显式处理。JSON 序列化时关掉 ASCII 转义（否则中文变成一长串编码），
+        每写完一条消息立刻 flush（否则客户端一直等不到响应），
+        再把长耗时调用——比如冷启动时的向量化查询要三到八秒——超时设到三十秒。
+        这三点都处理完，服务器才经得起日常使用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>验收证据</h2>
+      <p>
+        两个工具都在接入前单独测过。检索工具拿“网站发布文章流程”这类问题去问，
+        返回了两条以前的会话原文，分数在 0.5 以上，内容对得上；
+        通知工具实际推送了一条测试消息，iPhone 通道返回成功码，
+        安卓通道返回 HTTP 200，两条都到了。
+        测试消息本身也写明了是测试，不留“看似告警”的悬念。
+      </p>
+      <p>
+        接入之后，真正的验收要到下一次重启应用才能做：设置页应该能看到这两个服务器，
+        新会话的工具列表里应该多出两个名字。在那之前，只能说服务器端验证完毕，
+        客户端还没握手——这两件事要分开说，不能混成一句“完成了”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.50s">
+      <h2>结论</h2>
+      <p>
+        MCP 真正的价值不是多了一个协议，而是把“本来就有的本机能力”
+        变成“每个新会话默认就会用”的入口。能力是旧的，入口是新的，
+        组合起来的效果却是全新的：不用再叮嘱，也不会再忘。
+        工具写得越小、权限给得越窄，这条路就越值得走。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.54s">
+      本文依据 2026-10-30 的本地 MCP 接入过程写成：两个服务器均为标准库实现、
+      单文件部署；检索与推送的验收记录见当天维护日志。
+      文中不写具体路径、地址与内部标识。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

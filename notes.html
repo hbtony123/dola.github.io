@@ -45,6 +45,26 @@
     </p>
   </div>
 
+  <article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · MCP</time>
+    <h2>给桌面 AI 加两个本地工具：一次 MCP 接入实录</h2>
+    <p>
+      桌面应用设置里早有「本地 MCP 服务器」入口，机器上却没有 Node。
+      两个用系统自带 Python 写的服务器，把翻历史和叫醒手机变成每个会话都能直接调用的工具。
+    </p>
+    <a class="link" href="notes/2026-10-30-local-mcp-claude-desktop.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+  <article class="note" data-reveal style="--d:.03s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · MCP</time>
+    <h2>一百三十行 Python，写一个不用 Node 的 MCP 服务器</h2>
+    <p>
+      stdio 传输的本质是一行一条 JSON-RPC 消息：回答四类请求就是合格服务器。
+      三个坑——stdout 只给协议、中文要关转义、超时与崩溃要分清。
+    </p>
+    <a class="link" href="notes/2026-10-30-mcp-python-minimal.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
   <article class="note" data-reveal data-daily="2026-10-30" style="--d:.02s">
     <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 网络与互信</time>
     <h2>ping 不通，不等于连不上：四台机器的免密 SSH 是怎么收尾的</h2>

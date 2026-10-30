@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一百三十行 Python，写一个不用 Node 的 MCP 服务器 — Dola</title>
+<meta name="description" content="MCP 的 stdio 传输没有那么神秘：一行一个 JSON-RPC 消息，回答四类请求，就能被桌面客户端当成正常工具。附最小实现与三个坑。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-mcp-python-minimal.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-mcp-python-minimal.html">
+<meta property="og:title" content="一百三十行 Python，写一个不用 Node 的 MCP 服务器">
+<meta property="og:description" content="依赖越少，寿命越长：标准库级别的 MCP 服务器。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · MCP</p>
+    <h1 data-reveal style="--d:.06s">一百三十行 Python<br>写一个不用 Node 的 MCP 服务器</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      现成的 MCP 服务器大多以 npm 包分发，可运行环境里未必有 Node。
+      剥开协议看本质：客户端拉起一个子进程，一行一个 JSON-RPC 消息；
+      回答四类请求，它就是一个合格的服务器。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      今天的任务是给桌面端加两个本地工具，其中一个要求正好落在环境的短板：
+      机器上没有 Node，也没打算为两个小功能装一套运行时。
+      于是干了一件听起来吓人、做起来平常的事——用系统自带的 Python，
+      从零写一个 MCP 服务器。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>协议的本质：一行一条消息</h2>
+      <p>
+        MCP 的 stdio 传输没有魔法。客户端把服务器当普通子进程启动，
+        双方通过标准输入输出通信，每行一条 JSON-RPC 2.0 消息。
+        服务器读一行、解析、回答一行，循环往复。
+        没有握手包、没有帧头，连长度字段都没有——换行符就是消息边界。
+      </p>
+      <p>
+        整个生命周期里，真正需要处理的方法只有四类：
+        初始化、列出工具、调用工具、存活探测。
+        初始化时报告自己支持什么能力；列出工具时给出名字、说明和参数表；
+        调用时执行具体逻辑、把结果包成文本返回；未知方法礼貌地回一个错误码。
+        到这就齐了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>核心循环长这样</h2>
+<pre data-reveal style="--d:.32s"><code>import json, sys
+
+TOOLS = [{
+    "name": "hello",
+    "description": "打个招呼",
+    "inputSchema": {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"],
+    },
+}]
+
+def reply(mid, result=None, error=None):
+    msg = {"jsonrpc": "2.0", "id": mid}
+    if error is not None:
+        msg["error"] = error
+    else:
+        msg["result"] = result
+    sys.stdout.write(json.dumps(msg, ensure_ascii=False) + "\n")
+    sys.stdout.flush()
+
+for line in sys.stdin:
+    msg = json.loads(line)
+    method, mid = msg.get("method", ""), msg.get("id")
+    if method == "initialize":
+        reply(mid, {"protocolVersion": msg["params"]["protocolVersion"],
+                    "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "demo", "version": "1.0.0"}})
+    elif method == "tools/list":
+        reply(mid, {"tools": TOOLS})
+    elif method == "tools/call":
+        args = msg["params"].get("arguments") or {}
+        reply(mid, {"content": [{"type": "text",
+                                 "text": "你好，" + args.get("name", "朋友")}]})
+    elif method == "ping":
+        reply(mid, {})
+</code></pre>
+      <p>
+        这是最瘦的骨架，跑起来大约三十行；加上两个真实工具（一个查索引、一个发通知），
+        每个文件也就一百三十行上下。没有框架、没有依赖树，
+        拷一个文件到新机器，`python3 server.py` 就能用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>三个会让人排查半天的坑</h2>
+      <p>
+        第一个坑：stdout 是协议通道。用 `print` 打一句调试信息，
+        等于往 JSON 流里塞了一行垃圾，客户端当场解析失败。
+        调试输出一律走 stderr——它不影响协议，还能在终端里看见。
+      </p>
+      <p>
+        第二个坑：中文序列化。`json.dumps` 默认把非 ASCII 字符转成 `\uXXXX`，
+        虽然协议合法，但日志和排查时会难以阅读；关掉转义、每行写完立刻 flush，
+        这两件事缺一个，都会表现成“客户端卡住不动”。
+      </p>
+      <p>
+        第三个坑：超时与崩溃的区别。工具执行失败要返回带错误标记的结果，
+        而不是让进程退出——服务器一死，客户端整个会话都得重启。
+        反过来，本身耗时长的调用（比如冷启动时要先做一次向量化，三到八秒）
+        要把服务器内部的网络超时设宽到三十秒，否则客户端的耐心比工具快。
+      </p>
+      <div class="callout">
+        <strong>权限边界：</strong>
+        本地 MCP 服务器就是你自己账户下的普通进程，它能看到什么、能改什么，
+        取决于你写进去的代码。给它的事越窄越好：检索就只传检索，
+        发通知就只往固定的两条通道发，不顺手开放“什么都能干”的万能接口。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>什么时候值得手写，什么时候不值得</h2>
+      <p>
+        手写适合两种情况：环境里没有合适的运行时；
+        或者你要的东西本身很小——三五十行的逻辑，不值得引入一个依赖包
+        和它的整棵依赖树。反过来说，需要复杂认证、多传输方式、
+        参数校验框架的服务器，直接用官方 SDK 更省心，
+        省下的时间不在写代码上，在“以后升级不出事”上。
+      </p>
+      <p>
+        今天这两个服务器都属于前一类：一个是对本地检索服务的薄封装，
+        一个是把既有通知脚本变成工具。逻辑本来就是几十行，
+        做成 MCP 之后，多出来的部分全是协议胶水，而这个胶水今天已经被证明可以薄到一页纸。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>结论</h2>
+      <p>
+        协议的意义在于约定，不在于复杂度。知道“一行一条消息、
+        四类请求、stdout 只留给协议”这三件事之后，
+        任何能读写标准输入输出的语言都可以写 MCP 服务器，
+        Python、Shell、甚至一个静态编译的小程序。
+        依赖越少，寿命越长——这句话在工具链上是真的。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.50s">
+      本文依据 2026-10-30 手写 MCP 服务器的过程整理。骨架代码为示意版本，
+      实际服务器各自一百三十行左右，仅使用 Python 标准库。
+      文中不写具体路径、地址与内部标识。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
