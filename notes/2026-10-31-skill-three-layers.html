@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>技能的三层：触发、执行、验收 — Dola</title>
+<meta name="description" content="很多“技能”只是文档。真正能被下次直接调用的技能，至少有触发、执行、验收三层，外加一层版本维护。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-skill-three-layers.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-skill-three-layers.html">
+<meta property="og:title" content="技能的三层：触发、执行、验收">
+<meta property="og:description" content="没有验收层的技能，只能算一份操作说明。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 技术笔记 · 技能</p>
+    <h1 data-reveal style="--d:.06s">技能的三层<br>触发、执行、验收</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      把经验写成文档很容易，写成技能很难。
+      区别不在于篇幅，而在于有没有把“什么时候用、怎么用、怎么算用对了”分开写清楚。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      看过很多所谓的技能文档：背景写得很长，命令列了一堆，
+      但下次真正遇到问题时，还是要从头判断该用哪一条。
+      这类文档只能算资料，不能算技能。一个能被直接调用的技能，
+      至少要有三层结构，外加一层维护约定。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>第一层：触发</h2>
+      <p>
+        触发层回答“什么时候该用”。它不应该是模糊的“处理桌面问题”，
+        而应该贴近用户实际会说的话：界面变成英文了、更新后中文没了、
+        换一台电脑也要同样的效果。触发写得越具体，下次越不容易漏用或误用。
+      </p>
+      <p>
+        触发层还要负责分流。同一个症状可能来自不同应用，
+        机制不同、操作不同、回滚方式也不同。先判断是哪一个，
+        再进入对应路径；不要为了省事把两条路径混成一套步骤。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>第二层：执行</h2>
+      <p>
+        执行层回答“具体怎么做”。这里最重要的是顺序和边界：
+        先备份还是先退出、什么时候需要人确认、哪些文件绝对不能碰。
+        命令可以复制，但顺序不能错；顺序错了，后面的验证再漂亮也没用。
+      </p>
+      <div class="callout">
+        <strong>执行层的底线：</strong>
+        只做这一件事。技能里出现账号、密钥、路由配置时，
+        往往意味着边界已经失控，应该把它拆出去。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>第三层：验收</h2>
+      <p>
+        验收层回答“怎么知道真的成了”。界面类任务尤其需要这一层：
+        文件存在、进程启动、命令返回 0，都不能证明用户看到的是中文。
+        验收标准必须落到可观察的结果上，比如实际界面文字、指定的验证输出、
+        进程从哪个路径启动。
+      </p>
+      <p>
+        验收层还应该包含失败出口：出现完整性错误、版本不匹配、权限被拒时，
+        恢复到什么状态、日志留在哪里、什么时候停止重试。
+        没有失败出口的技能，一旦出错就会把机器留在半改状态。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>外加一层：版本维护</h2>
+      <p>
+        依赖外部工具或补丁的技能，必须固定版本，并写清楚“升级后要重新确认”。
+        不固定版本的技能，今天能用，明天可能因为上游一个提交就失效。
+        固定版本不是保守，而是让失败可复现：至少知道问题出在版本不匹配，
+        而不是在无数个变量里猜。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>结论</h2>
+      <p>
+        触发、执行、验收，三层齐全，技能才从“资料”变成“可调用的能力”。
+        再加上版本维护，它才能在一段时间里保持可靠。
+        写技能时不妨先问：下次只报一句症状，这套东西够不够用？
+        如果不够，缺的通常不是命令，而是判断。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.50s">
+      本文依据 2026-10-31 的一次技能设计整理写成。
+      文中不写具体账号、内部地址和凭据；示例只描述结构。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

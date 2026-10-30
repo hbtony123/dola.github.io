@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>把一次排障做成技能：下次只报症状，不再重新研究 — Dola</title>
+<meta name="description" content="一次性修复的成本不在操作，而在重新判断。把触发条件、执行路径、验收和回滚写进技能，下一次就只剩执行。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-problem-to-skill.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-problem-to-skill.html">
+<meta property="og:title" content="把一次排障做成技能：下次只报症状，不再重新研究">
+<meta property="og:description" content="技能不是更长的笔记，而是可重复执行的判断路径。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 技术笔记 · 技能</p>
+    <h1 data-reveal style="--d:.06s">把一次排障做成技能<br>下次只报症状，不再重新研究</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一次性修复最贵的部分，从来不是敲命令，而是重新判断：
+      这是哪个应用、问题在哪一层、哪条路走过、什么算修好。
+      技能的价值，就是把这些判断提前做完。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这次把“桌面应用界面变成英文后怎么恢复中文”整理成了技能。
+      过程中最明显的感受是：真正需要写下来的，不是成功的那几条命令，
+      而是“下次遇到同样症状时，先看什么、按什么顺序排除、什么情况下必须停”。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一次性修复的成本</h2>
+      <p>
+        同一条排障路径，第一次做要花几个小时：查应用结构、试错、排除网络原因、
+        确认版本、找到真正生效的开关。第二次做，如果只留下几条命令，
+        仍然要重新判断这些命令是否还适用、路径有没有变、失败时该退到哪。
+        命令是廉价的，判断是昂贵的。
+      </p>
+      <div class="callout">
+        <strong>判断标准：</strong>
+        如果下次遇到同样症状，还需要重新读一遍当时的聊天记录才能动手，
+        那这件事就还没有被真正整理完。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>技能不是更长的笔记</h2>
+      <p>
+        笔记回答“当时发生了什么”，技能回答“现在该怎么做”。
+        所以技能里最重要的不是背景故事，而是四样东西：
+        触发条件——什么症状下使用；执行路径——先做什么、再做什么；
+        验收标准——做到什么算完成；失败出口——出错时恢复到什么状态。
+        四样缺任何一样，技能就会退化成一份需要人重新解释的文档。
+      </p>
+      <p>
+        另一个容易被忽略的点是“不要混用”：同名症状可能来自完全不同的应用，
+        机制不同、入口不同、回滚方式也不同。技能的第一步应该是分流，
+        而不是直接给一条命令。分流做对了，后面的步骤才有意义。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>这次技能里放了什么</h2>
+      <p>
+        先分两个应用：一个桌面客户端的语言由服务端开关控制，
+        另一个由本地资源包和完整性哈希控制。前者不改应用文件，
+        后者必须做独立副本并重新签名。两条路径分开写，
+        各自带入口、验证输出和“升级后会失效”的提醒。
+      </p>
+      <p>
+        然后是验收：统一要求看实际界面和进程路径，不把“资源文件存在”当成成功。
+        最后是回滚：副本可以直接删除，官方应用保持原样；
+        Windows 侧则明确写出必须在可见桌面里处理权限确认。
+        这些内容都不涉及账号、密钥和内部地址，技能可以安全地长期保存。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>边界</h2>
+      <p>
+        技能不是越全越好。它只覆盖“界面语言”这一件事，
+        不负责模型路由、账号登录和代理配置；依赖第三方补丁时固定版本，
+        不追最新；版本不匹配时宁可停下，也不硬套旧步骤。
+        把边界写清楚，技能才不会在下次被误用成万能脚本。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>结论</h2>
+      <p>
+        把排障做成技能，本质上是在为未来的自己省下一次重新研究。
+        症状出现时，只需要报一句“又变英文了”，
+        剩下的分流、执行、验收和回滚，都应该已经在技能里等着。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.50s">
+      本文依据 2026-10-31 的一次技能整理过程写成。
+      文中不写具体账号、内部地址和凭据；示例只描述结构，不提供内部配置。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
