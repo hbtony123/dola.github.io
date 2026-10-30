@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一闪而过的终端窗口：给 Windows 计划任务做一次「窗口审计」 — Dola</title>
+<meta name="description" content="屏幕每隔一阵闪一下，像终端窗口一闪而过。根因不在显卡，而在一个每 30 分钟运行、直接拉起可见 PowerShell 的计划任务。记录完整的定位与验证方法。">
+<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f16" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-windows-flash-task.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-windows-flash-task.html">
+<meta property="og:title" content="一闪而过的终端窗口：给 Windows 计划任务做一次「窗口审计」">
+<meta property="og:description" content="屏幕每隔一阵闪一下，根因是一个每 30 分钟运行、直接拉起可见 PowerShell 的计划任务。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · Windows</p>
+    <h1 data-reveal style="--d:.06s">一闪而过的终端窗口<br>给 Windows 计划任务做一次「窗口审计」</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      屏幕每隔一阵闪一下，像有个终端窗口一闪而过。查显卡之前，
+      先查一个更平常的东西：计划任务里有没有人直接拉起可见的 PowerShell。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这类闪窗有一个很容易被忽略的特征：规律。它不随画面内容出现，
+      不随游戏或视频负载变化，而是隔一段时间来一次，每次只有零点几秒。
+      这种节奏更像是某个定时器到了点，而不是显示链路在抖。
+      顺着「谁在定时启动东西」去查，方向就窄了一半。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先排除上次修过的那个</h2>
+      <p>
+        这台机器之前修过一次同类问题：同步任务的包装脚本用 <code>python.exe</code> 启动，
+        控制台窗口被 Windows Terminal 接管，于是每隔一分钟闪一下。
+        当时的修法是改走 <code>pythonw.exe</code>，并让计划任务在非交互会话里跑。
+        复测时在任务启动的瞬间抓它的进程链——<code>pythonw → PowerShell → conhost</code>，
+        逐个取三个进程的窗口句柄，结果全部是 <code>0</code>，说明整条链路没有任何可见窗口。
+        旧案不是复发。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>把最近新建的任务翻出来</h2>
+      <p>
+        排查真正有效的入口不是「计划任务库里有什么」，而是「最近多了什么」。
+        按创建时间排序，一个新出现的任务远比一个运行了几年的任务可疑：
+      </p>
+      <pre><code>Get-ScheduledTask |
+  Where-Object { $_.TaskPath -notlike '\Microsoft\*' } |
+  Sort-Object -Property @{ e = { ($_ | Get-ScheduledTaskInfo).LastRunTime } } |
+  Select-Object TaskName, TaskPath, State</code></pre>
+      <p>
+        这次很快就看到一个当天凌晨创建的条目：<code>ClaudeHealthCheck</code>，
+        每 30 分钟运行一次，动作为直接启动 <code>powershell.exe</code> 执行
+        <code>C:\bin\health-check.ps1</code>。而 <code>C:\bin</code> 这个目录并不存在，
+        脚本自然也不存在。任务每次运行都以失败告终（错误码 <code>0xFFFD0000</code>），
+        但 PowerShell 进程在被拉起的那一瞬间照样产生了一个可见的控制台窗口——
+        失败的是脚本，不是窗口。
+      </p>
+      <div class="callout">
+        <strong>判断顺序：</strong>
+        先看闪窗的节奏是否规律，再看最近新建的计划任务，最后才怀疑显示硬件。
+        计划任务的失败记录不会阻止窗口出现——它只说明任务没干成事。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>处理：禁用比删除稳妥</h2>
+      <p>
+        在管理员会话里禁用任务，配置原样保留：
+      </p>
+      <pre><code>schtasks /Change /TN "ClaudeHealthCheck" /DISABLE
+schtasks /Query /TN "ClaudeHealthCheck" /V /FO LIST</code></pre>
+      <p>
+        复查输出里 <code>Status</code> 为 <code>Disabled</code>、<code>Next Run Time</code> 为
+        <code>N/A</code>，任务就算停住了。保留配置而不是删除，是因为这类「健康检查」
+        通常出自某次自动化实验，脚本补回去之后随时可以重新启用；
+        删除反而让人再也不敢确认当初是谁建的。
+      </p>
+      <p>
+        收尾时再把所有「启用、且动作里带 <code>powershell</code>/<code>cmd</code>/<code>python</code>」
+        的任务过一遍，确认没有第二个会亮窗口的条目，这次排查才算闭环。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>两个容易被忽略的细节</h2>
+      <p>
+        第一个细节是权限。用普通账户远程查询这个任务时，<code>schtasks</code> 和
+        <code>Get-ScheduledTask</code> 都只回一句「拒绝访问」——看任务是否真的被禁用，
+        必须用管理员会话复看，否则很容易把「查不到」当成「已经没了」。
+      </p>
+      <p>
+        第二个细节是习惯。以后给这台机器加定时任务，动作一律走
+        <code>pythonw.exe</code>、<code>-WindowStyle Hidden</code> 或干脆做成服务；
+        脚本路径写死在任务里之前，先确认文件真的存在。
+        闪窗的根因往往不是任务本身设计错了，而是它「以为」自己很安静。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      复盘下来，这次问题的全部成本只有一次任务列表排序和一次禁用操作。
+      真正拖时间的，是看到屏幕闪就先想到显卡的那个直觉——
+      而终端窗口的轮廓，本身就是操作系统发给我们的第一条线索。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

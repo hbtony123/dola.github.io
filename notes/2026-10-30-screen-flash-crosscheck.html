@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>屏幕闪一下，不一定是显卡：一次跨机闪窗排查 — Dola</title>
+<meta name="description" content="屏幕规律性闪一下，像终端窗口一闪而过。先用日志排除终端与启动项，再跨机器交叉时间线，最后在另一台 Windows 上找到病根。">
+<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f16" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-screen-flash-crosscheck.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-screen-flash-crosscheck.html">
+<meta property="og:title" content="屏幕闪一下，不一定是显卡：一次跨机闪窗排查">
+<meta property="og:description" content="先用日志排除终端与启动项，再跨机器交叉时间线，最后在另一台 Windows 上找到病根。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 排障</p>
+    <h1 data-reveal style="--d:.06s">屏幕闪一下，不一定是显卡<br>一次跨机闪窗排查</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      显示器上的窗口一闪而过，第一反应通常是硬件。这次的做法相反：
+      先假设它是某个真实的窗口，再顺着「谁会定时开窗口」这条线，一路查到另一台机器上。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      症状很具体：SAMSUNG 电视做显示器，1280×720 的分辨率下，
+      每隔一段时间整屏闪一下，轮廓像是一个终端窗口出现又消失，持续不到一秒。
+      它不跟视频负载走，也不跟温度走，规律得像时钟。
+      这正好是个好消息——有节奏的东西通常有源头可循。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>第一层：本机有没有开窗口的程序</h2>
+      <p>
+        如果真是本机的终端，Terminal.app 的启动历史应该骗不了人。
+        查系统日志里最近几小时的进程启动记录，结果是一条也没有——
+        这段时间 Terminal 从未被拉起过。再扫一遍 LaunchAgent 与 LaunchDaemon，
+        没有任何条目调用 <code>osascript</code> 或 Terminal 去开窗口。
+        本机终端这条线索到此为止。
+      </p>
+      <p>
+        顺手把相近的东西也清了一遍。墙上两个热角当时是开着的（调度中心与应用窗口），
+        系统日志里确实抓到几段「显示所有窗口」的动画爆发，时间点和部分闪屏报告对得上；
+        四个热角已经全部关掉，复查取值都是 <code>1</code>（无动作）。
+        另有一个保活脚本的 launchd 任务，脚本文件早就丢失，却还在每 10 秒失败重试一次——
+        它开的虽然不是窗口，但这类「每 10 秒一次」的节奏同样值得清理，plist 已经挪出加载目录。
+      </p>
+      <div class="callout">
+        <strong>判断顺序：</strong>
+        先证明「本机没人开窗口」，再谈是不是别处的窗口。
+        日志证明得了「没发生」，但证明不了「发生的是什么」——所以还要有第二步。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>第二层：把看见的东西记录下来</h2>
+      <p>
+        光靠回忆时间点不够。桌上留了两个监视器：一个实时跟踪 Dock 的
+        「Showing all windows」日志，另一个每 0.4 秒枚举一次所有窗口的辅助功能树，
+        记录窗口的出现与消失。它们的价值不在「发现问题」，
+        而在下一次闪现时给出可对齐的时间轴——闪的是不是 Mission Control，
+        窗口标题是什么，出现在哪一秒，都有据可查。
+      </p>
+      <pre><code>log show --last 3h --predicate 'process == "Dock"' \
+  | grep "Showing all windows"
+defaults read com.apple.dock | grep wvous</code></pre>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>第三层：另一台机器上的同一个病</h2>
+      <p>
+        同一套桌面里还有一台 Windows 在用。那边出现过一模一样的症状，
+        当时的原因也一模一样：计划任务定时启动可见的 PowerShell，窗口一闪而过。
+        于是回头去看那台机器的任务列表——当天凌晨刚新建了一个健康检查任务，
+        每 30 分钟运行一次，调用一个根本不存在的脚本，每次都以失败告终，
+        但每次都会拉起一个可见窗口。
+      </p>
+      <p>
+        它在被禁用后，任务状态变成 <code>Disabled</code>、下次运行时间 <code>N/A</code>；
+        再把其余「启用且动作里带 powershell」的任务过了一遍，没有第二个。
+        两台机器的时间线一对，规律性闪窗的第一个真实候选出现了。
+      </p>
+      <p>
+        这里还有一个值得写下来的细节：桌面常驻着远程控制与串流软件。
+        这意味着「屏幕上看到的窗口」可能根本不属于本机——
+        它可以是远端桌面的画面，通过一个常驻窗口实时投过来。
+        如果不是先在本机日志里排除了终端，再回头查另一台机器，
+        很容易在画面链路上绕很久。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>结论与后面的观察</h2>
+      <p>
+        Windows 侧的病根已经处理；Mac 侧的监视器还在跑，日志里 10:02 之后没有新的
+        「显示所有窗口」事件。接下来最诚实的做法不是宣布修好了，
+        而是等两个 30 分钟周期过去：如果不再闪，这条线收口；
+        如果还闪，嫌疑就转向远程画面链路与桌面应用的整窗重建——
+        那将是另一个故事了。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 对一台 Mac mini（macOS 27.0.1）与一台 Windows 11 机器的联合排查写成，
+      时间点、任务状态与日志均取自当天的实际输出。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
