@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>下载 — Dola</title>
+<meta name="description" content="给没有 Google 服务的华为手机准备邮箱客户端。只放亲手验过的文件，并写明版本、大小和校验值。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/downloads.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dola.cn/downloads.html">
+<meta property="og:title" content="下载 — Dola">
+<meta property="og:description" content="给没有 Google 服务的华为手机准备邮箱客户端。只放亲手验过的文件。">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="works.html">作品</a>
+    <a href="notes.html">笔记</a>
+    <a href="github-trends.html">趋势</a>
+    <a href="downloads.html" aria-current="page">下载</a>
+    <a href="about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <h1 data-reveal>下载</h1>
+    <p class="lede" data-reveal style="--d:.08s">
+      给没有 Google 服务的华为手机找一个能收 Gmail 的邮箱客户端。
+      这里只放亲手装过、验过签名的文件。
+    </p>
+  </div>
+
+  <div class="callout" data-reveal style="--d:.14s">
+    <strong>先说结论：没有 Google 服务（GMS）的华为手机，装不了 Gmail 官方应用。</strong>
+    我们在没有 Google 服务的 Android 15 模拟器上装过 Google 官方签名的
+    Gmail 2024.03.17：安装成功，一启动就报
+    <code>GooglePlayServices not available due to error 9</code>，界面崩溃退回桌面。
+    Gmail 的账号登录依赖 Google Play 服务，换一个 APK 版本解决不了。
+  </div>
+
+  <article class="work" data-reveal style="--d:.2s">
+    <div class="work-head">
+      <h2>Thunderbird for Android</h2>
+      <span class="status">24.0 · 11 MB</span>
+    </div>
+    <p>
+      开源的邮件客户端，Mozilla 出品，不需要 Google 服务，支持用 Google 账号授权登录 Gmail。
+      同一个没有 Google 服务的模拟器上，它装得上、也正常打开了。
+      文件直接取自官方发布页，签名未改动。
+    </p>
+    <a class="link" href="files/thunderbird-24.0.apk" download>下载 APK（10,965,795 字节）<span aria-hidden="true">→</span></a>
+
+    <div class="prose" style="padding-top:22px">
+      <table>
+        <caption>文件信息</caption>
+        <tbody>
+          <tr><th scope="row">版本</th><td>24.0（2026-10-05）</td></tr>
+          <tr><th scope="row">包名</th><td><code>net.thunderbird.android</code></td></tr>
+          <tr><th scope="row">系统</th><td>Android 6.0 及以上</td></tr>
+          <tr><th scope="row">签名</th><td>MZLA Technologies（Thunderbird 官方）</td></tr>
+          <tr><th scope="row" style="white-space:nowrap">SHA-256</th><td><code>473b33da5963d0a4261a834c845aaf8e3878309565e9f40e61f6e5def21565e5</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <section class="section" data-reveal style="--d:.26s">
+    <h2>装好之后，怎么加 Gmail</h2>
+    <div class="prose">
+      <p>
+        打开 Thunderbird，点 <strong>Get started</strong>，填 Gmail 地址；下一步选 Google 登录，
+        会在浏览器里完成授权。这条授权走的是网页，不需要 Google Play 服务。
+      </p>
+      <p>
+        如果浏览器授权走不通，就改用手动配置：先在 Google 账号里开启两步验证，
+        生成一个 16 位的<strong>应用专用密码</strong>，然后在客户端里填：
+      </p>
+      <pre><code>收信  IMAP  imap.gmail.com:993  SSL
+发信  SMTP  smtp.gmail.com:465  SSL
+账号  你的 Gmail 地址
+密码  应用专用密码（16 位）</code></pre>
+      <p>
+        前提只有一个：手机的网络能访问 Google。这一条和用什么客户端无关。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal style="--d:.32s">
+    <h2>如果你的手机有 Google 服务</h2>
+    <div class="prose">
+      <p>
+        那就不用绕路，直接从 Google Play 安装官方应用，版本和更新都由 Play 负责：
+        <a href="https://play.google.com/store/apps/details?id=com.google.android.gm">Gmail on Google Play</a>。
+      </p>
+      <p>
+        这里不提供 Gmail 的 APK，有两个原因：没有 GMS 的手机装了也用不了（上面的实测）；
+        Gmail 是 Google 的闭源应用，公开镜像有版权问题，也可能被平台下架。
+        放一个装上也用不了的文件，不如放一个能用的。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal style="--d:.38s">
+    <h2>校验</h2>
+    <div class="prose">
+      <p>下载后可以自己核一遍，确认文件和这里写的一致：</p>
+      <pre><code>shasum -a 256 thunderbird-24.0.apk
+# 473b33da5963d0a4261a834c845aaf8e3878309565e9f40e61f6e5def21565e5</code></pre>
+      <p>
+        有一台装了 Android SDK 的电脑，还可以用 <code>apksigner verify --print-certs</code>
+        看签名是不是 MZLA Technologies。
+      </p>
+    </div>
+  </section>
+
+  <p class="tail" data-reveal style="--d:.44s">
+    文件有问题，或者你在别的机型上试出了不一样的结论，写信到
+    <a href="mailto:hello@dola.cn">hello@dola.cn</a>。
+  </p>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

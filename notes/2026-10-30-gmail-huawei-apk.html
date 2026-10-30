@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gmail 装上了，然后呢 — Dola</title>
+<meta name="description" content="给没有 Google 服务的华为手机找邮箱客户端：文件找到了、签名验过了、也装上了，问题出在打开之后。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f16">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-gmail-huawei-apk.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-gmail-huawei-apk.html">
+<meta property="og:title" content="Gmail 装上了，然后呢">
+<meta property="og:description" content="文件找到了、签名验过了、也装上了，问题出在打开之后。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../downloads.html">下载</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 维护日志 · 实测</p>
+    <h1 data-reveal style="--d:.06s">Gmail 装上了，<br>然后呢</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      给一台没有 Google 服务的华为手机找邮箱客户端。
+      文件找到了，签名验过了，也装上了——问题出在打开之后。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.2s">
+      需求很具体：华为手机上没有 Google Play，想装 Gmail。最直接的做法是找一个 APK。
+      这一步看起来不难，实际上每一步都卡了一下。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先找一个能下载的文件</h2>
+      <p>
+        APKPure、APKMirror 这些常被推荐的站点，在这台机器的网络里全部返回 403，
+        是 Cloudflare 的安全验证；APKCube 的下载接口要 API key。最后在 archive.org
+        找到一份 Gmail 2024.03.17.617560491.Release，32,425,001 字节。
+      </p>
+      <p>
+        第三方来源的第一步永远是验签名。用 Android SDK 的 apksigner 打开这个文件：
+      </p>
+      <pre><code>Verifies
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): true
+Signer certificate DN: CN=Android, OU=Android, O=Google Inc., ...
+Signer certificate SHA-256 digest: 7ce83c1b71f3d572fed04c8d40c5cb10ff75e6d87d9df6fbd53f0468c2905053</code></pre>
+      <p>
+        四套签名方案全部通过，签名证书属于 Google。这说明文件没有被改过——
+        私有密钥只有 Google 有，改一个字节签名就对不上。到这一步，文件本身是可信的。
+      </p>
+      <p>
+        再看结构：<code>aapt2 dump badging</code> 读出包名 <code>com.google.android.gm</code>、
+        最低系统 Android 6.0、目标 Android 14；而 manifest 里还有一行
+        <code>isSplitRequired="true"</code>，要求 <code>base__abi</code> 和
+        <code>base__density</code> 两个 split。也就是说，这是从 App Bundle 里拆出来的
+        base 包，不是一个能独立安装的完整 APK。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.3s">
+      <h2>装进一台没有 Google 服务的手机</h2>
+      <p>
+        手边没有华为真机，就用最接近的环境：Android 15、arm64、纯净 AOSP 的模拟器，
+        里面没有任何 Google 服务。这正是华为国行机型的处境。
+      </p>
+      <p><code>adb install</code> 返回 Success。启动之后，logcat 里是这两行：</p>
+      <pre><code>GooglePlayServicesUtil: GooglePlayServices not available due to error 9
+GooglePlayServicesUtil: com.google.android.gm requires the Google Play Store, but it is missing.</code></pre>
+      <p>
+        紧接着是一次布局加载异常，界面还没画出来就退回桌面。缺 split、缺 GMS，
+        两个原因都指向同一个结果：这个应用在这台设备上用不了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>为什么换个版本也没用</h2>
+      <p>
+        Gmail 的账号登录走的是 Google Play 服务里的账号体系。没有 GMS，就没有登录入口——
+        不是权限没给，是组件根本不存在。华为 2019 年之后的国行机型普遍不带 GMS；
+        纯血鸿蒙（HarmonyOS 5 之后）更进一步，系统本身不再直接运行 APK，
+        需要额外的兼容层。
+      </p>
+      <p>
+        所以“给华为手机下个 Gmail APK”这件事，在没有 GMS 的机器上从第一步就走不通。
+        这不是版本旧、渠道不对的问题，换哪一份 APK 都一样。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>换一个能用的</h2>
+      <p>
+        同一个模拟器上，Thunderbird for Android 24.0 装得上，启动到欢迎页，
+        全程不需要 GMS。它是开源的（MPL 2.0），支持 Gmail 的 Google 账号授权登录，
+        也支持用应用专用密码手动配置 IMAP/SMTP。
+      </p>
+      <p>
+        文件、版本、签名和 SHA-256 都放在<a href="../downloads.html">下载页</a>，
+        取自官方发布页，没有改动。
+      </p>
+      <p>
+        如果连客户端都不想装，还有一条路：华为自带「电子邮件」，用 Gmail 的应用专用密码
+        走 IMAP/SMTP。前提是先在 Google 账号里开启两步验证，生成那个 16 位密码。
+      </p>
+      <p>
+        这三条路有一个共同前提：手机的网络能访问 Google。这一条，装什么 APK 都解决不了。
+      </p>
+    </section>
+  </div>
+
+  <p class="tail" data-reveal style="--d:.48s">
+    下载页：<a href="../downloads.html">dola.cn/downloads.html</a>
+  </p>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
