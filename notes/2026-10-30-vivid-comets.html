@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>给深空加两三颗彩色彗星：少量上色，整片夜空就活了 — Dola</title>
+<meta name="description" content="在满是靛蓝彗星的背景里随机挑 2~3 条换成彩色，颜色在每次重生时轮换。改动只有三十行，但把它当成站点的保留技能记下来。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-vivid-comets.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-vivid-comets.html">
+<meta property="og:title" content="给深空加两三颗彩色彗星：少量上色，整片夜空就活了">
+<meta property="og:description" content="2~3 条彩色彗星，槽位固定、颜色轮换；少量点缀比全屏彩色更耐看。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 前端</p>
+    <h1 data-reveal style="--d:.06s">给深空加两三颗彩色彗星<br>少量上色，整片夜空就活了</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      背景里三十多条彗星全是靛蓝，稳但单调。加 2～3 条彩色彗星，
+      颜色在每次重生时轮换——改动只有三十行左右，值得当成站点的保留技能记下来。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      背景脚本每屏按宽度养 26～40 条彗星，色板是一组相近的靛蓝：
+      <code>113,112,255</code> 一路到 <code>180,192,255</code>。整套颜色是为深空底色挑的，
+      统一但不惊喜。这次的需求很具体：加 2～3 条彩色彗星，颜色轮换，随机分布。
+      关键在「少」——整片夜空都上色会变成迪斯科球，两三条彩色穿过蓝色群体，
+      才有「偶然撞见」的感觉。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>色板与槽位</h2>
+      <p>
+        新增一组高饱和色板：洋红、琥珀、青绿、淡紫、天蓝、珊瑚红。每条彩色彗星在
+        生成时从 0、1、2 三个「槽位」里领一个编号，槽位决定它当前用色板里的哪个颜色。
+        一次只随机挑 2 或 3 条彗星当彩色彗星，挑选时去重，所以刷新几次会出现
+        两条或三条的不同组合。
+      </p>
+      <p>
+        彩色彗星本身也做了强化：透明度从普通的 0.2～0.5 提到 0.44～0.66，
+        线宽至少 2.1 像素、且在原基础上再乘 1.2。底色透明之后，彩色彗星穿过
+        文字块时颜色会很明显地压过正文，所以数量必须按住。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>颜色轮换放在重生上</h2>
+      <p>
+        彗星飞出屏幕边缘后会重生。彩色彗星重生时，对应槽位的颜色指针前进一位，
+        新的一条就换成色板里的下一个颜色——洋红飞走、琥珀接上，循环往复。
+        这样颜色是缓慢轮换的：每次只有一条彗星换色，观众不会盯着色块看，
+        只会觉得「刚才好像有颗粉的，现在怎么变绿了」。
+      </p>
+      <p>
+        实现上给每条彗星加一个 <code>special</code> 字段（空或槽位号）。
+        重生时把旧彗星的 <code>special</code> 抄给新彗星，再按槽位指针上色；
+        窗口尺寸变化会整批重建彗星，彩色槽位随机重抽，颜色指针保留，
+        所以轮换的节奏不会因为缩放而归零。
+      </p>
+      <div class="callout">
+        <strong>这个模式可以复制到别处：</strong>
+        背景元素要「偶尔出彩」时，别整体换色板——挑固定少数个体，
+        给它们槽位，颜色随个体生命周期轮换。既可控，又不会花。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>验收：在静态帧里找颜色</h2>
+      <p>
+        还是用无头 Chrome 的 reduced-motion 静态帧截图。因为彗星落点随机，
+        每张图只要扫一眼有没有洋红、琥珀或青色穿过页面即可；连拍几张，
+        确认彩色彗星确实分布在画面里，且穿过文字块时颜色可辨认、正文仍然可读。
+        脚本里也顺手记一笔：颜色只走 <code>rgba()</code> 字符串，和现有绘制逻辑
+        完全同构，没有引入新的渲染路径。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本次只改 <code>assets/comets.js</code>，发布后对改动文件做了线上哈希核验。
+      背景的来历见 <a href="2026-10-30-comet-background.html">彗星是怎么在背景里拐弯的</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

@@ -60,6 +60,15 @@
   if (!ctx) return;
 
   var PALETTE = ['113,112,255', '130,143,255', '94,106,210', '160,170,255', '180,192,255', '143,156,255'];
+
+  // 2~3 条彩色彗星：颜色在每次重生时轮换
+  var VIVID = ['255,99,180', '255,176,84', '110,255,214', '186,140,255', '92,214,255', '255,120,120'];
+  var vividSteps = [0, 0, 0];
+  function vividPaint(c, slot) {
+    c.hue = VIVID[vividSteps[slot] % VIVID.length];
+    c.alpha = 0.44 + 0.22 * Math.random();
+    c.width = Math.max(2.1, c.width * 1.2);
+  }
   var TRAIL = 64;       // 尾巴最多保留多少采样点
   var W = 0, H = 0, dpr = 1;
   var comets = [];
@@ -163,6 +172,18 @@
       for (var k = 0; k < warm; k++) step(c);
       comets.push(c);
     }
+    // 随机挑 2~3 条作为彩色彗星，槽位决定当前颜色
+    var m = 2 + (Math.random() < 0.5 ? 0 : 1);
+    var picked = [];
+    while (picked.length < m) {
+      var r = Math.floor(Math.random() * n);
+      if (picked.indexOf(r) < 0) picked.push(r);
+    }
+    for (var s2 = 0; s2 < m; s2++) {
+      var vc = comets[picked[s2]];
+      vc.special = s2;
+      vividPaint(vc, s2);
+    }
   }
 
   function drawComet(c) {
@@ -209,7 +230,16 @@
     for (var i = 0; i < comets.length; i++) {
       var c = comets[i];
       step(c);
-      if (outOfStage(c)) comets[i] = spawn(W, H);
+      if (outOfStage(c)) {
+        var sp = c.special;
+        var nc = spawn(W, H);
+        if (sp != null) {
+          vividSteps[sp]++;
+          nc.special = sp;
+          vividPaint(nc, sp);
+        }
+        comets[i] = nc;
+      }
     }
     drawFrame();
     raf = requestAnimationFrame(loop);
