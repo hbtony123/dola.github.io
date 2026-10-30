@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>按 Fn 跳出表情面板：Mac 听写「开着」却不响应时查什么 — Dola</title>
+<meta name="description" content="系统设置里听写明明是开的，按 🌐 键却弹出表情符号。问题不在听写开关，而在 Fn 键被谁接管。一次 macOS 27 上的逐层排查。">
+<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f16" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-mac-dictation-fn.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-mac-dictation-fn.html">
+<meta property="og:title" content="按 Fn 跳出表情面板：Mac 听写「开着」却不响应时查什么">
+<meta property="og:description" content="听写开关只是一个默认值；Fn 键归谁管，是另一个默认值。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · macOS</p>
+    <h1 data-reveal style="--d:.06s">按 Fn 跳出表情面板<br>Mac 听写「开着」却不响应时查什么</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      系统设置里听写是开着的，语言是简体中文，按 🌐 键却只弹出表情符号。
+      问题不在听写开关，而在另一个默认值：Fn 键归谁管。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      听写（Dictation）是 macOS 里最不起眼、又最依赖的一类系统能力：
+      不用装任何东西，在任何接受键盘输入的地方都能把话变成字。
+      但它有一个特点——开关不是一个，是三个：听写总开关、语言、以及触发键。
+      前两个开着，第三个被别的功能占着，表现就是「明明开了却没反应」。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先确认听写本身是开的</h2>
+      <p>
+        排查的第一层是听写自身。命令行能直接读到三个证据：
+        <code>com.apple.assistant.support</code> 里的
+        <code>Dictation Enabled = 1</code>；<code>com.apple.HIToolbox</code> 里的
+        <code>AppleDictationAutoEnable = 1</code>；以及听写输入法进程
+        <code>DictationIM</code> 是否在运行。语言则记在
+        <code>com.apple.speech.recognition.AppleSpeechRecognition.prefs</code> 里，
+        这台机器上是 <code>zh_CN</code>。
+      </p>
+      <p>
+        三个证据都齐，说明听写已经启用过、而且用过——偏好文件里还留着上一次识别命令的时间和计数。
+        到这一步就可以排除「没开」这个可能，把注意力挪到触发方式上。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>Fn 键有四个归属，默认不是听写</h2>
+      <p>
+        在「系统设置 → 键盘」里，🌐 键的用途是一个四选一：
+        什么都不做、切换输入源、打开表情与符号、开始听写。对应到偏好里是
+        <code>com.apple.HIToolbox</code> 的 <code>AppleFnUsageType</code>，
+        取值 0 到 3。关键在最后一句：这个键<strong>未设置时等同 2</strong>，
+        也就是表情面板。
+      </p>
+      <p>
+        所以一个出厂状态、从没调过的 Mac，按 Fn 得到的是表情符号，不是听写。
+        而听写自己的默认快捷键是「连按 Fn 两次」——两个默认值叠在一起，
+        很容易让人以为听写坏了。实际上两套逻辑都按设计工作，只是它们对同一个键的期待不同。
+      </p>
+      <div class="callout">
+        <strong>判断顺序：</strong>
+        先看听写总开关，再看 Fn 键归属，最后看麦克风权限。
+        三层里任何一层没对，现象都长得一样：按了没反应。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>把它拨回「开始听写」</h2>
+      <p>
+        一条命令就够：
+        <code>defaults write com.apple.HIToolbox AppleFnUsageType -int 3</code>。
+        写完刷新偏好缓存（<code>killall cfprefsd</code>），再读一次值确认已经落盘。
+        部分系统版本要到重新登录才完全生效，所以改完立刻测试不通，不要急着继续改别的。
+      </p>
+      <p>
+        改的是当前用户的偏好，不动系统文件，也不影响其他键位；
+        想还原，把值写回 2 即可。比起在设置界面里翻三层菜单，
+        这条命令更适合远程维护——比如从另一台机器 SSH 过来，替坐在屏幕前的人改掉。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>还有两种「看起来像坏了」</h2>
+      <p>
+        其一是语音控制（Voice Control）。它和听写共用同一条语音链路，
+        语音控制开着时，普通听写往往会被顶掉。查一下进程即可确认，没有就别往这个方向查。
+      </p>
+      <p>
+        其二是按键方式。新版系统里，轻按 Fn 是听写，按住不放会唤起 Siri；
+        另外麦克风权限如果被拒绝，听写会安静地失败——不弹错误，只是不出现光标。
+        权限问题只能到「隐私与安全性 → 麦克风」里看，命令行读不到，
+        这也是它排在最后一步的原因：能查的先查完，再去看那唯一查不到的。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 对一台 macOS 27.0.1 的 Mac mini 的排查写成：
+      听写三项开关、Fn 键取值、改前改后的读值均已核对。
+      文中不写具体账号、地址与内部路径。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>

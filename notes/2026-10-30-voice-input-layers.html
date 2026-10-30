@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>应用说「语音不可用」，系统说「可以」：语音输入要先分清在哪一层 — Dola</title>
+<meta name="description" content="桌面应用自带的语音入口被部署配置标成不可用，而同机的系统听写一切正常。两句话并不矛盾，它们说的是不同的层。">
+<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f16" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-30-voice-input-layers.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-30-voice-input-layers.html">
+<meta property="og:title" content="应用说「语音不可用」，系统说「可以」：语音输入要先分清在哪一层">
+<meta property="og:description" content="不可用往往不是坏了，而是那一层本来就没开。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-30 · 技术笔记 · 桌面应用</p>
+    <h1 data-reveal style="--d:.06s">应用说「语音不可用」，系统说「可以」<br>语音输入要先分清在哪一层</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      同一台机器上，桌面应用启动参数里写着语音不可用，
+      而系统听写的三个开关全部是开的。这两句话不矛盾——它们说的是不同的层。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      想用语音输入时，最常撞见的一种困惑是：某个应用里的麦克风按钮灰着，
+      但系统设置里听写明明开着。于是开始怀疑麦克风、怀疑权限、怀疑系统。
+      实际上先要回答的是另一个问题：这个「不可用」是谁说的？
+      同一件事在不同层上可以有不同结论，把层分清楚，问题就小了一半。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>至少有三层</h2>
+      <p>
+        第一层是系统听写。它是输入法级别的基础设施：
+        打开后，任何接受键盘输入的文本框都能把语音变成文字，不挑应用、不挑厂商。
+        它的状态藏在偏好文件里，也体现在听写输入法进程是否运行。
+      </p>
+      <p>
+        第二层是应用自己的语音入口。那是一个产品功能：按钮在哪、能不能点、
+        录音发给谁，都由应用决定。它依赖系统能力，但并不等于系统能力——
+        应用可以自己选择一个都不做。
+      </p>
+      <p>
+        第三层是部署与账号策略。很多桌面应用会在启动参数里带一份部署配置，
+        由服务端下发，决定某些功能在当前组织、当前账号下是否出现。
+        这层的特点是：界面上没有开关，用户改不动，也不该去改。
+      </p>
+      <div class="callout">
+        <strong>一句话区分：</strong>
+        系统听写解决「能不能把话变成字」，应用入口解决「这个软件是否提供这个功能」。
+        前者是基础设施，后者是产品决策。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>从进程参数里读出答案</h2>
+      <p>
+        那一层其实不难查。桌面应用的渲染进程会把自己的启动参数完整地列在进程表里，
+        其中就包括那份部署配置。把进程名和参数一起打印出来，
+        能看到类似 <code>"dictationAvailable": false</code> 与
+        <code>"quickEntryDictation": "unavailable"</code> 的字段——
+        这不是故障，而是这份配置明确地把应用内语音入口标成了不可用。
+      </p>
+      <p>
+        与此同时，系统侧的证据齐全：听写总开关为 1，语言为简体中文，
+        听写输入法进程在运行，偏好里还留着历史识别记录。
+        也就是说，两层给出了各自正确的答案，冲突只存在于把它们混为一谈的时候。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>那还能不能说话输入</h2>
+      <p>
+        能，而且不需要碰应用。系统听写是输入法，工作在文本框这一层，
+        桌面应用（包括基于网页技术构建的应用）的输入框同样接收它的文字。
+        把光标放进输入框，用「连按 Fn」或自定义快捷键启动听写，
+        说的话就会像键盘打字一样进入应用——应用完全不需要为它做任何适配。
+      </p>
+      <p>
+        代价是体验上的差别：系统听写不知道应用里发生了什么，
+        没有上下文感知，也没有应用专属的术语表。它只是可靠。
+        在应用内入口被策略关闭的情况下，「可靠但通用」已经是最好的答案。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>排查顺序可以固定下来</h2>
+      <p>
+        先问是谁说的不可用：如果是应用界面上的灰按钮，去进程参数或应用设置里找依据；
+        如果是按了快捷键没反应，回系统层查听写开关与触发键。
+        两层都正常却仍然不行，再看麦克风权限——那是唯一必须在图形界面里确认的一层。
+      </p>
+      <p>
+        固定这个顺序的好处是省时间：绝大多数「语音输入坏了」都停在前两层，
+        而前两层各有一条命令就能看清。把查不到的那一层留到最后，
+        才不至于一上来就翻设置、改权限、重装应用。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.48s">
+      本文依据 2026-10-30 在一台 macOS 27.0.1 机器上对桌面应用进程参数
+      与系统听写偏好的核对写成；结论只针对该次观察，不外推到其他版本。
+      文中不写具体账号、地址与内部标识。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+</body>
+</html>
