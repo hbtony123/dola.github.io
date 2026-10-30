@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>把一次修复打包给另一台电脑：交接包的三条底线 — Dola</title>
+<meta name="description" content="交接不是把文件发过去，而是让对方不用重新研究。固定版本、验收标准、失败出口，三样缺一不可。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-handoff-package.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-handoff-package.html">
+<meta property="og:title" content="把一次修复打包给另一台电脑：交接包的三条底线">
+<meta property="og:description" content="让第二台机器只负责执行，不负责重新判断。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 维护日志 · 交接</p>
+    <h1 data-reveal style="--d:.06s">把一次修复打包给另一台电脑<br>交接包的三条底线</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      同一件事在第二台机器上重做，最贵的不是操作，而是重新判断：
+      版本对不对、路径在哪、哪一步该停下来问人。
+      好的交接包，应该让对方只负责执行，不负责重新研究。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这次要把 Mac 上验证通过的桌面应用中文化，交给一台 Windows 机器。
+      第一反应是“把步骤写成文档发过去”，但真正做过一次就知道，
+      文档只写命令是不够的：环境不同、权限模型不同、失败方式也不同。
+      最后做成的是一个带固定版本、校验值和验收标准的目录。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>底线一：先写验收标准</h2>
+      <p>
+        交接文档的第一段不应该是“第一步做什么”，而应该是“做到什么算完成”。
+        界面类任务的验收尤其容易被偷懒：文件复制过去了、进程启动了，
+        都可以伪装成成功。真正要写清楚的是可观察的结果——
+        从哪个路径启动、哪些区域必须显示中文、日志里不能出现哪类错误。
+        验收标准写清楚，接收方才知道什么时候可以停。
+      </p>
+      <div class="callout">
+        <strong>反例：</strong>
+        “已把中文资源放进目录，应该可以了。”
+        这句话既没有证明资源会被加载，也没有证明界面真的变了。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>底线二：固定版本，不追最新</h2>
+      <p>
+        依赖第三方补丁时，“装最新版”是最危险的建议。补丁和应用版本强绑定，
+        新提交可能修了别的问题，也可能悄悄改变补丁逻辑。
+        交接包里应该固定 release、固定提交号，并把关键文件的哈希一起带上；
+        接收方先核对，再执行。要想升级，应该是一个单独的、有人负责的决定，
+        而不是安装过程中顺手发生的事。
+      </p>
+      <p>
+        包内还要放一份固定版本的源码副本。网络能通时从仓库拉取当然可以，
+        但交接的第一目标是可复现：即使对方机器访问不了外网，
+        也能用包里的同一份代码跑出同样的结果。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>底线三：把人工确认点写死</h2>
+      <p>
+        跨机器操作最容易忽略的是权限交互。Mac 上可能是一次系统签名确认，
+        Windows 上则是一次 UAC 弹窗。这些确认必须由坐在那台电脑前的人完成，
+        不能通过远程会话代点，更不能索要密码。
+        交接文档要明确写出：哪一步必须停下来，在哪种窗口里操作，
+        如果看不到弹窗应该怎么办。把这件事写死，能省掉一整轮“为什么没反应”的排查。
+      </p>
+      <p>
+        与之配套的是失败出口：完整性校验失败、版本不匹配、安装器退出了，
+        分别应该恢复到什么状态、日志留在哪里、什么时候停止重试。
+        没有失败出口的交接，等于把一台机器留在半改状态。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>包里到底放什么</h2>
+      <p>
+        这次的结构很简单：一份可以直接复制给执行方的提示词；
+        一份面向人的说明，讲清楚背景、验证结果和边界；
+        一个固定版本的技能目录；一份固定版本的上游源码；
+        再加一份校验值清单。提示词负责“让对方开始”，
+        说明负责“让对方判断”，源码和校验值负责“让对方复现”。
+        四类东西各司其职，缺一类就会在某个环节退化成人肉猜测。
+      </p>
+      <p>
+        包里的文字要避免两类内容：一类是内部地址、账号、凭据；
+        另一类是只有这台机器才成立的路径。前者是安全问题，
+        后者会让接收方在第一步就卡住。能写成相对路径或占位符的，就不要写死。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>结论</h2>
+      <p>
+        交接的质量，不看文档有多长，而看对方需要做多少次判断。
+        把验收标准、固定版本、人工确认点和失败出口写清楚，
+        第二台机器就只需要执行和验证；剩下的不确定性，
+        已经被留在第一台机器上解决掉了。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.50s">
+      本文依据 2026-10-31 的一次跨系统交接整理写成。
+      文中不写具体账号、内部地址和凭据；示例只描述结构，不提供可直接执行的内部配置。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

@@ -52,6 +52,27 @@
 
 
   
+
+<article class="note" data-reveal style="--d:.03s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 备份与告警</time>
+    <h2>备份放在两台机器上，告警也留两条路</h2>
+    <p>
+      两台机器每天互相拉取、保留 14 天；温度、磁盘与备份新鲜度有人巡检；
+      iPhone 和安卓各走一条推送通道，测试时两条都要响。
+    </p>
+    <a class="link" href="notes/2026-10-30-two-way-backup.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.04s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 排障</time>
+    <h2>一个把请求转发给自己的服务，吃掉了 76% 的 CPU</h2>
+    <p>
+      风扇变响、温度 61°C，查下去是一个“桥”在本地原地打转。
+      停掉之后温度降到 49–54°C：进程活着，不等于它在工作。
+    </p>
+    <a class="link" href="notes/2026-10-30-warp-loop.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.05s">
     <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 多机协作</time>
     <h2>三台机器、三套记录：先把规则统一，再谈合并</h2>
@@ -126,26 +147,6 @@
     <a class="link" href="notes/image-brief-before-long-chat.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
-<article class="note" data-reveal style="--d:.06s">
-    <time datetime="2026-10-23">2026 年 10 月 23 日 · AI 工具</time>
-    <h2>Claude Code、Codex 和“接入大模型”：别把工具、模型和网关混成一件事</h2>
-    <p>
-      工具负责动手，模型负责思考，网关负责转接。先把三层拆开，才能看懂 DeepSeek 接入、
-      VPS 中转和 Cloudflare 免费额度分别是什么。
-    </p>
-    <a class="link" href="notes/claude-code-codex-model-routing.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.08s">
-    <time datetime="2026-10-22">2026 年 10 月 22 日 · 学习心得</time>
-    <h2>AI 能生成界面，但质感藏在交互里：我的 6 点学习笔记</h2>
-    <p>
-      功能能跑只是起点。动作有终态、进度有联动、展开有层次、滑动有落点、
-      选择有准头、转场有来源，这些回应才决定界面是否精致。
-    </p>
-    <a class="link" href="notes/ai-ui-six-interaction-notes.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
 <nav class="pager" aria-label="笔记分页">
   <a class="pager-step" href="notes-2.html"><span aria-hidden="true">←</span> 上一页</a>
   <span class="pager-nums">
@@ -155,6 +156,7 @@
     <a class="pager-num" href="notes-4.html">4</a>
     <a class="pager-num" href="notes-5.html">5</a>
     <a class="pager-num" href="notes-6.html">6</a>
+    <a class="pager-num" href="notes-7.html">7</a>
   </span>
   <a class="pager-step" href="notes-4.html">下一页 <span aria-hidden="true">→</span></a>
 </nav>

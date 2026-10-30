@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>设置里没有中文：Claude Desktop 4.29 的界面语言到底怎么开 — Dola</title>
+<meta name="description" content="官方包带了简体中文资源，语言白名单却没放中文。只改 locale 会被改回英文；真正生效的是重写 ion-dist.asar，并同步完整性哈希。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-claude-desktop-chinese-ui.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-claude-desktop-chinese-ui.html">
+<meta property="og:title" content="设置里没有中文：Claude Desktop 4.29 的界面语言到底怎么开">
+<meta property="og:description" content="不是翻译问题，是白名单和完整性校验的问题。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 技术笔记 · 桌面应用</p>
+    <h1 data-reveal style="--d:.06s">设置里没有中文<br>Claude Desktop 4.29 的界面语言到底怎么开</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      官方应用里明明能找到中文词条，设置页却没有语言选项。
+      把配置里的 locale 改成中文，重启一次又变回英文。
+      这不是翻译没做，而是语言白名单和完整性校验两道门都没开。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先给结论：只改用户配置没有用。应用重启时会检查“当前语言有没有对应的语言包目录”，
+      找不到就回退到英文；中文资源虽然打包在应用里，却没有被列进允许加载的清单。
+      要让界面真的变中文，必须动应用自己的资源包，并且同步完整性哈希。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>表面现象：改一次，退一次</h2>
+      <p>
+        最直觉的做法是改配置：把 locale 写成简体中文，重启应用。
+        结果是界面仍然英文，配置又被写回 en-US。再试语言环境变量、系统语言、
+        设置页里的语言项，结局都一样。原因不神秘：应用启动时读到的是一份
+        “允许的语言列表”，中文不在里面；不在列表里的值会被当成无效输入，
+        直接回退到默认语言，并把配置覆盖回去。
+      </p>
+      <p>
+        这也解释了一个容易误判的现象：在应用包里搜索中文，确实能搜到大量词条。
+        有词条，不等于会加载；加载与否由白名单和资源目录共同决定。
+        只看“文件存在”就判断能切中文，是这条路上第一个坑。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.30s">
+      <h2>两道门：白名单与完整性</h2>
+      <p>
+        第一道门是语言白名单。界面代码里有一份语言代码数组，只有数组里的语言
+        才会去找对应的语言包；简体中文不在数组里，所以永远走英文兜底。
+        第二道门是完整性校验。应用资源包（asar）的头部记录了每个文件的哈希，
+        应用元数据里还记录了整个资源包的哈希。改一个词条而不更新哈希，
+        应用会拒绝加载，或者直接启动失败。
+      </p>
+      <div class="callout">
+        <strong>判断方法：</strong>
+        如果改完配置重启就回英文，问题在白名单；
+        如果界面空白、启动报完整性错误，问题在哈希。
+        两种失败要分开处理，不要用同一种办法硬修。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>正确做法：保官方包，做独立副本</h2>
+      <p>
+        最稳妥的路线不是改官方安装，而是复制一份独立应用，只改副本：
+        官方包保持原样，继续接收更新；中文副本坏了，删掉即可回到英文。
+        复制之后，按三步处理：把中文加进语言白名单；把中文语言包放进资源目录；
+        重新计算资源包和元数据里的完整性哈希，最后给副本做本机签名。
+      </p>
+      <p>
+        这套流程已经有成熟的上游实现，固定版本、MIT 许可、同时覆盖 macOS 和 Windows。
+        关键是不要随手拉主分支：补丁逻辑和 Claude 的版本强绑定，
+        4.29 能用的改动，换一个版本就可能对不上。先核对 release、提交号和
+        目标应用版本，再决定是否执行。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.42s">
+      <h2>验收：看界面，不看文件</h2>
+      <p>
+        打完补丁，至少要确认三件事：应用从预期的路径启动；侧边栏、菜单、
+        设置页这些核心区域是中文；启动日志里没有完整性或签名错误。
+        截图或界面文本都行，唯独“语言包文件已经在目录里”不算证据——
+        文件在、但没被加载，正是这次要解决的问题本身。
+      </p>
+      <p>
+        还要接受一个现实：补丁只覆盖主界面，产品名、API 术语、路径和代码
+        通常会保持英文；新版本新增的硬编码文案也可能漏翻。
+        这些应该如实记录，而不是为了“看起来全中文”去无限扩大补丁范围。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.46s">
+      <h2>边界与代价</h2>
+      <p>
+        中文副本不会跟着官方应用自动更新。每次升级官方包，都要用对应版本的
+        补丁重新做一遍；旧补丁不要往新版本上套。副本是本机签名，
+        系统可能会在第一次启动时要求确认，这是预期行为，不是安装失败。
+        最重要的边界是：只改界面语言，不碰账号、对话、API Key 和模型路由。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.50s">
+      <h2>结论</h2>
+      <p>
+        “应用里有没有中文”和“应用会不会显示中文”是两个问题。
+        前者看资源，后者看白名单、资源目录和完整性哈希三件事是否同时成立。
+        把这三件事拆开验证，就不会在设置页里反复改一个永远会被覆盖的字段。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.54s">
+      本文依据 2026-10-30 至 10-31 的桌面应用中文化过程写成。
+      文中不写具体账号、内部地址和凭据；方法只用于本机界面语言，
+      不涉及账号、会话和模型路由。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

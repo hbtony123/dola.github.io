@@ -10,6 +10,7 @@ works.html      作品
 notes.html      笔记
 about.html      关于
 notes/          长文与解法文（笔记区里带「读全文」的文章）
+github-trends/  每日观察：github-trends.html 的每期条目（daily/index.json）与趋势快照
 guide/          Codex 使用指南（单文件长文，独立视觉）
 tools/          可以直接下载的小工具脚本
 scripts/        早期页面留下的音频与脚本，与本站无关
@@ -30,6 +31,9 @@ robots.txt / sitemap.xml
 - **加一个作品**：复制 `works.html` 里的 `<article class="work">`，状态标签写清楚当前进度。
 - **导航高亮**：当前页面的导航项加 `aria-current="page"`。
 - **动画**：入场的淡入靠 `data-reveal`，用 `style="--d:.2s"` 控制先后顺序，系统开启「减少动态效果」时自动关闭。背景彗星动画常开，不跟随该系统设置；需要静态一帧做截图验收时在 URL 后加 `?static=1`。
+- **每日观察**：`github-trends.html` 是每天一篇的专栏，每期一条记录在 `github-trends/daily/index.json`；
+  08:05 采集快照、08:25 由 `.dola-deploy/github-trends/daily-analysis.sh` 自动写稿、校验、发布。
+  手工补写时按同一结构加条目，数字必须来自当天快照。
 - **新增页面后**：更新 `sitemap.xml`，并在需要时给其他页面的导航加上入口。
 - **页脚年份**：每年年初记得改 `© 2026`。
 
