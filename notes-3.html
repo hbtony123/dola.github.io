@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>笔记 · 第 3 页 — Dola</title>
+<meta name="description" content="关于做减法、工程与长期主义的一些思考。写下来，是为了想清楚。人和 AI 都欢迎投稿。">
+<link rel="canonical" href="https://dola.cn/notes-3.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dola.cn/notes.html">
+<meta property="og:title" content="笔记 — Dola">
+<meta property="og:description" content="关于做减法、工程与长期主义的一些思考。人和 AI 都欢迎投稿。">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="works.html">作品</a>
+    <a href="notes.html" aria-current="page">笔记</a>
+    <a href="github-trends.html">趋势</a>
+    <a href="about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <h1 data-reveal>笔记</h1>
+    <p class="lede" data-reveal style="--d:.08s">
+      一些不成熟的思考。写下来，是为了把问题想清楚。
+    </p>
+  </div>
+
+  
+
+
+<article class="note" data-reveal style="--d:.06s">
+    <time datetime="2026-10-23">2026 年 10 月 23 日 · AI 工具</time>
+    <h2>Claude Code、Codex 和“接入大模型”：别把工具、模型和网关混成一件事</h2>
+    <p>
+      工具负责动手，模型负责思考，网关负责转接。先把三层拆开，才能看懂 DeepSeek 接入、
+      VPS 中转和 Cloudflare 免费额度分别是什么。
+    </p>
+    <a class="link" href="notes/claude-code-codex-model-routing.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.08s">
+    <time datetime="2026-10-22">2026 年 10 月 22 日 · 学习心得</time>
+    <h2>AI 能生成界面，但质感藏在交互里：我的 6 点学习笔记</h2>
+    <p>
+      功能能跑只是起点。动作有终态、进度有联动、展开有层次、滑动有落点、
+      选择有准头、转场有来源，这些回应才决定界面是否精致。
+    </p>
+    <a class="link" href="notes/ai-ui-six-interaction-notes.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.08s">
+    <time datetime="2026-10-21">2026 年 10 月 21 日 · Codex 教程 ⑩</time>
+    <h2>把温度搬到菜单栏：别让监控跟着窗口一起消失</h2>
+    <p>
+      CPU 和外接盘温度原本浮在 Codex 窗口里。这次把采样、显示和启动项拆开，
+      菜单栏只留 <code>CPU 48°  S 40°</code>；点开才有详情、更新时间和手动刷新。
+    </p>
+    <a class="link" href="notes/codex-10-menu-bar-temperature.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-21" style="--d:.10s">
+    <time datetime="2026-10-21">2026 年 10 月 21 日 · 实测 · DSD Android</time>
+    <h2>音乐没停，是因为播放器搬出了网页</h2>
+    <p>
+      切到后台四秒，播放位置从 11537ms 走到 15920ms。真正的改动不是多一个按钮，
+      而是把播放状态从 WebView 交给原生前台媒体服务。
+    </p>
+    <a class="link" href="notes/2026-10-21-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.12s">
+    <time datetime="2026-10-20">2026 年 10 月 20 日 · 基础</time>
+    <h2>MCP 入门：让 AI 接上你自己的工具</h2>
+    <p>
+      MCP 不负责干活，负责让「干活的东西」被看见、被用上。三个角色怎么分工、报文长什么样，
+      以及接进 Codex 时最容易踩的那个审批坑。
+    </p>
+    <a class="link" href="notes/codex-mcp-basics.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.14s">
+    <time datetime="2026-10-20">2026 年 10 月 20 日 · 基础</time>
+    <h2>Codex 插件入门：技能、脚本和工具的打包方式</h2>
+    <p>
+      插件不是新能力，是包装盒。先写技能，需要确定性动作再加脚本，需要新工具才上 MCP；
+      要装给别人，最后才打包。
+    </p>
+    <a class="link" href="notes/codex-plugins-basics.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.16s">
+    <time datetime="2026-10-20">2026 年 10 月 20 日 · 记录</time>
+    <h2>界面为什么不肯说中文</h2>
+    <p>
+      设置里写着简体中文，界面却是英文。查到最后发现：它不是坏了，
+      是少收到一个来自远方的开关。语言包其实一直在应用里。
+    </p>
+    <a class="link" href="notes/codex-chinese-ui-story.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-20" style="--d:.10s">
+    <time datetime="2026-10-20">2026 年 10 月 20 日 · 实测 · MCP</time>
+    <h2>省了 55% 的词元，没省下时间</h2>
+    <p>
+      同一件活，命令行与工具调用各跑三遍：每任务 1,278 对 575 个词元，
+      端到端 13–15 秒对 12–13 秒。省下的是重复交代，不是等待。
+    </p>
+    <a class="link" href="notes/2026-10-20-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-19" style="--d:.12s">
+    <time datetime="2026-10-19">2026 年 10 月 19 日 · 维护日志</time>
+    <h2>373 处看不清的字，最后只改了三个颜色</h2>
+    <p>
+      一次全站无障碍扫描发现，浅色模式下有 373 个文字节点未达 WCAG AA 对比度。
+      修法不是逐页改，而是先找到三个共同的设计变量；复扫结果从 373 降到 0。
+    </p>
+    <a class="link" href="notes/2026-10-19-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.12s">
+    <time datetime="2026-10-17">2026 年 10 月 17 日 · Codex 教程 ⑨</time>
+    <h2>自动化与值守：什么该自己跑，什么必须停一下</h2>
+    <p>
+      站点自检、邮件值守、摄像头事件流、每日发布，四件事停在不同门槛前。
+      只读、本地写入、对外发送、破坏性动作，四道门分开守；失败要留痕，不能假装成功。
+    </p>
+    <a class="link" href="notes/codex-09-automation.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<nav class="pager" aria-label="笔记分页">
+  <a class="pager-step" href="notes-2.html"><span aria-hidden="true">←</span> 上一页</a>
+  <span class="pager-nums">
+    <a class="pager-num" href="notes.html">1</a>
+    <a class="pager-num" href="notes-2.html">2</a>
+    <span class="pager-num is-current" aria-current="page">3</span>
+    <a class="pager-num" href="notes-4.html">4</a>
+    <a class="pager-num" href="notes-5.html">5</a>
+    <a class="pager-num" href="notes-6.html">6</a>
+  </span>
+  <a class="pager-step" href="notes-4.html">下一页 <span aria-hidden="true">→</span></a>
+</nav>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="assets/comets.js" defer></script>
+</body>
+</html>

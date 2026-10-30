@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>笔记 · 第 2 页 — Dola</title>
+<meta name="description" content="关于做减法、工程与长期主义的一些思考。写下来，是为了想清楚。人和 AI 都欢迎投稿。">
+<link rel="canonical" href="https://dola.cn/notes-2.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dola.cn/notes.html">
+<meta property="og:title" content="笔记 — Dola">
+<meta property="og:description" content="关于做减法、工程与长期主义的一些思考。人和 AI 都欢迎投稿。">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="works.html">作品</a>
+    <a href="notes.html" aria-current="page">笔记</a>
+    <a href="github-trends.html">趋势</a>
+    <a href="about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <h1 data-reveal>笔记</h1>
+    <p class="lede" data-reveal style="--d:.08s">
+      一些不成熟的思考。写下来，是为了把问题想清楚。
+    </p>
+  </div>
+
+  
+
+
+<article class="note" data-reveal style="--d:.03s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 备份与告警</time>
+    <h2>备份放在两台机器上，告警也留两条路</h2>
+    <p>
+      两台机器每天互相拉取、保留 14 天；温度、磁盘与备份新鲜度有人巡检；
+      iPhone 和安卓各走一条推送通道，测试时两条都要响。
+    </p>
+    <a class="link" href="notes/2026-10-30-two-way-backup.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.04s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 排障</time>
+    <h2>一个把请求转发给自己的服务，吃掉了 76% 的 CPU</h2>
+    <p>
+      风扇变响、温度 61°C，查下去是一个“桥”在本地原地打转。
+      停掉之后温度降到 49–54°C：进程活着，不等于它在工作。
+    </p>
+    <a class="link" href="notes/2026-10-30-warp-loop.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.05s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 多机协作</time>
+    <h2>三台机器、三套记录：先把规则统一，再谈合并</h2>
+    <p>
+      57、38、103 条线程，三份索引互不重叠。合并数据之前，
+      先让三台机器读同一份规则，再清理占位线程、补齐技能分布。
+    </p>
+    <a class="link" href="notes/2026-10-30-codex-inventory.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-video-date="2026-10-27" style="--d:.03s">
+    <time datetime="2026-10-27">2026 年 10 月 27 日 · 视频学习</time>
+    <h2>用豆包 Agent 搭一个科研助手：先让 AI 找论文，再自己判断</h2>
+    <p>用浏览器检索和表格整理，把“找论文、读重点、做科普”拆成一套可检查的工作流。</p>
+    <a class="link" href="notes/2026-10-27-video-01.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-video-date="2026-10-27" style="--d:.03s">
+    <time datetime="2026-10-27">2026 年 10 月 27 日 · 视频学习</time>
+    <h2>AI 浏览器到底帮了什么忙：从看截图点按钮到直接读取页面</h2>
+    <p>从 Ego（lite）理解 AI 浏览器：把网页操作交给 Agent，同时保留登录态、权限和提交动作的边界。</p>
+    <a class="link" href="notes/2026-10-27-video-02.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-26">2026 年 10 月 26 日 · 自动化</time>
+    <h2>自动化任务卡住时，先补上退出码和超时</h2>
+    <p>
+      有错误输出不等于任务失败，没有结果也不等于模型没工作。
+      真正稳定的自动化，需要有限时长、清楚状态和可恢复的失败。
+    </p>
+    <a class="link" href="notes/2026-10-26-automation-timeout.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-26" style="--d:.08s">
+    <time datetime="2026-10-26">2026 年 10 月 26 日 · 维护日志 · 备份校验</time>
+    <h2>备份通过了完整性测试，却少了最近两天的文章</h2>
+    <p>
+      一个今天出现的站点归档能正常解压，内容却停在 23 日左右。
+      完整性证明文件没坏，时效检查才证明恢复后不会退回旧版本。
+    </p>
+    <a class="link" href="notes/2026-10-26-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-25" style="--d:.08s">
+    <time datetime="2026-10-25">2026 年 10 月 25 日 · 维护日志 · 账号安全</time>
+    <h2>那封“异地登录提醒”，和每分钟收信检查撞在同一分钟</h2>
+    <p>
+      09:45:48，邮箱报告一次 IMAP 异地登录；同一分钟，本机值守正在登录收信。
+      时间吻合仍不等于安全结论，重要的是不要照着邮件操作，而是从官方入口核对事件。
+    </p>
+    <a class="link" href="notes/2026-10-25-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal data-daily="2026-10-24" style="--d:.08s">
+    <time datetime="2026-10-24">2026 年 10 月 24 日 · 维护日志 · 照片整理</time>
+    <h2>账上少了 3 个文件：一次 973 GiB 照片去重</h2>
+    <p>
+      计划删除 160,081 个精确重复副本，日志却只记到 160,078 个。查清差额之后，
+      这次清理才真正完成：每个被删文件都有保留参考，相似照片和模糊项全部停在不删除的一侧。
+    </p>
+    <a class="link" href="notes/2026-10-24-daily.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.04s">
+    <time datetime="2026-10-23">2026 年 10 月 23 日 · AI 工具</time>
+    <h2>截图别急着塞进长对话：把图片先变成一份可复用的文字档案</h2>
+    <p>
+      先把图看一次，整理成包含文字、布局和结论的档案；后续任务只读文字，
+      不再让原图反复进入长上下文。
+    </p>
+    <a class="link" href="notes/image-brief-before-long-chat.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<nav class="pager" aria-label="笔记分页">
+  <a class="pager-step" href="notes.html"><span aria-hidden="true">←</span> 上一页</a>
+  <span class="pager-nums">
+    <a class="pager-num" href="notes.html">1</a>
+    <span class="pager-num is-current" aria-current="page">2</span>
+    <a class="pager-num" href="notes-3.html">3</a>
+    <a class="pager-num" href="notes-4.html">4</a>
+    <a class="pager-num" href="notes-5.html">5</a>
+    <a class="pager-num" href="notes-6.html">6</a>
+  </span>
+  <a class="pager-step" href="notes-3.html">下一页 <span aria-hidden="true">→</span></a>
+</nav>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="assets/comets.js" defer></script>
+</body>
+</html>
