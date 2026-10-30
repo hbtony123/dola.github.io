@@ -60,16 +60,16 @@
   if (!ctx) return;
 
   var PALETTE = ['113,112,255', '130,143,255', '94,106,210', '160,170,255', '180,192,255', '143,156,255'];
-  var TRAIL = 56;       // 尾巴最多保留多少采样点
+  var TRAIL = 64;       // 尾巴最多保留多少采样点
   var W = 0, H = 0, dpr = 1;
   var comets = [];
   var starLayer = null;  // 离屏星点，避免每帧重画
   var raf = 0;
 
   function cometCount() {
-    var n = Math.round(window.innerWidth / 46);
-    if (n < 12) n = 12;
-    if (n > 34) n = 34;
+    var n = Math.round(window.innerWidth / 40);
+    if (n < 14) n = 14;
+    if (n > 40) n = 40;
     return n;
   }
 
@@ -92,7 +92,7 @@
         x = -20; y = Math.random() * h;
         ang = (Math.random() - 0.5) * 0.8;
     }
-    var speed = 0.35 + 1.0 * Math.random();
+    var speed = 0.5 + 1.1 * Math.random();
     return {
       x: x,
       y: y,
@@ -101,7 +101,7 @@
       curve: (Math.random() - 0.5) * 0.004,
       trail: [],
       hue: PALETTE[(Math.random() * PALETTE.length) | 0],
-      alpha: 0.18 + 0.28 * Math.random(),
+      alpha: 0.2 + 0.3 * Math.random(),
       width: 1.1 + 2.6 * Math.random(),
       life: 0,
       maxLife: 480 + 540 * Math.random()
