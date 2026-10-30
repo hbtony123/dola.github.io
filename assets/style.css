@@ -527,12 +527,6 @@ h1 {
   .card:hover { transform: none; }
 }
 
-/* 窄屏导航：五个栏目也要在一行里放得下 */
-@media (max-width: 480px) {
-  .site-header { gap: 10px; }
-  .nav { gap: 11px; font-size: 0.86rem; }
-}
-
 /* 手机端表格：允许横向滚动，避免长代码或域名把正文撑出屏幕 */
 @media (max-width: 640px) {
   .prose table {
@@ -543,8 +537,6 @@ h1 {
     overscroll-behavior-x: contain;
   }
   .prose table th { white-space: normal; }
-  .prose table td { overflow-wrap: anywhere; }
-  .prose pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
 }
 
 @media (max-width: 420px) {
