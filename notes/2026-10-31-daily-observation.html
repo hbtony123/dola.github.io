@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>趋势页换了一种活法：从 Star 增速榜到每天一篇观察 — Dola</title>
+<meta name="description" content="数据页只有“是什么”，读者要的是“所以呢”。趋势页改版：榜单降级成证据，每天一篇写成的话，附当天的数字和明天看什么。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-daily-observation.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-daily-observation.html">
+<meta property="og:title" content="趋势页换了一种活法：从 Star 增速榜到每天一篇观察">
+<meta property="og:description" content="榜单回答“什么在涨”，观察回答“为什么值得看”。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 维护日志 · 站点</p>
+    <h1 data-reveal style="--d:.06s">趋势页换了一种活法<br>从 Star 增速榜到每天一篇观察</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      原来的趋势页做得很完整：快照、筛选、增速榜、方法说明一应俱全，
+      但翻完只有一个感受——数据很多，看不出所以然。
+      这次索性把榜单降级成证据，把页面改成每天一篇写成的话。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>数据齐全，不等于有看点</h2>
+      <p>
+        旧版每天 08:05 采集一次 GitHub 公开 API 快照，24 小时和 7 天的
+        Star 增量分开计算，连“没有基线就不给增速”这种坑都处理了。
+        可上线几天后，读者和自己的评价一致：看完知道谁涨了，
+        不知道为什么要看。榜单回答的是“是什么”，读者要的是“所以呢”。
+      </p>
+      <p>
+        更根本的问题是频率。数据每天更新，可位置的变化大多只是名词换了座位；
+        没有观点，更新就只是刷新。一个每天刷新、每天没人期待的页面，
+        就算数字全对，也是失败的。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一期观察长什么样</h2>
+      <p>
+        现在页面只有一条主线：标题是一个判断，导语两三句说清今天最值得注意的现象，
+        正文三到五节，每节先给现象再给证据，最后附“当天的数字”表和“明天看什么”。
+        往期收在下面，点开可以回看。
+      </p>
+      <p>
+        首期写的是 10 月 30 日的快照：增速前八名里，六个是给编码代理用的
+        技能包或运行时。morluto/rea 单日净增 5,307 Star，superpowers、
+        DeepSeek Harness、ponytail、ECC 紧随其后，主题合计里 ai-agents、
+        claude-code、llm 排在最前。结论是“skill 正在变成新的分发格式”——
+        这句话榜单本身不会告诉你，得有人替它说。
+      </p>
+      <p>
+        数据没有丢，只是从主角降成证据。每期底部一张表，列出六到八个仓库的
+        净增量和一句定位，数字与采集快照一一对应，怀疑结论的人可以直接核对。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>为什么做成“一期一条记录”</h2>
+      <p>
+        页面读的是一份每日索引，每期一条 JSON 记录：日期、期号、标题、导语、
+        小节、证据表、明天看什么。默认展示最新一期，点往期就切换到那一天，
+        URL 也会带上参数，旧文章不会因为更新而消失。
+      </p>
+      <p>
+        写不出东西的日子就不更新——宁可空一天，也不拿“今天没什么变化”凑数。
+        栏目说明里把这条写死了：没有值得写的变化时，页面保留上一期。
+      </p>
+    </section>
+
+    <div class="callout" data-reveal style="--d:.32s">
+      <strong>一条判断：</strong>
+      可视化适合回答“谁在涨”，适合做趋势的仪表盘；
+      但“为什么涨、值不值得跟”只能靠写成的话来回答。
+      两者不冲突——把数字留在证据层，把判断放到第一屏。
+    </div>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本期数据来自 10 月 29 日到 30 日的两次公开快照；页面发布后对改动文件
+      逐个做了线上哈希核验。这个栏目以后每天一篇，写稿和发布怎么保证不编数字，
+      见<a href="2026-10-31-daily-pipeline.html">下一篇文章</a>。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

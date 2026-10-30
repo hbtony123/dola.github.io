@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>每天 08:25，让 AI 写一篇观察并自己发布：三道闸门 — Dola</title>
+<meta name="description" content="写稿的是模型，但数字必须来自当天的快照。三道闸门：素材只有一天的事实、写完过数值校验、发布只允许动栏目文件。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-daily-pipeline.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-daily-pipeline.html">
+<meta property="og:title" content="每天 08:25，让 AI 写一篇观察并自己发布：三道闸门">
+<meta property="og:description" content="自动化最怕的不是失败，是失败了还装作成功。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 解法文 · 自动化</p>
+    <h1 data-reveal style="--d:.06s">每天 08:25，让 AI 写一篇观察<br>并自己发布：三道闸门</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      GitHub 热点观察每天一篇。写稿的是模型，但数字必须来自当天的快照。
+      为了让“每天一篇”不变成“每天一篇幻觉”，这条流水线设了三道闸门，
+      每道闸门失败时都只有一个出口：不发布，保留上一期。
+    </p>
+  </div>
+
+  <div class="prose">
+    <section class="section" data-reveal style="--d:.20s">
+      <h2>第一道：素材只有一天的事实</h2>
+      <p>
+        08:05，采集任务先把 GitHub 公开 API 的快照落盘：近七天新建、
+        Star 100 以上的仓库，近七天有推送、Star 1,000 以上的仓库，各自拉一份。
+        08:25，写稿任务只读这一份快照，先生成一个事实文件——增速前十五的仓库、
+        主题合计、最近五期的标题，仅此而已。
+      </p>
+      <p>
+        提示词里写死了三条：只许使用事实文件里的数字；简介为空的仓库不许猜用途；
+        正文最多引用六个数字，因为证据表已经负责数字。
+        写手拿不到别的“记忆”，也就编不出当天的 Star 数。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>第二道：写完必须过数值校验</h2>
+      <p>
+        稿子落到临时目录后先过校验：日期和期号对不对、小节三到五个、
+        正文七百到一千八百字、证据表四到十行。每一行的仓库必须出现在当天的事实文件里，
+        增量数字必须一字不差，链接必须与快照一致，来源只允许仓库链接。
+      </p>
+      <p>
+        任何一条不符，这一期直接作废：页面保留上一期，同时发一封邮件说明失败原因。
+        校验不是润色，它不判断文笔，只判断“这期说的数字是不是真的”。
+      </p>
+      <p>
+        试跑两次：第一次两分钟出稿，数字全对，但文风是一段一段报数；
+        给提示词补上“段落不要以净增数开头”之后，第二次两分半钟出稿，
+        一千二百多字、八行证据，读起来像一篇观察，而不是一份报表。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>第三道：发布只允许动栏目自己的文件</h2>
+      <p>
+        通过校验后，发布脚本先生成一份复核声明，能改的只有五类文件：
+        栏目页、它的样式与脚本、每日索引、趋势数据快照。站点里其他任何本地改动
+        都会让发布中止——这一条是防“顺手把别的东西也发上去”。
+      </p>
+      <p>
+        发布照旧走既有流程：编辑检查跑两遍、推送后逐文件做线上哈希核验，
+        核验不过就保留旧版。原来 08:45 还有一个只发数据的旧任务，
+        这次给它加了一个判断：当天观察已经上线就安静退出，
+        避免一天两次发布、两封邮件。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>失败是流程的一部分</h2>
+      <p>
+        没有新快照、增长窗口没成型、写手超时、校验不过、发布失败，
+        五种情况各有明确出口：前三种不发也不吵，后两种保留旧版并发信说明。
+        自动化最怕的不是失败，是失败了还装作成功——
+        所以每期发布完都要等线上核验返回 200，才算结束。
+      </p>
+    </section>
+
+    <div class="callout" data-reveal style="--d:.36s">
+      <strong>给同类流程的一句话：</strong>
+      让模型写观点，让脚本管事实；两者之间放一道只认真假的闸门。
+      文风可以迭代，数字不能试错。
+    </div>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      这套流程 2026-10-31 上线，试跑记录保存在维护机日志里；
+      数字口径与页面一致：Star 增量来自相邻两次公开快照的差值。
+      栏目本身的改版说明见<a href="2026-10-31-daily-observation.html">上一篇文章</a>，
+      去<a href="../github-trends.html">今天的观察</a>看看成品。
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
