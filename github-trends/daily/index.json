@@ -1,5 +1,122 @@
 [
   {
+    "date": "2026-10-31",
+    "issue": 2,
+    "title": "同一条增星榜，正在讲两种增长故事",
+    "lede": "这一天的前列既有已经形成规模的代理基础设施，也有总 Star 仍很小的项目。绝对增量把它们排在一起，却掩盖了一个更重要的问题：同样的涨法，背后可能是完全不同的关注结构。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "绝对增量掩住了基数差异",
+        "paragraphs": [
+          "先看绝对增量，会漏掉基数差异。rea 在 412268 Star 的基数上录得 4519 个增量，中文 AI 姿势参考库则以 3941 Star 录得 818 个增量；前者像大盘继续吸星，后者更像小盘突然放大。两者都值得记录，但不能用同一句“火了”概括。",
+          "单日榜单仍不能回答关注从哪里来、是否自然扩散，也不能说明新增读者会否真正使用。把这天的变化写成某个确定事件带来的结果，就超出了事实文件能支持的范围；更稳妥的解释只能落在简介所公开的使用方式上。"
+        ]
+      },
+      {
+        "heading": "成熟项目在争夺工作流入口",
+        "paragraphs": [
+          "大项目这一侧，简介几乎都在描述一种可持续的使用位置。deepseek-harness 当天录得 946 个 Star 增量，它把自己说成“一切皆插件”；superpowers 将自己定义为代理技能框架与开发方法；mattpocock/skills 则强调技能来自真实工程环境里的代理目录。它们都在回答读者该把哪套习惯接进日常开发。",
+          "这也让成熟项目的增长显得更容易理解：简介指向可复用流程，覆盖的人群天然更宽。但宽不等于适合所有人。插件、方法、技能目录各自解决不同层的问题，若只看排名，很容易把一套组织方式误当成开箱即用的产品。"
+        ]
+      },
+      {
+        "heading": "小体量项目先争夺一个明确入口",
+        "paragraphs": [
+          "小体量这一侧，项目倾向于把用途压进一句话。中文 AI 姿势参考库直接说明图片规模、汉化和零依赖静态部署；day-trader-skill 把扫描、跟踪、择时和回测结果列为技能范围；安卓广告清理器强调不用 root、可以还原以及一键执行。它们先争夺的不是通用工作流，而是读者对一个具体任务的判断。",
+          "这种入口的优势是可判断：读者能很快知道自己是否需要它，也能看见大致边界。短板同样明显，简介里的“可以做到”不是效果经过独立验证；尤其涉及交易、系统修改或批量处理时，仍要自己检查权限、失败恢复和数据来源。"
+        ]
+      },
+      {
+        "heading": "榜单之外，先分清信号和证据",
+        "paragraphs": [
+          "榜单里还有一个清楚的不确定性样本。ub-mode 的简介和主题都为空，却录得 686 个 Star 增量；现有事实只能说明它被注意到，不能推断它做什么，更不能替它补一个增长原因。对这种项目，先观察比写故事更负责。",
+          "主题分布也不能被当作相互独立的投票。同一天里，一个高增速仓库可能同时带着 agent-skills、ai-agents 和 codex 等标签，多个主题的数字因此会彼此重叠。它适合提示方向，不适合拿来做精确占比，更不足以证明某一类工具已经形成了长期趋势。",
+          "因此，这期更有用的读法是把两类增长分开。看成熟项目时，核对它承诺接入的工作流是否真的能复用；看小项目时，先确认单一用途和边界是否成立。绝对增量适合发现问题，不能替代对项目本身的调查。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "10-30 08:05 → 10-31 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 4519,
+          "stars": 412268,
+          "note": "应用行为到原生二进制的代理逆向分析"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 946,
+          "stars": 266720,
+          "note": "一切皆插件化的代理运行框架"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 890,
+          "stars": 309411,
+          "note": "代理技能框架与软件开发方法"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 858,
+          "stars": 307461,
+          "note": "来自作者代理目录的工程技能"
+        },
+        {
+          "repo": "anhao/ai-pose-gallery-zh",
+          "url": "https://github.com/anhao/ai-pose-gallery-zh",
+          "gain": 818,
+          "stars": 3941,
+          "note": "中文 AI 姿势参考图与零依赖静态画廊"
+        },
+        {
+          "repo": "unclebob/ub-mode",
+          "url": "https://github.com/unclebob/ub-mode",
+          "gain": 686,
+          "stars": 5372,
+          "note": "简介为空，先观察"
+        },
+        {
+          "repo": "Jakeschincariol/day-trader-skill",
+          "url": "https://github.com/Jakeschincariol/day-trader-skill",
+          "gain": 380,
+          "stars": 3608,
+          "note": "交易扫描、追踪、择时与回测技能"
+        },
+        {
+          "repo": "rddmwmddr/android-ad-cleaner",
+          "url": "https://github.com/rddmwmddr/android-ad-cleaner",
+          "gain": 336,
+          "stars": 5056,
+          "note": "免 root 清理广告并支持还原"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看两类项目能否留在前列：成熟框架是否继续靠工作流入口吸星，垂直小工具是否还能维持增速。再看 ub-mode 的简介和主题是否补齐；说明出现之前，它只适合留在观察名单。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "deepseek-ai/deepseek-harness",
+        "url": "https://github.com/deepseek-ai/deepseek-harness"
+      },
+      {
+        "label": "anhao/ai-pose-gallery-zh",
+        "url": "https://github.com/anhao/ai-pose-gallery-zh"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（10-30 08:05 → 10-31 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-10-30",
     "issue": 1,
     "title": "今天 GitHub 涨得最快的，不是模型，是“经验”",
@@ -40,22 +157,79 @@
       "label": "当天的数字",
       "window": "10-29 08:05 → 10-30 08:05",
       "rows": [
-        {"repo": "morluto/rea", "url": "https://github.com/morluto/rea", "gain": 5307, "stars": 407749, "note": "逆向工程技能包：从 App 行为拆到原生二进制"},
-        {"repo": "anhao/ai-pose-gallery-zh", "url": "https://github.com/anhao/ai-pose-gallery-zh", "gain": 1263, "stars": 3123, "note": "中文 AI 绘图姿势参考图库，零依赖静态站"},
-        {"repo": "obra/superpowers", "url": "https://github.com/obra/superpowers", "gain": 1097, "stars": 308521, "note": "代理技能框架与开发方法论"},
-        {"repo": "deepseek-ai/deepseek-harness", "url": "https://github.com/deepseek-ai/deepseek-harness", "gain": 1001, "stars": 265774, "note": "“一切皆插件”的代理运行时"},
-        {"repo": "DietrichGebert/ponytail", "url": "https://github.com/DietrichGebert/ponytail", "gain": 984, "stars": 180160, "note": "让代理少写代码，卖的是克制"},
-        {"repo": "unclebob/ub-mode", "url": "https://github.com/unclebob/ub-mode", "gain": 961, "stars": 4686, "note": "简介为空的新项目，先观察，不急着下结论"},
-        {"repo": "affaan-m/ECC", "url": "https://github.com/affaan-m/ECC", "gain": 953, "stars": 292696, "note": "代理性能优化系统，技能、记忆、安全打包"},
-        {"repo": "mattpocock/skills", "url": "https://github.com/mattpocock/skills", "gain": 854, "stars": 306603, "note": "工程师的 .agents 目录直接开源成技能集"}
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 5307,
+          "stars": 407749,
+          "note": "逆向工程技能包：从 App 行为拆到原生二进制"
+        },
+        {
+          "repo": "anhao/ai-pose-gallery-zh",
+          "url": "https://github.com/anhao/ai-pose-gallery-zh",
+          "gain": 1263,
+          "stars": 3123,
+          "note": "中文 AI 绘图姿势参考图库，零依赖静态站"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 1097,
+          "stars": 308521,
+          "note": "代理技能框架与开发方法论"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 1001,
+          "stars": 265774,
+          "note": "“一切皆插件”的代理运行时"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 984,
+          "stars": 180160,
+          "note": "让代理少写代码，卖的是克制"
+        },
+        {
+          "repo": "unclebob/ub-mode",
+          "url": "https://github.com/unclebob/ub-mode",
+          "gain": 961,
+          "stars": 4686,
+          "note": "简介为空的新项目，先观察，不急着下结论"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 953,
+          "stars": 292696,
+          "note": "代理性能优化系统，技能、记忆、安全打包"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 854,
+          "stars": 306603,
+          "note": "工程师的 .agents 目录直接开源成技能集"
+        }
       ],
       "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是 24 小时净增量前八名。主题合计：ai-agents +9,063、claude-code +8,780、llm +8,533、mcp +6,917、agent-skills +6,708。"
     },
     "watch": "明天看三件事：技能类项目是持续留在增速榜，还是一波流；DeepSeek Harness 的插件生态有没有长出第一批真正能用的 dsh-plugin；以及 7 天窗口首次成型后，长期增长和短期突增会不会分开。",
     "sources": [
-      {"label": "DeepSeek Harness 官方页", "url": "https://www.deepseek.com/harness/"},
-      {"label": "obra/superpowers", "url": "https://github.com/obra/superpowers"},
-      {"label": "affaan-m/ECC", "url": "https://github.com/affaan-m/ECC"}
+      {
+        "label": "DeepSeek Harness 官方页",
+        "url": "https://www.deepseek.com/harness/"
+      },
+      {
+        "label": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers"
+      },
+      {
+        "label": "affaan-m/ECC",
+        "url": "https://github.com/affaan-m/ECC"
+      }
     ],
     "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（10 月 29 日 08:05 → 10 月 30 日 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
   }
