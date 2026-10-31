@@ -54,6 +54,27 @@
   
 
 
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-31">2026 年 10 月 31 日 · 技术笔记 · 系统维护</time>
+    <h2>48 GiB 到 60 GiB：一次 Mac 磁盘清理的实测清单</h2>
+    <p>
+      只删缓存、可重建物和重复文件，没有碰任何用户文档，
+      可用空间从 48 GiB 拉到 60 GiB。清单与每一项的依据。
+    </p>
+    <a class="link" href="notes/2026-10-31-mac-disk-cleanup.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-31">2026 年 10 月 31 日 · 技术笔记 · 系统维护</time>
+    <h2>临时目录里的 5 GiB：签名克隆与补丁残留</h2>
+    <p>
+      /private/var/folders 一个会话目录占了 8 GiB。
+      拆开看，大头是两次一次性任务留下的签名克隆和中文化补丁副本。
+    </p>
+    <a class="link" href="notes/2026-10-31-hidden-cache-forensics.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.02s">
     <time datetime="2026-10-31">2026 年 10 月 31 日 · 技术笔记 · 技能</time>
     <h2>把一次排障做成技能：下次只报症状，不再重新研究</h2>
@@ -132,26 +153,6 @@
       改动只有三十行，记成站点的保留技能。
     </p>
     <a class="link" href="notes/2026-10-30-vivid-comets.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.02s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · 站点</time>
-    <h2>拆掉毛玻璃：彗星应该直接透过来，而不是被糊成一团</h2>
-    <p>
-      把全站的 backdrop-filter 删干净，面板只留一层 0.4 的底色。
-      同一个 alpha，去掉 blur，背景从一团雾变回能辨认方向的彗星。
-    </p>
-    <a class="link" href="notes/2026-10-30-no-frosted-glass.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.02s">
-    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · 前端</time>
-    <h2>静态截图抓不到飞行的彗星：无头 Chrome 的两个开关</h2>
-    <p>
-      虚拟时间预算不会推进 requestAnimationFrame，两张截图字节数一模一样；
-      换成 reduced-motion 开关，才抓到一帧有彗星的静止画面。
-    </p>
-    <a class="link" href="notes/2026-10-30-static-frame-screenshot.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
 <nav class="pager" aria-label="笔记分页">

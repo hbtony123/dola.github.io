@@ -1,0 +1,62 @@
+[
+  {
+    "date": "2026-10-30",
+    "issue": 1,
+    "title": "今天 GitHub 涨得最快的，不是模型，是“经验”",
+    "lede": "10 月 30 日的增速榜前八名里，六个是给编码代理用的技能包或运行时。模型还是那几个模型，真正在扩散的是“怎么把模型用好”的那套东西。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "前八名里，六个在教 AI 干活",
+        "paragraphs": [
+          "先看数字。morluto/rea 单日净增 5,307 Star，排第一——它不是应用，而是一套给代理用的逆向工程技能包：从 App 行为一路拆到原生二进制。往后数，obra/superpowers（+1,097）、deepseek-ai/deepseek-harness（+1,001）、ponytail（+984）、affaan-m/ECC（+953）、mattpocock/skills（+854），前八名里有六个是围绕编码代理的项目。",
+          "主题维度更直白：ai-agents 合计 +9,063，claude-code +8,780，llm +8,533，mcp +6,917，agent-skills +6,708。排在前面的主题几乎都在回答同一个问题——代理该怎么工作，而不是模型有多强。"
+        ]
+      },
+      {
+        "heading": "三种把经验卖出去的姿势",
+        "paragraphs": [
+          "第一种是技能包。superpowers 把自己做成一套开发流水线：头脑风暴、写计划、TDD、系统化调试、子代理开发、代码审查，一步一步规定好。ECC 更重，简介里写着自带几十个代理、三百个左右的技能，还配了一个扫描提示词与 MCP 配置的安全组件 AgentShield。",
+          "第二种是运行时。deepseek-harness 的口号是“一切皆插件”：模型适配、工具、技能、会话、沙箱，连代理循环本身都能替换，内核只负责加载插件和解析依赖。竞争从“谁的模型好”往“谁的编排好”挪了一格。",
+          "第三种是性格。ponytail 的简介是“让你的 AI 代理像房间里最懒的资深工程师一样思考，最好的代码是没写的代码”，并给出代码量 −53%、完成时间 −41%、成本 −26% 的自测数字。它卖的不是更强的能力，是克制。"
+        ]
+      },
+      {
+        "heading": "另一条线：把 AI 用在具体的烦心事上",
+        "paragraphs": [
+          "同一天榜单的后半段是另一种气质。anhao/ai-pose-gallery-zh（+1,263）是 1,439 组 AI 绘图姿势参考的中文图库，零依赖静态站；android-ad-cleaner（+443）不 root、可还原，专门关掉国产安卓系统里的广告、热搜和资讯推送；aerial-tv（+363）给国产电视做了一块干净的桌面。",
+          "这些项目的增量比不了头部，但性质不同：技能包在造工具，这些工具在解决具体问题。顺带一提，我们每天在用的 cc-switch 也在榜上（+335），它把 Claude Code、Codex 这些代理的配置切换收进一个桌面应用——工具本身也开始卷工具了。"
+        ]
+      },
+      {
+        "heading": "怎么读这份榜单",
+        "paragraphs": [
+          "Star 增量只说明关注度，不等于质量，更不等于适合你。ponytail 的三个百分比是它自己的 benchmark，复现之前只能算作者口径。更划算的做法是：挑一个和你工作流最接近的项目，花半小时装上，用自己的任务跑一遍，看它是帮你省了时间，还是只让你多学了一套配置格式。",
+          "另外，7 天窗口还在等第二份完整基线，今天只能看 24 小时。短期突增有偶然性，明天这份榜会自己给出第一轮修正。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "10-29 08:05 → 10-30 08:05",
+      "rows": [
+        {"repo": "morluto/rea", "url": "https://github.com/morluto/rea", "gain": 5307, "stars": 407749, "note": "逆向工程技能包：从 App 行为拆到原生二进制"},
+        {"repo": "anhao/ai-pose-gallery-zh", "url": "https://github.com/anhao/ai-pose-gallery-zh", "gain": 1263, "stars": 3123, "note": "中文 AI 绘图姿势参考图库，零依赖静态站"},
+        {"repo": "obra/superpowers", "url": "https://github.com/obra/superpowers", "gain": 1097, "stars": 308521, "note": "代理技能框架与开发方法论"},
+        {"repo": "deepseek-ai/deepseek-harness", "url": "https://github.com/deepseek-ai/deepseek-harness", "gain": 1001, "stars": 265774, "note": "“一切皆插件”的代理运行时"},
+        {"repo": "DietrichGebert/ponytail", "url": "https://github.com/DietrichGebert/ponytail", "gain": 984, "stars": 180160, "note": "让代理少写代码，卖的是克制"},
+        {"repo": "unclebob/ub-mode", "url": "https://github.com/unclebob/ub-mode", "gain": 961, "stars": 4686, "note": "简介为空的新项目，先观察，不急着下结论"},
+        {"repo": "affaan-m/ECC", "url": "https://github.com/affaan-m/ECC", "gain": 953, "stars": 292696, "note": "代理性能优化系统，技能、记忆、安全打包"},
+        {"repo": "mattpocock/skills", "url": "https://github.com/mattpocock/skills", "gain": 854, "stars": 306603, "note": "工程师的 .agents 目录直接开源成技能集"}
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是 24 小时净增量前八名。主题合计：ai-agents +9,063、claude-code +8,780、llm +8,533、mcp +6,917、agent-skills +6,708。"
+    },
+    "watch": "明天看三件事：技能类项目是持续留在增速榜，还是一波流；DeepSeek Harness 的插件生态有没有长出第一批真正能用的 dsh-plugin；以及 7 天窗口首次成型后，长期增长和短期突增会不会分开。",
+    "sources": [
+      {"label": "DeepSeek Harness 官方页", "url": "https://www.deepseek.com/harness/"},
+      {"label": "obra/superpowers", "url": "https://github.com/obra/superpowers"},
+      {"label": "affaan-m/ECC", "url": "https://github.com/affaan-m/ECC"}
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（10 月 29 日 08:05 → 10 月 30 日 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  }
+]

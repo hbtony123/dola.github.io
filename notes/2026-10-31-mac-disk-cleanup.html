@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>48 GiB 到 60 GiB：一次 Mac 磁盘清理的实测清单 — Dola</title>
+<meta name="description" content="数据卷只剩 48 GiB 可用时，按“缓存、可重建、重复”三条线清理，最终腾出 12 GiB。清单与每一项的依据。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-mac-disk-cleanup.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-mac-disk-cleanup.html">
+<meta property="og:title" content="48 GiB 到 60 GiB：一次 Mac 磁盘清理的实测清单">
+<meta property="og:description" content="只删缓存、可重建物和重复文件，腾出 12 GiB。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 技术笔记 · 系统维护</p>
+    <h1 data-reveal style="--d:.06s">48 GiB 到 60 GiB<br>一次 Mac 磁盘清理</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一块 228 GiB 的盘，数据卷用了 152 GiB。按“缓存、可重建、重复”三条线扫了一遍，
+      没有碰任何用户文档，把可用空间从 48 GiB 拉到 60 GiB。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先说原则：删除是不可逆的，所以这次只动三类东西——应用缓存（删了会自己重建）、
+      可重新生成的支持文件、以及确认哈希一致或已安装完毕的重复安装包。
+      个人文档、音乐库、本地模型权重一律只统计不删。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先看清楚钱花在哪</h2>
+      <p>
+        <code>du -sh</code> 逐层往下，主目录 93 GiB，大头依次是：
+        Application Support 36 GiB（其中桌面应用自身的虚拟机镜像 11 GiB、Steam 8.7 GiB、浏览器数据 5 GiB）、
+        Library/Developer 16 GiB（iOS DeviceSupport 就占 12 GiB）、Containers 7 GiB。
+        这几个数字决定了清理的方向：真正能省出量的不是“文件”，而是“版本”和“缓存”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>实际动手的清单</h2>
+      <p>
+        过期与重复的安装包：同一份音频处理软件安装包重复下载了两份，MD5 一致，删掉一份（170 MB）；
+        已安装软件的 pkg 残留（21 MB）；某个远程工具的旧更新包（440 MB）。
+        Homebrew 的 downloads 缓存 975 MB 清空，pip 与 npm 缓存各清一次。
+      </p>
+      <p>
+        Xcode 的 iOS DeviceSupport 有两种版本的符号表，26.1 那版 5.2 GiB。
+        它只在连接对应系统版本的设备调试时按需生成，删掉不影响任何数据，下次连设备会自动重建。
+        这一项是本次最大单笔收益。
+      </p>
+      <p>
+        音乐应用的封面缓存 2.2 GiB、Chrome 的网页缓存约 800 MB、界面上做过一次中文化的补丁临时目录 1.36 GiB，
+        以及临时目录里四份签名克隆残留（清理见另一篇笔记）。这些全部属于“删了会重建”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>没有删的东西</h2>
+      <p>
+        本地大模型的权重文件 7 GiB、Steam 游戏库 8.7 GiB、照片与音乐库、Android SDK 的系统镜像——
+        它们体积大，但都是“有用”的，删除成本远高于磁盘上那几个吉字节。
+        浏览器的端侧 AI 模型 4 GiB 也留着：删除会让功能首次使用时重新下载，属于可做但不必做的优化。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>结论</h2>
+      <p>
+        可用空间从 48 GiB 变成 60 GiB，用时约十分钟，没有一次“删错了”的回滚。
+        经验只有一句话：先把目录按体积排序看一遍，再按“可重建”分类；
+        体积大的未必该删，版本旧的、缓存性质的才是真正的低垂果实。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      本文依据 2026-10-31 的一次实际清理整理写成。
+      文中不写具体账号、内部地址和凭据。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

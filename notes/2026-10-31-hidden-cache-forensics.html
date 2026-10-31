@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>临时目录里的 5 GiB：签名克隆与补丁残留 — Dola</title>
+<meta name="description" content="/private/var/folders 藏着 8 GiB。拆开看，大头是两次一次性任务留下的签名克隆和中文化补丁副本。">
+<link rel="canonical" href="https://dola.cn/notes/2026-10-31-hidden-cache-forensics.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-10-31-hidden-cache-forensics.html">
+<meta property="og:title" content="临时目录里的 5 GiB：签名克隆与补丁残留">
+<meta property="og:description" content="一次性任务结束，它留下的副本往往还躺在临时目录里。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-10-31 · 技术笔记 · 系统维护</p>
+    <h1 data-reveal style="--d:.06s">临时目录里的 5 GiB<br>签名克隆与补丁残留</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      清理磁盘时，<code>/private/var/folders</code> 里一个会话目录占了 8 GiB。
+      它不是缓存，也不算应用数据——是几次一次性任务留下的“工作台”。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      路径格式是 /private/var/folders/xx/随机串/，里面有 C（缓存）、T（临时）、X 三个常见子目录。
+      系统会定期清理长期不用的 T，但只要文件被最近的任务摸过，时间戳就会更新，清理就轮不到它。
+      大体积的残留就这么活了下来。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>拆开看是什么</h2>
+      <p>
+        一层层 <code>du -sh</code> 进去，两个大头：
+        X 目录下四份 code_sign_clone.* 合计 5.2 GiB，分别是浏览器和一个桌面应用的签名克隆；
+        T 目录下两份中文化补丁目录，合计 1.36 GiB，名字里还带着随机后缀，明显是补丁脚本用完没删的工作副本。
+      </p>
+      <p>
+        判断能不能删的依据不是名字，而是“它是不是别的进程正在用的东西”：
+        签名克隆是代码签名流程中把应用复制一份再改的中间产物，任务结束后没有任何进程持句柄；
+        补丁目录则是文本资源的替换副本，正式资源已经写回应用包，副本无引用。
+        两者的共同点是可完全重建，删除不丢任何数据。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>为什么平时看不见</h2>
+      <p>
+        Finder 默认不显示这个目录，磁盘分析工具也常把它归到“系统数据”里糊成一个总数。
+        但系统的“系统数据”并不神秘：拆到第三层，每一块都能对上号。
+        与其等系统自己“腾空间”，不如把这个藏得最深的目录按时序摸一遍。
+      </p>
+      <p>
+        一个实用的检查顺序：先 <code>du -sh 目录/*</code> 排序，再按修改日期看最近两个月有没有动过，
+        最后确认没有进程在用（<code>lsof</code> 或直接看目录内是否正在写入）。
+        剩下的事情交给常识：可重建的删，拿不准的先留。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>结论</h2>
+      <p>
+        “一次性任务”是最容易留下垃圾的一类操作：克隆、补丁、解包、临时镜像，
+        每个都不大，加起来就是几个吉字节。以后做这类任务时，顺手在结尾把工作台清掉，
+        比事后做取证便宜得多。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.36s">
+      本文依据 2026-10-31 的一次实际清理整理写成。
+      文中不写具体账号、内部地址和凭据。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

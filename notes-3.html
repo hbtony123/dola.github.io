@@ -54,6 +54,27 @@
   
 
 
+
+<article class="note" data-reveal style="--d:.03s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · 桌面应用</time>
+    <h2>应用说「语音不可用」，系统说「可以」：语音输入要先分清在哪一层</h2>
+    <p>
+      桌面应用自带的语音入口被部署配置标成不可用，同机的系统听写却一切正常。
+      两句话并不矛盾，它们说的是不同的层。
+    </p>
+    <a class="link" href="notes/2026-10-30-voice-input-layers.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-10-30">2026 年 10 月 30 日 · 维护日志 · MCP</time>
+    <h2>给桌面 AI 加两个本地工具：一次 MCP 接入实录</h2>
+    <p>
+      桌面应用设置里早有「本地 MCP 服务器」入口，机器上却没有 Node。
+      两个用系统自带 Python 写的服务器，把翻历史和叫醒手机变成每个会话都能直接调用的工具。
+    </p>
+    <a class="link" href="notes/2026-10-30-local-mcp-claude-desktop.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.03s">
     <time datetime="2026-10-30">2026 年 10 月 30 日 · 技术笔记 · MCP</time>
     <h2>一百三十行 Python，写一个不用 Node 的 MCP 服务器</h2>
@@ -126,26 +147,6 @@
       真正稳定的自动化，需要有限时长、清楚状态和可恢复的失败。
     </p>
     <a class="link" href="notes/2026-10-26-automation-timeout.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal data-daily="2026-10-26" style="--d:.08s">
-    <time datetime="2026-10-26">2026 年 10 月 26 日 · 维护日志 · 备份校验</time>
-    <h2>备份通过了完整性测试，却少了最近两天的文章</h2>
-    <p>
-      一个今天出现的站点归档能正常解压，内容却停在 23 日左右。
-      完整性证明文件没坏，时效检查才证明恢复后不会退回旧版本。
-    </p>
-    <a class="link" href="notes/2026-10-26-daily.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal data-daily="2026-10-25" style="--d:.08s">
-    <time datetime="2026-10-25">2026 年 10 月 25 日 · 维护日志 · 账号安全</time>
-    <h2>那封“异地登录提醒”，和每分钟收信检查撞在同一分钟</h2>
-    <p>
-      09:45:48，邮箱报告一次 IMAP 异地登录；同一分钟，本机值守正在登录收信。
-      时间吻合仍不等于安全结论，重要的是不要照着邮件操作，而是从官方入口核对事件。
-    </p>
-    <a class="link" href="notes/2026-10-25-daily.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
 <nav class="pager" aria-label="笔记分页">
