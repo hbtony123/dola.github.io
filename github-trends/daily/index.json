@@ -1,5 +1,122 @@
 [
   {
+    "date": "2026-11-01",
+    "issue": 3,
+    "title": "代理正在从工作流走向设备现场",
+    "lede": "今天的增速榜不只再次显示“技能”受关注。更值得追的变化是，代理能力开始明确落到手机、系统和二进制这些可操作对象上；不过，单日热度仍不能证明这些入口已经可靠。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "执行入口正在变得具体",
+        "paragraphs": [
+          "最值得看的不是总榜第一，而是一个体量仍小的新样本。dsh-Go 当天录得 1139 个 Star 增量，仓库总 Star 为 3589；简介把它定位为在手机本机运行、同时可遥控电脑的 DeepSeek Harness。它把代理放进了随身设备，但单日关注还不能说明远程控制是否稳定、权限如何处理。",
+          "安卓广告清理器呈现出另一种具体化：清理系统里的广告、热搜、资讯推荐和营销推送，并写明不用 root、可以还原、支持智能体一键执行。它当天录得 306 个 Star 增量，项目重点仍是设备治理，代理只是执行入口。这比泛泛讨论助手能力更容易让读者判断是否需要，实际效果仍取决于品牌、系统版本和恢复流程。"
+        ]
+      },
+      {
+        "heading": "技能包开始碰到真实对象",
+        "paragraphs": [
+          "rea 的增长仍最醒目，当天为 3206 个 Star。简介把它描述为用代理逆向分析应用行为，直到原生二进制；主题还列出安卓、命令行和插件等方向。这里吸引人的不是又一个技能集合，而是把调查动作落到具体软件对象。仓库是否适合普通读者，要看它如何组织插件、证据和操作边界，这些都无法由榜单回答。",
+          "mattpocock/skills、ECC 与 superpowers 继续留在高位，说明通用技能框架和工作方法并未失去关注。它们提供的是如何拆任务、如何组织记忆与检查流程；真正需要读者判断的，是这些方法能否对应当天要处理的具体问题。"
+        ]
+      },
+      {
+        "heading": "插件化和独立工程两条线并行",
+        "paragraphs": [
+          "deepseek-harness 当天得到 717 个 Star 增量，简介只有“一切皆插件”这一句。把它和 dsh-Go 放在一起，可以看到一种可能的延伸：底层框架定义插件边界，手机或桌面客户端负责触达设备和远端电脑。这个解释有事实基础，但仍是推断，因为简介没有说明二者是否采用同一实现或兼容方式。",
+          "更强的反例来自 totk-pc-recomp。它当天增长 1051 个 Star，简介写的是把游戏静态重编译到原生 Windows，并使用 Vulkan 渲染器，且不包含游戏文件。它既不是代理技能，也不是插件框架，却排在增速榜前部，提醒我们样本里仍有复杂工程本身带来的关注。",
+          "把三条线放在一起，今天的共同变化不是所有项目都在使用代理，而是已有能力的落点变清楚了：技能要接触设备，逆向要接触软件，独立工程则继续解决性能与移植。Star 增速只能告诉我们哪些入口被看见，不能替代对实现、可逆性和失败恢复的检查。"
+        ]
+      },
+      {
+        "heading": "怎样读这组信号",
+        "paragraphs": [
+          "如果只看排名，会高估执行入口的确定性。dsh-Go 的总量仍远小于头部技能仓库，单日冲高可能来自集中关注；安卓工具的实际效果也可能随厂商系统不同。事实文件没有提供新增 Star 来源，因此不能把增长归因到某次发布、媒体报道或社区事件。",
+          "更可信的观察法是连续几期追踪同一入口：设备控制类项目能否继续增长，空简介仓库是否补上说明，反例能否保持热度。今天能确定的只是，开发者对“代理具体碰什么”表现出比抽象能力更强的兴趣；至于哪套实现值得花时间，还要回到仓库本身验证。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "10-31 08:05 → 11-01 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3206,
+          "stars": 415474,
+          "note": "用代理逆向分析应用行为至原生二进制"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1139,
+          "stars": 3589,
+          "note": "手机本机运行 DeepSeek Harness，并可遥控电脑"
+        },
+        {
+          "repo": "valentderah/totk-pc-recomp",
+          "url": "https://github.com/valentderah/totk-pc-recomp",
+          "gain": 1051,
+          "stars": 2580,
+          "note": "静态重编译到原生 Windows，不含游戏文件"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 894,
+          "stars": 308355,
+          "note": "来自作者代理目录的工程技能"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 717,
+          "stars": 267437,
+          "note": "一切皆插件的 DeepSeek Harness"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 662,
+          "stars": 294058,
+          "note": "代理性能、技能、记忆、安全与研究优化"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 635,
+          "stars": 310046,
+          "note": "代理技能框架与软件开发方法"
+        },
+        {
+          "repo": "rddmwmddr/android-ad-cleaner",
+          "url": "https://github.com/rddmwmddr/android-ad-cleaner",
+          "gain": 306,
+          "stars": 5362,
+          "note": "免 root 清理广告并支持还原"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 dsh-Go 与安卓广告清理器是否继续增长，再看 rea 的设备相关标签是否带来新样本。若插件框架与设备客户端连续同向变化，执行入口这条线才更可信；一次冲高仍只能算线索。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "ccch1mneyyy/dsh-Go",
+        "url": "https://github.com/ccch1mneyyy/dsh-Go"
+      },
+      {
+        "label": "rddmwmddr/android-ad-cleaner",
+        "url": "https://github.com/rddmwmddr/android-ad-cleaner"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（10-31 08:05 → 11-01 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-10-31",
     "issue": 2,
     "title": "同一条增星榜，正在讲两种增长故事",
