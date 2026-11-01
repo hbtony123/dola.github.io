@@ -74,4 +74,6 @@
   <url><loc>https://dola.cn/about.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-31-mac-disk-cleanup.html</loc><lastmod>2026-10-31</lastmod><priority>0.8</priority></url>
   <url><loc>https://dola.cn/notes/2026-10-31-hidden-cache-forensics.html</loc><lastmod>2026-10-31</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/2026-11-01-startup-order-proxy.html</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://dola.cn/notes/2026-11-01-locked-keychain-reboot.html</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
 </urlset>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>差 11 秒：桌面应用为什么总在代理之后才正常 — Dola</title>
+<meta name="description" content="停电重启后，桌面应用比本地代理早启动 11 秒，于是报“检测不到代理”。把启动顺序交给 LaunchAgent 管理后的实测与验证。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-01-startup-order-proxy.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-01-startup-order-proxy.html">
+<meta property="og:title" content="差 11 秒：桌面应用为什么总在代理之后才正常">
+<meta property="og:description" content="启动顺序没有交给系统管理，就会每次重启都复合出一次故障。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-01 · 技术笔记 · 系统维护</p>
+    <h1 data-reveal style="--d:.06s">差 11 秒<br>桌面应用总在代理之后才正常</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      一次停电重启，把两台程序的启动顺序问题暴露了出来：
+      桌面应用先起来，本地代理晚 11 秒才监听端口，于是界面报“检测不到代理”，
+      等代理起来后还得手动重启应用。根因不是代理坏了，是没有任何人在管顺序。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      这台机器上的桌面应用并不直连远端，它的推理请求走本机的一个代理端口。
+      代理软件本身也是一个普通应用，开机时和别的应用一样，作为登录项并行拉起。
+      并行意味着没有顺序：谁先起来谁算数，而这次恰好是应用先到、代理后到。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>先拿时间线对齐事实</h2>
+      <p>
+        系统启动时间、两个应用的进程启动时间、代理端口开始监听的时间，
+        三个数字一摆出来就没有争议：系统 11:27:55 启动，桌面应用 11:28:09 起来，
+        代理 11:28:20 才开始监听。中间 11 秒里，应用对代理接口的每一次请求都是连接被拒。
+        应用把这个状态显示给用户，措辞就是“检测不到代理”。
+      </p>
+      <p>
+        这也解释了为什么“代理起来以后就好了”——代理就绪后接口恢复，但应用启动时已经
+        把那一次的失败记在了自己的状态里。用户看到的行为就是：要重启一次应用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>修法：把顺序从“碰运气”变成“等条件”</h2>
+      <p>
+        登录项没有办法指定先后，所以桌面应用不再走登录项。取而代之的是一个
+        LaunchAgent：登录后先每 3 秒探测代理端口，端口通了再打开应用；
+        最多等 600 秒，超时就记一条警告并照常启动，保证不会因为代理彻底坏掉而
+        连应用都打不开。整个等待过程写日志，事后能查到这一次等了多久。
+      </p>
+      <p>
+        另外把代理自身的守护脚本也升级了：进程在、端口不通，连续三次巡检就重启代理；
+        进程不在，直接拉起。这样“代理活着但假死”也有出口，不必等用户手动处理。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>验收看什么</h2>
+      <p>
+        不看“命令没报错”，看三件事：登录项列表里应用已经不在；LaunchAgent 已加载且在
+        当前会话里正常退出；日志里能看到“代理就绪，用时 N 秒，开始启动应用”这一行。
+        改动当天在运行中的机器上验证过：脚本识别出应用已在运行，主动跳过，不重复启动。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>结论</h2>
+      <p>
+        凡是“重启后要先手动点一次才正常”的问题，先去看时间线，多半是启动顺序；
+        顺序问题不要靠重试和提示解决，直接改启动条件。
+        代理是服务的依赖，不是用户的操作步骤。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      本文依据 2026-11-01 停电重启后的一次真实排查整理写成。
+      文中不写具体账号、内部地址和凭据。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Dola.cn · 保持简单，保持好奇</span>
+  <a href="mailto:hello@dola.cn">hello@dola.cn</a>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
