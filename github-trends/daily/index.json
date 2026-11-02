@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-02",
+    "issue": 4,
+    "title": "代理热榜：自动执行之外，开始拼质量约束",
+    "lede": "当天增长仍集中在代理项目，但新增关注开始分叉：一边追求更自主的执行，一边把界面修正、代码克制和性能约束做成独立工具。这个变化比再列一批技能包更值得看，也更需要区分热度与效果。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "自主性仍在领跑",
+        "paragraphs": [
+          "dsh-superagent-prototype 以 4938 的增量居首，简介只给出“迈向更自主的代理系统”这一方向；名称中的 prototype 说明它是探索样本。rea 得到 3196 的增量，面向应用行为到原生二进制逆向分析；Mika 则让安卓设备上的代理操作应用和网页。能行动、能触碰真实软件对象，仍有吸引力。",
+          "但“更自主”不是今天唯一的故事。同样靠前的 unslop 不是替代理增加动作，而是把带 AI 感的界面收拾成设计过的界面；ponytail 则用“像最懒的资深开发者”来约束写代码冲动，强调最好的代码是没写出来的代码。两组方向很容易混淆，前者追求代理能做多少，后者追问代理做完后是否可交付。"
+        ]
+      },
+      {
+        "heading": "从能力包转向交付质量",
+        "paragraphs": [
+          "unslop 的 1399 是个清楚样本。它把一项典型后处理任务封装为 Claude 技能：识别由氛围编程留下、看起来很像 AI 生成的界面，再改造成更完整的设计界面。值得关注的不是“修界面”本身，而是代理工作流开始承认生成与交付之间存在距离。Star 增长能证明这种痛点被看见，不能证明技能在各种设计系统里都有效。",
+          "ponytail 的 586 把同一逻辑推进到代码量。它宣称让代理像“最懒的资深开发者”思考，并用“最好的代码是没写的代码”压缩新增实现。对开发者而言，这比再叠一层工具更有判断价值：代理是否会主动缩小改动面、少造抽象、把维护成本算进去。当前事实只有数字和自述，实际能否稳定做到，仍需看真实任务表现。"
+        ]
+      },
+      {
+        "heading": "运行框架仍在争夺控制面",
+        "paragraphs": [
+          "平台层也没有退场。deepseek-harness 以“一切皆插件”获得 891 的增量，ECC 则把技能、本能、记忆、安全与研究优先的开发流程统称为代理性能优化系统。它们提供的不是单次任务技巧，而是代理如何接入、如何记住、如何受约束的底座。框架继续被关注并不奇怪，但多标签集合不能证明某一层已经胜出。",
+          "mattpocock/skills、superpowers 与 anthropics/skills 仍在榜单前列，公开技能和方法论仍有入口价值。它们和“少写代码、修好界面”并非互相替代：框架决定代理能用什么，约束决定最终交付是否像人愿意维护的软件。把三类项目说成确定的上游与下游，事实不足；更准确地说，三类关注同时存在。"
+        ]
+      },
+      {
+        "heading": "别把整张榜都解释成代理",
+        "paragraphs": [
+          "public-apis 当天同样获得 750 的增量，但它只是免费 API 清单；这是整篇主线需要保留的反例。Star 增量只说明注意力，项目类型不能凭榜单被强行归类。类似地，totk-pc-recomp 的静态重编译说明复杂工程本身仍能聚拢关注。代理题材占优，不等于其他项目失去价值，只代表当期样本里的注意力更密集。",
+          "还有一个需要留白的样本。ub-mode 的简介和主题均为空，当前只能写“简介为空，先观察”，不能替它解释增长，也不能把它硬塞进代理叙事。单日榜单擅长提示哪里热闹，却不提供新增关注来自何处。对这类仓库，先看简介是否补齐、主题是否出现，以及关注能否延续，比立刻给用途下结论更稳妥。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-01 08:05 → 11-02 08:05",
+      "rows": [
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 4938,
+          "stars": 7190,
+          "note": "目标更自主的代理系统原型"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3196,
+          "stars": 418670,
+          "note": "用代理逆向分析应用行为至原生二进制"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 1399,
+          "stars": 4841,
+          "note": "把 AI 感界面改造成设计过的界面"
+        },
+        {
+          "repo": "wangzan101/Mika",
+          "url": "https://github.com/wangzan101/Mika",
+          "gain": 1105,
+          "stars": 3812,
+          "note": "安卓本机代理，操作应用与网页"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 891,
+          "stars": 268328,
+          "note": "一切皆插件的 DeepSeek Harness"
+        },
+        {
+          "repo": "public-apis/public-apis",
+          "url": "https://github.com/public-apis/public-apis",
+          "gain": 750,
+          "stars": 494574,
+          "note": "免费 API 的集体清单"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 732,
+          "stars": 294790,
+          "note": "代理性能、技能、记忆、安全与研究流程优化"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 586,
+          "stars": 182101,
+          "note": "让代理像极简资深开发者般少写代码"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 unslop 与 ponytail 能否继续增长，再观察 dsh-superagent-prototype 是否仍是孤立高点。若质量约束类项目连续留在前列，这条线才更像趋势；同时留意 ub-mode 的简介是否补齐。",
+    "sources": [
+      {
+        "label": "deepseek-ai/dsh-superagent-prototype",
+        "url": "https://github.com/deepseek-ai/dsh-superagent-prototype"
+      },
+      {
+        "label": "heydamir/unslop",
+        "url": "https://github.com/heydamir/unslop"
+      },
+      {
+        "label": "DietrichGebert/ponytail",
+        "url": "https://github.com/DietrichGebert/ponytail"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-01 08:05 → 11-02 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-01",
     "issue": 3,
     "title": "代理正在从工作流走向设备现场",
