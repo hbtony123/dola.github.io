@@ -1,5 +1,114 @@
 [
   {
+    "date": "2026-11-03",
+    "issue": 5,
+    "title": "代理技能开始交付看得见的产物",
+    "lede": "今天的高增速仍由代理项目占据，但它们的简介越来越多地指向可展示的结果：改好的界面、代码结构图、像素特效或逆向分析结论。这个变化比“代理更自主”更具体，也需要用单日数据与仓库自述划清边界。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "从更自主转到可检查结果",
+        "paragraphs": [
+          "榜首 dsh-superagent-prototype 得到 5880 个新增 Star，简介仍停在“迈向更自主的代理系统”，目标很大，交付却很抽象。紧随其后的 rea 得到 4159 个新增 Star，简介把对象写成应用行为直至原生二进制。两者都靠代理执行，但后者更容易让开发者想象一次任务结束后能检查什么。",
+          "这不是说“自主”不再有吸引力，而是它单独出现时越来越难说明价值。代理能调用多少工具、能连续运行多久，都不如一个明确的结果便于判断。榜单只给出 Star 差值，无法解释新增关注从何而来；我们只能先看仓库怎样描述使用后的产物，再把具体产品能力留给后续验证。"
+        ]
+      },
+      {
+        "heading": "技能开始围绕成品来包装",
+        "paragraphs": [
+          "unslop 的简介最能说明这种包装：它把由氛围编程产生、带有 AI 感的界面改成经过设计的界面，当天增加 1398 个 Star。它卖的不是更长的自动执行链，而是修整后的页面这个可见终点；读者能否采用，取决于技能在真实设计系统和现有组件里是否稳定，而不取决于当天名次。",
+          "pixelfx 把一批像素艺术效果写成小段代码，并提供制作同类效果的 Claude Code 技能，得到 937 个新增 Star。floorplan 则让 Claude 或 Codex 绘制代码结构的通俗地图，得到 485 个新增 Star。一个产出视觉素材，一个产出理解入口，都把代理能力折成可转交的具体产物。"
+        ]
+      },
+      {
+        "heading": "执行类项目也没有退场",
+        "paragraphs": [
+          "Mika 仍是重要对照。它把代理放到安卓设备上，直接操作应用和网页来完成任务；这类项目追求的不是一张静态结果图，而是让执行过程本身成为交付。简介与主题说明了产品方向，却没有提供成功率、权限边界或失败恢复方式，单日 Star 增长也无法补上这些证据。",
+          "rea 同样属于行动型项目，但它把代理用于逆向分析，从应用行为一路深入到原生二进制。与界面修饰、像素特效和代码地图相比，它的结果需要更强的技术判断，也更难仅靠简介验证。由此看，产物化并非所有项目都转向视觉内容，而是这些样本都把代理输出压到一个可命名、可检查的对象上。"
+        ]
+      },
+      {
+        "heading": "热度能说明什么，不能说明什么",
+        "paragraphs": [
+          "反例很醒目。public-apis 只是免费 API 清单，当天仍得到 936 个新增 Star，说明非代理项目同样可能进入高增速区间。totk-pc-recomp 的静态重编译也不属于技能或代理框架，却同样留在前列。它们提醒读者，样本里的代理密度较高，不等于整张榜单都在讲代理。",
+          "还需要区分关注和采用。Star 增量是相邻两次快照的差值，不能证明项目被安装、代码被运行，也不能证明某个功能达到宣传效果。成熟仓库的总 Star 基数、小仓库的单日冲高和简介中的功能声明，是三种不同信息；本期可以确认的是一种描述方式在集中出现，尚不能确认它已经成为稳定的开发习惯。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-02 08:05 → 11-03 08:05",
+      "rows": [
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 5880,
+          "stars": 13070,
+          "note": "定位更自主的代理系统"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 4159,
+          "stars": 422829,
+          "note": "用代理逆向分析应用与二进制"
+        },
+        {
+          "repo": "wangzan101/Mika",
+          "url": "https://github.com/wangzan101/Mika",
+          "gain": 1452,
+          "stars": 5264,
+          "note": "安卓端代理操作应用与网页"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 1398,
+          "stars": 6239,
+          "note": "把 AI 感界面改造成设计界面"
+        },
+        {
+          "repo": "patch-gg/pixelfx",
+          "url": "https://github.com/patch-gg/pixelfx",
+          "gain": 937,
+          "stars": 3483,
+          "note": "像素特效代码与创作技能"
+        },
+        {
+          "repo": "public-apis/public-apis",
+          "url": "https://github.com/public-apis/public-apis",
+          "gain": 936,
+          "stars": 495510,
+          "note": "免费 API 汇总清单"
+        },
+        {
+          "repo": "haydenschmitty/floorplan",
+          "url": "https://github.com/haydenschmitty/floorplan",
+          "gain": 485,
+          "stars": 2235,
+          "note": "用代理绘制交互式代码结构图"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 unslop、pixelfx 与 floorplan 能否继续留在增速榜，再观察 Mika 和 rea 是否把“可检查的结果”延续成增长。若只是单日扎堆，这条线仍应降级为描述层面的信号，不宜提前写成行业结论。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "heydamir/unslop",
+        "url": "https://github.com/heydamir/unslop"
+      },
+      {
+        "label": "patch-gg/pixelfx",
+        "url": "https://github.com/patch-gg/pixelfx"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-02 08:05 → 11-03 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-02",
     "issue": 4,
     "title": "代理热榜：自动执行之外，开始拼质量约束",
