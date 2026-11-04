@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-04",
+    "issue": 6,
+    "title": "代理热度向 Harness 插件生态集中",
+    "lede": "今天最值得注意的不是某一种技能又上榜，而是前五名里有四个在名称、简介或主题上关联 DeepSeek Harness。单日关注不能证明生态稳定，但评估对象已从单个技能扩展到运行时、插件接口和设备入口。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "增速重心落到运行层",
+        "paragraphs": [
+          "增量榜高位不再只由成品工具占据，运行底座和围绕它的入口一起出现。deepseek-harness 把自身描述为“一切皆插件”，dsh-Go 则写手机本机运行并能遥控电脑，superagent-prototype 把目标指向更自主的代理系统。它们没有交付同一种功能，却都在回答代理怎样长期运行、从哪里接入能力，以及由哪个设备发起任务。",
+          "主题标签提供了侧面证据：dsh-plugin 覆盖三个仓库，合计得到 7244 个新增 Star。它不能证明统一标准已经形成，甚至可能是标签聚合、项目同名和同日曝光共同造成的聚集；但与只包装单项能力的仓库相比，这更像是在争夺一层公共底座。关注重心从“会做什么”上移到“在哪里运行、怎样扩展”，是今天比单项名次更清楚的线索。"
+        ]
+      },
+      {
+        "heading": "插件接口正在变成竞争边界",
+        "paragraphs": [
+          "“一切皆插件”的表述把问题从功能清单推到了接口。一个 Harness 能否接入逆向分析、移动端操作和不同代理技能，决定的是生态可扩展范围；dsh-Go 的简介进一步把手机本机运行与遥控电脑放在一起，说明入口可以跨设备，但权限、数据边界与失败处理也会随之变复杂。",
+          "对开发者来说，真正值得花时间核对的不是 Star 曲线，而是插件如何安装与隔离、代理能读哪些上下文、跨设备操作怎样授权、出错后能否恢复。这些能力不在当前事实的简介和主题里，因此不能替项目补答案。",
+          "可以先读 deepseek-harness 的插件设计，再用 rea 和 dsh-Go 对照代理能力如何落到不同入口。如果三者的接口约定并不相通，今天的“生态”就只是一次同题材聚集；如果出现了可对照的共同接口描述，才值得投入时间验证。"
+        ]
+      },
+      {
+        "heading": "反例提醒热度不是能力证明",
+        "paragraphs": [
+          "榜单没有被 Harness 完全占领。craft-anything 以最高增量居首，简介却说理解任意软件并制作自己的版本，范围宽泛，不能自动并入插件生态；unslop 继续靠界面改造获得关注，totk-pc-recomp 则是静态重编译项目，也从另一侧说明复杂工程仍有吸引力。",
+          "这些反例还不是“排除项”，而是分类边界。单日 Star 差值能显示注意力去了哪里，却不能解释原因，也不能代表安装量、任务成功率或插件数量。尤其 superagent-prototype 的自述只有方向，craft-anything 的描述又很宽，读者应把它们当作值得观察的入口，而不是已经验证的成熟方案。"
+        ]
+      },
+      {
+        "heading": "明天先核对接口，不追逐名次",
+        "paragraphs": [
+          "判断这轮热度是否形成生态，可以看 dsh-plugin 相关的仓库是否继续增加，以及它们是否呈现共同接口而非共同标签。还要看设备端入口是否补上权限和失败恢复说明，运行底座是否给出可检查的扩展方式。若只剩榜单数字上涨，主线应降级为“同名项目集中受关注”，不能写成标准已经确立。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-03 08:05 → 11-04 08:05",
+      "rows": [
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 4239,
+          "stars": 8312,
+          "note": "理解软件并制作自己的实现"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 4157,
+          "stars": 426986,
+          "note": "代理逆向分析应用与原生二进制"
+        },
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 3607,
+          "stars": 16677,
+          "note": "目标更自主的代理系统原型"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1585,
+          "stars": 7421,
+          "note": "手机本机运行并遥控电脑的 Harness 入口"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 1502,
+          "stars": 271077,
+          "note": "强调一切皆插件的 DeepSeek Harness"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 1285,
+          "stars": 7524,
+          "note": "把 AI 感界面改造成设计过的界面"
+        },
+        {
+          "repo": "github/spec-kit",
+          "url": "https://github.com/github/spec-kit",
+          "gain": 1134,
+          "stars": 146638,
+          "note": "规格驱动开发与流程工具包"
+        },
+        {
+          "repo": "valentderah/totk-pc-recomp",
+          "url": "https://github.com/valentderah/totk-pc-recomp",
+          "gain": 527,
+          "stars": 4501,
+          "note": "把游戏静态重编译到桌面平台"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 dsh-plugin 主题的仓库数量与新增 Star 能否延续，再看 deepseek-harness、dsh-Go 和 rea 是否出现可对照的共同接口描述。若只是同名标签继续聚集，而权限、扩展和失败恢复仍无说明，这条主线就应降级观察。",
+    "sources": [
+      {
+        "label": "deepseek-ai/deepseek-harness",
+        "url": "https://github.com/deepseek-ai/deepseek-harness"
+      },
+      {
+        "label": "ccch1mneyyy/dsh-Go",
+        "url": "https://github.com/ccch1mneyyy/dsh-Go"
+      },
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-03 08:05 → 11-04 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-03",
     "issue": 5,
     "title": "代理技能开始交付看得见的产物",
