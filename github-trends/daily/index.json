@@ -1,5 +1,237 @@
 [
   {
+    "date": "2026-11-06",
+    "issue": 8,
+    "title": "代理项目开始打包工作方式",
+    "lede": "今天的高增速不再只讲“代理更自主”，而是把一种可辨认的工作方式包装进项目：先逆向、从理解走向制作、少写代码、把 AI 感界面改掉。Star 只能证明注意力移动，真正值得读的是这些方法能否被开发者复用。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "增长集中在可命名的方法",
+        "paragraphs": [
+          "最靠前的项目没有把卖点停在“能力更强”，而是直接说出怎样完成任务。rea 指向代理逆向分析，范围从应用行为深入到原生二进制；craft-anything 则强调先理解软件，再制作自己的实现。两者当日分别获得 3464 和 3298 个新增 Star，排在前两位。数字只说明关注集中，却也显示读者更愿意先看见一条可复述的方法，而不是又一个抽象目标。",
+          "主题聚合给出侧面印证，但这只是弱证据。claude-code 标签覆盖九个仓库，合计新增 6645 个 Star；agent-skills 覆盖四个仓库，合计新增 5038 个。标签可以重叠，不能把两组合并成独立赛道，也不能据此断言统一标准已经形成。能确认的是，与具体代理工作流相关的项目占了明显注意力。"
+        ]
+      },
+      {
+        "heading": "从专项能力变成角色说明书",
+        "paragraphs": [
+          "逆向与重制继续占据中心，但旁边出现了更细的工作风格。unslop 把带有 AI 痕迹的界面改造成经过设计的界面，ponytail 要求代理像擅长删减的资深开发者那样思考；pixelfx 则把像素特效代码和制作能力一起交付。它们卖的不是同一种工具，而是一套可执行偏好：界面该怎样、代码该何时少写、创作素材应从哪里来。",
+          "后台执行也在沿这个方向包装。agent-autoloop 让命令行代理在后台自己接活、继续跟进，只有遇到拿不准的事才用卡片找人拍板；ECC 把技能、本能、记忆、安全和研究优先放进同一套性能优化叙述。这里的差异很关键：前者强调何时打扰人，后者强调代理长期运行时要保留哪些约束，读者应按任务边界选择。"
+        ]
+      },
+      {
+        "heading": "为什么这种包装更容易被理解",
+        "paragraphs": [
+          "共同点在于方法可以被比较。读者能问一个具体问题：它偏重理解现有系统，还是直接产出；它要求少写代码，还是鼓励连续执行；它是面向界面的审美修正，还是围绕运行时增加记忆和安全约束。问题越具体，越容易判断项目是否匹配自己的任务，这比“自主代理”这类总括目标更接近一次真实的技术选型。",
+          "这并不能证明项目因此上涨。事实文件只记录公开 API 的 Star 差值，没有传播路径、安装量或任务成功率，因而“因为描述清楚所以受欢迎”仍只是解释候选。更稳妥的结论是，今天占据前排的项目提供了一个共同的可读接口：它们先把工作方式说明白，再等待开发者验证实现是否兑现。"
+        ]
+      },
+      {
+        "heading": "热度之外还要留反例",
+        "paragraphs": [
+          "榜单并未被代理工作流完全占领。Eglantine 是明确标注为高度实验性的 Nintendo Switch 2 模拟器，Mika 则是运行在安卓设备、操作应用与网页的代理。前者提醒技术兴趣仍会被高门槛系统项目吸引，后者说明代理包装若落不到设备权限、失败恢复和可检查行为，单靠描述仍不足以证明可用。",
+          "还有一个信息缺口值得保留。事实文件中被归为未分类的仓库数量不少，说明主题字段对这批项目的概括并不完整，按标签判断“某种模式扩散”可能高估一致性。今天适合把它写成注意力线索，而不是行业定论；真正的分水岭，是这些项目能否在明天继续获得关注，并逐步给出超出简介的可验证产物。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-05 08:05 → 11-06 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3464,
+          "stars": 434272,
+          "note": "代理逆向分析应用行为与原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 3298,
+          "stars": 14938,
+          "note": "理解软件并制作自己的实现"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 1899,
+          "stars": 315180,
+          "note": "来自 .agents 目录的工程技能"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 1246,
+          "stars": 273771,
+          "note": "以插件为核心组件的 Harness"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 1111,
+          "stars": 9766,
+          "note": "把 AI 感界面改为设计界面"
+        },
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 930,
+          "stars": 19473,
+          "note": "面向更自主代理系统的原型"
+        },
+        {
+          "repo": "KKKKhazix/agent-autoloop",
+          "url": "https://github.com/KKKKhazix/agent-autoloop",
+          "gain": 763,
+          "stars": 3225,
+          "note": "命令行代理后台接活并跟进"
+        },
+        {
+          "repo": "Djihads80/Eglantine",
+          "url": "https://github.com/Djihads80/Eglantine",
+          "gain": 745,
+          "stars": 4394,
+          "note": "明确标注高度实验性的 Switch 2 模拟器"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 rea、craft-anything 与 unslop 能否仍有相近增量，再看 agent-skills 是否出现新的独立仓库。若只有前几名继续冲高、未分类仓库仍很多，就应把主线降为描述清晰的工作风格受关注；若更多项目给出权限、失败恢复或产物边界，这条观察才算得到进展。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "heydamir/unslop",
+        "url": "https://github.com/heydamir/unslop"
+      },
+      {
+        "label": "KKKKhazix/agent-autoloop",
+        "url": "https://github.com/KKKKhazix/agent-autoloop"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-05 08:05 → 11-06 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
+    "date": "2026-11-05",
+    "issue": 7,
+    "title": "代理工具从生成转向系统诊断",
+    "lede": "今天的高增速不再只奖励替人写代码，而是明显偏向先读懂现有系统、再给出改造结果的工具。前两名共同指向软件行为理解与逆向，其他项目则像不同环节的检查器，但单日数据只能证明注意力在移动。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "增长重心转向理解现有系统",
+        "paragraphs": [
+          "最抢眼的两个项目都把理解软件怎样运转放在制作或改造之前。rea 的简介把分析对象从应用行为推进到原生二进制，craft-anything 则直接写理解任意软件并制作自己的实现。它们描述的是一条连续路径，代理要先建立可检查的系统解释，再决定怎样动手。",
+          "排名给这条判断提供了侧证，rea 获得 3822 个新增 Star，craft-anything 获得 3328 个，分列样本前两位。这个位置说明市场注意力正在奖励解释能力，但两个简介都没有交代逆向精度、覆盖范围或失败处理，因而只能证明方向受关注，不能证明工具已经可靠。"
+        ]
+      },
+      {
+        "heading": "专项能力正在变成检查层",
+        "paragraphs": [
+          "另一组项目把诊断做成了具体约束。unslop 处理带有 AI 风格的界面，把氛围编程生成的外观改成经过设计的界面；ponytail 则要求代理像更注重删减的资深开发者那样思考，强调最好的代码是没写的代码。前者检查成品，后者检查是否该继续生产。",
+          "主题数据也支持“检查层”正在聚拢注意力：agent-skills 合计新增 5548 个 Star，claude-code 合计新增 6467 个。两个标签可以重叠，不能当成互斥赛道，但它们指向的对象很一致，都是让代理在生成前后接受某种原则或质量检查。"
+        ]
+      },
+      {
+        "heading": "平台项目仍在，交付边界更宽",
+        "paragraphs": [
+          "较宽泛的平台项目并未消失。dsh-superagent-prototype 继续把目标写成更自主的代理系统，mattpocock/skills 提供来自个人 .agents 目录的工程技能，deepseek-harness 继续强调一切皆插件。与前面的诊断型项目相比，它们描述的是能力容器或供给来源，终点更宽，也更难从简介判断一次任务究竟交付了什么。",
+          "这不等于平台类项目失去价值。若读者要做长期集成，运行环境、技能来源和插件扩展仍比单个诊断工具更重要；若只想解决一次具体问题，专项工具的边界反而更容易评估。今天增长同时覆盖两层，说明竞争并不是平台与技能二选一，而是平台需要证明自己承载了可检查的专项能力。"
+        ]
+      },
+      {
+        "heading": "热度与可用性仍需分开",
+        "paragraphs": [
+          "反例同样明显。Eglantine 是被明确标为高度实验性的 Nintendo Switch 2 模拟器，RUN 是海外移居手册，pixelfx 提供像素艺术效果代码和小型创作技能，Mika 是在安卓设备上操作应用与网页的代理。它们与“先解释系统”并不完全同题，却进入同一张高增速榜，因此不能把样本前几名直接外推成整个开发者社区。",
+          "更稳妥的用法是问读者自己的任务。若目标是理解陌生应用或二进制，rea 与 craft-anything 值得先读；若要修正界面、减少代码或建立规格流程，unslop、ponytail 与 spec-kit 更贴近入口。问题在于，事实文件只有简介和主题，没有成功率、权限边界或实际采用证据，单日 Star 差值不能替代这些检查。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-04 08:05 → 11-05 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3822,
+          "stars": 430808,
+          "note": "代理逆向分析应用行为与原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 3328,
+          "stars": 11640,
+          "note": "理解软件并制作自己的实现"
+        },
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 1866,
+          "stars": 18543,
+          "note": "面向更自主的代理系统"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 1859,
+          "stars": 313281,
+          "note": "工程师技能，取自 .agents 目录"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 1448,
+          "stars": 272525,
+          "note": "以插件为核心组件的 Harness"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 1131,
+          "stars": 8655,
+          "note": "把 AI 感界面改写为设计界面"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 818,
+          "stars": 184533,
+          "note": "促使代理减少不必要代码"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 696,
+          "stars": 297241,
+          "note": "面向多款代理的性能优化系统"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 rea 与 craft-anything 能否继续同时留在前列，再看 agent-skills 的仓库数量是否扩张。如果增长仍集中在理解、检查、解释，主线可以延续；若只剩单一项目冲高，就应视为偶然曝光，不能写成趋势。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "storytold/craft-anything",
+        "url": "https://github.com/storytold/craft-anything"
+      },
+      {
+        "label": "heydamir/unslop",
+        "url": "https://github.com/heydamir/unslop"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-04 08:05 → 11-05 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-04",
     "issue": 6,
     "title": "代理热度向 Harness 插件生态集中",
