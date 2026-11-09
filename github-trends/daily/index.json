@@ -1,5 +1,368 @@
 [
   {
+    "date": "2026-11-09",
+    "issue": 11,
+    "title": "代理热度从头部项目转向技能底座",
+    "lede": "今天前排仍在讲理解软件，但增长分布更像一次重心转移：两位“看懂并重做软件”的项目继续领先，技能库、插件框架和代理优化项目却在后九名形成更厚的一层。单日变化不能认定趋势，却足以提示读者把注意力从单个明星项目移向可复用接口。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "头部仍是理解软件",
+        "paragraphs": [
+          "最靠前的还是 morluto/rea 与 storytold/craft-anything。它们的简介都把代理指向现有软件：前者从应用行为深入到原生二进制，后者先理解软件如何工作，再制作自己的实现。这个定位延续了前几期的主线，说明“先看懂系统”仍是本日最强单点叙事，也最贴近迁移、兼容和调试任务。",
+          "但领先并不意味着全面。两者当天分别增加 2743 和 2001 个 Star，仍是前二；与前几期相比，这不是需要重新论证的发现，而是新分布里的参照。一个仓库占住头部，不等于其方法已经可复用；事实文件没有成功率、适用范围或失败样本，读者只能凭简介判断方向，不能据此判断成熟度。"
+        ]
+      },
+      {
+        "heading": "中段变成可组合底座",
+        "paragraphs": [
+          "更值得看的变化发生在第三名之后。从第四名到第十二名，有九个仓库明确围绕代理技能、运行框架、优化系统或设计智能展开，合计新增 5264 个 Star，超过前两名之和。单看排名，它们没有制造断层；合起来看，注意力已从两个样本扩展到一组可组合入口。",
+          "这些项目的共同点，是把不同答案包装成能装进代理的零件。两个 skills 仓库分别公开通用技能和作者目录里的工程技能；Harness 以“一切皆插件”定位；ECC 强调技能、记忆、安全与研究优先；Superpowers 则把技能框架与开发方法并列。",
+          "这能解释它们为何持续获得关注：读者不必先接受一个完整平台，就能检查某个技能、插件或工作流是否符合自己的工具链。但这也只是解释候选。事实文件没有安装量、调用次数和跨工具兼容结果，不能把“可组合”直接等同于“可复用”。目前能确认的是，入口正在增多，竞争也因此从单点名次转向底座厚度。"
+        ]
+      },
+      {
+        "heading": "应用客户端给出反例",
+        "paragraphs": [
+          "第三名不是一个代理项目。Minireel/HGhub 自述为 YellowFruit 第三方客户端，主题涉及安卓、电影、短剧、短视频和 Windows；它在同日榜单前排仍增加 971 个 Star。这个反例提醒读者，榜单前排并不是单一技术路线投票，消费型应用和代理工程工具可以同时被关注。",
+          "不过，简介只给出客户端定位，没有在事实文件里说明功能边界、数据来源或适配方式。它值得记录为注意力异类，却不适合据此编造使用体验。类似地，自托管服务清单和公开 API 清单仍在榜尾获得增长；它们的价值来自整理与发现，和代理技能解决的是不同问题。"
+        ]
+      },
+      {
+        "heading": "技能层为何更像下一站",
+        "paragraphs": [
+          "从开发者视角，技能与插件的热度有更直接的评估入口。一个技能至少要回答何时触发、需要哪些权限、产出放在哪里、失败后怎样停；一个运行框架则要说明插件边界和状态如何保存。事实文件尚不能提供这些细节，但它让一批这样的候选集中出现，读者可以按同一组问题筛选。",
+          "这也解释了为什么中部总量比单点冠军更有信息量。单项爆发可能来自一次性曝光；一组不同作者的项目在同一窗口同向增长，才更像注意力在接口层沉淀。agent-skills 主题覆盖四个仓库，合计新增 4378 个 Star，是这一判断的侧证。标签可以重叠，不能把它当成独立赛道；它只说明这批样本里，技能形式反复出现。"
+        ]
+      },
+      {
+        "heading": "把热度读成待验证清单",
+        "paragraphs": [
+          "今天的主线因此不是“代理又赢了”，而是增长的重心从明星项目向可复用入口移动。对开发者最有用的读法，是把这些仓库当成待验证清单：先看它们能否被当前工具加载，再看权限和产物边界，最后看失败时如何退出。Star 增长只能提示哪里值得读，不能替读者完成验收。",
+          "还得保留另一面。固定样本只覆盖近期活跃且 Star 过百的仓库，单日窗口也可能受集中曝光影响；前两名的定位仍很强，说明这次更像重心加厚，而非旧主线消失。若明天头部继续减弱而中段不再扩张，今天的观察就应降级为一次普通轮换。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-08 08:05 → 11-09 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2743,
+          "stars": 443724,
+          "note": "借助代理逆向应用行为和二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 2001,
+          "stars": 22557,
+          "note": "理解软件如何工作并制作实现"
+        },
+        {
+          "repo": "Minireel/HGhub",
+          "url": "https://github.com/Minireel/HGhub",
+          "gain": 971,
+          "stars": 3263,
+          "note": "YellowFruit 第三方客户端"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 836,
+          "stars": 189609,
+          "note": "公开的 Agent Skills 仓库"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 808,
+          "stars": 318495,
+          "note": ".agents 目录中的工程技能"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 723,
+          "stars": 276463,
+          "note": "以插件组织代理能力的运行框架"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 609,
+          "stars": 11965,
+          "note": "把 AI 感界面改成设计界面"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 527,
+          "stars": 299702,
+          "note": "整合技能、记忆、安全与研究优先"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 rea 和 craft-anything 是否继续占据前二，再看排在后面的技能与插件项目能否维持同向增长。若 HGhub 只剩一天热度，而技能库的中段厚度延续，今天的“重心转移”才有更多支持。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "Minireel/HGhub",
+        "url": "https://github.com/Minireel/HGhub"
+      },
+      {
+        "label": "deepseek-ai/deepseek-harness",
+        "url": "https://github.com/deepseek-ai/deepseek-harness"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-08 08:05 → 11-09 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
+    "date": "2026-11-08",
+    "issue": 10,
+    "title": "代理项目开始争夺质量闸门",
+    "lede": "今天的高增速仍由代理项目占据，但焦点正从新增能力转向可检查的质量边界。前两名仍与软件理解有关，中段则把界面审美、代码克制和性能安全写进不同入口。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "前排不再只比能力",
+        "paragraphs": [
+          "观察前排的一个共同点，描述里出现的已不只是替人完成任务，而是任务前如何理解、任务中如何约束、任务后如何修正。这个变化比单纯讨论代理是否更自主更接近工程实践，因为任何约束都要能被看见，才能进入真实工作流。",
+          "热度也给出侧证。样本前七名的简介都落在代理技能、运行框架或代理优化范围内，合计新增 Star 达到 9252。这里不能把七个项目当成一个统一赛道，标签彼此重叠；只能确认注意力高度集中，且质量与控制是其中显眼的共同词汇。"
+        ]
+      },
+      {
+        "heading": "理解软件成为前置闸门",
+        "paragraphs": [
+          "真正拉开差距的是前两名。morluto/rea 把范围描述为从应用行为到原生二进制，storytold/craft-anything 则先理解软件，再制作自己的实现。它们不是替代人类写一段代码，而是在尝试建立一套对陌生系统的解释，这也是逆向、兼容和迁移任务最费时的部分。",
+          "当天两者分别新增 3027 和 2547 个 Star，第三名降到 997，断层说明这套叙事暂时获得更强注意力。为什么可能上涨？简介同时给出对象、动作和结果，读者能迅速判断它是否对应自己的调试或迁移问题；但这是解释候选，仓库没有在这份事实里提供成功率或覆盖范围。"
+        ]
+      },
+      {
+        "heading": "质量被拆成多个入口",
+        "paragraphs": [
+          "理解之后，约束开始分工。heydamir/unslop 要把带 AI 感的界面改成经过设计的界面，DietrichGebert/ponytail 借资深开发者的形象强调少写代码，nextlevelbuilder/ui-ux-pro-max-skill 则直接提供多平台设计智能。它们看似分散，实际都在回答成品应达到什么标准。",
+          "运行层面也在抢这个答案。affaan-m/ECC 把技能、记忆、安全和研究优先放进同一套优化叙述，obra/superpowers 则把技能框架与开发方法并列，deepseek-ai/deepseek-harness 以“一切皆插件”概括自己。入口不同，说明质量尚未收束成统一标准，更像若干局部闸门同时受关注。"
+        ]
+      },
+      {
+        "heading": "从生成规模转向结果收敛",
+        "paragraphs": [
+          "把这组项目放在一起看，增长对象像是从“谁能生成更多”转向“谁能把结果收敛”。界面去 AI 感检查交付外观，代码克制检查是否该继续生产，性能与安全配置检查长期运行，方法论检查流程是否可复用。Star 增量只能说明这些入口被看见，不能反推项目已经通过这些检查。",
+          "还有一个更基础的数字需要谨慎解释：样本仅覆盖 80 个近期活跃仓库。它不是整个 GitHub 的横截面，单日增长也可能受集中曝光影响。即便前排都是代理相关项目，也只能说这批样本里存在注意力聚集，不能据此宣布开发者社区已经形成统一风向。"
+        ]
+      },
+      {
+        "heading": "反例提醒不要过度归纳",
+        "paragraphs": [
+          "榜单没有完全被代理工具占满。awesome-selfhosted/awesome-selfhosted 仍是自托管服务清单，Djihads80/Eglantine 明确自述为非常实验性的模拟器，valentderah/totk-pc-recomp 则描述静态重编译。它们提示技术关注仍会流向系统项目、资源清单和实验性工作。",
+          "因此今天更稳妥的主线，是代理项目开始显式争夺质量定义权，而不是质量标准已经形成。对开发者而言，值得先读的是各项目如何定义理解、成品与停手条件；对数据而言，还要等连续窗口和仓库给出的可验证产物。单日高位是线索，不是结论。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-07 08:05 → 11-08 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3027,
+          "stars": 440981,
+          "note": "用代理逆向应用行为和原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 2547,
+          "stars": 20556,
+          "note": "理解软件原理并制作自己的实现"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 997,
+          "stars": 317687,
+          "note": "公开 .agents 目录中的工程技能"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 844,
+          "stars": 275740,
+          "note": "强调一切都是插件"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 634,
+          "stars": 11356,
+          "note": "将 AI 感界面改为经过设计的界面"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 603,
+          "stars": 188773,
+          "note": "Agent Skills 的公共仓库"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 600,
+          "stars": 299175,
+          "note": "集成技能、记忆、安全的优化系统"
+        },
+        {
+          "repo": "deepseek-ai/dsh-superagent-prototype",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "gain": 583,
+          "stars": 20814,
+          "note": "探索更自主的代理系统"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 rea 与 craft-anything 的领先能否维持，再观察 unslop、ponytail 和 ECC 是否继续同向增长。若质量型描述之外开始出现可核对的接口、边界或验收说明，这条主线才算从措辞进展到工程证据。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "storytold/craft-anything",
+        "url": "https://github.com/storytold/craft-anything"
+      },
+      {
+        "label": "heydamir/unslop",
+        "url": "https://github.com/heydamir/unslop"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-07 08:05 → 11-08 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
+    "date": "2026-11-07",
+    "issue": 9,
+    "title": "代理技能库开始沉淀工程判断",
+    "lede": "今天的高增长不只展示代理能做什么，也在尝试把资深开发者如何取舍写成可分发技能。与昨天的“打包工作方式”相比，新的变化是更多项目开始强调约束、停手条件和可插拔入口。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "先理解软件，再谈约束",
+        "paragraphs": [
+          "排在前列的项目仍把理解现有系统放在首位。morluto/rea 的简介指向借助代理逆向应用行为乃至原生程序，storytold/craft-anything 则强调先理解软件如何工作，再动手制作。两者单日增量分别为 3682 和 3071，说明复杂系统的可解释性仍是强需求。这比把自动执行说得更强更具体。",
+          "但这只是代理工作链的前半段。理解软件属于能力底座，并不自动等于已有可复用规则；若只看名次，容易把一次集中关注误读成通用捷径。更稳妥的看法，是先把这两项当作后续技能生效前的入口，而不是成品交付的直接证明。况且关注热度会被项目定位、表达清晰度和入口位置共同放大，不能替代可重复的实测结果。"
+        ]
+      },
+      {
+        "heading": "技能包开始写入判断",
+        "paragraphs": [
+          "更值得看的变化出现在榜单中段。mattpocock/skills 直接公开作者 .agents 目录中的技能，新增关注达到 1510；heydamir/unslop 则要把带有 AI 感的界面改造成经过设计的界面。它们分别把现成工作习惯和成品审美写成约束，而非只堆叠功能入口。这种差别决定了热度是否能变成可迁移经验。",
+          "另一种约束来自“何时少做”。DietrichGebert/ponytail 用资深开发者的轻松形象表达代码克制，简介还把最好的代码说成没有写出的代码；affaan-m/ECC 则把技能、记忆、安全和研究优先放进同一套优化表达。这里真正稀缺的，是能说清停手条件的判断。能在相似任务里减少返工，才比口号更有价值。"
+        ]
+      },
+      {
+        "heading": "插件层争夺复用入口",
+        "paragraphs": [
+          "运行层也在吸收这些工作纪律。deepseek-ai/deepseek-harness 以“一切都是插件”描述自身，事实文件里的 dsh-plugin 主题覆盖三个仓库，合计关注增量达到 6307；ccch1mneyyy/dsh-Go 又把手机本机运行和遥控电脑放进同一简介。入口与规则正在彼此靠近。",
+          "不过，插件化和方法论都不能被榜单直接验证。合计数字会随样本入选仓库而变，单日窗口也可能放大集中曝光。目前能确认的只是注意力向运行接口和可复用规则靠拢，至于它是不是长期标准，还要看后续项目是否持续给出可核对的使用边界。未来可查的接口文档和失败案例，比口号式扩张更能判断复用价值。"
+        ]
+      },
+      {
+        "heading": "反例校正主线",
+        "paragraphs": [
+          "今天并非所有增长都能用代理技能解释。Djihads80/Eglantine 只以非常实验性的 Switch 2 模拟器自述，仍进入增速前十五；awesome-selfhosted 仍凭自托管服务清单获得关注。实验项目与长期清单同时出现，提醒读者不要用单一框架覆盖整张榜。关注只说明被看见，不能证明这些项目已经稳定。",
+          "还有些项目只能看，不能替它补故事。worldonlyu/Google_AI_Pro_2Year_ZeroCost_Auto 的简介基本只是仓库名，没有足够信息判断它具体做什么，现阶段适合标记为待观察。主线因此应保留不确定性：这更像一天的注意力切片，不是生态已经定型。一次榜单更像一次采样，接下来的连续变化才更有解释力。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-06 08:05 → 11-07 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3682,
+          "stars": 437954,
+          "note": "借助代理逆向应用行为与原生程序"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 3071,
+          "stars": 18009,
+          "note": "理解软件原理并制作自己的版本"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 1510,
+          "stars": 316690,
+          "note": "公开作者 .agents 目录中的技能"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1500,
+          "stars": 12921,
+          "note": "手机本机运行，也能遥控电脑"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 1125,
+          "stars": 274896,
+          "note": "以插件为一切的核心设计"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 956,
+          "stars": 10722,
+          "note": "把 AI 感界面改成设计过的界面"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 716,
+          "stars": 298575,
+          "note": "覆盖技能、记忆、安全和研究优先"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 621,
+          "stars": 185846,
+          "note": "让代理采用资深开发者的克制思路"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看这些技能仓库是否继续上涨，再看新增关注是否伴随清楚的输入、边界和验收说明；同时观察插件主题的集中度能否维持，以及实验性项目会不会迅速降温。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills"
+      },
+      {
+        "label": "DietrichGebert/ponytail",
+        "url": "https://github.com/DietrichGebert/ponytail"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-06 08:05 → 11-07 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-06",
     "issue": 8,
     "title": "代理项目开始打包工作方式",
