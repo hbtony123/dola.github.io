@@ -1,5 +1,123 @@
 [
   {
+    "date": "2026-11-10",
+    "issue": 12,
+    "title": "代理能力向手机和成品应用下沉",
+    "lede": "今天最值得注意的不是又一个代理框架，而是入口形态的变化：手机端和现成应用同时进入高增长区。Android 主题增量最高，不过前排也混入影视客户端和游戏重编译，不能把它们误读成同一条技术路线。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "注意力转向可直接打开的入口",
+        "paragraphs": [
+          "前几期反复出现的技能库、插件框架和代理优化，今天仍在前排，却没有独占叙事。样本里 Android 主题以 7716 的合计增量排在第一，覆盖 7 个仓库；这比再出现一套代理框架更能说明，注意力正在寻找可直接落地的端。",
+          "morluto/rea 仍是总榜第一，但它的简介同时把代理、应用行为与原生二进制放在一起，主题里还有 android、agent-skills 与 dsh-plugin。这里能确认的是能力边界扩到了移动应用相关语境，不能据此断定它就是完整的手机端产品。",
+          "代理主线因此没有消失，只是表达方式更接近入口。开发者真正要判断的，是一项能力能否进入已有工作流，而不只是仓库说明里是否再次出现 agent 这个词。"
+        ]
+      },
+      {
+        "heading": "手机不只是遥控器",
+        "paragraphs": [
+          "ccch1mneyyy/dsh-Go 的简介给出更具体的方向：手机本机运行，也能遥控电脑；主题同时合并 android、ai-agent、coding-agent 与 deepseek-harness。这个组合值得关注，因为它把代理入口从桌面终端挪到随身设备，同时保留远端执行这一层。",
+          "但事实文件没有给出安装量、权限范围、同步方式或实际兼容性，手机只是入口并不自动等于更好用。结合 HGhub 的 android、windows 主题，可确认跨端和现成客户端是当天注意力的一部分；它作为 YellowFruit 第三方客户端，与代理工程属于不同问题，不能强行归为同一生态。"
+        ]
+      },
+      {
+        "heading": "成品体验提供另一条增长线",
+        "paragraphs": [
+          "另一边，成品体验的吸引力并不比开发框架弱。HGhub 自述是 YellowFruit 第三方客户端，主题覆盖 android、movie-web-app、reels 与 windows；Hookshot 的自述直指《时之笛》Switch 2 重制的原生重编译。两者都首先给出一个用户容易辨识的对象。",
+          "这类项目近期在 Star 增长里冲得很快，能解释为何榜单不能只按 AI 主题筛选。它们是否值得投入，却要回到简介之外的兼容性、维护状态和实际使用边界；当日事实不足以回答这些问题，最好先当作候选，而非成熟替代品。"
+        ]
+      },
+      {
+        "heading": "把聚类信号降级为假设",
+        "paragraphs": [
+          "代理相关主题仍很厚：dsh-plugin 主题覆盖 3 个仓库，合计增量 5558。数量不多，却出现在头部项目里，说明插件化接口仍有扩散迹象；但它与 android、claude-code、agent-skills 等主题重叠，不能把各标签的增量相加当作新增用户。",
+          "更稳妥的读法是，今天出现了入口多样化的假设：代理能力向手机挪动，成品客户端和游戏重编译提供注意力反例，技能和插件仍是底座。固定样本只有 80 个仓库，单日窗口也可能被集中曝光放大，需要后续快照验证。",
+          "对开发者的价值不在于赶上标签，而在于按自己的使用场景核验：手机入口是否保留权限和失败退出，第三方客户端是否交代数据边界，插件方案是否能被当前工具加载。事实只够提出这些问题，不能替读者给出答案。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-09 08:05 → 11-10 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 3165,
+          "stars": 446889,
+          "note": "面向应用与二进制分析的代理工具"
+        },
+        {
+          "repo": "Minireel/HGhub",
+          "url": "https://github.com/Minireel/HGhub",
+          "gain": 2648,
+          "stars": 5911,
+          "note": "YellowFruit 第三方客户端"
+        },
+        {
+          "repo": "NotRexed/Hookshot",
+          "url": "https://github.com/NotRexed/Hookshot",
+          "gain": 1914,
+          "stars": 4966,
+          "note": "《时之笛》Switch 2 重制原生重编译"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1860,
+          "stars": 24417,
+          "note": "理解软件原理并制作自己的实现"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1502,
+          "stars": 17539,
+          "note": "手机上运行，也能遥控电脑"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 1320,
+          "stars": 190929,
+          "note": "公开的代理技能仓库"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 1218,
+          "stars": 319713,
+          "note": "来自作者 .agents 目录的工程技能"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 891,
+          "stars": 277354,
+          "note": "插件化的 DeepSeek Harness"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 Android 相关仓库是否继续形成多点增长，而不只是 HGhub 的单日冲高；再看手机端代理项目能否获得新的持续证据，以及插件主题是否仍有跨仓库支撑。若两类项目都回落，今天的入口下沉应降级为一次短线聚集。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "ccch1mneyyy/dsh-Go",
+        "url": "https://github.com/ccch1mneyyy/dsh-Go"
+      },
+      {
+        "label": "Minireel/HGhub",
+        "url": "https://github.com/Minireel/HGhub"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-09 08:05 → 11-10 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-09",
     "issue": 11,
     "title": "代理热度从头部项目转向技能底座",
