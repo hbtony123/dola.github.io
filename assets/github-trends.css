@@ -328,6 +328,42 @@
   gap: 10px;
 }
 
+/* 抖音圈信号：来自「GitHub很棒」的人工策展信号 */
+.trend-signal { margin-top: clamp(34px, 6vh, 52px); }
+.signal-note {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.signal-list {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.signal-item {
+  padding: clamp(18px, 3vw, 24px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.signal-link {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.signal-link:hover { color: var(--accent); border-bottom-color: var(--accent-line); }
+.signal-desc {
+  margin: 8px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--body);
+}
+
 .archive-item {
   display: grid;
   grid-template-columns: 6.4em minmax(0, 1fr);

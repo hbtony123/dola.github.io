@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>20,123 个文件的跨机归档：流式打包、两个编码坑与零差异校验 — Dola</title>
+<meta name="description" content="把 Windows 上 3GB 旧资料收进 Mac 备份库的全过程：流式管道、编码坑、长路径陷阱，以及拿"逐项零差异"当验收标准。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-14-cross-machine-archive-verify.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-14-cross-machine-archive-verify.html">
+<meta property="og:title" content="20,123 个文件的跨机归档：流式打包、两个编码坑与零差异校验">
+<meta property="og:description" content="不落中转盘、不打断长任务：一次跨机归档里踩到的编码与计数陷阱，和最后一个都不差的清单校验。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-14 · 技术笔记 · 运维</p>
+    <h1 data-reveal style="--d:.06s">20,123 个文件的跨机归档<br>流式打包、两个编码坑与零差异校验</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      把 Windows 上一批 3GB 的旧资料收进 Mac 备份库。
+      不落中转盘、不在会话超时里翻车，
+      最后拿"逐项零差异"——而不是"没报错"——当验收标准。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      任务本身很朴素：一台 Windows 机器的磁盘角落躺着一批不再使用但值得留档的资料，
+      要完整搬进主力机的备份库。麻烦都在细节里——数据传输走哪条路、
+      长任务怎么不被打断、以及最后拿什么证明"搬全了"。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>让数据只走一次</h2>
+      <p>
+        新一点的 Windows 自带打包工具，可以直接"边打包边输出到管道"。
+        于是方案是：源端打包到标准输出 → SSH 管道 → 目标机这边边接收边压缩落盘。
+        中转盘、二次写入都省了，排除清单（几个可以再生成的大目录、
+        安装包）也直接写在打包命令里，一步到位。
+        大约 1GB 的原始数据，压缩后 345MB，局域网上十几秒传完。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>坑一：远程执行 PowerShell 的编码</h2>
+      <p>
+        想在图省事用一条命令把脚本送到远端执行，第一次就栽了：
+        中文字符全部变成乱码，远端报"命令未找到"。
+        原因是这种"编码后传脚本"的机制期待的是 UTF-16 的字节序，
+        直接按 UTF-8 编码发过去，脚本在远端就是一串无法解析的字节。
+        正确做法是先转成 UTF-16、再转成传输用的文本编码。
+        这种坑的烦人之处在于：报错信息本身也是乱码，看不出原因。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>坑二：清单对比永远对不上</h2>
+      <p>
+        归档完自然要比对：源端有哪些文件、包里有哪些文件，两边列出来对比。
+        结果第一次比对，整个清单被判成"完全不同"。两个原因叠加：
+        归档包内部的文件名是 UTF-8，而 Windows 控制台吐出来的清单是本地编码（GBK）；
+        再加上 Windows 的行尾是回车加换行，两边逐字节比当然全不一样。
+        正确姿势：先把源端清单整体转码成 UTF-8、统一去掉回车，再排序对比。
+        处理完这一步，差异瞬间归零。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.34s">
+      <h2>坑三：Windows 数文件数不准</h2>
+      <p>
+        中途想用"数文件个数"做粗校验，发现目标机解压后反而比源端"多出"28 个文件。
+        排查后才知道：Windows 上常见的目录遍历对超长路径（240 字符以上）
+        会静默跳过——这批资料里这样的深层路径有一千多条。
+        所以两边的"数量"都不可全信，尤其 Windows 侧偏少。
+        最终的判定不能落在计数上，必须落到逐项的清单对比上。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>长任务不要挂在会话里</h2>
+      <p>
+        第一次传输挂在一次工具调用里跑，三分钟一到调用超时、连接被掐断，前功尽弃。
+        第二次改成：在目标机上写一个小脚本，放到后台运行，进度写进状态文件，
+        外面定期读一次状态。真正传输只花了 13 秒——但换来的是"无论外面怎么折腾，
+        传输不受影响"。补充一句：macOS 上没有 Linux 上那些现成的进程管理小工具，
+        后台加免密脚本要另走一套非交互密码的方案，这套方案本身也值得写下来备用。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.38s">
+      <h2>验收：零差异才算完</h2>
+      <p>
+        最终验收四件事：源端清单与包内清单逐项对比，20,123 项零差异；
+        压缩包算 SHA256 记录进归档说明；抽样解压，关键文件逐个打开确认可用；
+        源目录先保留——归档验证通过之后再清理，删除动作永远与归档动作分开进行。
+      </p>
+      <p>
+        跨机归档最常见的错觉是"命令没报错 = 归档成功"。
+        真正的验收只有一条：源端的每一项，在包里都能找到，一项不多、一项不少。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.42s">
+      本文依据 2026-11-14 的一次真实跨机归档整理写成。
+      文中不写具体账号、内部地址和凭据。
+      <a href="../notes.html">回到笔记</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-name">Dola</span>
+      <p>少做一点，做好一点。</p>
+      <a class="foot-mail" href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+    <nav class="foot-col" aria-label="页脚导航">
+      <h3>栏目</h3>
+      <a href="../works.html">作品</a>
+      <a href="../notes.html">笔记</a>
+      <a href="../github-trends.html">趋势</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Dola.cn</span>
+    <span>保持简单，保持好奇</span>
+  </div>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

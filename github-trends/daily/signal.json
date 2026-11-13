@@ -1,0 +1,30 @@
+{
+ "updated_at": "2026-11-14T04:14:47+08:00",
+ "source": {
+  "name": "GitHub很棒",
+  "url": "https://www.douyin.com/user/MS4wLjABAAAANefXK7YlCiaeG-hvh4kXnypOwLBCCyKw-s2notX_DVBjHGfK3kvjN7MaogffTdyf"
+ },
+ "items": [
+  {
+   "id": "7706419833977474354",
+   "title": "这个项目可以把你的 Switch 游戏直接运行在 iPhone、iPad 和 Mac 上",
+   "desc": "它不是传统模拟器，而是在构建时把游戏代码重写成原生 ARM64，图形调用直接转换到 Metal。Windows 和 Mac 都有图形化启动器，导入游戏和密钥后就能构建安装，多个游戏还能放在同一个 App 里。它也支持 AI Agent 自动构建、安装和排查错误",
+   "likes": "168",
+   "url": "https://www.douyin.com/video/7706419833977474354"
+  },
+  {
+   "id": "7703096689615326527",
+   "title": "这个项目可以直接在电脑里控制米家设备，不用每次都打开手机",
+   "desc": "用米家 App 扫码就能同步家里的灯、空调和传感器，苹果电脑还能用拼音首字母搜索设备，直接调亮度和温度。它支持按住快捷键说话控制，也能接 DeepSeek处理复杂指令。Mac 锁屏时可以自动关灯，离开时一键关闭多个设备，误操作还能撤销",
+   "likes": "69",
+   "url": "https://www.douyin.com/video/7703096689615326527"
+  },
+  {
+   "id": "7702385961874902298",
+   "title": "拍片哥女装是一个收录了 1407 张 AI 服装设计图的在线图库，按春夏秋冬、派对、泳装等八个类别整理，支持中英文搜索",
+   "desc": "选中一套衣服，再上传自己的照片，就能通过 AI 生成换装效果。它支持 OpenAI、Gemini、豆包，也能接本地 ComfyUI，API Key 和模型地址都可以自己配置。不接 AI 服务也能免费浏览图库、搭配服装，生成的试穿记录则保存在浏览器本地",
+   "likes": "156",
+   "url": "https://www.douyin.com/video/7702385961874902298"
+  }
+ ]
+}
