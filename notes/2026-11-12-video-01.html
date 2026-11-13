@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>网络能打开，远程设备却失联：一次出口冲突的教训 — Dola</title>
+<meta name="description" content="用通俗方式看懂统一上网出口、DNS 接管和 Tailscale 失联之间的关系，并学会检查旧工具是否还在抢网络控制权。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-12-video-01.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-12-video-01.html">
+<meta property="og:title" content="网络能打开，远程设备却失联：一次出口冲突的教训">
+<meta property="og:description" content="网页还能打开，远程设备却突然找不到了。问题可能不是网络坏了，而是两个工具在争同一个开关。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-12 · 视频学习 · 01</p>
+    <h1 data-reveal style="--d:.06s">网络能打开<br>远程设备却失联</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      这条视频讲的是一次真实的网络事故：电脑换了一套统一的上网出口，
+      网页看起来还能打开，负责远程互联的 Tailscale 却突然找不到设备。
+      真正的原因不是网络彻底坏了，而是一个早已停用的旧工具仍在接管 DNS。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      先把“出口”想成家里通往外部的总门。电脑访问 Google、GitHub、OpenAI，
+      都得经过一扇门。视频把这件事集中交给一个网络工具处理，
+      再按不同网站选择免费节点。好处是入口集中、出了问题容易查；
+      风险是只要有一条旧规则没退干净，所有连接都可能一起受影响。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>问题出在“地址查询”被抢走了</h2>
+      <p>
+        DNS 可以理解成网络的地址簿：你输入网站名字，它负责找到对应的地址。
+        视频里，一个已经废弃的旧工具仍在自动接管这件事。于是，
+        Tailscale 也按被改过的地址簿去找控制服务，结果找不到，
+        远程设备自然就失联了。
+      </p>
+      <p>
+        这说明“网页能打开”并不等于网络全都正常。普通浏览、代理出口和远程互联
+        可能依赖不同的路径。表面症状是 Tailscale 掉线，根因却藏在另一套旧配置里。
+        后来，旧工具的守护进程被禁用，冲突才被移走。
+      </p>
+      <div class="callout">
+        <strong>排查先找冲突，不要继续加工具</strong><br>
+        当一条链路失联时，先确认有没有旧工具仍在改地址查询或网络路径。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>一套能照着做的检查顺序</h2>
+      <p>
+        第一，列出正在自动接管代理、VPN、DNS 和远程接入的工具。
+        第二，查清每一个是否还在运行，尤其是已经不再使用、却仍会开机启动的旧工具。
+        第三，只保留一个负责网络出口的角色，避免两套规则同时生效。
+      </p>
+      <p>
+        改完以后要分别验收：普通网站能否打开，目标服务能否访问，
+        另一台已获授权的设备能否找到这台电脑。三项都通过，才算恢复；
+        只测网页，很容易把“还能上网”误当成“远程连接也没问题”。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>免费节点能救急，但不是长期保障</h2>
+      <p>
+        视频使用免费节点分担部分网站访问。这类节点适合作为摘要中描述的临时出口，
+        但不应当被理解为稳定、私密或长期可用的服务。
+        网络程序也需要定期整理：停用旧方案、记下每条规则负责什么，
+        比出事后继续叠加新的“优化工具”可靠得多。
+      </p>
+      <p>
+        安全边界同样重要。远程服务不应随意暴露到公网，接入设备应遵守已经划定的范围和权限。
+        视频还整理了新设备接入方法和地址速查，但这些内容涉及具体环境；
+        给普通读者的原则只有一条：先确认权限和范围，再让设备接入。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>今天就能做的一次检查</h2>
+      <p>
+        打开电脑的网络相关设置，找出所有会自动修改代理或 DNS 的工具，
+        先停掉其中已经不再使用的那一个。然后依次打开一个普通网站、
+        一个常用服务，再用另一台已授权设备发起一次远程连接。
+      </p>
+      <p>
+        如果远程连接失败，就先撤销最近一次改动，直到网页和远程连接同时恢复。
+        不要因为网页能用就继续往下配置；把一次小变更和一次完整验收配成一对，
+        下次就不会在断网时靠猜。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      来源页面：<a href="https://dola.cn/notes/2026-11-12-video-01.html">《网络能打开，远程设备却失联：一次出口冲突的教训》</a>。
+      原始摘要未提供公开可访问的视频链接，本文只据摘要整理，不补写摘要之外的网络细节。
+      回到 <a href="../notes.html">全部笔记</a>，或前往 <a href="../index.html">首页</a>。
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-name">Dola</span>
+      <p>少做一点，做好一点。</p>
+      <a class="foot-mail" href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+    <nav class="foot-col" aria-label="页脚导航">
+      <h3>栏目</h3>
+      <a href="../works.html">作品</a>
+      <a href="../notes.html">笔记</a>
+      <a href="../github-trends.html">趋势</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Dola.cn</span>
+    <span>保持简单，保持好奇</span>
+  </div>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

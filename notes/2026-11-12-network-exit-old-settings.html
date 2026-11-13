@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>免费出口能救急，旧网络设置却要先退场 — Dola</title>
+<meta name="description" content="一次远程设备失联事故的通俗复盘：网页正常不代表网络全好，停用旧工具时还要检查它留下的地址设置。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-12-network-exit-old-settings.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-12-network-exit-old-settings.html">
+<meta property="og:title" content="免费出口能救急，旧网络设置却要先退场">
+<meta property="og:description" content="网页能打开、远程设备却找不到：先分清访问路径，再把已经停用的旧工具彻底退场。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-12 · 视频学习 · 网络检查</p>
+    <h1 data-reveal style="--d:.06s">免费出口能救急，<br>旧网络设置却要先退场</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      这条视频复盘了一次很容易误判的故障：电脑还能打开普通网页，
+      另一台已经授权的设备却突然找不到它。问题不只是某条线路不稳，
+      而是停用旧工具后，它留下的地址设置仍在影响新的连接方式。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      可以把网络出口想成小区大门。访问不同网站时，请求可能走不同路线；
+      远程设备互连，又可能走另一条路。视频把常用网站的访问集中到一个出口，
+      再把线路不稳定时的切换交给统一的工具。这样便于管理，但也要求旧方案真正退干净。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>网页能打开，为什么远程设备仍会失联？</h2>
+      <p>
+        DNS 很像网络通讯录：输入名字后，由它帮忙找到实际地址。
+        视频里，一个已经废弃的工具仍自动接管了这套“查地址”的工作。
+        结果普通网站可能还能访问，远程连接所需的地址却查错了，设备自然就找不到了。
+      </p>
+      <p>
+        这也是事故最值得记住的地方：一个故障现象，不等于只有一条访问路径出了问题。
+        “网页正常”只能说明网页这条路暂时可用，不能替远程连接一起作证。
+      </p>
+      <div class="callout">
+        <strong>先分清路径，再判断谁坏了</strong><br>
+        普通网站、目标服务和远程设备要分别测试。三项结果不同，排查方向也会不同。
+      </div>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>正确的处理顺序：只改一层，再验证一层</h2>
+      <p>
+        视频没有继续叠加更多工具，而是让已经停用的后台程序停止接管网络设置，
+        保留当前出口，再检查哪些设备还能正常接入。这个顺序比“全部重启一遍”更有用，
+        因为每次只动一层，才能知道结果是谁造成的。
+      </p>
+      <p>
+        如果同时换节点、改地址设置、重启远程工具，即使最后恢复，也很难判断是哪一步有效。
+        下一次再出问题，仍然只能靠猜。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>免费线路和远程接入，都有明确边界</h2>
+      <p>
+        摘要提到用免费节点访问 Google、GitHub、OpenAI 等服务。免费线路适合临时救急，
+        但不该被理解成永远稳定、足够私密的长期方案。节点会变慢或失效，
+        涉及账号、付款和私密资料时，更不应只依赖来路不明的免费出口。
+      </p>
+      <p>
+        远程接入的边界同样要守住：只让已经确认身份的设备和规定范围内的设备接入，
+        不要把服务直接暴露给所有人。视频还整理了设备接入速查和安全原则；
+        对普通读者来说，记住“先确认权限和范围，再接入”就够了。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>今天就能做的一张网络体检卡</h2>
+      <p>
+        打开一个普通网站；再打开你真正要用的目标服务；最后用另一台已授权设备发起一次远程连接。
+        把三项分别写成“成功”或“失败”。如果只有远程连接失败，就先检查旧工具是否还在修改地址设置，
+        而不是立刻换掉整条网络。
+      </p>
+      <p>
+        改完一处后再测一遍。仍然失败就撤销这次改动，接着查下一层。
+        三行记录只花一分钟，却能避免把“网页还能打开”误判成“网络全部正常”。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      来源：本次视频学习摘要中提到的公开站点
+      <a href="https://gh-proxy.org/">gh-proxy.org</a>；原始摘要未提供可公开访问的视频地址。
+      本文只整理摘要里可公开描述的问题、方法和边界。
+      回到 <a href="../notes.html">全部笔记</a> 或 <a href="../index.html">首页</a>。
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-name">Dola</span>
+      <p>少做一点，做好一点。</p>
+      <a class="foot-mail" href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+    <nav class="foot-col" aria-label="页脚导航">
+      <h3>栏目</h3>
+      <a href="../works.html">作品</a>
+      <a href="../notes.html">笔记</a>
+      <a href="../github-trends.html">趋势</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Dola.cn</span>
+    <span>保持简单，保持好奇</span>
+  </div>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
