@@ -1,5 +1,122 @@
 [
   {
+    "date": "2026-11-13",
+    "issue": 15,
+    "title": "插件底座把代理工具带出桌面",
+    "lede": "今天前排更像是在搭建一种可移动的代理底座：核心 Harness 把插件当入口，手机端与反向工程项目又把同一思路带出桌面。标签汇总能显示关注集中，却还不能证明生态已经形成。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "三条增长线收束到插件",
+        "paragraphs": [
+          "与前几天比拼技能数量不同，本期更明显的信号是插件接口开始成为连接点。dsh-plugin 标签关联 3 个仓库，主题汇总的 Star 增量为 4366；它们分别落在反向工程、Android 客户端和 Harness 本体，说明关注并非只围着一个仓库打转。",
+          "这个汇总数字来自多个仓库的主题叠加，不是独立开发者或用户数，因此只能说明注意力集中。尤其三个项目处在不同层，若把它们写成同一产品矩阵，就会越过事实；更有把握的判断是插件接口正在承担共同语言的角色。"
+        ]
+      },
+      {
+        "heading": "手机端让底座换位置",
+        "paragraphs": [
+          "ccch1mneyyy/dsh-Go 把手机本机运行和遥控电脑同时写进简介，单日增加 1028 Star。它值得看的地方不是单纯“上手机”，而是把代理底座从固定工作台挪到随身设备，同时保留远程控制入口。",
+          "DeepSeek Harness 本体增加 790 Star，简介只有“Everything is a Plugin”这一句化表达，却与手机端形成互补：一个定义扩展方式，一个尝试改变运行位置。两者是否真的共享稳定接口，单日数据看不出来；手机端能否长期承接完整任务，也还需要后续观察。",
+          "从入口设计看，手机端与本体解决的是两个不同问题。手机让使用位置更灵活，插件则决定能力如何被拆装；两者由同一组主题连接，才形成今天的叙事。但事实文件没有给出插件数量、兼容范围、安装方式或使用反馈，因此不能进一步推导它们已经具备怎样的实际可用性，只能把这种组合看作待验证的路线。"
+        ]
+      },
+      {
+        "heading": "技能仓库仍在争夺默认动作",
+        "paragraphs": [
+          "插件并非唯一入口。mattpocock/skills 增长 990 Star，简介直接把它定位为面向真实工程师的技能，并说明来源是个人 agents 目录；ECC 又把技能、记忆、安全与调研流程并列。这里竞争的不是某个仓库的功能清单，而是代理默认先做什么。",
+          "这类项目对开发者的价值取决于能否审查。一个技能若只给出口号，没有清楚边界，Star 增长也只是注意力。相反，能说明何时触发、何时拒绝、哪些内容可复用的项目，即使排名靠后，也更容易被团队真正采用。"
+        ]
+      },
+      {
+        "heading": "非代理项目提醒别过度聚类",
+        "paragraphs": [
+          "前排并不全是代理底座。GestaltX 的简介是面向 iOS 的 MobileGestalt 编辑器，增加 741 Star；它更像单一平台上的实用工具，与插件化并不共享明显机制。把当天所有涨幅都塞进“代理基础设施”，会把相关性说得过满。",
+          "更稳妥的阅读方式，是区分本体、扩展、客户端和独立工具。插件标签的增长提供了方向，但样本只有固定范围内的公开仓库，重复主题还会互相叠加。今天可以把它当作值得跟踪的结构信号，不能当作“生态已经成熟”的结论。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-12 08:05 → 11-13 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2548,
+          "stars": 455234,
+          "note": "代理反向分析应用行为与原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1443,
+          "stars": 29805,
+          "note": "理解软件工作原理并复刻实现"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1028,
+          "stars": 20721,
+          "note": "手机本机运行并遥控电脑的 Harness"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 990,
+          "stars": 322999,
+          "note": "面向工程师，源自个人 agents 目录"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 790,
+          "stars": 279774,
+          "note": "以插件为基本单元的 Harness"
+        },
+        {
+          "repo": "huamidev/GestaltX",
+          "url": "https://github.com/huamidev/GestaltX",
+          "gain": 741,
+          "stars": 6939,
+          "note": "MobileGestalt 编辑与设备预设备份"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 658,
+          "stars": 302017,
+          "note": "代理性能优化，覆盖技能与安全"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 638,
+          "stars": 189778,
+          "note": "让代理采用精简代码策略"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天继续看 DeepSeek Harness 与其手机端是否出现更清楚的插件边界，也看新增增长是否仍由同一主题贡献。若插件只在少数高 Star 仓库间集中，或手机端没有更多可核验说明，这更像一次注意力峰值；反之，再看跨项目复用的证据。",
+    "sources": [
+      {
+        "label": "deepseek-ai/deepseek-harness",
+        "url": "https://github.com/deepseek-ai/deepseek-harness"
+      },
+      {
+        "label": "ccch1mneyyy/dsh-Go",
+        "url": "https://github.com/ccch1mneyyy/dsh-Go"
+      },
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-12 08:05 → 11-13 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-12",
     "issue": 14,
     "title": "热门项目转向现有产物的再加工",
