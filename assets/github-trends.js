@@ -93,11 +93,9 @@ function renderEntry(entry, options = {}) {
       item.append(make("span", "evidence-rank", String(index + 1).padStart(2, "0")));
 
       const main = make("span", "evidence-main");
-      const link = make("a", "evidence-repo", row.repo);
-      link.href = row.url || `https://github.com/${row.repo}`;
-      link.rel = "noopener noreferrer";
-      link.target = "_blank";
-      main.append(link);
+      const repo = make("span", "evidence-repo", row.repo);
+      // 外部链接原则上不放：只显示仓库名，不指向 github.com
+      main.append(repo);
       if (row.note) main.append(make("span", "evidence-note", row.note));
       item.append(main);
 
@@ -125,11 +123,8 @@ function renderEntry(entry, options = {}) {
     line.append(document.createTextNode("参考："));
     entry.sources.forEach((source, index) => {
       if (index > 0) line.append(document.createTextNode(" · "));
-      const link = make("a", "", source.label || source.url);
-      link.href = source.url;
-      link.rel = "noopener noreferrer";
-      link.target = "_blank";
-      line.append(link);
+      // 外部链接原则上不放：只显示来源文字，不加链接
+      line.append(make("span", "", source.label || source.url));
     });
     foot.append(line);
   }
