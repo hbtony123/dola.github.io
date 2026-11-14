@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>每个新网页都慢 2 秒：一次 VPN 接管 DNS 的排查记录 — Dola</title>
+<meta name="description" content="网页能打开，但每个未缓存的域名都要等 2 秒。ping 正常、带宽正常，问题藏在系统 DNS 的解析顺序里：一个 VPN 隧道把自己注册成了优先级最高的解析器。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-14-vpn-dns-hijack.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-14-vpn-dns-hijack.html">
+<meta property="og:title" content="每个新网页都慢 2 秒：一次 VPN 接管 DNS 的排查记录">
+<meta property="og:description" content="ping 正常、带宽正常，慢在一个 VPN 隧道注册的 DNS 解析器上：A 记录要 2 秒，AAAA 只要 27 毫秒。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-14 · 技术笔记 · 网络</p>
+    <h1 data-reveal style="--d:.06s">每个新网页都慢 2 秒：一次 VPN 接管 DNS 的排查记录</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      网页能打开，但每个没缓存过的域名都要等 2 秒。ping 正常、带宽正常，问题藏在系统的 DNS 解析顺序里。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      现象很怪：同一个网站第二次打开瞬间就出来，换一个新的域名就卡两秒。测带宽、测 ping 全部正常，
+      只有"第一次"的那一下卡住。这个特征本身就说明问题：两秒是一个整齐的等待值，不是网速慢，是某个环节在等超时。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一、分层测：链路、解析、代理分开看</h2>
+      <p>
+        先测网关（0.6ms）、再测公网 IP（0.5ms），都正常，说明链路没问题。接着逐个 DNS 服务器对比：
+        本机 192.168.0.103 上的解析服务 30ms 就回，10.42.100.1 的隧道 DNS 却要 2 秒多。
+        但直接 <code>dig</code> 单问一个服务器时速度并不总是慢，按缓存状态飘忽。
+      </p>
+      <p>
+        真正露馅的是对比记录类型：同一个服务器，查 A 记录（IPv4）要 2078ms，查 AAAA 记录（IPv6）只要 27ms。
+        两秒跟网络毫无关系，是这个 DNS 服务自己内部在等什么。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>二、找到优先级最高的那个解析器</h2>
+      <p>
+        <code>scutil --dns</code> 里，排在第一位的解析器不是手动设置的公共 DNS，而是一块隧道网卡 utun7 上的
+        10.42.100.1，标记 <code>Supplemental</code>、order 104400——这个数值比普通网卡的解析器小，系统会优先问它。
+        也就是说，在路由器/网卡里设置 223.5.5.5 根本轮不到用。
+      </p>
+      <p>
+        查进程时间线：这个 VPN 工具是前一天晚上装的，当天上午才自动启动；它启动之后，默认路由也被改指向隧道网卡。
+        对一下时间，"今天网站变慢"和"VPN 今天开始跑"完全重合。
+      </p>
+      <p>
+        把隧道进程停掉之后，默认路由立刻回到物理网卡（gateway 192.168.0.1），域名解析从 2005ms 掉到 15~20ms，
+        新域名、老域名都正常。到此把原因钉死了：不是运营商、不是路由器、不是 DNS 服务本身坏了，
+        是一个 VPN 把优先级更高的解析器挂到了系统上。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>三、为什么手动设置的 DNS 会被"顶掉"</h2>
+      <p>
+        macOS 的 DNS 不是"你填什么就用什么"。VPN 类工具通过网络扩展（Network Extension）获得权限后，
+        可以向系统注册自己的解析器，并带上 supplemental 标记和小 order 值，从而排在用户配置之前。
+        设置面板里的 DNS 看起来还在，实际查询根本不走它。
+      </p>
+      <p>
+        这类工具通常还会同时接管默认路由和系统代理（HTTP/SOCKS），形成一个完整的流量出口。
+        好处是干净，坏处是——它自己的 DNS 出问题时，整个系统的解析一起遭殃，而且用户从设置界面完全看不出来。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>四、留下的教训</h2>
+      <p>
+        "网慢"先分层：链路（ping）→ 解析（dig 逐服务器、A/AAAA 分开计时）→ 代理（逐工具确认谁在接管路由）。
+        两秒整的延迟几乎总是"超时等待"，不是带宽问题。
+      </p>
+      <p>
+        装了 VPN、加速器、安全软件，就默认它们可能改了 DNS 和路由。出事先看 <code>scutil --dns</code>
+        里 resolver 的顺序和 <code>route -n get default</code> 的网卡，比在设置页里翻来翻去有效得多。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      继续读 <a href="2026-11-14-router-dhcp-stale-dns.html">退役的电脑还在发 DNS：路由器 DHCP 里的死地址</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-name">Dola</span>
+      <p>少做一点，做好一点。</p>
+      <a class="foot-mail" href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+    <nav class="foot-col" aria-label="页脚导航">
+      <h3>栏目</h3>
+      <a href="../works.html">作品</a>
+      <a href="../notes.html">笔记</a>
+      <a href="../github-trends.html">趋势</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Dola.cn</span>
+    <span>保持简单，保持好奇</span>
+  </div>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>

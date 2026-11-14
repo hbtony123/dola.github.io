@@ -58,6 +58,27 @@
 
 
 
+
+<article class="note" data-reveal style="--d:.02s">
+    <time datetime="2026-11-14">2026 年 11 月 14 日 · 技术笔记 · 网络</time>
+    <h2>每个新网页都慢 2 秒：一次 VPN 接管 DNS 的排查记录</h2>
+    <p>
+      网页能打开，但每个没缓存过的域名都要等 2 秒。ping 正常、带宽正常，
+      慢在一个 VPN 隧道注册的 DNS 解析器上：A 记录要 2 秒，AAAA 只要 27 毫秒。
+    </p>
+    <a class="link" href="notes/2026-11-14-vpn-dns-hijack.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
+<article class="note" data-reveal style="--d:.04s">
+    <time datetime="2026-11-14">2026 年 11 月 14 日 · 维护日志 · 网络</time>
+    <h2>退役的电脑还在发 DNS：路由器 DHCP 里的死地址</h2>
+    <p>
+      一台早已下线的旧电脑，仍被路由器 DHCP 当成备用 DNS 下发给全网设备。
+      Mac 和 Windows 都在为它等超时——一次以续租为验收标准的清理。
+    </p>
+    <a class="link" href="notes/2026-11-14-router-dhcp-stale-dns.html">读全文 <span aria-hidden="true">→</span></a>
+  </article>
+
 <article class="note" data-reveal style="--d:.02s">
     <time datetime="2026-11-14">2026 年 11 月 14 日 · 维护日志 · 资料整理</time>
     <h2>两台电脑的 AI 资料总览：把散落的四个系统收进一张图</h2>
@@ -134,26 +155,6 @@
       拆开看，大头是两次一次性任务留下的签名克隆和中文化补丁副本。
     </p>
     <a class="link" href="notes/2026-10-31-hidden-cache-forensics.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.02s">
-    <time datetime="2026-10-31">2026 年 10 月 31 日 · 技术笔记 · 技能</time>
-    <h2>把一次排障做成技能：下次只报症状，不再重新研究</h2>
-    <p>
-      一次性修复的成本不在操作，而在重新判断。把触发条件、执行路径、
-      验收和回滚写进技能，下一次就只剩执行。
-    </p>
-    <a class="link" href="notes/2026-10-31-problem-to-skill.html">读全文 <span aria-hidden="true">→</span></a>
-  </article>
-
-<article class="note" data-reveal style="--d:.02s">
-    <time datetime="2026-10-31">2026 年 10 月 31 日 · 技术笔记 · 技能</time>
-    <h2>技能的三层：触发、执行、验收</h2>
-    <p>
-      很多“技能”只是文档。真正能被下次直接调用的技能，
-      至少有触发、执行、验收三层，外加一层版本维护。
-    </p>
-    <a class="link" href="notes/2026-10-31-skill-three-layers.html">读全文 <span aria-hidden="true">→</span></a>
   </article>
 
 <nav class="pager" aria-label="笔记分页">

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05060e">
+<title>退役的电脑还在发 DNS：路由器 DHCP 里的死地址 — Dola</title>
+<meta name="description" content="一台早已下线的旧电脑，仍被路由器 DHCP 当成备用 DNS 下发给全网设备。从 Mac 到 Windows，每台新联网的机器都在为它等超时。一次以续租为验收标准的清理。">
+<link rel="canonical" href="https://dola.cn/notes/2026-11-14-router-dhcp-stale-dns.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://dola.cn/notes/2026-11-14-router-dhcp-stale-dns.html">
+<meta property="og:title" content="退役的电脑还在发 DNS：路由器 DHCP 里的死地址">
+<meta property="og:description" content="设备退役不只关电源：DHCP 里残留的 DNS 地址会让全网设备陪它一起等超时。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="site-header wrap">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".28"/>
+      <circle cx="16" cy="16" r="8.6" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-dasharray="40 14" transform="rotate(-70 16 16)"/>
+      <circle cx="16" cy="16" r="3.1" fill="currentColor"/>
+    </svg>
+    <span>Dola</span>
+  </a>
+  <nav class="nav" aria-label="站点导航">
+    <a href="../works.html">作品</a>
+    <a href="../notes.html" aria-current="page">笔记</a>
+    <a href="../github-trends.html">趋势</a>
+    <a href="../about.html">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker" data-reveal>2026-11-14 · 维护日志 · 网络</p>
+    <h1 data-reveal style="--d:.06s">退役的电脑还在发 DNS：路由器 DHCP 里的死地址</h1>
+    <p class="lede" data-reveal style="--d:.14s">
+      设备退役不只是关电源。它还可能在路由器的 DHCP 配置里继续上班，拖慢全网每一台设备。
+    </p>
+  </div>
+
+  <div class="prose">
+    <p data-reveal style="--d:.20s">
+      查网速时发现系统解析器列表里有两个 DNS：一个是本机地址，一个是 192.168.0.201。
+      后者是已经退役下线的旧电脑的地址。ping 它，100% 丢包；dig 它，三秒超时。
+      但每个新联网的设备都还在拿它当备用 DNS。
+    </p>
+
+    <section class="section" data-reveal style="--d:.24s">
+      <h2>一、死地址从哪来：DHCP 租约</h2>
+      <p>
+        <code>ipconfig getpacket en0</code> 会显示路由器 DHCP 实际下发的配置：
+        <code>domain_name_server: {192.168.0.103, 192.168.0.201}</code>。
+        也就是说这不是哪台电脑自己配的，是路由器发的。
+      </p>
+      <p>
+        原因不难猜：旧电脑曾经在本机跑 DNS 服务（广告过滤之类），当时在路由器 DHCP 里把它设成了备用 DNS。
+        后来电脑退役关机，路由器的配置没人改，这个死地址就一直发下去。
+        Mac 收到它会把它放进系统解析兜底链，Windows 收到它也有同样的表现。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.28s">
+      <h2>二、症状：不止慢，还可能直接上不了网</h2>
+      <p>
+        备用 DNS 的坏处不在平时。主 DNS 能答的时候你感觉不到它；一旦主 DNS 停止服务
+        （比如这次把本机 AdGuard 停掉），所有设备只能去问那个死地址，
+        表现就是网页完全打不开、nslookup 连续超时——Windows 上尤其明显，因为它的解析器不像 macOS
+        那样会并行询问多个服务器。
+      </p>
+      <p>
+        排查时 <code>ping</code> 是通的、TCP 能连、IP 直连也正常，唯独域名解析全挂。
+        这种"网络能通但域名全解不出来"的组合，先查 DNS 服务器地址，别急着怀疑网线或者运营商。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.32s">
+      <h2>三、修复：改路由器，然后以续租为验收</h2>
+      <p>
+        修复只改一处：路由器 DHCP 服务器设置里的首选/备用 DNS，改成公共 DNS（223.5.5.5 和 119.29.29.29）。
+        已故设备相关的地址全部删除，本机 AdGuard 停用后它那个地址也一并去掉。
+      </p>
+      <p>
+        改完保存"设置成功"不等于修复完成——已经联网的设备手里还是旧租约。
+        真正的验收标准是<strong>客户端续租后拿到新值</strong>：
+        Mac 上 <code>ipconfig set en0 DHCP</code> 续租，再看 DHCP 包里 DNS 变成公共 DNS；
+        Windows 上 <code>ipconfig /renew</code> 之后 <code>nslookup</code> 默认服务器变成新地址、网页恢复。
+        全部通过，才算修好。
+      </p>
+    </section>
+
+    <section class="section" data-reveal style="--d:.36s">
+      <h2>四、设备退役清单，多一条"改 DHCP"</h2>
+      <p>
+        一台机器下线，通常大家记得拆电线、删账号，但网络配置里的痕迹最容易漏：
+        路由器 DHCP 的 DNS、静态地址绑定、端口转发、hosts 文件、定时任务里指向它的 IP。
+        这些残留不会立刻报错，会以"偶尔慢""莫名其妙上不了网"的形式，隔几周咬你一次。
+      </p>
+    </section>
+
+    <p class="tail" data-reveal style="--d:.40s">
+      继续读 <a href="2026-11-14-vpn-dns-hijack.html">每个新网页都慢 2 秒：一次 VPN 接管 DNS 的排查记录</a>，
+      或回到 <a href="../notes.html">全部笔记</a>。
+      <a href="../index.html">回到首页</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-name">Dola</span>
+      <p>少做一点，做好一点。</p>
+      <a class="foot-mail" href="mailto:hello@dola.cn">hello@dola.cn</a>
+    </div>
+    <nav class="foot-col" aria-label="页脚导航">
+      <h3>栏目</h3>
+      <a href="../works.html">作品</a>
+      <a href="../notes.html">笔记</a>
+      <a href="../github-trends.html">趋势</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Dola.cn</span>
+    <span>保持简单，保持好奇</span>
+  </div>
+</footer>
+<script src="../assets/comets.js" defer></script>
+</body>
+</html>
