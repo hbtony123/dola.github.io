@@ -273,47 +273,14 @@ async function loadIndex(attempt = 1) {
   }
 }
 
-els.backButton.addEventListener("click", () => {
-  if (!state.entries.length) return;
-  const url = new URL(location.href);
-  url.searchParams.delete("d");
-  history.replaceState(null, "", url);
-  selectEntry(state.entries[0].date, true);
-});
-
-/* 抖音圈信号：来自「GitHub很棒」的每日精选，独立数据文件，缺失即整块隐藏 */
-(async () => {
-  const section = document.getElementById("douyin-signal");
-  if (!section) return;
-  try {
-    const res = await fetch("github-trends/daily/signal.json", { cache: "no-store" });
-    if (!res.ok) return;
-    const data = await res.json();
-    const items = (Array.isArray(data.items) ? data.items : []).filter((i) => i && i.title);
-    if (!items.length) return;
-    const list = document.getElementById("signal-list");
-    for (const it of items.slice(0, 3)) {
-      const li = document.createElement("li");
-      li.className = "signal-item";
-      const a = document.createElement("a");
-      a.className = "signal-link";
-      a.href = it.url || "https://www.douyin.com/";
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.textContent = it.title;
-      const p = document.createElement("p");
-      p.className = "signal-desc";
-      p.textContent = it.desc || "";
-      li.append(a, p);
-      list.append(li);
-    }
-    const note = document.getElementById("signal-note");
-    const when = String(data.updated_at || "").slice(5, 16).replace("T", " ");
-    note.textContent = `人工策展的补充信号：抖音博主 @GitHub很棒 每天讲一个热门开源项目（更新于 ${when}）。`;
-    section.hidden = false;
-  } catch (error) {
-    /* 没有信号数据就保持隐藏，不影响主内容 */
-  }
-})();
+if (els.backButton) {
+  els.backButton.addEventListener("click", () => {
+    if (!state.entries.length) return;
+    const url = new URL(location.href);
+    url.searchParams.delete("d");
+    history.replaceState(null, "", url);
+    selectEntry(state.entries[0].date, true);
+  });
+}
 
 loadIndex();
