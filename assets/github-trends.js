@@ -2,6 +2,10 @@
 
 const INDEX_URL = "github-trends/daily/index.json";
 
+/* 页面形态：archive = 往期归档页（只渲染列表，条目链接回主页）；main = 今日观察页 */
+const PAGE_KIND =
+  document.body.getAttribute("data-trends-page") === "archive" ? "archive" : "main";
+
 const els = {
   kicker: document.querySelector("#hero-kicker"),
   dateline: document.querySelector("#data-dateline"),
@@ -159,6 +163,7 @@ function renderEntry(entry, options = {}) {
 }
 
 function renderArchive() {
+  if (!els.archive) return;
   els.archive.replaceChildren();
   if (!state.entries.length) {
     els.archive.append(make("li", "archive-empty", "还没有往期。"));
@@ -167,20 +172,33 @@ function renderArchive() {
 
   for (const entry of state.entries) {
     const item = make("li");
-    const button = make("button", "archive-item");
-    button.type = "button";
-    button.setAttribute("aria-current", String(entry.date === state.current.date));
 
-    const dateLabel = String(entry.date).slice(5).replace("-", " / ");
-    button.append(make("span", "archive-date", dateLabel));
+    if (PAGE_KIND === "archive") {
+      const link = make("a", "archive-item");
+      link.href = `github-trends.html?d=${entry.date}`;
+      const dateLabel = String(entry.date).slice(5).replace("-", " / ");
+      link.append(make("span", "archive-date", dateLabel));
+      const text = make("span", "archive-text");
+      text.append(make("span", "archive-title", entry.title));
+      if (entry.lede) text.append(make("span", "archive-snippet", entry.lede));
+      link.append(text);
+      item.append(link);
+    } else {
+      const button = make("button", "archive-item");
+      button.type = "button";
+      button.setAttribute("aria-current", String(entry.date === state.current.date));
 
-    const text = make("span", "archive-text");
-    text.append(make("span", "archive-title", entry.title));
-    if (entry.lede) text.append(make("span", "archive-snippet", entry.lede));
-    button.append(text);
+      const dateLabel = String(entry.date).slice(5).replace("-", " / ");
+      button.append(make("span", "archive-date", dateLabel));
 
-    button.addEventListener("click", () => selectEntry(entry.date, true));
-    item.append(button);
+      const text = make("span", "archive-text");
+      text.append(make("span", "archive-title", entry.title));
+      if (entry.lede) text.append(make("span", "archive-snippet", entry.lede));
+      button.append(text);
+
+      button.addEventListener("click", () => selectEntry(entry.date, true));
+      item.append(button);
+    }
     els.archive.append(item);
   }
 }
@@ -203,6 +221,14 @@ function selectEntry(date, scroll) {
 }
 
 function showError(message) {
+  if (PAGE_KIND === "archive") {
+    if (els.archive) {
+      els.archive.replaceChildren(
+        make("li", "archive-empty", "往期列表暂时读不到，刷新页面可以重试。")
+      );
+    }
+    return;
+  }
   const box = make("div", "");
   box.append(make("p", "dispatch-status", "今天的观察暂时读不到。"));
   box.append(make("p", "dispatch-status", message));
@@ -221,6 +247,20 @@ async function loadIndex(attempt = 1) {
     if (!entries.length) throw new Error("empty index");
 
     state.entries = entries;
+
+    if (PAGE_KIND === "archive") {
+      renderArchive();
+      const count = document.querySelector("#archive-count");
+      if (count) {
+        count.textContent = `共 ${entries.length} 期 · 持续更新，每天 08:45`;
+      }
+      return;
+    }
+
+    const linkSub = document.querySelector("#archive-link-sub");
+    if (linkSub) {
+      linkSub.textContent = `已更新 ${entries.length} 期 · 查看全部`;
+    }
     els.kicker.textContent = `GITHUB · 每日观察 · 第 ${entries[0].issue || entries.length} 期`;
     selectEntry(requestedDate() || entries[0].date, false);
     els.back.hidden = state.current === entries[0];
