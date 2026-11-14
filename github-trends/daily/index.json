@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-14",
+    "issue": 16,
+    "title": "代理项目从扩能转向可验收",
+    "lede": "今天的高增长不再只比拼代理能接入什么，而更像在给结果寻找可验收的锚点：要么以现有系统为对象，要么把最终产物限制得更具体。这个信号已经跨过多类项目，但仍不足以证明它已成为稳定路线。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "先给代理一个对象",
+        "paragraphs": [
+          "最强的注意力仍落在能够指明工作对象的项目上。rea 把范围写成从应用行为到原生二进制，craft-anything 则把理解软件与制作自己的版本连成一条路径；两者今日分别新增 2400 和 1601 个 Star，继续把先读系统、再交结果放在前排。",
+          "这类项目的可验收性不来自简介里的代理标签，而来自输入对象相对明确：待分析的软件或二进制就在读者手里。事实没有给出成功率、覆盖范围或失败样本，因此只能确认它们让人更容易判断适用场景，不能确认实际完成质量。"
+        ]
+      },
+      {
+        "heading": "可查询资料成为代理地基",
+        "paragraphs": [
+          "另一种锚点来自材料层。graphify 把代码库、文档、SQL 结构、配置和 PDF 汇入可查询的知识图谱，主题落在代码分析与搜索；firecrawl 则把网页数据接给代理。前者新增 535 个 Star，后者增加 293 个，指向的是让输出之前先有可查的输入。",
+          "把资料汇入图谱或抓取层，能让代理面对更具体的上下文，但事实没有说明图谱准确率、抓取稳定性或处理边界。接上数据不等于答案可靠；读者需要区分可查询的原料与经过验证的结论，后者仍要等项目给出可重复的验证方法。"
+        ]
+      },
+      {
+        "heading": "从多写转向少错",
+        "paragraphs": [
+          "产出约束也在变得具体。ponytail 自称让代理像最懒的资深开发那样思考，并强调最好的代码是从未写过的代码；unslop 的目标是把看起来由 AI 生成的界面改成经过设计的界面；ECC 则把技能、本能、记忆、安全和调研优先并列。它们不是同一种工具，却都在给代理增加停止条件或质量门槛。",
+          "这种共同点比再列一组能力更值得关注，因为能力越多，验收通常越难。但简介只能说明主张，无法证明规则真被执行。若没有边界、失败处理和对照结果，少写代码或改善外观都可能只是口号，不能仅凭关注上涨就当作工程方法。尤其这些简介分别只强调少写、界面和优化，并未展示如何处理权限冲突或何时停止。"
+        ]
+      },
+      {
+        "heading": "集中度支持假设，尚不支持结论",
+        "paragraphs": [
+          "标签层面也显示，讨论并未缩在单个仓库。claude-code 与 agent-skills 都覆盖多个仓库；前者合计新增 4967 个 Star，后者新增 3575 个。不过这两组标签与 rea、ponytail 等项目明显重叠，Star 也不能换算成独立用户，所以只能说明注意力集中，不能证明同一批读者已经转向某种统一验收方法。",
+          "前排之外仍有无法归档的样本。NX2navi 简介为空，只能记作先观察项；把它硬塞进代理或验证叙事，会制造没有依据的联系。今天的判断更像一组同向信号：对象更明确、材料更可查、产出门槛更具体，但还缺连续窗口和真实用例。只有当不同作者的项目都交出一致、可复现的边界，主线才配得上转向二字。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-13 08:05 → 11-14 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2400,
+          "stars": 457634,
+          "note": "代理从应用行为逆向到原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1601,
+          "stars": 31406,
+          "note": "理解任意软件并制作自己的版本"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 813,
+          "stars": 323812,
+          "note": "面向工程师的代理技能集"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 718,
+          "stars": 280492,
+          "note": "以插件为基本单元的 Harness"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 577,
+          "stars": 190355,
+          "note": "引导代理采用少写代码策略"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 548,
+          "stars": 15662,
+          "note": "把 AI 风格界面改造成设计化界面"
+        },
+        {
+          "repo": "Graphify-Labs/graphify",
+          "url": "https://github.com/Graphify-Labs/graphify",
+          "gain": 535,
+          "stars": 147283,
+          "note": "代码库资料转为可查询知识图谱"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 467,
+          "stars": 317228,
+          "note": "技能框架与软件开发方法"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天看 graphify 与 unslop 能否继续同向增长，以及 rea、craft-anything 是否仍以现有系统为对象。若新增项目开始说明验证方法和失败边界，可验收这一判断才更稳；若只剩头部惯性，应降级为单日聚集。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify"
+      },
+      {
+        "label": "DietrichGebert/ponytail",
+        "url": "https://github.com/DietrichGebert/ponytail"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-13 08:05 → 11-14 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-13",
     "issue": 15,
     "title": "插件底座把代理工具带出桌面",

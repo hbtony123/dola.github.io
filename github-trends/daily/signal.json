@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T04:14:47+08:00",
+ "updated_at": "2026-11-14T08:25:16+08:00",
  "source": {
   "name": "GitHub很棒",
   "url": "https://www.douyin.com/user/MS4wLjABAAAANefXK7YlCiaeG-hvh4kXnypOwLBCCyKw-s2notX_DVBjHGfK3kvjN7MaogffTdyf"
@@ -9,7 +9,7 @@
    "id": "7706419833977474354",
    "title": "这个项目可以把你的 Switch 游戏直接运行在 iPhone、iPad 和 Mac 上",
    "desc": "它不是传统模拟器，而是在构建时把游戏代码重写成原生 ARM64，图形调用直接转换到 Metal。Windows 和 Mac 都有图形化启动器，导入游戏和密钥后就能构建安装，多个游戏还能放在同一个 App 里。它也支持 AI Agent 自动构建、安装和排查错误",
-   "likes": "168",
+   "likes": "172",
    "url": "https://www.douyin.com/video/7706419833977474354"
   },
   {
