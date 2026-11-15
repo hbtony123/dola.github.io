@@ -1,5 +1,123 @@
 [
   {
+    "date": "2026-11-15",
+    "issue": 17,
+    "title": "代理工具向软件生命周期各处扩散",
+    "lede": "今天的增长不只来自某个代理模型或单一技能，而是分散到理解软件、查询资料、设计界面和组织开发流程。它们看起来像一条更完整的软件生产链，但项目简介尚不能证明这些环节已经真正衔接。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "增长分散到不同工序",
+        "paragraphs": [
+          "最直观的变化，是前排项目不再都把自己包装成单一聊天入口。rea 把应用行为到原生二进制的理解纳入范围，craft-anything 则把理解软件与自行构建放到同一个目标里；两者今日新增 2206 和 1344 Star，继续提供最显眼的需求信号。",
+          "往后看，graphify 把代码库、文档、SQL 配置和 PDF 汇总为知识图谱，UI/UX 技能面向跨平台界面设计，Superpowers 把技能框架与开发方法并列。它们分别对应对既有系统的理解、资料查询、界面产出和流程组织，单点能力出现分层。"
+        ]
+      },
+      {
+        "heading": "底座与流程被一起封装",
+        "paragraphs": [
+          "这些项目并非简单堆在同一标签下。DeepSeek Harness 以插件作为组织方式，ECC 同时列出技能、本能、记忆、安全与调研优先，Superpowers 则直接提出开发方法。关注点正在从单个动作扩展到代理如何进入开发过程。",
+          "主题汇总也支持这种分层。agent-skills 关联项目的 Star 增量为 3390，claude-code 覆盖 7 个仓库，mcp 覆盖 9 个；这些数字存在重叠，不能相加当作独立用户，但足以说明注意力分散在接口、协议与工程方法上。",
+          "与前几天只讨论技能作者或插件位置不同，今天更突出的证据是工序开始连成线：先理解系统，再整理上下文，随后约束设计和开发。是否真能连成线仍要看项目间协作，而不是看主题是否相邻。"
+        ]
+      },
+      {
+        "heading": "界面与规范进入同一条链",
+        "paragraphs": [
+          "代理项目的评价标准也在外扩。ponytail 用少写代码表达工程取舍，unslop 试图把带有 AI 感的界面改造成经过设计的界面，UI/UX 技能把设计智能列为核心能力。它们共同说明，代码之外的外观和克制开始被视为代理产出的一部分。",
+          "这对读者的意义是把试用问题问得更具体：它能否在某一步减少返工，而不是能否包办整个项目。事实只给出一句简介和若干主题，没有给出质量评价或任务结果；因此，界面、少写代码或调研优先都只能作为待核验的取舍，不能直接当作成熟方法。"
+        ]
+      },
+      {
+        "heading": "完整链条仍缺闭环证据",
+        "paragraphs": [
+          "最需要警惕的是把叙事补齐当成证据补齐。项目描述可以写理解任意软件、查询任意代码库或提供开发方法，却没有说明权限边界、失败条件以及环节之间的数据如何传递；这些缺口决定它更像能力拼盘，还是可以稳定运行的流程。",
+          "反例也还在。self-hosted 列表与 yt-dlp 仍是具体工具需求，ANR 的简介只有产品名称且主题为空，无法据此判断它在链条中的位置。今天的增长可以概括为软件生命周期上的多点出现，不能据此说代理已经接管完整开发流程。",
+          "值得花时间的是能清楚回答输入、输出和审查点的项目。若只承诺跨阶段而无法展示阶段间交接，读者应先把它当作方法提案；反过来，能让你用一个真实任务验证边界的项目，哪怕简介不宏大，也更有投入价值。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-14 08:05 → 11-15 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2206,
+          "stars": 459840,
+          "note": "代理用于逆向工程与二进制分析"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1344,
+          "stars": 32750,
+          "note": "理解软件运行方式并自行构建"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 598,
+          "stars": 281090,
+          "note": "以插件组织代理能力"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 588,
+          "stars": 303044,
+          "note": "优化代理并覆盖多种工程能力"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 562,
+          "stars": 190917,
+          "note": "以少写代码约束代理取向"
+        },
+        {
+          "repo": "Graphify-Labs/graphify",
+          "url": "https://github.com/Graphify-Labs/graphify",
+          "gain": 476,
+          "stars": 147759,
+          "note": "代码库与文档转为知识图谱"
+        },
+        {
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+          "gain": 423,
+          "stars": 149516,
+          "note": "为多平台界面提供设计智能"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 419,
+          "stars": 317647,
+          "note": "代理技能框架与开发方法"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天看今天的高增长能否继续分布在理解、查询、设计与流程组织，而不是退回头部惯性；同时核对 rea、craft-anything 和 ECC 是否出现更具体的输入输出说明。若只有名称与口号增长，完整生命周期仍只是观察假设。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "storytold/craft-anything",
+        "url": "https://github.com/storytold/craft-anything"
+      },
+      {
+        "label": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-14 08:05 → 11-15 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-14",
     "issue": 16,
     "title": "代理项目从扩能转向可验收",
