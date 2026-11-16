@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-16",
+    "issue": 18,
+    "title": "代理工具分叉：可移植技能与原生底座",
+    "lede": "今天前排不只是更多代理技能，而是出现两条包装路线：一套能力尽量跨客户端运行，另一套把插件、手机和远程控制做成原生底座。两者都在涨，但事实还不足以判断哪条路线更适合真实工作。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "增长分成两条路线",
+        "paragraphs": [
+          "今天的注意力没有只落在一种代理入口上，而是分成可移植能力与原生运行环境两种包装。ECC 的简介点名 Claude Code、Codex、Opencode、Cursor 等客户端，Graphify 的简介把同一技能投向多个命令行代理；两者今日分别增加 793 和 653 Star，说明跨客户端兼容正在被写进产品叙事。",
+          "界面技能也在走同一方向。ui-ux-pro-max-skill 的主题横跨 Claude、Codex、Copilot 与 Cursor，简介则强调多平台界面设计；这类项目的卖点不是某个客户端独有按钮，而是一套可复制的工作规范。事实没有给出兼容差异和实际产出质量，所以可移植目前仍只能说是有意设计，不能当成已验证结论。"
+        ]
+      },
+      {
+        "heading": "插件底座仍押原生体验",
+        "paragraphs": [
+          "另一条路线相反，先把运行位置和扩展方式定下来。dsh-Go 的简介写到手机本机运行与遥控电脑，今日增加 1018 Star；DeepSeek Harness 把 Everything is a Plugin 放在简介中央，增加 517 Star。一个移动入口，一个插件组织方式，都在争夺代理的默认工作台，而不是只提供跨工具规则。",
+          "这种原生化能减少用户在多个客户端间拼装流程，但也可能把能力、数据和习惯拢进更深的入口。当前事实只说明关注强度，没有提供安装范围、插件数量、任务成功率或跨设备数据如何流转。因此，原生底座是否真比可移植技能稳定，现阶段只能作为待验证的产品假设。"
+        ]
+      },
+      {
+        "heading": "技能仓库变成分发层",
+        "paragraphs": [
+          "在这两条路线之上，技能仓库像发行渠道一样承托共同的供给。anthropics/skills 明确写是 Agent Skills 的公开仓库，mattpocock/skills 则把面向真实工程师的技能与个人 agents 目录联系起来；它们同时进入前排，说明读者关注的不只是单个技巧，还有成套规则从哪里来、由谁维护。",
+          "但成套本身不是质量证明。unslop 承诺把 AI 感界面变成经过设计的界面，ponytail 用少写代码表达工程取舍，ECC 又把技能、本能、记忆、安全和调研优先并列。它们的简介给出了明确方向，却都没有说明何时失效、如何审查；读者应先看能否在真实任务中复现，再决定是否把整套习惯带进项目。"
+        ]
+      },
+      {
+        "heading": "热闹之外仍有空白",
+        "paragraphs": [
+          "前排最大涨幅并未完全服从这条主线。rea 的简介强调用代理从应用行为一路反向到原生二进制，craft-anything 则强调理解软件并制作自己的版本；它们证明理解既有系统仍是独立焦点。把它们全部算进跨客户端竞争，会让相关性和因果关系混在一起。",
+          "证据不足的项目也应保留空白。deepseek-ai/chat-demo 的简介只有 Chat Demo，主题为空；ANR 的简介也只是产品名称与英文全称。前者不能据此推断功能完整度，后者也不能仅凭名称确认具体用途。今天的路线分叉是有数字支撑的观察，不是对成熟度或采用率的判决。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-15 08:05 → 11-16 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2089,
+          "stars": 461929,
+          "note": "代理从应用行为反向到原生二进制"
+        },
+        {
+          "repo": "deepseek-ai/chat-demo",
+          "url": "https://github.com/deepseek-ai/chat-demo",
+          "gain": 1204,
+          "stars": 2941,
+          "note": "简介仅写 Chat Demo，主题为空"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1018,
+          "stars": 23741,
+          "note": "手机本机运行并遥控电脑"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 966,
+          "stars": 33716,
+          "note": "理解软件并制作自己的版本"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 793,
+          "stars": 303837,
+          "note": "面向多种代理客户端优化执行"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 752,
+          "stars": 16749,
+          "note": "把 AI 风格界面改造成设计界面"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 726,
+          "stars": 195348,
+          "note": "Agent Skills 的公开仓库"
+        },
+        {
+          "repo": "Graphify-Labs/graphify",
+          "url": "https://github.com/Graphify-Labs/graphify",
+          "gain": 653,
+          "stars": 148412,
+          "note": "多类资料转为可查询知识图谱"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看可移植技能是否继续同步上涨，以及 dsh-Go 与 DeepSeek Harness 能否守住原生路线。更要观察简介之外是否出现兼容范围、失败边界和可复现任务；只有这些信息补上，两条路线才算有可比较的依据。",
+    "sources": [
+      {
+        "label": "affaan-m/ECC",
+        "url": "https://github.com/affaan-m/ECC"
+      },
+      {
+        "label": "ccch1mneyyy/dsh-Go",
+        "url": "https://github.com/ccch1mneyyy/dsh-Go"
+      },
+      {
+        "label": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-15 08:05 → 11-16 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-15",
     "issue": 17,
     "title": "代理工具向软件生命周期各处扩散",
