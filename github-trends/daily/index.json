@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-17",
+    "issue": 19,
+    "title": "技能仓库开始打包个人工作法",
+    "lede": "今天增长靠前的技能项目，卖点不再只是某个动作，而是把一整套带作者判断的开发习惯塞进代理。技能仓库开始像方法论的发行包，但简介还不能证明这套习惯适合所有人。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "从单项能力到整套习惯",
+        "paragraphs": [
+          "前排项目正在把零散技巧收拢成组合。ECC 的简介同时列出技能、本能、记忆、安全与调研优先，今日增加 799 Star；Superpowers 则把技能框架和软件开发方法并列。关注点已从会不会用一个技能，转向一套流程能否长期约束代理。",
+          "mattpocock/skills 的简介更直白：面向真实工程师的技能，直接来自作者的 .agents 目录。它不是把能力按功能分类，而是把一个人的代理工作区当成样品展示。这样的仓库更像作者方法的快照，读者拿到的是一组有前因后果的选择。"
+        ]
+      },
+      {
+        "heading": "带立场的默认值更容易被记住",
+        "paragraphs": [
+          "技能要成为方法，就不能只给代理增加动作，还要给出默认取舍。ponytail 让代理像最懒的资深开发者思考，并把没写出来的代码视为更好结果；unslop 针对带 AI 感的界面；ui-ux-pro-max-skill 则把设计智能作为核心。它们的共同点是先替用户做了一道价值判断。",
+          "这类项目增长快，可以理解为开发者不只想扩充工具，还想减少每次重新交代标准的成本。但这是解释，不是事实已经证明的因果。简介能说明作者希望代理怎么做，不能说明规则在中大型项目、多轮修改和不同技术栈里是否仍然成立。"
+        ]
+      },
+      {
+        "heading": "清晰对象仍是更硬的卖点",
+        "paragraphs": [
+          "方法包并非唯一上升路径。rea 把工作对象写成从应用行为到原生二进制，craft-anything 则把理解软件与制作自己的版本放在一起；它们仍占据最前排。越具体的对象越方便读者判断是否要试用，这种清晰度并不依赖一整套个人哲学。",
+          "Graphify 也提供了一种中间路线：把代码库、文档、SQL 结构和 PDF 汇成可查询的知识图谱，并通过技能形式接入多种代理。它既有一套做法，又有明确输入。相比只强调“更好思考”的技能，这种能指出材料去向的项目更容易被实际核验。"
+        ]
+      },
+      {
+        "heading": "方法论需要留下退出条件",
+        "paragraphs": [
+          "把个人工作法装进技能仓库，风险也随之放大。作者偏好的少写、调研优先或界面风格，可能在小任务里有效，却未必适合所有团队。当前事实没有给出维护节奏、规则冲突处理、失败案例或多人协作方式，因此热度只能说明关注集中，不能说明方法已经通用。",
+          "反例同样清楚。deepseek-ai/chat-demo 的简介只有 Chat Demo，主题为空，不能据此推断用途或成熟度；前排之外还出现免费 API、自托管软件和从零构建教程等传统清单。今天的主线是技能产品化，不应把全部增长强行解释成同一种方法论扩散。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-16 08:05 → 11-17 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 2168,
+          "stars": 464097,
+          "note": "代理从应用行为反推到原生二进制"
+        },
+        {
+          "repo": "deepseek-ai/chat-demo",
+          "url": "https://github.com/deepseek-ai/chat-demo",
+          "gain": 1112,
+          "stars": 4053,
+          "note": "简介仅写 Chat Demo，主题为空"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1048,
+          "stars": 34764,
+          "note": "理解软件并制作自己的版本"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 799,
+          "stars": 304636,
+          "note": "技能、记忆、安全与调研优先开发"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 780,
+          "stars": 325945,
+          "note": "面向真实工程师的技能，来自作者目录"
+        },
+        {
+          "repo": "deepseek-ai/deepseek-harness",
+          "url": "https://github.com/deepseek-ai/deepseek-harness",
+          "gain": 724,
+          "stars": 282331,
+          "note": "以插件组织代理工具"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 714,
+          "stars": 192159,
+          "note": "让代理像最懒的资深开发者思考"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 685,
+          "stars": 196033,
+          "note": "Agent Skills 的公开仓库"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天看技能仓库是否继续用整套方法而非单个技巧吸引关注，也看 ECC、Superpowers 与 mattpocock/skills 是否补充失败边界、冲突处理和真实任务说明。若只剩口号与个人风格，这条主线应降级为短期聚集。",
+    "sources": [
+      {
+        "label": "affaan-m/ECC",
+        "url": "https://github.com/affaan-m/ECC"
+      },
+      {
+        "label": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers"
+      },
+      {
+        "label": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-16 08:05 → 11-17 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-16",
     "issue": 18,
     "title": "代理工具分叉：可移植技能与原生底座",
