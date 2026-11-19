@@ -1,5 +1,122 @@
 [
   {
+    "date": "2026-11-19",
+    "issue": 21,
+    "title": "Star 增量正在向大仓库聚拢",
+    "lede": "今天的热度不像一次新项目发现，而更像已有大仓库重新聚拢注意力：前排多数项目已有庞大 Star 存量。这个分布能说明关注落在哪里，却不能单独解释为什么。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "前排多是已有大盘",
+        "paragraphs": [
+          "最醒目的两项几乎并肩：obra/superpowers 今日新增 1996，morluto/rea 增加 1969。它们并非从零冒出的陌生名字，快照里已有三十多万和四十多万 Star。多数前排项目同样带着十万级以上的存量，前排增量明显偏向已经积累了大量关注的仓库。",
+          "这不等于大项目自动占优。一天之内的高增量可能来自集中传播，也可能只是原有受众的再次活跃；事实文件没有提供流量来源、更新时间或事件背景，所以只能确认结果向大仓库倾斜，不能补写原因。"
+        ]
+      },
+      {
+        "heading": "通用承诺扩大可读性",
+        "paragraphs": [
+          "几项增长靠前的代理项目有一个共同外观：简介在承诺可迁移的通用工作。Superpowers 把技能框架与开发方法并列，rea 把对象写成从应用行为到原生二进制，ECC 则把性能优化扩展到技能、记忆、安全与调研流程。范围越宽，读者越容易把自己的问题映射进去。",
+          "但通用描述也使验证变难。没有任务样本和失败边界时，“方法有效”“性能优化”或“逆向任何东西”都只是目标声明。Star 增长证明这些目标容易被理解和转发，还没有证明它们在具体工程中稳定兑现。"
+        ]
+      },
+      {
+        "heading": "小基数并非没有机会",
+        "paragraphs": [
+          "反例很突出。krisgfx9/Wireless-Device-Battery-Monitor 在不到四千 Star 的基础上增加 1311，增速比多数大仓库更抢眼；简介只讲在 Windows 任务栏显示无线鼠标、耳机、键盘和手柄电量，问题窄，产物也具体。这类边界清楚的项目值得直接打开验证。",
+          "craft-anything 与 dsh-Go 也提醒我们不能只看规模。前者把理解软件与制作自己的版本放在一起，后者强调手机本机运行和遥控电脑。它们分别处在不同体量，却都靠清楚对象进入前排，说明大仓库聚拢是今天的分布特征，不是唯一增长路径。这种分布差异比项目列表本身更有解释力。"
+        ]
+      },
+      {
+        "heading": "一天榜单的证据边界",
+        "paragraphs": [
+          "把今天写成“用户正在回流成熟项目”会超出事实。样本只观察 80 个近期活跃仓库，Star 也不是实际使用人次；没有跨日连续比较，高增量可能很快回落。尤其前排集中度越高，少数项目的波动越容易改写叙事。",
+          "更值得做的判断是分两层：先承认注意力确实向已有大盘集中，再逐项检查这些通用承诺能否用可复核输入和失败案例约束。若明天增量仍落在同类大仓库，这条信号才更稳；若小工具继续冒头，今天更像一次短期分布。",
+          "对读者的实际选择也很直接：面对大仓库，先确认它提供的是可复用工作流，而不是把既有名气再次放大；面对小工具，则从一个明确任务开始验证。两者都不该只用 Star 增量替代试用。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-18 08:05 → 11-19 08:05",
+      "rows": [
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 1996,
+          "stars": 321304,
+          "note": "代理技能框架与软件开发方法论"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1969,
+          "stars": 468245,
+          "note": "用代理从应用行为逆向到原生二进制"
+        },
+        {
+          "repo": "krisgfx9/Wireless-Device-Battery-Monitor",
+          "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor",
+          "gain": 1311,
+          "stars": 3942,
+          "note": "在 Windows 任务栏显示无线设备电量"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1302,
+          "stars": 37005,
+          "note": "理解任意软件并制作自己的版本"
+        },
+        {
+          "repo": "ccch1mneyyy/dsh-Go",
+          "url": "https://github.com/ccch1mneyyy/dsh-Go",
+          "gain": 1171,
+          "stars": 27165,
+          "note": "手机本机运行代理，也可遥控电脑"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 998,
+          "stars": 194012,
+          "note": "让代理像资深开发者般克制写码"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 996,
+          "stars": 306479,
+          "note": "优化代理的流程、记忆与安全"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 710,
+          "stars": 327451,
+          "note": "来自作者代理目录的工程师技能"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 superpowers 与 rea 是否仍居前列，并对比 Wireless-Device-Battery-Monitor 的高增速能否延续。若大仓库继续吸走增量，再讨论关注回流；若小项目接棒，就把它记为一次分散波动。",
+    "sources": [
+      {
+        "label": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers"
+      },
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "krisgfx9/Wireless-Device-Battery-Monitor",
+        "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-18 08:05 → 11-19 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-18",
     "issue": 20,
     "title": "先读懂系统，再让代理动手",
