@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-20",
+    "issue": 22,
+    "title": "代理的下一战场：可验证地接管软件",
+    "lede": "前三席的项目都在承诺接管现成软件，但今天的差异不只在“能不能做”，而在“怎样证明做对”。从行为对照到可查询知识图谱，代理开始把系统理解做成可复核的中间层。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "可验证接管成为共同承诺",
+        "paragraphs": [
+          "rust-anything、rea 和 craft-anything 占据了当天前排，三者分别强调分步重写、逆向理解以及理解后自建。命名相近只是表象，真正的共同点是把代理从代码生成器推向现有系统的接管者，覆盖面也从普通应用延伸到原生二进制。",
+          "此前的讨论多停在“先读懂系统，再让代理动手”；今天的新进展是理解开始带有检查方式。rust-anything 把原程序录制的行为设为每步对照标准，这比只展示生成的代码更接近工程验收。另外两个项目的简介只说明目标，尚未给出同样清晰的验证闭环，因此价值仍需试用判断。"
+        ]
+      },
+      {
+        "heading": "知识层竞争浮出水面",
+        "paragraphs": [
+          "接管系统离不开可检索的材料。Graphify 把代码、文档、SQL 结构、配置和 PDF 收束成可查询知识图谱，Firecrawl 则把搜索、抓取和多来源数据接入放进一个 API。一个面向本地代码库，一个面向更广的数据获取，但都在给代理补事实层。",
+          "这类工具值得关注的地方，是它们试图把“模型恰好记得”改成“代理按需查到”。不过简介不能说明图谱是否准确、抓取是否稳定，也不能证明错误材料不会继续污染后续判断。Star 增长只证明这条需求容易理解，尚不构成效果背书。"
+        ]
+      },
+      {
+        "heading": "工作环境成为新的产品边界",
+        "paragraphs": [
+          "ECC、superpowers 与 deepseek-harness 都把产品范围写成可持续的工作环境，而不只是一次性提示。前者覆盖技能、本能、记忆、安全和研究流程，中间者强调技能框架与开发方法论，后者把扩展接口压缩成插件模型。它们的共同目标是让代理在一个可配置系统中持续工作。这使比较标准从功能清单转向行为约束、流程复用与插件兼容，读者也更容易找到自己的切入点。",
+          "ponytail 给出方向相反的产品表达：让代理像最懒的资深开发者，好代码是没写出来的代码。它仍属于代理开发工具，却在提醒读者，系统理解也包含识别不该改的地方。方向足够清楚，但简介无法证明它能在真实仓库里稳定减少无效改动。"
+        ]
+      },
+      {
+        "heading": "反例说明具体痛点仍有吸引力",
+        "paragraphs": [
+          "第 8 位的 Wireless-Device-Battery-Monitor 是当天明显的异类：它只解决 Windows 任务栏显示无线鼠标、耳机、键盘和手柄电量的问题，没有代理或抽象平台叙事，却仍录得 715 Star 净增。具体的桌面困扰依然能带来集中的关注。",
+          "这也提醒我们，不能把一天的高位全部解释成同一股 AI 潮流。电池工具可能只是一次偶发传播，“任何软件”类项目也可能因命名和范围而获得额外点击。要判断哪些值得投入时间，应继续看可重复结果、适用边界和公开失败案例，而不是只看能否用一句话讲出宏大承诺。一晚热度也不足以形成长期结论。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-19 08:05 → 11-20 08:05",
+      "rows": [
+        {
+          "repo": "erkamyaman/rust-anything",
+          "url": "https://github.com/erkamyaman/rust-anything",
+          "gain": 1826,
+          "stars": 5151,
+          "note": "分步重写，并对照原程序录制行为"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1729,
+          "stars": 469974,
+          "note": "用代理逆向软件行为与原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1457,
+          "stars": 38462,
+          "note": "理解软件原理后制作自己的版本"
+        },
+        {
+          "repo": "firecrawl/firecrawl",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "gain": 1018,
+          "stars": 204183,
+          "note": "为代理提供搜索、抓取和数据接入"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 825,
+          "stars": 194837,
+          "note": "让代理像资深开发者般克制写码"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 797,
+          "stars": 307276,
+          "note": "构建代理的技能、记忆、安全与研究流程"
+        },
+        {
+          "repo": "krisgfx9/Wireless-Device-Battery-Monitor",
+          "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor",
+          "gain": 715,
+          "stars": 4657,
+          "note": "显示无线外设电量，无需厂商软件"
+        },
+        {
+          "repo": "Graphify-Labs/graphify",
+          "url": "https://github.com/Graphify-Labs/graphify",
+          "gain": 478,
+          "stars": 150638,
+          "note": "将代码、文档与数据结构转为图谱"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先检验“可验证接管”能否延续：观察 rust-anything 是否继续领先，Graphify 能否补足系统理解层；同时看电池工具这类务实项目是否只是单日反例。",
+    "sources": [
+      {
+        "label": "erkamyaman/rust-anything",
+        "url": "https://github.com/erkamyaman/rust-anything"
+      },
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "storytold/craft-anything",
+        "url": "https://github.com/storytold/craft-anything"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-19 08:05 → 11-20 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-19",
     "issue": 21,
     "title": "Star 增量正在向大仓库聚拢",
