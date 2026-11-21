@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-21",
+    "issue": 23,
+    "title": "“Anything”升温，卖点是转换管线",
+    "lede": "今天排在前列的代理项目，名字常把范围写成“anything”，但简介真正划出的都是明确转换：从旧程序到新实现，从网页资料到代理知识，从 AI 界面到设计界面。热度押注的不是无所不能，而是可复用的改造管线。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "范围越大，交付物越具体",
+        "paragraphs": [
+          "前列代理项目中，“anything”频繁出现。Rea 把逆向对象写成从应用行为到原生二进制，rust-anything 把整应用分步改写成 Rust，每一步对照原程序录制行为，craft-anything 则把理解软件与制作自己的版本连在一起。前三名增量都超过一千，但简介给出的是起点、动作和终点，而不是无限能力。",
+          "这解释了它们为什么容易被记住，也暴露了筛选方法。读者不该只问它是否真能处理“任何东西”，而应看实际转换对象、中间证据和交付格式是否清楚。单日 Star 增量只能说明这些承诺被看见，不能说明成功率；尤其 craft-anything 的可用路径，仍需拿真实项目验证。"
+        ]
+      },
+      {
+        "heading": "补材料与修结果都在争夺入口",
+        "paragraphs": [
+          "改造能力之外，今天还有两类相邻工具。Firecrawl 把搜索、抓取和多家数据源接进一个 API，为代理补上外部知识输入；unslop 把带有 AI 痕迹的界面改成经过设计的界面，处理产出之后的审美修正。一个在入口端扩展材料，一个在末端降低返工，方向不同，却都围绕转换前后是否容易辨认。",
+          "这说明“anything”不是单一品类，而是从资料获取、代码理解、迁移到界面打磨的连续链路。问题在于链路越宽，验证成本越高。Firecrawl 的明确能力是统一接入，不能据此推断抓取质量；unslop 的简介只给出界面结果，没有说明怎样维持可维护性和一致性。"
+        ]
+      },
+      {
+        "heading": "减法工具证明约束也有吸引力",
+        "paragraphs": [
+          "ponytail 给出相反方向的例子：让代理像最懒的资深开发者思考，并声称最好的代码是从未写出来的代码。它和迁移类项目一个鼓励改造、一个鼓励克制，却都在处理对既有系统的控制。真实工程既要选择改什么，也要判断哪些需求根本不该新增实现。",
+          "不过，“懒惰”只是产品表达，不能当成工程质量的证据。简介没有提供减少代码后的回归验证方式，也没有说明何时这种策略会失效。它更适合拿来检查过度设计，不适合替代需求判断。增长表明这种表达容易引发共鸣，尚不足以证明它能稳定改善交付。"
+        ]
+      },
+      {
+        "heading": "生态扩散与单日反例并存",
+        "paragraphs": [
+          "主题汇总更能说明扩散范围。claude-code 覆盖 8 个仓库，增量合计 5721；agent-skills 覆盖 5 个，合计 4311。专项改造工具、mattpocock/skills 与 superpowers 这类技能框架，以及知识和界面工具，都在同一生态。这更像工作流多环节同时被看见，而非单项目独立走红。",
+          "反例也很重要。Wireless-Device-Battery-Monitor 只是在 Windows 任务栏显示无线鼠标、耳机、键盘和手柄电量，并强调无需厂商软件，却进入前列。单个样本不足以宣布非 AI 项目回潮；更稳妥的解释是，边界清楚、结果可见的桌面工具仍能用一句话完成价值证明。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-20 08:05 → 11-21 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1497,
+          "stars": 471471,
+          "note": "用代理逆向应用行为与原生二进制"
+        },
+        {
+          "repo": "erkamyaman/rust-anything",
+          "url": "https://github.com/erkamyaman/rust-anything",
+          "gain": 1477,
+          "stars": 6628,
+          "note": "分步重写，并对照原程序录制行为"
+        },
+        {
+          "repo": "firecrawl/firecrawl",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "gain": 1065,
+          "stars": 205248,
+          "note": "为代理统一搜索、抓取与数据接入"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 1037,
+          "stars": 39499,
+          "note": "理解软件后制作自己的版本"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 781,
+          "stars": 195618,
+          "note": "让代理少写不必要的代码"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 780,
+          "stars": 328929,
+          "note": "面向真实工程师的代理技能"
+        },
+        {
+          "repo": "krisgfx9/Wireless-Device-Battery-Monitor",
+          "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor",
+          "gain": 629,
+          "stars": 5286,
+          "note": "Windows 任务栏显示无线外设电量"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 575,
+          "stars": 19242,
+          "note": "把 AI 风格界面改成设计界面"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看榜首能否维持领先，再观察 Firecrawl 与 Graphify 谁更能承载代理的上下文层。若专项改造工具继续占据前列，说明转换管线仍是强卖点；若技能框架或桌面小工具接棒，今天更像命名与集中传播带来的短期共振。",
+    "sources": [
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "erkamyaman/rust-anything",
+        "url": "https://github.com/erkamyaman/rust-anything"
+      },
+      {
+        "label": "storytold/craft-anything",
+        "url": "https://github.com/storytold/craft-anything"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-20 08:05 → 11-21 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-20",
     "issue": 22,
     "title": "代理的下一战场：可验证地接管软件",
