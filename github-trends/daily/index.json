@@ -1,5 +1,238 @@
 [
   {
+    "date": "2026-11-23",
+    "issue": 25,
+    "title": "关注度出现尖峰，代理工具并未合流",
+    "lede": "今天不是一个板块整齐上涨，而是一个单点爆量、多个代理工具各自聚人的局面。排名把这些信号压成了一列，拆开看，才知道哪些是项目事件，哪些是生态变化。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "曲线先被一个项目拽弯",
+        "paragraphs": [
+          "把样本按二十四小时净增量排序，第一名与第二名之间没有平滑过渡，而是明显断崖。榜首仓库获得九千七百二十二个新增关注，第二名只有一千二百九十八；再往下，是八百六十九和八百三十九。四个数字已经勾勒出今天的结构：大部分新增注意力集中在单个项目，后面的项目仍在增长，却没有同步加速。",
+          "这并不自动意味着某个新赛道出现。单日快照只能记录关注变化，无法区分项目本身吸引力、外部集中传播和排名带来的二次曝光。该仓库又同时具备低存量、高增量特征，相对前排其他大仓库仍有明显的规模差。它值得打开看，却不能仅凭这一根尖峰，就把整期判断写成某项技术正在全面升温。"
+        ]
+      },
+      {
+        "heading": "爆点来自明确目标",
+        "paragraphs": [
+          "Leonida 的简介把目标说得非常窄：将 Xbox 版的《GTA 6》重编译成原生 PC 程序。它不是泛化代理框架，也不是可供各行业复用的平台，而是一个一眼就能理解结果的项目。这样的描述天然适合传播，读者即使不立刻试用，也知道它试图交付什么；但目标明确只解释了可记忆性，不等于技术已经成熟。",
+          "事实文件没有给出版本、发布日期和实际使用数据，因此无法核验重编译覆盖了哪些功能，也不能据此推断运行质量。更稳妥的读法是把它当成一次需求信号：开发者仍然愿意关注把复杂目标拆成可见结果的工作。若明天增量快速回落，今天更可能是一次传播尖峰；若仍保持高位，才需要继续追问实现与兼容性。"
+        ]
+      },
+      {
+        "heading": "代理工具在不同层各自聚人",
+        "paragraphs": [
+          "尖峰之外，第二梯队并没有收束成一种产品形态。rea 面向从应用行为到原生二进制的逆向，craft-anything 强调先理解软件再制作自己的版本，rust-anything 则把分步重写与行为对照绑在一起。三者都涉及理解现有系统，但交付路径并不相同，这说明关注者看到的是具体工作，而不是 anything 这个名字本身。",
+          "更外围的工具继续分流。firecrawl 把搜索、抓取和多家数据源收进一个 API；mattpocock/skills、anthropics/skills 与 ECC 分别在技能集合、公共技能仓库和代理运行框架上积累关注。有人先解决知识入口，有人改善执行约束，有人整理可复用经验。它们共同扩大了代理工具面，却没有给出一个共同标准。",
+          "主题汇总也支持这种分散感，但不能过度解读。claude-code、mcp、llm 和 agent-skills 等多个标签覆盖大量重叠仓库，同一项目会出现在不同标签里，不能把增量相加当成市场总量。相对明确的只有一点：关注正在多个相邻层同时发生，尚未集中到单一运行时、入口或厂商。"
+        ]
+      },
+      {
+        "heading": "值得花时间，但要按用途取舍",
+        "paragraphs": [
+          "如果读者关心改造现有程序，第二梯队比榜首更值得先看，因为它们的简介直接说明了输入、动作和结果；如果关心代理的资料与技能供给，firecrawl、技能仓库和运行框架提供了三类相邻观察点。榜首则适合用于理解单项目如何获得爆炸式关注，不应被当成整个代理生态的代表样本。",
+          "今天最容易被误读的是因果关系。榜单能证明增量差距，不能证明爆发由哪次事件触发，也不能证明后面的项目属于同一阵营。对开发者来说，实用筛选顺序仍应是目标是否清楚、能否在真实任务中复现、失败边界是否可查；Star 只负责告诉我们哪里有人围观，不负责替我们完成评估。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-22 08:05 → 11-23 08:05",
+      "rows": [
+        {
+          "repo": "ItsNotRexed/Leonida",
+          "url": "https://github.com/ItsNotRexed/Leonida",
+          "gain": 9722,
+          "stars": 14841,
+          "note": "将 Xbox 版《GTA 6》重编译为原生 PC 程序"
+        },
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1298,
+          "stars": 474067,
+          "note": "用代理逆向应用行为与原生二进制"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 869,
+          "stars": 41193,
+          "note": "理解任意软件并制作自己的版本"
+        },
+        {
+          "repo": "firecrawl/firecrawl",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "gain": 839,
+          "stars": 207012,
+          "note": "统一搜索、抓取并接入 550+ 数据源"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 709,
+          "stars": 330470,
+          "note": "来自个人 .agents 目录的工程技能"
+        },
+        {
+          "repo": "affaan-m/ECC",
+          "url": "https://github.com/affaan-m/ECC",
+          "gain": 647,
+          "stars": 309015,
+          "note": "代理运行框架的性能优化系统"
+        },
+        {
+          "repo": "erkamyaman/rust-anything",
+          "url": "https://github.com/erkamyaman/rust-anything",
+          "gain": 579,
+          "stars": 7981,
+          "note": "分步改写为 Rust，并对照原程序行为"
+        },
+        {
+          "repo": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "gain": 519,
+          "stars": 198991,
+          "note": "公共代理技能仓库"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看榜首的增量是否迅速回落，判断它更像单次传播尖峰还是持续关注。再观察 rea、craft-anything 与 rust-anything 是否继续同向增长；若第二梯队一起走强，理解和改造现有软件这条路线才更有连续性。",
+    "sources": [
+      {
+        "label": "ItsNotRexed/Leonida",
+        "url": "https://github.com/ItsNotRexed/Leonida"
+      },
+      {
+        "label": "morluto/rea",
+        "url": "https://github.com/morluto/rea"
+      },
+      {
+        "label": "firecrawl/firecrawl",
+        "url": "https://github.com/firecrawl/firecrawl"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-22 08:05 → 11-23 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
+    "date": "2026-11-22",
+    "issue": 24,
+    "title": "代理竞争转向软件接入层",
+    "lede": "今天靠前的项目，不再只比谁更会生成代码，而是在争插件、数据入口和对既有软件的操控接口。谁的接口更容易接进真实工作流，谁就更有机会被读者试用。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "入口开始比能力更显眼",
+        "paragraphs": [
+          "热度最高的项目看似分散，实际都在解决怎样接进去。rea 从应用行为覆盖到原生二进制，firecrawl 把搜索、抓取和 550 多家数据源收进一个 API，Blender 插件则把 AI 助手和 MCP 服务放进已有软件。它们覆盖不同对象，却都把模型之外的接口当成产品。",
+          "这不是简单的功能堆叠，而是接入成本之争。代理能否稳定找到数据、调用现有工具、在桌面软件里执行动作，决定了它能否离开演示环境。接口若能减少人工搬运，并明确权限与错误反馈，项目才可能从热度变成基础设施；反过来，缺失这些边界时，再多连接器也只是把复杂度提前。Star 增长只能证明这些接口被关注，不能证明接入后的成功率。"
+        ]
+      },
+      {
+        "heading": "插件形态正在变成分发渠道",
+        "paragraphs": [
+          "deepseek-harness 的简介只有一切都是插件，但方向足够清楚：把代理能力拆成可替换部件。dsh-Go 则把本地运行和遥控电脑放进同一入口。两者一个定义运行时，一个选择手机端入口，说明插件不只是扩展，也可能成为新能力的默认分发方式。",
+          "主题数据提供了旁证。mcp 覆盖 10 个仓库，增量合计 4021；claude-code 覆盖 8 个仓库，增量合计 4510。两套标签会重叠，不能把它们相加当市场总量，但足以说明关注并非集中在单个产品，而是在一整层接入方式附近聚集。"
+        ]
+      },
+      {
+        "heading": "技能框架仍热，但问题回到运行时",
+        "paragraphs": [
+          "superpowers 与 mattpocock/skills 继续靠前，anthropics/skills 也仍在榜内，说明技能仓库没有退场。新的看点不是再多几条提示词，而是这些技能能否由统一运行时加载、替换和约束。若只能复制到各自工具目录，它们仍只是资料包，难以形成稳定接口。",
+          "另一边，craft-anything 和 rust-anything 仍强调理解原软件并重做，这是前几期已经出现的路线。今天它们继续增长，说明接入现有系统至少有插件适配和受控重写两种答案。前者依赖开放边界，后者成本更高，但不必等待对方提供接口。"
+        ]
+      },
+      {
+        "heading": "别把接口热度当成可用性",
+        "paragraphs": [
+          "反例也摆在结果里。ponytail 用少写代码吸引关注，Wireless-Device-Battery-Monitor 只是解决 Windows 任务栏显示无线外设电量的问题；后者甚至没有代理叙事，却仍有明显增量。它们提醒读者，具体的桌面痛点和清楚的产品边界，仍能独立获得注意。",
+          "更主要的不确定性来自样本。标签是仓库自报的主题，彼此重叠；单日增量也容易受集中传播影响。今天的结论只能说明接入层是共同卖点，不能说明某个插件已经稳定、安全或兼容多数工具。值得试，但应先拿真实数据源、真实软件和失败路径验收。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-21 08:05 → 11-22 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1298,
+          "stars": 472769,
+          "note": "用代理逆向应用行为与原生二进制"
+        },
+        {
+          "repo": "firecrawl/firecrawl",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "gain": 925,
+          "stars": 206173,
+          "note": "统一搜索、抓取和 550+ 数据源"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 886,
+          "stars": 323711,
+          "note": "技能框架与软件开发方法论"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 832,
+          "stars": 329761,
+          "note": "来自个人 .agents 目录的工程技能"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 825,
+          "stars": 40324,
+          "note": "理解软件后制作自己的版本"
+        },
+        {
+          "repo": "erkamyaman/rust-anything",
+          "url": "https://github.com/erkamyaman/rust-anything",
+          "gain": 774,
+          "stars": 7402,
+          "note": "分步改成 Rust，并对照原程序行为"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 740,
+          "stars": 196358,
+          "note": "让代理少写不必要的代码"
+        },
+        {
+          "repo": "bookwjitchieni1986/blender-ai-mcp-addon",
+          "url": "https://github.com/bookwjitchieni1986/blender-ai-mcp-addon",
+          "gain": 608,
+          "stars": 2371,
+          "note": "为 Blender 提供 AI 助手与 MCP 服务"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天看 mcp 与 claude-code 的高覆盖是否延续，并观察 Firecrawl、Blender 插件和 dsh-Go 能否保留增量。若它们回落而技能仓库继续领先，今天更像板块共振；若接入类项目仍有多个上榜，才算形成持续路线。",
+    "sources": [
+      {
+        "label": "firecrawl/firecrawl",
+        "url": "https://github.com/firecrawl/firecrawl"
+      },
+      {
+        "label": "deepseek-ai/deepseek-harness",
+        "url": "https://github.com/deepseek-ai/deepseek-harness"
+      },
+      {
+        "label": "bookwjitchieni1986/blender-ai-mcp-addon",
+        "url": "https://github.com/bookwjitchieni1986/blender-ai-mcp-addon"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-21 08:05 → 11-22 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-21",
     "issue": 23,
     "title": "“Anything”升温，卖点是转换管线",
