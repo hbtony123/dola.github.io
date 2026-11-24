@@ -1,5 +1,121 @@
 [
   {
+    "date": "2026-11-24",
+    "issue": 26,
+    "title": "少改、少写、可验证：代理方法升温",
+    "lede": "今天的增长点不只在代理能做多少，而在它是否知道哪里不该动。少改代码、少写界面、先验证行为一致，正在成为可复制的工程方法，但榜首仍提醒我们能力扩张没有退场。",
+    "reading_time": 6,
+    "sections": [
+      {
+        "heading": "从全面重写转向局部处理",
+        "paragraphs": [
+          "fast-anything 给出一条很具体的路线：不要为了换成 Rust 就重写整套程序，先剖析 Python、Node 或 Ruby 应用，找出变慢的热点函数，再让编码代理移植，并证明行为一致。它位居第二，当日增量一千二百四十一，仅次于榜首，说明这种小范围改造加验收的叙事已经获得明显关注。",
+          "这套方法的价值不在 Rust 三个字，而在把改动范围、迁移对象和验收条件同时说清。比起全部重写的承诺，热点函数更适合先做小样本试验；但简介只给出路线，没有性能结果、兼容范围或实际使用数据，能否兑现仍需读者自行核验。"
+        ]
+      },
+      {
+        "heading": "克制被写进技能包",
+        "paragraphs": [
+          "同样的取向出现在更轻的项目里。ponytail 把目标写成让代理像最懒的资深开发者，并把最好的代码定义成没有写出的代码；unslop 则把 AI 感界面改造成经过设计的界面。前者约束生成范围，后者约束界面结果，增量分别为六百三十一和五百六十四，说明少做和做得像设计过都有受众。",
+          "技能仓库则把这种判断包装成可复用材料。mattpocock/skills 直接来自其 .agents 目录，superpowers 自称代理技能框架与软件开发方法，ECC 进一步把技能、本能、记忆、安全与研究优先放进运行框架。关注点已不只是提示词数量，而是能否把工程习惯固化成代理每次都会遵循的约束。"
+        ]
+      },
+      {
+        "heading": "验证条件开始进入卖点",
+        "paragraphs": [
+          "把前列项目放在一起看，变化不只在名称，而在承诺方式。fast-anything 明确要求证明移植前后行为一致，rea 把范围写成从应用行为到原生二进制，craft-anything 强调先理解软件再制作自己的版本。至少在前两者身上，读者先看到的是明确范围和过程，而非单纯产出速度。",
+          "但这不是整齐转向。rea 仍以广泛逆向能力排在第一，firecrawl 仍用统一 API 汇聚搜索、抓取与多数据源访问，两者的增量都高于多数方法型项目。能力边界宽、入口清楚仍有强大吸引力；克制只是今天一条清晰的新增线，尚不足以解释整个榜单。"
+        ]
+      },
+      {
+        "heading": "值得读，但仍需场景验收",
+        "paragraphs": [
+          "对做性能改造的开发者，fast-anything 最值得先看，因为简介同时给出输入、处理范围和验证目标；需要整理代理工作规范的人，可以对照技能仓库与 ECC，看哪些规则能进入真实流程。ponytail 更像决策原则，unslop 更偏具体结果，前者需判断是否适合自己的团队，后者需检查产出是否稳定。",
+          "最大的限制是证据仍只来自一日快照和仓库自述。事实文件没有版本、发布或实际使用数据，无法判断这些项目是否完成了承诺，也不能排除集中传播造成的短期抬升。若明天增量快速回落，说明今天更像注意力事件；若局部改造与可验证方法继续同步上榜，才值得把它看作稳定趋势。"
+        ]
+      }
+    ],
+    "evidence": {
+      "label": "当天的数字",
+      "window": "11-23 08:05 → 11-24 08:05",
+      "rows": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "gain": 1502,
+          "stars": 475569,
+          "note": "用代理逆向分析应用与原生二进制"
+        },
+        {
+          "repo": "EL4CTEO/fast-anything",
+          "url": "https://github.com/EL4CTEO/fast-anything",
+          "gain": 1241,
+          "stars": 3110,
+          "note": "剖析热点函数并用代理移植验证"
+        },
+        {
+          "repo": "storytold/craft-anything",
+          "url": "https://github.com/storytold/craft-anything",
+          "gain": 909,
+          "stars": 42102,
+          "note": "理解软件原理并动手复刻"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "gain": 899,
+          "stars": 331369,
+          "note": "整理自代理目录的工程技能集"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "gain": 888,
+          "stars": 325039,
+          "note": "面向软件开发流程的代理技能框架"
+        },
+        {
+          "repo": "firecrawl/firecrawl",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "gain": 886,
+          "stars": 207898,
+          "note": "统一入口搜索抓取与访问数据源"
+        },
+        {
+          "repo": "DietrichGebert/ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "gain": 631,
+          "stars": 197506,
+          "note": "让代理少写代码的工程取舍"
+        },
+        {
+          "repo": "heydamir/unslop",
+          "url": "https://github.com/heydamir/unslop",
+          "gain": 564,
+          "stars": 20831,
+          "note": "把 AI 感界面改造成设计界面"
+        }
+      ],
+      "total_note": "样本为 80 个近期活跃、Star 100 以上的仓库；上面是按 24 小时净增量排序的前几名。"
+    },
+    "watch": "明天先看 fast-anything 与验证导向的项目能否守住增量，再观察技能仓库是否继续同向。若只剩高位老仓库增长，今天的方法转向可能只是短暂传播。",
+    "sources": [
+      {
+        "label": "EL4CTEO/fast-anything",
+        "url": "https://github.com/EL4CTEO/fast-anything"
+      },
+      {
+        "label": "DietrichGebert/ponytail",
+        "url": "https://github.com/DietrichGebert/ponytail"
+      },
+      {
+        "label": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills"
+      }
+    ],
+    "footnote": "口径：Star 增量 = 相邻两次 GitHub 公开 API 快照的 Star 差值（11-23 08:05 → 11-24 08:05，Asia/Shanghai）。样本为 80 个近期活跃、Star 100 以上的公开仓库，只反映关注变化，不代表项目质量或实际使用人数。"
+  },
+  {
     "date": "2026-11-23",
     "issue": 25,
     "title": "关注度出现尖峰，代理工具并未合流",
