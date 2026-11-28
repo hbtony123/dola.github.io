@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "is_sample": false,
-  "generated_at": "2026-11-27T08:05:05+08:00",
-  "data_through": "2026-11-27T08:05:05+08:00",
+  "generated_at": "2026-11-28T08:05:05+08:00",
+  "data_through": "2026-11-28T08:05:05+08:00",
   "baseline_ready": true,
   "queries": [
-    "created:>=2026-11-20 stars:>=100",
-    "pushed:>=2026-11-20 stars:>=1000"
+    "created:>=2026-11-21 stars:>=100",
+    "pushed:>=2026-11-21 stars:>=1000"
   ],
   "windows": {
     "24h": {
@@ -26,10 +26,10 @@
             "tutorial-exercises",
             "tutorials"
           ],
-          "stars": 565769,
+          "stars": 565993,
           "updated_at": "2026-11-19T05:32:02Z",
           "why": "Master programming by recreating your favorite technologies from scratch.",
-          "star_gain": 218
+          "star_gain": 224
         },
         {
           "id": 54346799,
@@ -52,10 +52,10 @@
             "resources",
             "software"
           ],
-          "stars": 501665,
-          "updated_at": "2026-11-22T19:57:21Z",
+          "stars": 501827,
+          "updated_at": "2026-11-27T19:07:13Z",
           "why": "A collective list of free APIs",
-          "star_gain": 211
+          "star_gain": 162
         },
         {
           "id": 1209966933,
@@ -85,10 +85,10 @@
             "touhou",
             "typescript"
           ],
-          "stars": 479750,
-          "updated_at": "2026-11-27T00:02:58Z",
+          "stars": 481120,
+          "updated_at": "2026-11-27T23:42:12Z",
           "why": "Reverse engineer anything with agents, from app behavior down to native binaries.",
-          "star_gain": 1298
+          "star_gain": 1370
         },
         {
           "id": 28457823,
@@ -113,10 +113,10 @@
             "react",
             "teachers"
           ],
-          "stars": 459676,
-          "updated_at": "2026-11-26T22:10:38Z",
+          "stars": 459693,
+          "updated_at": "2026-11-27T12:00:14Z",
           "why": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
-          "star_gain": 40
+          "star_gain": 17
         },
         {
           "id": 13491895,
@@ -131,10 +131,10 @@
             "list",
             "resource"
           ],
-          "stars": 402344,
-          "updated_at": "2026-11-25T16:23:45Z",
+          "stars": 402382,
+          "updated_at": "2026-11-27T01:01:33Z",
           "why": ":books: Freely available programming books",
-          "star_gain": 50
+          "star_gain": 38
         },
         {
           "id": 1103012935,
@@ -151,10 +151,10 @@
             "own-your-data",
             "personal"
           ],
-          "stars": 395300,
-          "updated_at": "2026-11-27T00:04:57Z",
+          "stars": 395352,
+          "updated_at": "2026-11-28T00:04:51Z",
           "why": "The AI that really does things. Any OS. Any Platform. The lobster way. 🦞",
-          "star_gain": 72
+          "star_gain": 52
         },
         {
           "id": 85077558,
@@ -182,10 +182,10 @@
             "software-architect-roadmap",
             "vue-roadmap"
           ],
-          "stars": 372837,
-          "updated_at": "2026-11-26T20:49:04Z",
+          "stars": 372902,
+          "updated_at": "2026-11-27T18:47:20Z",
           "why": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
-          "star_gain": 55
+          "star_gain": 65
         },
         {
           "id": 60493101,
@@ -207,10 +207,10 @@
             "software-engineering",
             "study-plan"
           ],
-          "stars": 365103,
+          "stars": 365142,
           "updated_at": "2026-11-07T16:03:02Z",
           "why": "A complete computer science study plan to become a software engineer.",
-          "star_gain": 34
+          "star_gain": 39
         },
         {
           "id": 36633370,
@@ -228,10 +228,10 @@
             "self-hosted",
             "selfhosted"
           ],
-          "stars": 340810,
+          "stars": 341117,
           "updated_at": "2026-11-25T21:13:27Z",
           "why": "A list of Free Software network services and web applications which can be hosted on your own servers",
-          "star_gain": 325
+          "star_gain": 307
         },
         {
           "id": 21289110,
@@ -247,10 +247,10 @@
             "python-libraries",
             "python-tools"
           ],
-          "stars": 337362,
+          "stars": 337566,
           "updated_at": "2026-11-17T10:02:01Z",
           "why": "The definitive list that answers \"I want to do X in Python, which tool should I use?\"",
-          "star_gain": 215
+          "star_gain": 204
         },
         {
           "id": 1148788086,
@@ -259,10 +259,10 @@
           "description": "Skills for Real Engineers. Straight from my .agents directory.",
           "language": "Shell",
           "topics": [],
-          "stars": 333588,
-          "updated_at": "2026-11-25T12:09:27Z",
+          "stars": 334260,
+          "updated_at": "2026-11-27T17:07:54Z",
           "why": "Skills for Real Engineers. Straight from my .agents directory.",
-          "star_gain": 715
+          "star_gain": 672
         },
         {
           "id": 1073224795,
@@ -280,10 +280,10 @@
             "subagent-driven-development",
             "superpowers"
           ],
-          "stars": 327473,
+          "stars": 328293,
           "updated_at": "2026-11-26T11:33:33Z",
           "why": "An agentic skills framework & software development methodology that works.",
-          "star_gain": 878
+          "star_gain": 820
         },
         {
           "id": 1136590548,
@@ -301,10 +301,10 @@
             "mcp",
             "productivity"
           ],
-          "stars": 311293,
+          "stars": 311850,
           "updated_at": "2026-11-23T04:55:48Z",
           "why": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
-          "star_gain": 567
+          "star_gain": 557
         },
         {
           "id": 88011908,
@@ -322,10 +322,10 @@
             "tutorial",
             "webdevelopment"
           ],
-          "stars": 290550,
+          "stars": 290613,
           "updated_at": "2026-11-23T06:41:02Z",
           "why": "Curated list of project-based tutorials",
-          "star_gain": 54
+          "star_gain": 63
         },
         {
           "id": 1333065091,
@@ -339,10 +339,10 @@
             "dsh",
             "dsh-plugin"
           ],
-          "stars": 287605,
+          "stars": 288040,
           "updated_at": "2026-11-22T11:00:05Z",
           "why": "DeepSeek Harness: Everything is a Plugin.",
-          "star_gain": 546
+          "star_gain": 435
         },
         {
           "id": 1024554267,
@@ -365,10 +365,10 @@
             "nous-research",
             "openai"
           ],
-          "stars": 266385,
-          "updated_at": "2026-11-26T23:56:02Z",
+          "stars": 266608,
+          "updated_at": "2026-11-27T23:26:49Z",
           "why": "The agent that grows with you",
-          "star_gain": 265
+          "star_gain": 223
         },
         {
           "id": 2325298,
@@ -377,10 +377,10 @@
           "description": "Linux kernel source tree",
           "language": "C",
           "topics": [],
-          "stars": 256890,
-          "updated_at": "2026-11-26T17:56:27Z",
+          "stars": 256957,
+          "updated_at": "2026-11-27T21:07:55Z",
           "why": "Linux kernel source tree",
-          "star_gain": 129
+          "star_gain": 67
         },
         {
           "id": 10270250,
@@ -396,10 +396,10 @@
             "react",
             "ui"
           ],
-          "stars": 252992,
+          "stars": 252948,
           "updated_at": "2026-11-26T17:11:03Z",
           "why": "The library for web and native user interfaces.",
-          "star_gain": 23
+          "star_gain": 0
         },
         {
           "id": 975734319,
@@ -408,10 +408,10 @@
           "description": "The open source coding agent.",
           "language": "TypeScript",
           "topics": [],
-          "stars": 229404,
-          "updated_at": "2026-11-26T23:46:05Z",
+          "stars": 229639,
+          "updated_at": "2026-11-27T23:36:58Z",
           "why": "The open source coding agent.",
-          "star_gain": 211
+          "star_gain": 235
         },
         {
           "id": 63476337,
@@ -435,10 +435,10 @@
             "sorting-algorithms",
             "sorts"
           ],
-          "stars": 226489,
+          "stars": 226508,
           "updated_at": "2026-11-13T04:28:36Z",
           "why": "All Algorithms implemented in Python",
-          "star_gain": 18
+          "star_gain": 19
         },
         {
           "id": 193215554,
@@ -468,47 +468,10 @@
             "workflow",
             "workflow-automation"
           ],
-          "stars": 212302,
-          "updated_at": "2026-11-27T00:03:45Z",
+          "stars": 212406,
+          "updated_at": "2026-11-27T22:35:13Z",
           "why": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
-          "star_gain": 164
-        },
-        {
-          "id": 19415064,
-          "full_name": "ossu/computer-science",
-          "url": "https://github.com/ossu/computer-science",
-          "description": "🎓 Path to a free self-taught education in Computer Science!",
-          "language": "HTML",
-          "topics": [
-            "awesome-list",
-            "computer-science",
-            "courses",
-            "curriculum"
-          ],
-          "stars": 211600,
-          "updated_at": "2026-11-09T06:27:27Z",
-          "why": "🎓 Path to a free self-taught education in Computer Science!",
-          "star_gain": 31
-        },
-        {
-          "id": 307260205,
-          "full_name": "yt-dlp/yt-dlp",
-          "url": "https://github.com/yt-dlp/yt-dlp",
-          "description": "A feature-rich command-line audio/video downloader",
-          "language": "Python",
-          "topics": [
-            "cli",
-            "downloader",
-            "python",
-            "sponsorblock",
-            "youtube-dl",
-            "youtube-downloader",
-            "yt-dlp"
-          ],
-          "stars": 210980,
-          "updated_at": "2026-11-24T18:07:09Z",
-          "why": "A feature-rich command-line audio/video downloader",
-          "star_gain": 250
+          "star_gain": 104
         },
         {
           "id": 787076358,
@@ -537,10 +500,47 @@
             "web-search",
             "webscraping"
           ],
-          "stars": 210926,
-          "updated_at": "2026-11-26T22:08:44Z",
+          "stars": 211673,
+          "updated_at": "2026-11-27T21:29:58Z",
           "why": "Knowledge infrastructure to make your agents smarter. Search, scrape and access 550+ data providers through one API.",
-          "star_gain": 915
+          "star_gain": 747
+        },
+        {
+          "id": 19415064,
+          "full_name": "ossu/computer-science",
+          "url": "https://github.com/ossu/computer-science",
+          "description": "🎓 Path to a free self-taught education in Computer Science!",
+          "language": "HTML",
+          "topics": [
+            "awesome-list",
+            "computer-science",
+            "courses",
+            "curriculum"
+          ],
+          "stars": 211623,
+          "updated_at": "2026-11-09T06:27:27Z",
+          "why": "🎓 Path to a free self-taught education in Computer Science!",
+          "star_gain": 23
+        },
+        {
+          "id": 307260205,
+          "full_name": "yt-dlp/yt-dlp",
+          "url": "https://github.com/yt-dlp/yt-dlp",
+          "description": "A feature-rich command-line audio/video downloader",
+          "language": "Python",
+          "topics": [
+            "cli",
+            "downloader",
+            "python",
+            "sponsorblock",
+            "youtube-dl",
+            "youtube-downloader",
+            "yt-dlp"
+          ],
+          "stars": 211210,
+          "updated_at": "2026-11-24T18:07:09Z",
+          "why": "A feature-rich command-line audio/video downloader",
+          "star_gain": 230
         },
         {
           "id": 45717250,
@@ -558,10 +558,24 @@
             "python",
             "tensorflow"
           ],
-          "stars": 201859,
-          "updated_at": "2026-11-26T22:12:58Z",
+          "stars": 201824,
+          "updated_at": "2026-11-27T23:37:59Z",
           "why": "An Open Source Machine Learning Framework for Everyone",
-          "star_gain": 30
+          "star_gain": 0
+        },
+        {
+          "id": 1061953414,
+          "full_name": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "description": "Public repository for Agent Skills",
+          "language": "Python",
+          "topics": [
+            "agent-skills"
+          ],
+          "stars": 201508,
+          "updated_at": "2026-11-16T14:22:50Z",
+          "why": "Public repository for Agent Skills",
+          "star_gain": 471
         },
         {
           "id": 233472199,
@@ -587,24 +601,10 @@
             "windows-10",
             "windows-11"
           ],
-          "stars": 201073,
+          "stars": 201185,
           "updated_at": "2026-11-11T14:30:12Z",
           "why": "Open-source Windows and Office activator featuring HWID, Ohook, TSforge, and Online KMS activation methods, along with advanced troubleshooting.",
-          "star_gain": 108
-        },
-        {
-          "id": 1061953414,
-          "full_name": "anthropics/skills",
-          "url": "https://github.com/anthropics/skills",
-          "description": "Public repository for Agent Skills",
-          "language": "Python",
-          "topics": [
-            "agent-skills"
-          ],
-          "stars": 201037,
-          "updated_at": "2026-11-16T14:22:50Z",
-          "why": "Public repository for Agent Skills",
-          "star_gain": 523
+          "star_gain": 112
         },
         {
           "id": 1266797999,
@@ -624,10 +624,10 @@
             "prompt-engineering",
             "yagni"
           ],
-          "stars": 199355,
+          "stars": 200113,
           "updated_at": "2026-11-22T02:31:58Z",
           "why": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
-          "star_gain": 637
+          "star_gain": 758
         },
         {
           "id": 888092115,
@@ -644,10 +644,10 @@
             "openai",
             "pdf"
           ],
-          "stars": 198611,
+          "stars": 198756,
           "updated_at": "2026-11-07T00:14:01Z",
           "why": "Python tool for converting files and office documents to Markdown.",
-          "star_gain": 144
+          "star_gain": 145
         },
         {
           "id": 21540759,
@@ -663,10 +663,10 @@
             "golang-library",
             "hacktoberfest"
           ],
-          "stars": 196173,
-          "updated_at": "2026-11-26T23:49:21Z",
+          "stars": 196363,
+          "updated_at": "2026-11-27T23:19:08Z",
           "why": "A curated list of awesome Go frameworks, libraries and software",
-          "star_gain": 195
+          "star_gain": 190
         },
         {
           "id": 41881900,
@@ -681,10 +681,10 @@
             "typescript",
             "visual-studio-code"
           ],
-          "stars": 195838,
-          "updated_at": "2026-11-26T23:35:10Z",
+          "stars": 195802,
+          "updated_at": "2026-11-28T00:02:39Z",
           "why": "Visual Studio Code",
-          "star_gain": 39
+          "star_gain": 0
         },
         {
           "id": 1197021090,
@@ -693,8 +693,8 @@
           "description": "An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.",
           "language": "Rust",
           "topics": [],
-          "stars": 194725,
-          "updated_at": "2026-11-26T13:02:52Z",
+          "stars": 194713,
+          "updated_at": "2026-11-27T20:46:35Z",
           "why": "An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.",
           "star_gain": 0
         },
@@ -710,10 +710,10 @@
             "hellogithub",
             "python"
           ],
-          "stars": 191442,
-          "updated_at": "2026-10-31T18:08:05Z",
+          "stars": 191639,
+          "updated_at": "2026-11-27T12:50:49Z",
           "why": ":octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.",
-          "star_gain": 185
+          "star_gain": 197
         },
         {
           "id": 291137,
@@ -738,10 +738,10 @@
             "zsh",
             "zsh-configuration"
           ],
-          "stars": 190914,
-          "updated_at": "2026-11-26T15:29:17Z",
+          "stars": 190947,
+          "updated_at": "2026-11-27T23:53:32Z",
           "why": "🙃   A delightful community-driven (with 2,500+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homeb...",
-          "star_gain": 23
+          "star_gain": 33
         },
         {
           "id": 658928958,
@@ -765,10 +765,10 @@
             "ollama",
             "qwen"
           ],
-          "stars": 188241,
-          "updated_at": "2026-11-26T19:40:41Z",
+          "stars": 188331,
+          "updated_at": "2026-11-27T21:07:02Z",
           "why": "Get up and running with Kimi, GLM, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
-          "star_gain": 105
+          "star_gain": 90
         },
         {
           "id": 614765452,
@@ -789,10 +789,10 @@
             "openai",
             "python"
           ],
-          "stars": 188202,
-          "updated_at": "2026-11-27T00:03:49Z",
+          "stars": 188214,
+          "updated_at": "2026-11-28T00:04:47Z",
           "why": "AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.",
-          "star_gain": 7
+          "star_gain": 12
         },
         {
           "id": 121395510,
@@ -810,10 +810,10 @@
             "python",
             "system-design"
           ],
-          "stars": 186602,
-          "updated_at": "2026-11-23T06:22:57Z",
+          "stars": 186603,
+          "updated_at": "2026-11-27T19:44:25Z",
           "why": ":books: 技术面试必备基础知识、Leetcode、计算机操作系统、计算机网络、系统设计",
-          "star_gain": 8
+          "star_gain": 1
         },
         {
           "id": 14440270,
@@ -836,7 +836,7 @@
             "training-materials",
             "training-providers"
           ],
-          "stars": 184844,
+          "stars": 184842,
           "updated_at": "2026-10-31T16:14:40Z",
           "why": "A book series (2 published editions) on the JS language.",
           "star_gain": 0
@@ -868,10 +868,10 @@
             "web-framework",
             "windows"
           ],
-          "stars": 181532,
-          "updated_at": "2026-11-26T22:29:44Z",
+          "stars": 181537,
+          "updated_at": "2026-11-27T21:18:26Z",
           "why": "Flutter makes it easy and fast to build beautiful apps for mobile and beyond",
-          "star_gain": 26
+          "star_gain": 5
         },
         {
           "id": 574523116,
@@ -899,10 +899,10 @@
             "prompts-chat",
             "typescript"
           ],
-          "stars": 178594,
-          "updated_at": "2026-11-26T07:09:14Z",
+          "stars": 178702,
+          "updated_at": "2026-11-27T03:13:20Z",
           "why": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy.",
-          "star_gain": 71
+          "star_gain": 108
         },
         {
           "id": 1062897,
@@ -914,10 +914,10 @@
             "git",
             "gitignore"
           ],
-          "stars": 176467,
+          "stars": 176478,
           "updated_at": "2026-11-24T22:37:32Z",
           "why": "A collection of useful .gitignore templates",
-          "star_gain": 3
+          "star_gain": 11
         },
         {
           "id": 2126244,
@@ -934,7 +934,7 @@
             "sass",
             "scss"
           ],
-          "stars": 175138,
+          "stars": 175114,
           "updated_at": "2026-11-26T06:55:29Z",
           "why": "The most popular HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on the web.",
           "star_gain": 0
@@ -946,10 +946,10 @@
           "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with pe...",
           "language": "Shell",
           "topics": [],
-          "stars": 170435,
+          "stars": 170627,
           "updated_at": "2026-11-09T00:27:04Z",
           "why": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with pe...",
-          "star_gain": 173
+          "star_gain": 192
         },
         {
           "id": 155220641,
@@ -978,10 +978,10 @@
             "transformer",
             "vlm"
           ],
-          "stars": 169371,
-          "updated_at": "2026-11-27T00:04:00Z",
+          "stars": 169384,
+          "updated_at": "2026-11-27T23:34:32Z",
           "why": "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.",
-          "star_gain": 42
+          "star_gain": 13
         },
         {
           "id": 626805178,
@@ -1010,10 +1010,10 @@
             "skills",
             "workflow"
           ],
-          "stars": 161959,
-          "updated_at": "2026-11-26T15:15:47Z",
+          "stars": 162029,
+          "updated_at": "2026-11-27T14:56:03Z",
           "why": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to...",
-          "star_gain": 52
+          "star_gain": 70
         },
         {
           "id": 721767116,
@@ -1031,36 +1031,10 @@
             "tauri-app",
             "windows"
           ],
-          "stars": 160924,
-          "updated_at": "2026-11-26T16:38:44Z",
+          "stars": 161144,
+          "updated_at": "2026-11-27T14:41:29Z",
           "why": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
-          "star_gain": 225
-        },
-        {
-          "id": 132464395,
-          "full_name": "Snailclimb/JavaGuide",
-          "url": "https://github.com/Snailclimb/JavaGuide",
-          "description": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
-          "language": "JavaScript",
-          "topics": [
-            "agent",
-            "ai",
-            "context-engineering",
-            "deepseek",
-            "interview",
-            "java",
-            "mcp",
-            "mysql",
-            "redis",
-            "redisson",
-            "skills",
-            "springai",
-            "system-design"
-          ],
-          "stars": 159688,
-          "updated_at": "2026-10-25T11:47:10Z",
-          "why": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
-          "star_gain": 7
+          "star_gain": 220
         },
         {
           "id": 701547123,
@@ -1085,10 +1059,36 @@
             "ui",
             "webui"
           ],
-          "stars": 159644,
-          "updated_at": "2026-11-26T23:27:07Z",
+          "stars": 159700,
+          "updated_at": "2026-11-27T16:00:01Z",
           "why": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
-          "star_gain": 76
+          "star_gain": 56
+        },
+        {
+          "id": 132464395,
+          "full_name": "Snailclimb/JavaGuide",
+          "url": "https://github.com/Snailclimb/JavaGuide",
+          "description": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
+          "language": "JavaScript",
+          "topics": [
+            "agent",
+            "ai",
+            "context-engineering",
+            "deepseek",
+            "interview",
+            "java",
+            "mcp",
+            "mysql",
+            "redis",
+            "redisson",
+            "skills",
+            "springai",
+            "system-design"
+          ],
+          "stars": 159694,
+          "updated_at": "2026-11-27T13:17:09Z",
+          "why": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
+          "star_gain": 6
         },
         {
           "id": 1031912724,
@@ -1117,10 +1117,10 @@
             "tauri",
             "wsl-support"
           ],
-          "stars": 157422,
-          "updated_at": "2026-11-26T15:08:16Z",
+          "stars": 157663,
+          "updated_at": "2026-11-27T15:31:11Z",
           "why": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode,DeepSeek Harness and more. Only official website: ccswitch.io",
-          "star_gain": 261
+          "star_gain": 241
         },
         {
           "id": 937253475,
@@ -1129,10 +1129,10 @@
           "description": "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and...",
           "language": "TypeScript",
           "topics": [],
-          "stars": 157215,
-          "updated_at": "2026-11-26T22:31:56Z",
+          "stars": 157325,
+          "updated_at": "2026-11-27T10:13:55Z",
           "why": "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and...",
-          "star_gain": 131
+          "star_gain": 110
         },
         {
           "id": 599320067,
@@ -1148,10 +1148,10 @@
             "multiagent",
             "react-flow"
           ],
-          "stars": 156973,
-          "updated_at": "2026-11-26T22:30:25Z",
+          "stars": 156991,
+          "updated_at": "2026-11-27T23:53:35Z",
           "why": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-          "star_gain": 26
+          "star_gain": 18
         },
         {
           "id": 111583593,
@@ -1170,10 +1170,10 @@
             "screen",
             "sdl2"
           ],
-          "stars": 155840,
+          "stars": 155944,
           "updated_at": "2026-11-26T20:25:25Z",
           "why": "Display and control your Android device",
-          "star_gain": 111
+          "star_gain": 104
         },
         {
           "id": 1106996539,
@@ -1202,10 +1202,10 @@
             "uikit",
             "windsurf-ai"
           ],
-          "stars": 154631,
-          "updated_at": "2026-11-26T22:06:57Z",
+          "stars": 155151,
+          "updated_at": "2026-11-27T07:07:41Z",
           "why": "An AI skill that provides design intelligence for building professional UI/UX across multiple platforms.",
-          "star_gain": 427
+          "star_gain": 520
         },
         {
           "id": 1200597263,
@@ -1235,10 +1235,10 @@
             "skills",
             "tree-sitter"
           ],
-          "stars": 153847,
-          "updated_at": "2026-11-26T21:21:34Z",
+          "stars": 154268,
+          "updated_at": "2026-11-27T02:53:36Z",
           "why": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deter...",
-          "star_gain": 471
+          "star_gain": 421
         },
         {
           "id": 1042367133,
@@ -1255,10 +1255,10 @@
             "spec",
             "spec-driven"
           ],
-          "stars": 151633,
+          "stars": 152306,
           "updated_at": "2026-11-26T21:54:22Z",
           "why": "💫 Toolkit to help you get started with SDD or any other process!",
-          "star_gain": 252
+          "star_gain": 673
         },
         {
           "id": 552661142,
@@ -1288,10 +1288,10 @@
             "rag",
             "typescript"
           ],
-          "stars": 150037,
-          "updated_at": "2026-11-26T10:36:59Z",
+          "stars": 150091,
+          "updated_at": "2026-11-27T08:21:12Z",
           "why": "The agent engineering platform.",
-          "star_gain": 41
+          "star_gain": 54
         },
         {
           "id": 589831718,
@@ -1307,10 +1307,10 @@
             "pytorch",
             "stable-diffusion"
           ],
-          "stars": 148767,
-          "updated_at": "2026-11-26T21:29:52Z",
+          "stars": 148927,
+          "updated_at": "2026-11-28T00:04:48Z",
           "why": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface. The fastest local inference engine in the world.",
-          "star_gain": 149
+          "star_gain": 160
         },
         {
           "id": 770153867,
@@ -1334,10 +1334,10 @@
             "workflow-automation",
             "youtube-shorts"
           ],
-          "stars": 145867,
-          "updated_at": "2026-11-26T06:08:09Z",
+          "stars": 146002,
+          "updated_at": "2026-11-28T00:04:34Z",
           "why": "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow.",
-          "star_gain": 167
+          "star_gain": 135
         },
         {
           "id": 793375104,
@@ -1351,10 +1351,10 @@
             "python",
             "rag"
           ],
-          "stars": 145843,
+          "stars": 145963,
           "updated_at": "2026-11-18T05:25:32Z",
           "why": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
-          "star_gain": 133
+          "star_gain": 120
         },
         {
           "id": 157616880,
@@ -1369,10 +1369,10 @@
             "streams",
             "tv"
           ],
-          "stars": 144768,
-          "updated_at": "2026-11-26T00:11:02Z",
+          "stars": 144815,
+          "updated_at": "2026-11-27T15:30:17Z",
           "why": "Collection of publicly available IPTV channels from all over the world",
-          "star_gain": 43
+          "star_gain": 47
         },
         {
           "id": 32484381,
@@ -1384,10 +1384,10 @@
             "awesome-list",
             "free-for-developers"
           ],
-          "stars": 143757,
-          "updated_at": "2026-11-25T21:18:35Z",
+          "stars": 143899,
+          "updated_at": "2026-11-27T11:35:20Z",
           "why": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev",
-          "star_gain": 86
+          "star_gain": 142
         },
         {
           "id": 70107786,
@@ -1411,22 +1411,10 @@
             "universal",
             "vercel"
           ],
-          "stars": 143744,
-          "updated_at": "2026-11-27T00:02:58Z",
+          "stars": 143757,
+          "updated_at": "2026-11-27T23:54:15Z",
           "why": "The React Framework",
-          "star_gain": 15
-        },
-        {
-          "id": 1179264259,
-          "full_name": "garrytan/gstack",
-          "url": "https://github.com/garrytan/gstack",
-          "description": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
-          "language": "TypeScript",
-          "topics": [],
-          "stars": 142745,
-          "updated_at": "2026-11-26T20:35:09Z",
-          "why": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
-          "star_gain": null
+          "star_gain": 13
         },
         {
           "id": 1440956372,
@@ -1435,10 +1423,10 @@
           "description": "Craft Anything: understand how any software works, and craft your own.",
           "language": "Rust",
           "topics": [],
-          "stars": 44123,
-          "updated_at": "2026-11-26T23:38:48Z",
+          "stars": 44674,
+          "updated_at": "2026-11-27T22:31:58Z",
           "why": "Craft Anything: understand how any software works, and craft your own.",
-          "star_gain": 651
+          "star_gain": 551
         },
         {
           "id": 1432967563,
@@ -1459,10 +1447,10 @@
             "flutter",
             "llm"
           ],
-          "stars": 32668,
-          "updated_at": "2026-11-26T18:56:46Z",
+          "stars": 33308,
+          "updated_at": "2026-11-27T13:34:47Z",
           "why": "dsh-go — DeepSeek Harness 装进口袋：手机本机运行，也能遥控你的电脑。",
-          "star_gain": null
+          "star_gain": 640
         },
         {
           "id": 1440705679,
@@ -1471,10 +1459,10 @@
           "description": "Towards a More Autonomous Agent System",
           "language": "TypeScript",
           "topics": [],
-          "stars": 24663,
+          "stars": 24738,
           "updated_at": "2026-11-03T09:29:14Z",
           "why": "Towards a More Autonomous Agent System",
-          "star_gain": 84
+          "star_gain": 75
         },
         {
           "id": 1438623288,
@@ -1483,22 +1471,10 @@
           "description": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
           "language": "JavaScript",
           "topics": [],
-          "stars": 22208,
+          "stars": 22641,
           "updated_at": "2026-11-15T00:55:20Z",
           "why": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
-          "star_gain": 474
-        },
-        {
-          "id": 1426780056,
-          "full_name": "pengchujin/aerial-tv",
-          "url": "https://github.com/pengchujin/aerial-tv",
-          "description": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
-          "language": "Kotlin",
-          "topics": [],
-          "stars": 13393,
-          "updated_at": "2026-11-26T01:32:17Z",
-          "why": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
-          "star_gain": 98
+          "star_gain": 433
         },
         {
           "id": 1469344551,
@@ -1507,10 +1483,22 @@
           "description": "An attempt at running GTA VI on PC",
           "language": "Rust",
           "topics": [],
-          "stars": 13346,
+          "stars": 13805,
           "updated_at": "2026-11-25T23:27:48Z",
           "why": "An attempt at running GTA VI on PC",
-          "star_gain": 751
+          "star_gain": 459
+        },
+        {
+          "id": 1426780056,
+          "full_name": "pengchujin/aerial-tv",
+          "url": "https://github.com/pengchujin/aerial-tv",
+          "description": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
+          "language": "Kotlin",
+          "topics": [],
+          "stars": 13467,
+          "updated_at": "2026-11-27T02:09:28Z",
+          "why": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
+          "star_gain": 74
         },
         {
           "id": 1438540053,
@@ -1528,10 +1516,10 @@
             "llm",
             "mobile-agent"
           ],
-          "stars": 10077,
-          "updated_at": "2026-11-26T19:51:56Z",
+          "stars": 10137,
+          "updated_at": "2026-11-27T18:34:33Z",
           "why": "An on-device AI agent for Android that operates apps and the web to get things done for you.",
-          "star_gain": 85
+          "star_gain": 60
         },
         {
           "id": 1427126014,
@@ -1546,10 +1534,10 @@
             "day-trading",
             "stock-market"
           ],
-          "stars": 9751,
+          "stars": 9908,
           "updated_at": "2026-10-20T14:18:00Z",
           "why": "11 Claude skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
-          "star_gain": 122
+          "star_gain": 157
         },
         {
           "id": 1439372976,
@@ -1567,10 +1555,10 @@
             "sprite-sheet",
             "vfx"
           ],
-          "stars": 9414,
+          "stars": 9643,
           "updated_at": "2026-11-13T08:43:39Z",
           "why": "244 pixel art effects, every one a small piece of code. Plus a Claude Code skill to make your own.",
-          "star_gain": 154
+          "star_gain": 229
         },
         {
           "id": 1431851693,
@@ -1588,10 +1576,10 @@
             "magicos",
             "originos"
           ],
-          "stars": 9034,
+          "stars": 9081,
           "updated_at": "2026-11-24T13:49:55Z",
           "why": "关掉国产安卓手机系统里的广告、热搜、资讯推荐和营销推送。不 root，可还原，支持 AI 智能体一键执行。",
-          "star_gain": 33
+          "star_gain": 47
         },
         {
           "id": 1450963843,
@@ -1600,10 +1588,10 @@
           "description": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
           "language": "Swift",
           "topics": [],
-          "stars": 9011,
+          "stars": 9063,
           "updated_at": "2026-11-17T02:00:13Z",
           "why": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
-          "star_gain": 50
+          "star_gain": 52
         },
         {
           "id": 1433377156,
@@ -1612,27 +1600,28 @@
           "description": "",
           "language": "",
           "topics": [],
-          "stars": 8902,
+          "stars": 8950,
           "updated_at": "2026-11-02T15:08:31Z",
           "why": "仓库暂未提供简介，先看 README 和最近提交，再判断是否值得跟进。",
-          "star_gain": 97
+          "star_gain": 48
         },
         {
-          "id": 1465852099,
-          "full_name": "xcl-dev/xcl",
-          "url": "https://github.com/xcl-dev/xcl",
-          "description": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA2 shaders to DXIL",
-          "language": "Rust",
+          "id": 1438394948,
+          "full_name": "valentderah/totk-pc-recomp",
+          "url": "https://github.com/valentderah/totk-pc-recomp",
+          "description": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not included.",
+          "language": "C",
           "topics": [
-            "d3d12",
-            "gdk",
-            "rdna2",
-            "xbox"
+            "game",
+            "linux",
+            "port",
+            "recompilation",
+            "windows"
           ],
-          "stars": 8607,
-          "updated_at": "2026-11-26T23:53:45Z",
-          "why": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA2 shaders to DXIL",
-          "star_gain": 296
+          "stars": 8386,
+          "updated_at": "2026-11-27T18:41:08Z",
+          "why": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not included.",
+          "star_gain": null
         },
         {
           "id": 1467035512,
@@ -1641,28 +1630,16 @@
           "description": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
           "language": "JavaScript",
           "topics": [],
-          "stars": 5759,
-          "updated_at": "2026-11-26T23:57:52Z",
+          "stars": 6727,
+          "updated_at": "2026-11-27T22:11:07Z",
           "why": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
-          "star_gain": 1658
-        },
-        {
-          "id": 1465281397,
-          "full_name": "AFK-surf/xnulinux",
-          "url": "https://github.com/AFK-surf/xnulinux",
-          "description": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
-          "language": "C",
-          "topics": [],
-          "stars": 4235,
-          "updated_at": "2026-11-26T17:00:56Z",
-          "why": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
-          "star_gain": 306
+          "star_gain": 968
         },
         {
           "id": 1466635339,
           "full_name": "EL4CTEO/fast-anything",
           "url": "https://github.com/EL4CTEO/fast-anything",
-          "description": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prove they behave the same.",
+          "description": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kot...",
           "language": "Rust",
           "topics": [
             "agent-skills",
@@ -1686,10 +1663,10 @@
             "rust",
             "typescript"
           ],
-          "stars": 4228,
-          "updated_at": "2026-11-26T22:46:32Z",
-          "why": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prove they behave the same.",
-          "star_gain": 277
+          "stars": 4461,
+          "updated_at": "2026-11-27T19:01:24Z",
+          "why": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kot...",
+          "star_gain": 233
         },
         {
           "id": 1470579726,
@@ -1698,37 +1675,58 @@
           "description": "Work-in-progress fork of VIctory: getting an Xbox Series title to render and run on a Windows PC. No game files.",
           "language": "Rust",
           "topics": [],
-          "stars": 3280,
-          "updated_at": "2026-11-26T23:15:33Z",
+          "stars": 3356,
+          "updated_at": "2026-11-27T20:14:54Z",
           "why": "Work-in-progress fork of VIctory: getting an Xbox Series title to render and run on a Windows PC. No game files.",
-          "star_gain": 220
+          "star_gain": 76
+        },
+        {
+          "id": 1472451283,
+          "full_name": "trustno1-coder/VIctory-NVIDIA",
+          "url": "https://github.com/trustno1-coder/VIctory-NVIDIA",
+          "description": "VIctory (Xbox Series compatibility layer) tuned for NVIDIA RTX cards: Series X at 2560x1440 with DLSS, about 26-30 fps on an RTX 5070, DLSS frame generation 2x-6x, an F1 setting...",
+          "language": "Rust",
+          "topics": [
+            "compatibility-layer",
+            "directx-12",
+            "dlss",
+            "frame-generation",
+            "nvidia",
+            "rust"
+          ],
+          "stars": 3141,
+          "updated_at": "2026-11-27T23:03:42Z",
+          "why": "VIctory (Xbox Series compatibility layer) tuned for NVIDIA RTX cards: Series X at 2560x1440 with DLSS, about 26-30 fps on an RTX 5070, DLSS frame generation 2x-6x, an F1 setting...",
+          "star_gain": null
+        },
+        {
+          "id": 1469441675,
+          "full_name": "ProjectLeonida/mandy",
+          "url": "https://github.com/ProjectLeonida/mandy",
+          "description": "A continuation of Leonida, the Xbox > PC port interface for GTA VI",
+          "language": "Python",
+          "topics": [],
+          "stars": 2755,
+          "updated_at": "2026-11-27T22:59:29Z",
+          "why": "A continuation of Leonida, the Xbox > PC port interface for GTA VI",
+          "star_gain": null
         }
       ],
       "topics": [
         {
-          "name": "uncategorized",
-          "repo_count": 17,
-          "star_gain": 5748,
-          "representative_repos": [
-            "4lwayz/portwatch-vi",
-            "Marvisak/VIctory",
-            "mattpocock/skills"
-          ]
-        },
-        {
           "name": "ai",
           "repo_count": 14,
-          "star_gain": 4247,
+          "star_gain": 4455,
           "representative_repos": [
             "morluto/rea",
-            "firecrawl/firecrawl",
-            "obra/superpowers"
+            "obra/superpowers",
+            "firecrawl/firecrawl"
           ]
         },
         {
           "name": "claude-code",
           "repo_count": 8,
-          "star_gain": 4203,
+          "star_gain": 4323,
           "representative_repos": [
             "morluto/rea",
             "DietrichGebert/ponytail",
@@ -1736,29 +1734,49 @@
           ]
         },
         {
-          "name": "ai-agents",
-          "repo_count": 8,
-          "star_gain": 3719,
+          "name": "uncategorized",
+          "repo_count": 16,
+          "star_gain": 4012,
           "representative_repos": [
-            "firecrawl/firecrawl",
-            "DietrichGebert/ponytail",
-            "affaan-m/ECC"
+            "4lwayz/portwatch-vi",
+            "mattpocock/skills",
+            "storytold/craft-anything"
           ]
         },
         {
           "name": "llm",
           "repo_count": 15,
-          "star_gain": 3501,
+          "star_gain": 3944,
           "representative_repos": [
-            "firecrawl/firecrawl",
             "DietrichGebert/ponytail",
+            "firecrawl/firecrawl",
+            "ccch1mneyyy/dsh-Go"
+          ]
+        },
+        {
+          "name": "ai-agents",
+          "repo_count": 8,
+          "star_gain": 3428,
+          "representative_repos": [
+            "DietrichGebert/ponytail",
+            "firecrawl/firecrawl",
             "affaan-m/ECC"
+          ]
+        },
+        {
+          "name": "agent-skills",
+          "repo_count": 5,
+          "star_gain": 3061,
+          "representative_repos": [
+            "morluto/rea",
+            "DietrichGebert/ponytail",
+            "anthropics/skills"
           ]
         },
         {
           "name": "mcp",
           "repo_count": 9,
-          "star_gain": 3173,
+          "star_gain": 3058,
           "representative_repos": [
             "morluto/rea",
             "affaan-m/ECC",
@@ -1768,7 +1786,7 @@
         {
           "name": "python",
           "repo_count": 16,
-          "star_gain": 2926,
+          "star_gain": 2881,
           "representative_repos": [
             "morluto/rea",
             "EL4CTEO/fast-anything",
@@ -1776,19 +1794,19 @@
           ]
         },
         {
-          "name": "agent-skills",
-          "repo_count": 5,
-          "star_gain": 2889,
+          "name": "dsh-plugin",
+          "repo_count": 3,
+          "star_gain": 2445,
           "representative_repos": [
             "morluto/rea",
-            "DietrichGebert/ponytail",
-            "anthropics/skills"
+            "ccch1mneyyy/dsh-Go",
+            "deepseek-ai/deepseek-harness"
           ]
         },
         {
           "name": "claude",
           "repo_count": 8,
-          "star_gain": 2148,
+          "star_gain": 2405,
           "representative_repos": [
             "DietrichGebert/ponytail",
             "affaan-m/ECC",
@@ -1796,33 +1814,23 @@
           ]
         },
         {
+          "name": "android",
+          "repo_count": 6,
+          "star_gain": 2226,
+          "representative_repos": [
+            "morluto/rea",
+            "ccch1mneyyy/dsh-Go",
+            "Genymobile/scrcpy"
+          ]
+        },
+        {
           "name": "developer-tools",
           "repo_count": 4,
-          "star_gain": 1952,
+          "star_gain": 1969,
           "representative_repos": [
             "DietrichGebert/ponytail",
             "affaan-m/ECC",
             "Graphify-Labs/graphify"
-          ]
-        },
-        {
-          "name": "typescript",
-          "repo_count": 6,
-          "star_gain": 1890,
-          "representative_repos": [
-            "morluto/rea",
-            "EL4CTEO/fast-anything",
-            "n8n-io/n8n"
-          ]
-        },
-        {
-          "name": "dsh-plugin",
-          "repo_count": 3,
-          "star_gain": 1844,
-          "representative_repos": [
-            "morluto/rea",
-            "deepseek-ai/deepseek-harness",
-            "ccch1mneyyy/dsh-Go"
           ]
         }
       ]
@@ -1844,10 +1852,10 @@
             "tutorial-exercises",
             "tutorials"
           ],
-          "stars": 565769,
+          "stars": 565993,
           "updated_at": "2026-11-19T05:32:02Z",
           "why": "Master programming by recreating your favorite technologies from scratch.",
-          "star_gain": 1813
+          "star_gain": 1841
         },
         {
           "id": 54346799,
@@ -1870,10 +1878,10 @@
             "resources",
             "software"
           ],
-          "stars": 501665,
-          "updated_at": "2026-11-22T19:57:21Z",
+          "stars": 501827,
+          "updated_at": "2026-11-27T19:07:13Z",
           "why": "A collective list of free APIs",
-          "star_gain": 1348
+          "star_gain": 1337
         },
         {
           "id": 1209966933,
@@ -1903,10 +1911,10 @@
             "touhou",
             "typescript"
           ],
-          "stars": 479750,
-          "updated_at": "2026-11-27T00:02:58Z",
+          "stars": 481120,
+          "updated_at": "2026-11-27T23:42:12Z",
           "why": "Reverse engineer anything with agents, from app behavior down to native binaries.",
-          "star_gain": 9776
+          "star_gain": 9649
         },
         {
           "id": 28457823,
@@ -1931,10 +1939,10 @@
             "react",
             "teachers"
           ],
-          "stars": 459676,
-          "updated_at": "2026-11-26T22:10:38Z",
+          "stars": 459693,
+          "updated_at": "2026-11-27T12:00:14Z",
           "why": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
-          "star_gain": 322
+          "star_gain": 297
         },
         {
           "id": 13491895,
@@ -1949,10 +1957,10 @@
             "list",
             "resource"
           ],
-          "stars": 402344,
-          "updated_at": "2026-11-25T16:23:45Z",
+          "stars": 402382,
+          "updated_at": "2026-11-27T01:01:33Z",
           "why": ":books: Freely available programming books",
-          "star_gain": 437
+          "star_gain": 421
         },
         {
           "id": 1103012935,
@@ -1969,10 +1977,10 @@
             "own-your-data",
             "personal"
           ],
-          "stars": 395300,
-          "updated_at": "2026-11-27T00:04:57Z",
+          "stars": 395352,
+          "updated_at": "2026-11-28T00:04:51Z",
           "why": "The AI that really does things. Any OS. Any Platform. The lobster way. 🦞",
-          "star_gain": 469
+          "star_gain": 423
         },
         {
           "id": 85077558,
@@ -2000,10 +2008,10 @@
             "software-architect-roadmap",
             "vue-roadmap"
           ],
-          "stars": 372837,
-          "updated_at": "2026-11-26T20:49:04Z",
+          "stars": 372902,
+          "updated_at": "2026-11-27T18:47:20Z",
           "why": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
-          "star_gain": 445
+          "star_gain": 447
         },
         {
           "id": 60493101,
@@ -2025,10 +2033,10 @@
             "software-engineering",
             "study-plan"
           ],
-          "stars": 365103,
+          "stars": 365142,
           "updated_at": "2026-11-07T16:03:02Z",
           "why": "A complete computer science study plan to become a software engineer.",
-          "star_gain": 527
+          "star_gain": 472
         },
         {
           "id": 36633370,
@@ -2046,10 +2054,10 @@
             "self-hosted",
             "selfhosted"
           ],
-          "stars": 340810,
+          "stars": 341117,
           "updated_at": "2026-11-25T21:13:27Z",
           "why": "A list of Free Software network services and web applications which can be hosted on your own servers",
-          "star_gain": 2123
+          "star_gain": 2149
         },
         {
           "id": 21289110,
@@ -2065,10 +2073,10 @@
             "python-libraries",
             "python-tools"
           ],
-          "stars": 337362,
+          "stars": 337566,
           "updated_at": "2026-11-17T10:02:01Z",
           "why": "The definitive list that answers \"I want to do X in Python, which tool should I use?\"",
-          "star_gain": 1457
+          "star_gain": 1499
         },
         {
           "id": 1148788086,
@@ -2077,10 +2085,10 @@
           "description": "Skills for Real Engineers. Straight from my .agents directory.",
           "language": "Shell",
           "topics": [],
-          "stars": 333588,
-          "updated_at": "2026-11-25T12:09:27Z",
+          "stars": 334260,
+          "updated_at": "2026-11-27T17:07:54Z",
           "why": "Skills for Real Engineers. Straight from my .agents directory.",
-          "star_gain": 5439
+          "star_gain": 5331
         },
         {
           "id": 1073224795,
@@ -2098,10 +2106,10 @@
             "subagent-driven-development",
             "superpowers"
           ],
-          "stars": 327473,
+          "stars": 328293,
           "updated_at": "2026-11-26T11:33:33Z",
           "why": "An agentic skills framework & software development methodology that works.",
-          "star_gain": 5413
+          "star_gain": 5468
         },
         {
           "id": 1136590548,
@@ -2119,10 +2127,10 @@
             "mcp",
             "productivity"
           ],
-          "stars": 311293,
+          "stars": 311850,
           "updated_at": "2026-11-23T04:55:48Z",
           "why": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
-          "star_gain": 4017
+          "star_gain": 4002
         },
         {
           "id": 88011908,
@@ -2140,10 +2148,10 @@
             "tutorial",
             "webdevelopment"
           ],
-          "stars": 290550,
+          "stars": 290613,
           "updated_at": "2026-11-23T06:41:02Z",
           "why": "Curated list of project-based tutorials",
-          "star_gain": 498
+          "star_gain": 511
         },
         {
           "id": 1333065091,
@@ -2157,10 +2165,10 @@
             "dsh",
             "dsh-plugin"
           ],
-          "stars": 287605,
+          "stars": 288040,
           "updated_at": "2026-11-22T11:00:05Z",
           "why": "DeepSeek Harness: Everything is a Plugin.",
-          "star_gain": 3407
+          "star_gain": 3342
         },
         {
           "id": 1024554267,
@@ -2183,10 +2191,10 @@
             "nous-research",
             "openai"
           ],
-          "stars": 266385,
-          "updated_at": "2026-11-26T23:56:02Z",
+          "stars": 266608,
+          "updated_at": "2026-11-27T23:26:49Z",
           "why": "The agent that grows with you",
-          "star_gain": 1629
+          "star_gain": 1622
         },
         {
           "id": 2325298,
@@ -2195,10 +2203,10 @@
           "description": "Linux kernel source tree",
           "language": "C",
           "topics": [],
-          "stars": 256890,
-          "updated_at": "2026-11-26T17:56:27Z",
+          "stars": 256957,
+          "updated_at": "2026-11-27T21:07:55Z",
           "why": "Linux kernel source tree",
-          "star_gain": 771
+          "star_gain": 702
         },
         {
           "id": 10270250,
@@ -2214,10 +2222,10 @@
             "react",
             "ui"
           ],
-          "stars": 252992,
+          "stars": 252948,
           "updated_at": "2026-11-26T17:11:03Z",
           "why": "The library for web and native user interfaces.",
-          "star_gain": 192
+          "star_gain": 111
         },
         {
           "id": 975734319,
@@ -2226,10 +2234,10 @@
           "description": "The open source coding agent.",
           "language": "TypeScript",
           "topics": [],
-          "stars": 229404,
-          "updated_at": "2026-11-26T23:46:05Z",
+          "stars": 229639,
+          "updated_at": "2026-11-27T23:36:58Z",
           "why": "The open source coding agent.",
-          "star_gain": 1361
+          "star_gain": 1388
         },
         {
           "id": 63476337,
@@ -2253,10 +2261,10 @@
             "sorting-algorithms",
             "sorts"
           ],
-          "stars": 226489,
+          "stars": 226508,
           "updated_at": "2026-11-13T04:28:36Z",
           "why": "All Algorithms implemented in Python",
-          "star_gain": 171
+          "star_gain": 161
         },
         {
           "id": 193215554,
@@ -2286,47 +2294,10 @@
             "workflow",
             "workflow-automation"
           ],
-          "stars": 212302,
-          "updated_at": "2026-11-27T00:03:45Z",
+          "stars": 212406,
+          "updated_at": "2026-11-27T22:35:13Z",
           "why": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
-          "star_gain": 869
-        },
-        {
-          "id": 19415064,
-          "full_name": "ossu/computer-science",
-          "url": "https://github.com/ossu/computer-science",
-          "description": "🎓 Path to a free self-taught education in Computer Science!",
-          "language": "HTML",
-          "topics": [
-            "awesome-list",
-            "computer-science",
-            "courses",
-            "curriculum"
-          ],
-          "stars": 211600,
-          "updated_at": "2026-11-09T06:27:27Z",
-          "why": "🎓 Path to a free self-taught education in Computer Science!",
-          "star_gain": 258
-        },
-        {
-          "id": 307260205,
-          "full_name": "yt-dlp/yt-dlp",
-          "url": "https://github.com/yt-dlp/yt-dlp",
-          "description": "A feature-rich command-line audio/video downloader",
-          "language": "Python",
-          "topics": [
-            "cli",
-            "downloader",
-            "python",
-            "sponsorblock",
-            "youtube-dl",
-            "youtube-downloader",
-            "yt-dlp"
-          ],
-          "stars": 210980,
-          "updated_at": "2026-11-24T18:07:09Z",
-          "why": "A feature-rich command-line audio/video downloader",
-          "star_gain": 1765
+          "star_gain": 855
         },
         {
           "id": 787076358,
@@ -2355,10 +2326,47 @@
             "web-search",
             "webscraping"
           ],
-          "stars": 210926,
-          "updated_at": "2026-11-26T22:08:44Z",
+          "stars": 211673,
+          "updated_at": "2026-11-27T21:29:58Z",
           "why": "Knowledge infrastructure to make your agents smarter. Search, scrape and access 550+ data providers through one API.",
-          "star_gain": 6743
+          "star_gain": 6425
+        },
+        {
+          "id": 19415064,
+          "full_name": "ossu/computer-science",
+          "url": "https://github.com/ossu/computer-science",
+          "description": "🎓 Path to a free self-taught education in Computer Science!",
+          "language": "HTML",
+          "topics": [
+            "awesome-list",
+            "computer-science",
+            "courses",
+            "curriculum"
+          ],
+          "stars": 211623,
+          "updated_at": "2026-11-09T06:27:27Z",
+          "why": "🎓 Path to a free self-taught education in Computer Science!",
+          "star_gain": 256
+        },
+        {
+          "id": 307260205,
+          "full_name": "yt-dlp/yt-dlp",
+          "url": "https://github.com/yt-dlp/yt-dlp",
+          "description": "A feature-rich command-line audio/video downloader",
+          "language": "Python",
+          "topics": [
+            "cli",
+            "downloader",
+            "python",
+            "sponsorblock",
+            "youtube-dl",
+            "youtube-downloader",
+            "yt-dlp"
+          ],
+          "stars": 211210,
+          "updated_at": "2026-11-24T18:07:09Z",
+          "why": "A feature-rich command-line audio/video downloader",
+          "star_gain": 1798
         },
         {
           "id": 45717250,
@@ -2376,10 +2384,24 @@
             "python",
             "tensorflow"
           ],
-          "stars": 201859,
-          "updated_at": "2026-11-26T22:12:58Z",
+          "stars": 201824,
+          "updated_at": "2026-11-27T23:37:59Z",
           "why": "An Open Source Machine Learning Framework for Everyone",
-          "star_gain": 202
+          "star_gain": 163
+        },
+        {
+          "id": 1061953414,
+          "full_name": "anthropics/skills",
+          "url": "https://github.com/anthropics/skills",
+          "description": "Public repository for Agent Skills",
+          "language": "Python",
+          "topics": [
+            "agent-skills"
+          ],
+          "stars": 201508,
+          "updated_at": "2026-11-16T14:22:50Z",
+          "why": "Public repository for Agent Skills",
+          "star_gain": 3446
         },
         {
           "id": 233472199,
@@ -2405,24 +2427,10 @@
             "windows-10",
             "windows-11"
           ],
-          "stars": 201073,
+          "stars": 201185,
           "updated_at": "2026-11-11T14:30:12Z",
           "why": "Open-source Windows and Office activator featuring HWID, Ohook, TSforge, and Online KMS activation methods, along with advanced troubleshooting.",
-          "star_gain": 884
-        },
-        {
-          "id": 1061953414,
-          "full_name": "anthropics/skills",
-          "url": "https://github.com/anthropics/skills",
-          "description": "Public repository for Agent Skills",
-          "language": "Python",
-          "topics": [
-            "agent-skills"
-          ],
-          "stars": 201037,
-          "updated_at": "2026-11-16T14:22:50Z",
-          "why": "Public repository for Agent Skills",
-          "star_gain": 3336
+          "star_gain": 867
         },
         {
           "id": 1266797999,
@@ -2442,10 +2450,10 @@
             "prompt-engineering",
             "yagni"
           ],
-          "stars": 199355,
+          "stars": 200113,
           "updated_at": "2026-11-22T02:31:58Z",
           "why": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
-          "star_gain": 4518
+          "star_gain": 4495
         },
         {
           "id": 888092115,
@@ -2462,10 +2470,10 @@
             "openai",
             "pdf"
           ],
-          "stars": 198611,
+          "stars": 198756,
           "updated_at": "2026-11-07T00:14:01Z",
           "why": "Python tool for converting files and office documents to Markdown.",
-          "star_gain": 1584
+          "star_gain": 1501
         },
         {
           "id": 21540759,
@@ -2481,10 +2489,10 @@
             "golang-library",
             "hacktoberfest"
           ],
-          "stars": 196173,
-          "updated_at": "2026-11-26T23:49:21Z",
+          "stars": 196363,
+          "updated_at": "2026-11-27T23:19:08Z",
           "why": "A curated list of awesome Go frameworks, libraries and software",
-          "star_gain": 1326
+          "star_gain": 1334
         },
         {
           "id": 41881900,
@@ -2499,10 +2507,10 @@
             "typescript",
             "visual-studio-code"
           ],
-          "stars": 195838,
-          "updated_at": "2026-11-26T23:35:10Z",
+          "stars": 195802,
+          "updated_at": "2026-11-28T00:02:39Z",
           "why": "Visual Studio Code",
-          "star_gain": 182
+          "star_gain": 108
         },
         {
           "id": 1197021090,
@@ -2511,8 +2519,8 @@
           "description": "An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.",
           "language": "Rust",
           "topics": [],
-          "stars": 194725,
-          "updated_at": "2026-11-26T13:02:52Z",
+          "stars": 194713,
+          "updated_at": "2026-11-27T20:46:35Z",
           "why": "An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.",
           "star_gain": 0
         },
@@ -2528,10 +2536,10 @@
             "hellogithub",
             "python"
           ],
-          "stars": 191442,
-          "updated_at": "2026-10-31T18:08:05Z",
+          "stars": 191639,
+          "updated_at": "2026-11-27T12:50:49Z",
           "why": ":octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.",
-          "star_gain": 1422
+          "star_gain": 1419
         },
         {
           "id": 291137,
@@ -2556,10 +2564,10 @@
             "zsh",
             "zsh-configuration"
           ],
-          "stars": 190914,
-          "updated_at": "2026-11-26T15:29:17Z",
+          "stars": 190947,
+          "updated_at": "2026-11-27T23:53:32Z",
           "why": "🙃   A delightful community-driven (with 2,500+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homeb...",
-          "star_gain": 218
+          "star_gain": 239
         },
         {
           "id": 658928958,
@@ -2583,10 +2591,10 @@
             "ollama",
             "qwen"
           ],
-          "stars": 188241,
-          "updated_at": "2026-11-26T19:40:41Z",
+          "stars": 188331,
+          "updated_at": "2026-11-27T21:07:02Z",
           "why": "Get up and running with Kimi, GLM, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
-          "star_gain": 572
+          "star_gain": 569
         },
         {
           "id": 614765452,
@@ -2607,8 +2615,8 @@
             "openai",
             "python"
           ],
-          "stars": 188202,
-          "updated_at": "2026-11-27T00:03:49Z",
+          "stars": 188214,
+          "updated_at": "2026-11-28T00:04:47Z",
           "why": "AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.",
           "star_gain": 94
         },
@@ -2628,10 +2636,10 @@
             "python",
             "system-design"
           ],
-          "stars": 186602,
-          "updated_at": "2026-11-23T06:22:57Z",
+          "stars": 186603,
+          "updated_at": "2026-11-27T19:44:25Z",
           "why": ":books: 技术面试必备基础知识、Leetcode、计算机操作系统、计算机网络、系统设计",
-          "star_gain": 53
+          "star_gain": 47
         },
         {
           "id": 14440270,
@@ -2654,7 +2662,7 @@
             "training-materials",
             "training-providers"
           ],
-          "stars": 184844,
+          "stars": 184842,
           "updated_at": "2026-10-31T16:14:40Z",
           "why": "A book series (2 published editions) on the JS language.",
           "star_gain": 0
@@ -2686,10 +2694,10 @@
             "web-framework",
             "windows"
           ],
-          "stars": 181532,
-          "updated_at": "2026-11-26T22:29:44Z",
+          "stars": 181537,
+          "updated_at": "2026-11-27T21:18:26Z",
           "why": "Flutter makes it easy and fast to build beautiful apps for mobile and beyond",
-          "star_gain": 228
+          "star_gain": 221
         },
         {
           "id": 574523116,
@@ -2717,10 +2725,10 @@
             "prompts-chat",
             "typescript"
           ],
-          "stars": 178594,
-          "updated_at": "2026-11-26T07:09:14Z",
+          "stars": 178702,
+          "updated_at": "2026-11-27T03:13:20Z",
           "why": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy.",
-          "star_gain": 697
+          "star_gain": 676
         },
         {
           "id": 1062897,
@@ -2732,10 +2740,10 @@
             "git",
             "gitignore"
           ],
-          "stars": 176467,
+          "stars": 176478,
           "updated_at": "2026-11-24T22:37:32Z",
           "why": "A collection of useful .gitignore templates",
-          "star_gain": 65
+          "star_gain": 60
         },
         {
           "id": 2126244,
@@ -2752,10 +2760,10 @@
             "sass",
             "scss"
           ],
-          "stars": 175138,
+          "stars": 175114,
           "updated_at": "2026-11-26T06:55:29Z",
           "why": "The most popular HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on the web.",
-          "star_gain": 52
+          "star_gain": 14
         },
         {
           "id": 1075372545,
@@ -2764,10 +2772,10 @@
           "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with pe...",
           "language": "Shell",
           "topics": [],
-          "stars": 170435,
+          "stars": 170627,
           "updated_at": "2026-11-09T00:27:04Z",
           "why": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with pe...",
-          "star_gain": 1067
+          "star_gain": 1066
         },
         {
           "id": 155220641,
@@ -2796,10 +2804,10 @@
             "transformer",
             "vlm"
           ],
-          "stars": 169371,
-          "updated_at": "2026-11-27T00:04:00Z",
+          "stars": 169384,
+          "updated_at": "2026-11-27T23:34:32Z",
           "why": "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.",
-          "star_gain": 86
+          "star_gain": 53
         },
         {
           "id": 626805178,
@@ -2828,10 +2836,10 @@
             "skills",
             "workflow"
           ],
-          "stars": 161959,
-          "updated_at": "2026-11-26T15:15:47Z",
+          "stars": 162029,
+          "updated_at": "2026-11-27T14:56:03Z",
           "why": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to...",
-          "star_gain": 439
+          "star_gain": 449
         },
         {
           "id": 721767116,
@@ -2849,36 +2857,10 @@
             "tauri-app",
             "windows"
           ],
-          "stars": 160924,
-          "updated_at": "2026-11-26T16:38:44Z",
+          "stars": 161144,
+          "updated_at": "2026-11-27T14:41:29Z",
           "why": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
-          "star_gain": 1510
-        },
-        {
-          "id": 132464395,
-          "full_name": "Snailclimb/JavaGuide",
-          "url": "https://github.com/Snailclimb/JavaGuide",
-          "description": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
-          "language": "JavaScript",
-          "topics": [
-            "agent",
-            "ai",
-            "context-engineering",
-            "deepseek",
-            "interview",
-            "java",
-            "mcp",
-            "mysql",
-            "redis",
-            "redisson",
-            "skills",
-            "springai",
-            "system-design"
-          ],
-          "stars": 159688,
-          "updated_at": "2026-10-25T11:47:10Z",
-          "why": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
-          "star_gain": 65
+          "star_gain": 1534
         },
         {
           "id": 701547123,
@@ -2903,10 +2885,36 @@
             "ui",
             "webui"
           ],
-          "stars": 159644,
-          "updated_at": "2026-11-26T23:27:07Z",
+          "stars": 159700,
+          "updated_at": "2026-11-27T16:00:01Z",
           "why": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
-          "star_gain": 543
+          "star_gain": 531
+        },
+        {
+          "id": 132464395,
+          "full_name": "Snailclimb/JavaGuide",
+          "url": "https://github.com/Snailclimb/JavaGuide",
+          "description": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
+          "language": "JavaScript",
+          "topics": [
+            "agent",
+            "ai",
+            "context-engineering",
+            "deepseek",
+            "interview",
+            "java",
+            "mcp",
+            "mysql",
+            "redis",
+            "redisson",
+            "skills",
+            "springai",
+            "system-design"
+          ],
+          "stars": 159694,
+          "updated_at": "2026-11-27T13:17:09Z",
+          "why": "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发",
+          "star_gain": 63
         },
         {
           "id": 1031912724,
@@ -2935,10 +2943,10 @@
             "tauri",
             "wsl-support"
           ],
-          "stars": 157422,
-          "updated_at": "2026-11-26T15:08:16Z",
+          "stars": 157663,
+          "updated_at": "2026-11-27T15:31:11Z",
           "why": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode,DeepSeek Harness and more. Only official website: ccswitch.io",
-          "star_gain": 1630
+          "star_gain": 1637
         },
         {
           "id": 937253475,
@@ -2947,10 +2955,10 @@
           "description": "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and...",
           "language": "TypeScript",
           "topics": [],
-          "stars": 157215,
-          "updated_at": "2026-11-26T22:31:56Z",
+          "stars": 157325,
+          "updated_at": "2026-11-27T10:13:55Z",
           "why": "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and...",
-          "star_gain": 876
+          "star_gain": 861
         },
         {
           "id": 599320067,
@@ -2966,10 +2974,10 @@
             "multiagent",
             "react-flow"
           ],
-          "stars": 156973,
-          "updated_at": "2026-11-26T22:30:25Z",
+          "stars": 156991,
+          "updated_at": "2026-11-27T23:53:35Z",
           "why": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-          "star_gain": 192
+          "star_gain": 181
         },
         {
           "id": 111583593,
@@ -2988,10 +2996,10 @@
             "screen",
             "sdl2"
           ],
-          "stars": 155840,
+          "stars": 155944,
           "updated_at": "2026-11-26T20:25:25Z",
           "why": "Display and control your Android device",
-          "star_gain": 614
+          "star_gain": 659
         },
         {
           "id": 1106996539,
@@ -3020,10 +3028,10 @@
             "uikit",
             "windsurf-ai"
           ],
-          "stars": 154631,
-          "updated_at": "2026-11-26T22:06:57Z",
+          "stars": 155151,
+          "updated_at": "2026-11-27T07:07:41Z",
           "why": "An AI skill that provides design intelligence for building professional UI/UX across multiple platforms.",
-          "star_gain": 2868
+          "star_gain": 2996
         },
         {
           "id": 1200597263,
@@ -3053,10 +3061,10 @@
             "skills",
             "tree-sitter"
           ],
-          "stars": 153847,
-          "updated_at": "2026-11-26T21:21:34Z",
+          "stars": 154268,
+          "updated_at": "2026-11-27T02:53:36Z",
           "why": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deter...",
-          "star_gain": 3209
+          "star_gain": 3092
         },
         {
           "id": 1042367133,
@@ -3073,10 +3081,10 @@
             "spec",
             "spec-driven"
           ],
-          "stars": 151633,
+          "stars": 152306,
           "updated_at": "2026-11-26T21:54:22Z",
           "why": "💫 Toolkit to help you get started with SDD or any other process!",
-          "star_gain": 942
+          "star_gain": 1482
         },
         {
           "id": 552661142,
@@ -3106,10 +3114,10 @@
             "rag",
             "typescript"
           ],
-          "stars": 150037,
-          "updated_at": "2026-11-26T10:36:59Z",
+          "stars": 150091,
+          "updated_at": "2026-11-27T08:21:12Z",
           "why": "The agent engineering platform.",
-          "star_gain": 111
+          "star_gain": 104
         },
         {
           "id": 589831718,
@@ -3125,10 +3133,10 @@
             "pytorch",
             "stable-diffusion"
           ],
-          "stars": 148767,
-          "updated_at": "2026-11-26T21:29:52Z",
+          "stars": 148927,
+          "updated_at": "2026-11-28T00:04:48Z",
           "why": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface. The fastest local inference engine in the world.",
-          "star_gain": 1092
+          "star_gain": 1090
         },
         {
           "id": 770153867,
@@ -3152,10 +3160,10 @@
             "workflow-automation",
             "youtube-shorts"
           ],
-          "stars": 145867,
-          "updated_at": "2026-11-26T06:08:09Z",
+          "stars": 146002,
+          "updated_at": "2026-11-28T00:04:34Z",
           "why": "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow.",
-          "star_gain": 1157
+          "star_gain": 1165
         },
         {
           "id": 793375104,
@@ -3169,10 +3177,10 @@
             "python",
             "rag"
           ],
-          "stars": 145843,
+          "stars": 145963,
           "updated_at": "2026-11-18T05:25:32Z",
           "why": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
-          "star_gain": 754
+          "star_gain": 747
         },
         {
           "id": 157616880,
@@ -3187,10 +3195,10 @@
             "streams",
             "tv"
           ],
-          "stars": 144768,
-          "updated_at": "2026-11-26T00:11:02Z",
+          "stars": 144815,
+          "updated_at": "2026-11-27T15:30:17Z",
           "why": "Collection of publicly available IPTV channels from all over the world",
-          "star_gain": 417
+          "star_gain": 423
         },
         {
           "id": 32484381,
@@ -3202,10 +3210,10 @@
             "awesome-list",
             "free-for-developers"
           ],
-          "stars": 143757,
-          "updated_at": "2026-11-25T21:18:35Z",
+          "stars": 143899,
+          "updated_at": "2026-11-27T11:35:20Z",
           "why": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev",
-          "star_gain": 544
+          "star_gain": 619
         },
         {
           "id": 70107786,
@@ -3229,22 +3237,10 @@
             "universal",
             "vercel"
           ],
-          "stars": 143744,
-          "updated_at": "2026-11-27T00:02:58Z",
+          "stars": 143757,
+          "updated_at": "2026-11-27T23:54:15Z",
           "why": "The React Framework",
-          "star_gain": 143
-        },
-        {
-          "id": 1179264259,
-          "full_name": "garrytan/gstack",
-          "url": "https://github.com/garrytan/gstack",
-          "description": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
-          "language": "TypeScript",
-          "topics": [],
-          "stars": 142745,
-          "updated_at": "2026-11-26T20:35:09Z",
-          "why": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
-          "star_gain": null
+          "star_gain": 130
         },
         {
           "id": 1440956372,
@@ -3253,10 +3249,10 @@
           "description": "Craft Anything: understand how any software works, and craft your own.",
           "language": "Rust",
           "topics": [],
-          "stars": 44123,
-          "updated_at": "2026-11-26T23:38:48Z",
+          "stars": 44674,
+          "updated_at": "2026-11-27T22:31:58Z",
           "why": "Craft Anything: understand how any software works, and craft your own.",
-          "star_gain": 5661
+          "star_gain": 5175
         },
         {
           "id": 1432967563,
@@ -3277,10 +3273,10 @@
             "flutter",
             "llm"
           ],
-          "stars": 32668,
-          "updated_at": "2026-11-26T18:56:46Z",
+          "stars": 33308,
+          "updated_at": "2026-11-27T13:34:47Z",
           "why": "dsh-go — DeepSeek Harness 装进口袋：手机本机运行，也能遥控你的电脑。",
-          "star_gain": null
+          "star_gain": 4308
         },
         {
           "id": 1440705679,
@@ -3289,10 +3285,10 @@
           "description": "Towards a More Autonomous Agent System",
           "language": "TypeScript",
           "topics": [],
-          "stars": 24663,
+          "stars": 24738,
           "updated_at": "2026-11-03T09:29:14Z",
           "why": "Towards a More Autonomous Agent System",
-          "star_gain": 710
+          "star_gain": 661
         },
         {
           "id": 1438623288,
@@ -3301,22 +3297,10 @@
           "description": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
           "language": "JavaScript",
           "topics": [],
-          "stars": 22208,
+          "stars": 22641,
           "updated_at": "2026-11-15T00:55:20Z",
           "why": "A Claude skill that turns vibecoded, AI-looking UI into a designed interface",
-          "star_gain": 3541
-        },
-        {
-          "id": 1426780056,
-          "full_name": "pengchujin/aerial-tv",
-          "url": "https://github.com/pengchujin/aerial-tv",
-          "description": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
-          "language": "Kotlin",
-          "topics": [],
-          "stars": 13393,
-          "updated_at": "2026-11-26T01:32:17Z",
-          "why": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
-          "star_gain": 791
+          "star_gain": 3399
         },
         {
           "id": 1469344551,
@@ -3325,10 +3309,22 @@
           "description": "An attempt at running GTA VI on PC",
           "language": "Rust",
           "topics": [],
-          "stars": 13346,
+          "stars": 13805,
           "updated_at": "2026-11-25T23:27:48Z",
           "why": "An attempt at running GTA VI on PC",
           "star_gain": null
+        },
+        {
+          "id": 1426780056,
+          "full_name": "pengchujin/aerial-tv",
+          "url": "https://github.com/pengchujin/aerial-tv",
+          "description": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
+          "language": "Kotlin",
+          "topics": [],
+          "stars": 13467,
+          "updated_at": "2026-11-27T02:09:28Z",
+          "why": "给国产电视的一块干净桌面：参照 tvOS 设计的开源 Android TV 桌面，没有广告，开机自动接管。A tvOS-style launcher for Xiaomi, TCL and other China-market TVs.",
+          "star_gain": 723
         },
         {
           "id": 1438540053,
@@ -3346,10 +3342,10 @@
             "llm",
             "mobile-agent"
           ],
-          "stars": 10077,
-          "updated_at": "2026-11-26T19:51:56Z",
+          "stars": 10137,
+          "updated_at": "2026-11-27T18:34:33Z",
           "why": "An on-device AI agent for Android that operates apps and the web to get things done for you.",
-          "star_gain": 901
+          "star_gain": 837
         },
         {
           "id": 1427126014,
@@ -3364,10 +3360,10 @@
             "day-trading",
             "stock-market"
           ],
-          "stars": 9751,
+          "stars": 9908,
           "updated_at": "2026-10-20T14:18:00Z",
           "why": "11 Claude skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
-          "star_gain": 960
+          "star_gain": 991
         },
         {
           "id": 1439372976,
@@ -3385,10 +3381,10 @@
             "sprite-sheet",
             "vfx"
           ],
-          "stars": 9414,
+          "stars": 9643,
           "updated_at": "2026-11-13T08:43:39Z",
           "why": "244 pixel art effects, every one a small piece of code. Plus a Claude Code skill to make your own.",
-          "star_gain": 1105
+          "star_gain": 1139
         },
         {
           "id": 1431851693,
@@ -3406,10 +3402,10 @@
             "magicos",
             "originos"
           ],
-          "stars": 9034,
+          "stars": 9081,
           "updated_at": "2026-11-24T13:49:55Z",
           "why": "关掉国产安卓手机系统里的广告、热搜、资讯推荐和营销推送。不 root，可还原，支持 AI 智能体一键执行。",
-          "star_gain": 589
+          "star_gain": 549
         },
         {
           "id": 1450963843,
@@ -3418,10 +3414,10 @@
           "description": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
           "language": "Swift",
           "topics": [],
-          "stars": 9011,
+          "stars": 9063,
           "updated_at": "2026-11-17T02:00:13Z",
           "why": "An MobileGestalt editor for iOS 27.x, featuring region-code tweaks, device presets, backups.",
-          "star_gain": 475
+          "star_gain": 423
         },
         {
           "id": 1433377156,
@@ -3430,26 +3426,27 @@
           "description": "",
           "language": "",
           "topics": [],
-          "stars": 8902,
+          "stars": 8950,
           "updated_at": "2026-11-02T15:08:31Z",
           "why": "仓库暂未提供简介，先看 README 和最近提交，再判断是否值得跟进。",
-          "star_gain": 675
+          "star_gain": 663
         },
         {
-          "id": 1465852099,
-          "full_name": "xcl-dev/xcl",
-          "url": "https://github.com/xcl-dev/xcl",
-          "description": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA2 shaders to DXIL",
-          "language": "Rust",
+          "id": 1438394948,
+          "full_name": "valentderah/totk-pc-recomp",
+          "url": "https://github.com/valentderah/totk-pc-recomp",
+          "description": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not included.",
+          "language": "C",
           "topics": [
-            "d3d12",
-            "gdk",
-            "rdna2",
-            "xbox"
+            "game",
+            "linux",
+            "port",
+            "recompilation",
+            "windows"
           ],
-          "stars": 8607,
-          "updated_at": "2026-11-26T23:53:45Z",
-          "why": "Xbox Series compatibility layer for Windows - runs console game code natively, reimplements the console system libraries and recompiles RDNA2 shaders to DXIL",
+          "stars": 8386,
+          "updated_at": "2026-11-27T18:41:08Z",
+          "why": "Static recompilation of The Legend of Zelda: Tears of the Kingdom to native Windows and Linux x86-64, with a Vulkan renderer. Game files not included.",
           "star_gain": null
         },
         {
@@ -3459,28 +3456,16 @@
           "description": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
           "language": "JavaScript",
           "topics": [],
-          "stars": 5759,
-          "updated_at": "2026-11-26T23:57:52Z",
+          "stars": 6727,
+          "updated_at": "2026-11-27T22:11:07Z",
           "why": "Does GTA VI run on PC yet? A live tracker of community recompilation and emulation efforts, updated daily.",
-          "star_gain": null
-        },
-        {
-          "id": 1465281397,
-          "full_name": "AFK-surf/xnulinux",
-          "url": "https://github.com/AFK-surf/xnulinux",
-          "description": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
-          "language": "C",
-          "topics": [],
-          "stars": 4235,
-          "updated_at": "2026-11-26T17:00:56Z",
-          "why": "XNU as a loadable kernel module inside Linux (macOS personality for arm64 Linux)",
           "star_gain": null
         },
         {
           "id": 1466635339,
           "full_name": "EL4CTEO/fast-anything",
           "url": "https://github.com/EL4CTEO/fast-anything",
-          "description": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prove they behave the same.",
+          "description": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kot...",
           "language": "Rust",
           "topics": [
             "agent-skills",
@@ -3504,9 +3489,9 @@
             "rust",
             "typescript"
           ],
-          "stars": 4228,
-          "updated_at": "2026-11-26T22:46:32Z",
-          "why": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile Python, Node or Ruby apps, port the hot functions with your coding agent, prove they behave the same.",
+          "stars": 4461,
+          "updated_at": "2026-11-27T19:01:24Z",
+          "why": "Don't rewrite it in Rust. Rewrite the 5% that's slow: profile your app, port the hot functions with your coding agent, prove they behave the same. Python, JS/TS, Ruby, Java, Kot...",
           "star_gain": null
         },
         {
@@ -3516,9 +3501,40 @@
           "description": "Work-in-progress fork of VIctory: getting an Xbox Series title to render and run on a Windows PC. No game files.",
           "language": "Rust",
           "topics": [],
-          "stars": 3280,
-          "updated_at": "2026-11-26T23:15:33Z",
+          "stars": 3356,
+          "updated_at": "2026-11-27T20:14:54Z",
           "why": "Work-in-progress fork of VIctory: getting an Xbox Series title to render and run on a Windows PC. No game files.",
+          "star_gain": null
+        },
+        {
+          "id": 1472451283,
+          "full_name": "trustno1-coder/VIctory-NVIDIA",
+          "url": "https://github.com/trustno1-coder/VIctory-NVIDIA",
+          "description": "VIctory (Xbox Series compatibility layer) tuned for NVIDIA RTX cards: Series X at 2560x1440 with DLSS, about 26-30 fps on an RTX 5070, DLSS frame generation 2x-6x, an F1 setting...",
+          "language": "Rust",
+          "topics": [
+            "compatibility-layer",
+            "directx-12",
+            "dlss",
+            "frame-generation",
+            "nvidia",
+            "rust"
+          ],
+          "stars": 3141,
+          "updated_at": "2026-11-27T23:03:42Z",
+          "why": "VIctory (Xbox Series compatibility layer) tuned for NVIDIA RTX cards: Series X at 2560x1440 with DLSS, about 26-30 fps on an RTX 5070, DLSS frame generation 2x-6x, an F1 setting...",
+          "star_gain": null
+        },
+        {
+          "id": 1469441675,
+          "full_name": "ProjectLeonida/mandy",
+          "url": "https://github.com/ProjectLeonida/mandy",
+          "description": "A continuation of Leonida, the Xbox > PC port interface for GTA VI",
+          "language": "Python",
+          "topics": [],
+          "stars": 2755,
+          "updated_at": "2026-11-27T22:59:29Z",
+          "why": "A continuation of Leonida, the Xbox > PC port interface for GTA VI",
           "star_gain": null
         }
       ],
@@ -3526,7 +3542,7 @@
         {
           "name": "ai",
           "repo_count": 14,
-          "star_gain": 28882,
+          "star_gain": 28931,
           "representative_repos": [
             "morluto/rea",
             "firecrawl/firecrawl",
@@ -3534,9 +3550,19 @@
           ]
         },
         {
+          "name": "llm",
+          "repo_count": 15,
+          "star_gain": 28422,
+          "representative_repos": [
+            "firecrawl/firecrawl",
+            "DietrichGebert/ponytail",
+            "ccch1mneyyy/dsh-Go"
+          ]
+        },
+        {
           "name": "claude-code",
           "repo_count": 8,
-          "star_gain": 27647,
+          "star_gain": 27493,
           "representative_repos": [
             "morluto/rea",
             "DietrichGebert/ponytail",
@@ -3544,19 +3570,9 @@
           ]
         },
         {
-          "name": "llm",
-          "repo_count": 15,
-          "star_gain": 24716,
-          "representative_repos": [
-            "firecrawl/firecrawl",
-            "DietrichGebert/ponytail",
-            "affaan-m/ECC"
-          ]
-        },
-        {
           "name": "ai-agents",
           "repo_count": 8,
-          "star_gain": 23634,
+          "star_gain": 23082,
           "representative_repos": [
             "firecrawl/firecrawl",
             "DietrichGebert/ponytail",
@@ -3565,18 +3581,18 @@
         },
         {
           "name": "uncategorized",
-          "repo_count": 17,
-          "star_gain": 21367,
+          "repo_count": 16,
+          "star_gain": 20392,
           "representative_repos": [
-            "storytold/craft-anything",
             "mattpocock/skills",
+            "storytold/craft-anything",
             "heydamir/unslop"
           ]
         },
         {
           "name": "mcp",
           "repo_count": 9,
-          "star_gain": 20548,
+          "star_gain": 20278,
           "representative_repos": [
             "morluto/rea",
             "affaan-m/ECC",
@@ -3586,7 +3602,7 @@
         {
           "name": "python",
           "repo_count": 16,
-          "star_gain": 19077,
+          "star_gain": 18949,
           "representative_repos": [
             "morluto/rea",
             "yt-dlp/yt-dlp",
@@ -3596,7 +3612,7 @@
         {
           "name": "agent-skills",
           "repo_count": 5,
-          "star_gain": 18735,
+          "star_gain": 18729,
           "representative_repos": [
             "morluto/rea",
             "DietrichGebert/ponytail",
@@ -3604,9 +3620,29 @@
           ]
         },
         {
+          "name": "dsh-plugin",
+          "repo_count": 3,
+          "star_gain": 17299,
+          "representative_repos": [
+            "morluto/rea",
+            "ccch1mneyyy/dsh-Go",
+            "deepseek-ai/deepseek-harness"
+          ]
+        },
+        {
+          "name": "android",
+          "repo_count": 6,
+          "star_gain": 16223,
+          "representative_repos": [
+            "morluto/rea",
+            "ccch1mneyyy/dsh-Go",
+            "wangzan101/Mika"
+          ]
+        },
+        {
           "name": "claude",
           "repo_count": 8,
-          "star_gain": 15222,
+          "star_gain": 15325,
           "representative_repos": [
             "DietrichGebert/ponytail",
             "affaan-m/ECC",
@@ -3616,31 +3652,11 @@
         {
           "name": "react",
           "repo_count": 5,
-          "star_gain": 13301,
+          "star_gain": 13183,
           "representative_repos": [
             "morluto/rea",
             "nextlevelbuilder/ui-ux-pro-max-skill",
             "freeCodeCamp/freeCodeCamp"
-          ]
-        },
-        {
-          "name": "dsh-plugin",
-          "repo_count": 3,
-          "star_gain": 13183,
-          "representative_repos": [
-            "morluto/rea",
-            "deepseek-ai/deepseek-harness",
-            "ccch1mneyyy/dsh-Go"
-          ]
-        },
-        {
-          "name": "cli",
-          "repo_count": 4,
-          "star_gain": 12628,
-          "representative_repos": [
-            "morluto/rea",
-            "yt-dlp/yt-dlp",
-            "n8n-io/n8n"
           ]
         }
       ]
@@ -3651,7 +3667,7 @@
     "ranking": "window_star_delta",
     "request_authentication": "anonymous_public_api",
     "max_repositories": 80,
-    "previous_24h_snapshot": "2026-11-26T08:05:05+08:00",
-    "previous_7d_snapshot": "2026-11-20T08:05:05+08:00"
+    "previous_24h_snapshot": "2026-11-27T08:05:05+08:00",
+    "previous_7d_snapshot": "2026-11-21T08:05:05+08:00"
   }
 }
